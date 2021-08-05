@@ -1,4 +1,5 @@
-import { IUser } from '../store/common/models';
+import { IUser } from 'kimbu-models';
+
 import { BrowserStorage } from '../utils/browser-storage';
 
 export class MyProfileService {

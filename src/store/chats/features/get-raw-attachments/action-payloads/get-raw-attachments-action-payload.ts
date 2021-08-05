@@ -1,5 +1,5 @@
-import { IPage } from '../../../../common/models';
+import { IPaginationParams } from 'kimbu-models';
 
 export interface IGetRawAttachmentsActionPayload {
-  page: IPage;
+  page: IPaginationParams;
 }

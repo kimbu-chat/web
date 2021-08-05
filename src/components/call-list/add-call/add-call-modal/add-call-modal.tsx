@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 
+import { IPaginationParams } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -11,7 +12,6 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as AddCallSvg } from '@icons/add-call.svg';
 import { ReactComponent as CallSvg } from '@icons/call.svg';
 import { outgoingCallAction } from '@store/calls/actions';
-import { IPage } from '@store/common/models';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
@@ -51,7 +51,7 @@ export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
   const [name, setName] = useState('');
 
   const loadMore = useCallback(() => {
-    const page: IPage = {
+    const page: IPaginationParams = {
       offset: name.length ? searchFriendIds?.length || 0 : friendIds.length,
       limit: FRIENDS_LIMIT,
     };

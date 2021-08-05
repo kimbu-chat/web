@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { IRemoveUserFromGroupChatRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -10,7 +11,6 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { getSelectedGroupChatIdSelector } from '../../selectors';
 
 import { IRemoveUserFromGroupChatActionPayload } from './action-payloads/remove-user-from-group-chat-payload';
-import { IRemoveUserFromGroupChatApiRequest } from './api-requests/remove-user-from-group-chat-api-request';
 import { RemoveUserFromGroupChatSuccess } from './remove-user-from-group-chat-success';
 
 export class RemoveUserFromGroupChat {
@@ -45,7 +45,7 @@ export class RemoveUserFromGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IRemoveUserFromGroupChatApiRequest>(
+    return httpRequestFactory<AxiosResponse, IRemoveUserFromGroupChatRequest>(
       MAIN_API.REMOVE_USER_FROM_CHAT,
       HttpRequestMethod.Post,
     );

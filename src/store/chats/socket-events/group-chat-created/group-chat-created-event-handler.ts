@@ -1,20 +1,20 @@
 import produce from 'immer';
+import { SystemMessageType } from 'kimbu-models';
 import { createAction } from 'typesafe-actions';
 
 import { MyProfileService } from '@services/my-profile-service';
+import {
+  MessageState,
+  INormalizedChat,
+  InterlocutorType,
+  INormalizedMessage,
+} from '@store/chats/models';
 import { createSystemMessage } from '@utils/message-utils';
 
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import { playSoundSafely } from '../../../../utils/current-music';
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
-import {
-  SystemMessageType,
-  MessageState,
-  INormalizedChat,
-  InterlocutorType,
-  INormalizedMessage,
-} from '../../models';
 import { getChatExistsDraftSelector } from '../../selectors';
 
 import { IGroupChatCreatedIntegrationEvent } from './group-chat-сreated-integration-event';

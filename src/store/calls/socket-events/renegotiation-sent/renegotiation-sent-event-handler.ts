@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IAcceptRenegotiationRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -9,7 +10,12 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { ICallsState } from '../../calls-state';
-import { getCallInterlocutorIdSelector, getIsActiveCallIncomingSelector } from '../../selectors';
+import {
+  getCallInterlocutorIdSelector,
+  getIsActiveCallIncomingSelector,
+  getIsScreenSharingEnabledSelector,
+  getIsVideoEnabledSelector,
+} from '../../selectors';
 import {
   getIgnoreOffer,
   getIsSettingRemoteAnswerPending,
@@ -17,7 +23,6 @@ import {
   setIgnoreOffer,
 } from '../../utils/glare-utils';
 
-import { IAcceptRenegotiationApiRequest } from './api-requests/accept-renegotiation-api-request';
 import { IRenegotiationSentIntegrationEvent } from './renegotiation-sent-integration-event';
 
 export class RenegotiationSentEventHandler {
@@ -69,9 +74,14 @@ export class RenegotiationSentEventHandler {
         // yield call(waitForAllICE, peerConnection);
 
         if (peerConnection?.localDescription) {
-          const request = {
+          const isVideoEnabled =
+            (yield select(getIsVideoEnabledSelector)) ||
+            (yield select(getIsScreenSharingEnabledSelector));
+
+          const request: IAcceptRenegotiationRequest = {
             userInterlocutorId: interlocutorId,
             answer: peerConnection.localDescription,
+            isVideoEnabled,
           };
 
           yield call(() => RenegotiationSentEventHandler.httpRequest.generator(request));
@@ -81,7 +91,7 @@ export class RenegotiationSentEventHandler {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IAcceptRenegotiationApiRequest>(
+    return httpRequestFactory<AxiosResponse, IAcceptRenegotiationRequest>(
       MAIN_API.ACCEPT_RENEGOTIATION,
       HttpRequestMethod.Post,
     );

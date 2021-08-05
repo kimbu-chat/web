@@ -1,19 +1,19 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IUser, IMessage, IGetMessagesRequest } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
+import { MessageState } from '@store/chats/models';
 import { ById } from '@store/chats/models/by-id';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
-import { IUser } from '../../../common/models/user';
 import { IChatsState } from '../../chats-state';
-import { IMessage, MessageState } from '../../models';
-import { INormalizedMessage } from '../../models/message';
+import { INormalizedMessage } from '../../models/normalized-message';
 import { messageArrNormalizationSchema } from '../../normalization';
 import {
   getIsFirstChatsLoadSelector,
@@ -23,7 +23,6 @@ import {
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
 
 import { IGetMessagesActionPayload } from './action-payloads/get-messages-action-payload';
-import { IGetMessagesApiRequest } from './api-requests/get-messages-api-request';
 import { GetMessagesFailure } from './get-messages-failure';
 import { GetMessagesSuccess } from './get-messages-success';
 
@@ -62,7 +61,7 @@ export class GetMessages {
       const searchString = yield select(getSelectedChatMessagesSearchStringSelector);
 
       if (chat) {
-        const request: IGetMessagesApiRequest = {
+        const request: IGetMessagesRequest = {
           page,
           chatId: chat.id,
           searchString,
@@ -110,7 +109,7 @@ export class GetMessages {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IMessage[]>, IGetMessagesApiRequest>(
+    return httpRequestFactory<AxiosResponse<IMessage[]>, IGetMessagesRequest>(
       MAIN_API.GET_MESSAGES,
       HttpRequestMethod.Post,
     );

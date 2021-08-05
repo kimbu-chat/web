@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { IClearChatRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -10,7 +11,6 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 
 import { IClearChatHistoryActionPayload } from './action-payloads/clear-chat-history-action-payload';
-import { IClearChatHistoryApiRequest } from './api-requests/clear-chat-history-api-request';
 import { ClearChatHistorySuccess } from './clear-chat-history-success';
 
 export class ClearChatHistory {
@@ -41,7 +41,7 @@ export class ClearChatHistory {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IClearChatHistoryApiRequest>(
+    return httpRequestFactory<AxiosResponse, IClearChatRequest>(
       MAIN_API.CLEAR_CHAT_HISTORY,
       HttpRequestMethod.Post,
     );

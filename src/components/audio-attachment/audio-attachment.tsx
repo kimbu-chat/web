@@ -5,7 +5,7 @@ import { ReactComponent as PauseSvg } from '@icons/pause.svg';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { getMinutesSeconds } from '@utils/date-utils';
 
-import type { IAudioAttachment } from '@store/chats/models';
+import type { IAudioAttachment } from 'kimbu-models';
 
 import './audio-attachment.scss';
 

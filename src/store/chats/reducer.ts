@@ -1,7 +1,9 @@
 import produce from 'immer';
+import { SystemMessageType } from 'kimbu-models';
 import { createReducer } from 'typesafe-actions';
 
 import { MyProfileService } from '@services/my-profile-service';
+import { MessageState, INormalizedChat } from '@store/chats/models';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/user-contacts-removed/user-contacts-removed-event-handler';
 import { GetMyProfileSuccess } from '@store/my-profile/features/get-my-profile/get-my-profile-success';
@@ -68,7 +70,6 @@ import { UploadAttachmentFailure } from './features/upload-attachment/upload-att
 import { UploadAttachmentProgress } from './features/upload-attachment/upload-attachment-progress';
 import { UploadAttachmentRequest } from './features/upload-attachment/upload-attachment-request';
 import { UploadAttachmentSuccess } from './features/upload-attachment/upload-attachment-success';
-import { SystemMessageType, MessageState, INormalizedChat } from './models';
 import { getChatByIdDraftSelector } from './selectors';
 import { ChatClearedEventHandler } from './socket-events/chat-cleared/chat-cleared-event-handler';
 import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
@@ -95,7 +96,7 @@ const initialState: IChatsState = {
     chatIds: [],
     page: 0,
   },
-  selectedChatId: null,
+  selectedChatId: undefined,
   selectedMessageIds: [],
   chatInfo: { isInfoOpened: false },
 };

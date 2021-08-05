@@ -15,7 +15,7 @@ import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-t
 import { HttpRequestMethod } from './http-request-method';
 
 import type { IRequestGenerator, UrlGenerator, HttpHeaders } from './types';
-import type { ISecurityTokens } from '@store/auth/common/models/security-tokens';
+import type { ISecurityTokens } from 'kimbu-models';
 
 function* getAuthHeader(): SagaIterator {
   const securityTokens: ISecurityTokens = yield select(securityTokensSelector);
@@ -48,8 +48,10 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
         finalUrl = (url as UrlGenerator<TBody>)(body);
       }
 
-      const securityTokens: ISecurityTokens = yield select(securityTokensSelector);
-      const { accessTokenExpirationTime } = securityTokens;
+      const securityTokens: ISecurityTokens & { accessTokenExpirationTime: string } = yield select(
+        securityTokensSelector,
+      );
+      const accessTokenExpirationTime = new Date(securityTokens.accessTokenExpirationTime);
 
       if (!accessTokenExpirationTime) {
         throw new Error(`accessTokenExpirationTime is undefined`);

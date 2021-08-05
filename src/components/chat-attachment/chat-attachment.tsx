@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { IGroupable, IBaseAttachment } from '@store/chats/models';
+import { IAttachmentBase } from 'kimbu-models';
+
+import { IGroupable } from '@store/chats/models';
 
 import { dateByOffset } from '../../utils/date-utils';
 
@@ -11,7 +13,7 @@ type ChatAttachmentProps<T> = {
   AttachmentComponent: React.FC<T>;
 };
 
-export function ChatAttachment<T extends IBaseAttachment>({
+export function ChatAttachment<T extends IAttachmentBase>({
   items,
   AttachmentComponent,
 }: ChatAttachmentProps<T>): JSX.Element {

@@ -1,9 +1,9 @@
-import { ISecurityTokens } from './common/models';
+import { ISecurityTokens } from 'kimbu-models';
 
 export interface IAuthState {
   loading: boolean;
   isAuthenticated: boolean;
-  securityTokens?: ISecurityTokens;
+  securityTokens?: ISecurityTokens & { accessTokenExpirationTime?: string };
   deviceId?: string;
   refreshTokenRequestLoading: boolean;
 }

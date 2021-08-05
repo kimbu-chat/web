@@ -1,9 +1,8 @@
 import produce from 'immer';
+import { ISecurityTokens } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { apply } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
-
-import { ISecurityTokens } from '@store/auth/common/models';
 
 import { AuthService } from '../../../../services/auth-service';
 import { IAuthState } from '../../auth-state';

@@ -1,7 +1,7 @@
-import { IPage } from '../../../../common/models';
+import { IPaginationParams } from 'kimbu-models';
 
 export interface IGetCallsActionPayload {
-  page: IPage;
+  page: IPaginationParams;
   initializedByScroll: boolean;
   name?: string;
 }

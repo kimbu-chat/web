@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
 import classNames from 'classnames';
+import { IUser } from 'kimbu-models';
 import parsePhoneNumberFromString, { parsePhoneNumber } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -15,7 +16,6 @@ import { ReactComponent as CloseSvg } from '@icons/close-x-bold.svg';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { Button } from '@shared-components/button';
 import { ChatId } from '@store/chats/chat-id';
-import { IUser } from '@store/common/models';
 import { addFriendAction, getUserByPhoneAction } from '@store/friends/actions';
 import { isFriend } from '@store/friends/selectors';
 import { addOrUpdateUsers } from '@store/users/actions';
@@ -91,7 +91,7 @@ const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
 
             <h2 className={`${BLOCK_NAME}__user__name`}>{`${user.firstName} ${user.lastName}`}</h2>
             <h4 className={`${BLOCK_NAME}__user__phone`}>
-              {parsePhoneNumber(user?.phoneNumber).formatInternational()}
+              {user?.phoneNumber && parsePhoneNumber(user?.phoneNumber).formatInternational()}
             </h4>
 
             {success && (

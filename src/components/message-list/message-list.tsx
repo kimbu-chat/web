@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 
 import dayjs from 'dayjs';
+import { SystemMessageType } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -15,7 +16,6 @@ import { SelectedMessagesData } from '@components/selected-messages-data';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useIntersectionObserver } from '@hooks/use-intersection-observer';
 import { getMessagesAction, markMessagesAsReadAction } from '@store/chats/actions';
-import { SystemMessageType } from '@store/chats/models';
 import {
   getMessagesIdsByChatIdSelector,
   getSelectedMessageIds,

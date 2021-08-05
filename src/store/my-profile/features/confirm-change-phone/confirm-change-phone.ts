@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { IChangeUserPhoneNumberRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -13,7 +14,6 @@ import { myProfileSelector } from '@store/my-profile/selectors';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
 import { IConfirmChangePhoneActionPayload } from './action-payloads/confirm-change-phone-action-payload';
-import { IConfirmChangePhoneApiRequest } from './api-requests/confirm-change-phone-api-request';
 
 export class ConfirmChangePhone {
   static get action() {
@@ -69,7 +69,7 @@ export class ConfirmChangePhone {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IConfirmChangePhoneApiRequest>(
+    return httpRequestFactory<AxiosResponse, IChangeUserPhoneNumberRequest>(
       MAIN_API.CHANGE_PHONE,
       HttpRequestMethod.Put,
     );

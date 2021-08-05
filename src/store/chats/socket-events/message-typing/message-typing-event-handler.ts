@@ -2,11 +2,12 @@ import produce from 'immer';
 import { delay, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
+import { InterlocutorType } from '@store/chats/models';
+
 import { MyProfileService } from '../../../../services/my-profile-service';
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
 import { InterlocutorStoppedTyping } from '../../features/interlocutor-message-typing/interlocutor-stopped-typing';
-import { InterlocutorType } from '../../models';
 import { getChatByIdDraftSelector } from '../../selectors';
 
 import { IIntercolutorMessageTypingIntegrationEvent } from './message-typing-integration-event';

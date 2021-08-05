@@ -1,9 +1,9 @@
 import produce from 'immer';
+import { AttachmentType } from 'kimbu-models';
 import { createAction } from 'typesafe-actions';
 
 import { IChatsState } from '@store/chats/chats-state';
 
-import { FileType } from '../../models';
 import { getChatByIdDraftSelector } from '../../selectors';
 
 import { IMessagesDeletedIntegrationEventHandlerSuccessActionPayload } from './action-payloads/messages-deleted-integration-event-handler-success-action-payload';
@@ -42,27 +42,27 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
 
             deletedMessage?.attachments?.forEach((attachment) => {
               switch (attachment.type) {
-                case FileType.Audio:
+                case AttachmentType.Audio:
                   chat.audioAttachmentsCount = (chat.audioAttachmentsCount || 1) - 1;
                   chat.audios.audios = chat.audios.audios.filter(({ id }) => id !== attachment.id);
 
                   break;
-                case FileType.Picture:
+                case AttachmentType.Picture:
                   chat.pictureAttachmentsCount = (chat.pictureAttachmentsCount || 1) - 1;
                   chat.photos.photos = chat.photos.photos.filter(({ id }) => id !== attachment.id);
 
                   break;
-                case FileType.Raw:
+                case AttachmentType.Raw:
                   chat.rawAttachmentsCount = (chat.rawAttachmentsCount || 1) - 1;
                   chat.files.files = chat.files.files.filter(({ id }) => id !== attachment.id);
 
                   break;
-                case FileType.Video:
+                case AttachmentType.Video:
                   chat.videoAttachmentsCount = (chat.videoAttachmentsCount || 1) - 1;
                   chat.videos.videos = chat.videos.videos.filter(({ id }) => id !== attachment.id);
 
                   break;
-                case FileType.Voice:
+                case AttachmentType.Voice:
                   chat.voiceAttachmentsCount = (chat.voiceAttachmentsCount || 1) - 1;
                   chat.recordings.recordings = chat.recordings.recordings.filter(
                     ({ id }) => id !== attachment.id,

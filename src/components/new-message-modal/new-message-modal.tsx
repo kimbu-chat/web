@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react';
 
+import { IUser, IPaginationParams } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -15,7 +16,6 @@ import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { ChatId } from '@store/chats/chat-id';
 import { INormalizedChat } from '@store/chats/models';
-import { IUser, IPage } from '@store/common/models';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
@@ -69,7 +69,7 @@ const NewMessageModal: React.FC<INewMessageModalProps> = ({ onClose, displayCrea
   );
 
   const loadMore = useCallback(() => {
-    const page: IPage = {
+    const page: IPaginationParams = {
       offset: name.length ? searchFriendIds?.length || 0 : friendIds.length,
       limit: FRIENDS_LIMIT,
     };

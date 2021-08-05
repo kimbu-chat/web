@@ -9,9 +9,9 @@ import './effect-image.scss';
 const BLOCK_NAME = 'effect-image';
 
 export type EffectImageProps = {
-  alt: string;
+  alt?: string;
   thumb?: string;
-  src: string;
+  src?: string;
 };
 
 interface EffectImageWithIntersecting extends EffectImageProps {

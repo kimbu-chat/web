@@ -3,10 +3,10 @@ import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
+import { INormalizedMessage } from '@store/chats/models';
 import { getUsersSelector } from '@store/users/selectors';
 import { YEAR_MONTH_DAY_HOUR_MINUTE } from '@utils/constants';
 
-import { INormalizedMessage } from '../../models';
 import { getSelectedChatMessagesSelector } from '../../selectors';
 
 import { ICopyMessagesActionPayload } from './action-payloads/copy-messages-action-payload';

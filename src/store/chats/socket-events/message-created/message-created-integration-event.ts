@@ -1,9 +1,7 @@
-import { IUser } from '../../../common/models';
-import { IBaseAttachment, SystemMessageType } from '../../models';
-import { MessageLinkType } from '../../models/linked-message-type';
+import { IUser, IAttachmentBase, SystemMessageType, MessageLinkType } from 'kimbu-models';
 
 export interface IMessageCreatedIntegrationEvent {
-  attachments?: IBaseAttachment[];
+  attachments?: IAttachmentBase[];
   chatId: number;
   creationDateTime: string;
   id: number;

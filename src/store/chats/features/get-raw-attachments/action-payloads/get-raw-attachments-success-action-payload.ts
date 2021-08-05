@@ -1,7 +1,9 @@
-import { IBaseAttachment, IGroupable } from '../../../models';
+import { IAttachmentBase } from 'kimbu-models';
+
+import { IGroupable } from '@store/chats/models';
 
 export interface IGetRawAttachmentsSuccessActionPayload {
   chatId: number;
-  files: (IBaseAttachment & IGroupable)[];
+  files: (IAttachmentBase & IGroupable)[];
   hasMore: boolean;
 }

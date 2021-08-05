@@ -1,12 +1,12 @@
 import React, { useCallback, useMemo, useState, useRef } from 'react';
 
+import { IPaginationParams } from 'kimbu-models';
 import { useSelector } from 'react-redux';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { SearchBox } from '@components/search-box';
 import { SelectEntity } from '@components/select-entity';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { IPage } from '@store/common/models';
 import { getFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
@@ -63,7 +63,7 @@ const UserSelect: React.FC<IUserSelectProps> = ({ changeSelectedState, isSelecte
   );
 
   const loadMore = useCallback(() => {
-    const page: IPage = {
+    const page: IPaginationParams = {
       offset: name.length ? searchFriendIds?.length || 0 || 0 : friendIds.length,
       limit: FRIENDS_LIMIT,
     };

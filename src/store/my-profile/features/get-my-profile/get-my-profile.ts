@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
@@ -11,8 +12,6 @@ import { createEmptyAction } from '@store/common/actions';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 import { userSchema } from '@store/friends/normalization';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
-
-import { IUser } from '../../../common/models';
 
 import { GetMyProfileSuccess } from './get-my-profile-success';
 

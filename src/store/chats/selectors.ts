@@ -1,14 +1,13 @@
 import { TFunction } from 'i18next';
+import { AttachmentType, IAttachmentBase } from 'kimbu-models';
 import unionBy from 'lodash/unionBy';
 import { RootState } from 'typesafe-actions';
 
 import { IChatsState } from './chats-state';
-import { FileType, InterlocutorType } from './models';
+import { INormalizedChat, InterlocutorType } from './models';
 import { IAttachmentToSend } from './models/attachment-to-send';
-import { IBaseAttachment } from './models/attachments/base-attachment';
-import { INormalizedChat } from './models/chat';
 
-import type { IAudioAttachment } from './models';
+import type { IAudioAttachment } from 'kimbu-models';
 
 // RootState selectors
 export const getSelectedChatSelector = (state: RootState): INormalizedChat | undefined =>
@@ -56,7 +55,7 @@ export const getSelectedChatUnreadMessagesCountSelector = (state: RootState): nu
 
 export const getSelectedChatAttachmentsToSendSelector = (
   state: RootState,
-): IAttachmentToSend<IBaseAttachment>[] | undefined =>
+): IAttachmentToSend<IAttachmentBase>[] | undefined =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.attachmentsToSend;
 
 export const getIsFirstChatsLoadSelector = (state: RootState): boolean =>
@@ -110,7 +109,7 @@ export const getAudioAttachmentsCountSelector = (state: RootState): number =>
     ?.audioAttachmentsCount || 0;
 // -----------
 
-export const getSelectedChatIdSelector = (state: RootState): number | null =>
+export const getSelectedChatIdSelector = (state: RootState): number | undefined =>
   state.chats.selectedChatId;
 
 export const getSelectedChatAudioAttachmentsSelector =
@@ -120,7 +119,7 @@ export const getSelectedChatAudioAttachmentsSelector =
 
     Object.values(state.chats.chats[chatId]?.messages.messages).forEach((message) => {
       message?.attachments?.forEach((attachment) => {
-        if (attachment.type === FileType.Audio) {
+        if (attachment.type === AttachmentType.Audio) {
           if (!audioAttachments.find(({ id }) => id === attachment.id)) {
             audioAttachments.push(attachment as IAudioAttachment);
           }
@@ -128,7 +127,7 @@ export const getSelectedChatAudioAttachmentsSelector =
       });
 
       message?.linkedMessage?.attachments?.forEach((attachment) => {
-        if (attachment.type === FileType.Audio) {
+        if (attachment.type === AttachmentType.Audio) {
           if (!audioAttachments.find(({ id }) => id === attachment.id)) {
             audioAttachments.push(attachment as IAudioAttachment);
           }

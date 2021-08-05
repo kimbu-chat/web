@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { IAddUsersIntoGroupChatRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -13,7 +14,6 @@ import { getSelectedChatIdSelector } from '../../selectors';
 
 import { IAddUsersToGroupChatActionPayload } from './action-payloads/add-users-to-group-chat-action-payload';
 import { AddUsersToGroupChatSuccess } from './add-users-to-group-chat-success';
-import { IAddUsersToGroupChatApiRequest } from './api-requests/add-users-to-group-chat-api-request';
 
 export class AddUsersToGroupChat {
   static get action() {
@@ -47,7 +47,7 @@ export class AddUsersToGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IAddUsersToGroupChatApiRequest>(
+    return httpRequestFactory<AxiosResponse, IAddUsersIntoGroupChatRequest>(
       MAIN_API.ADD_TO_GROUP_CHAT,
       HttpRequestMethod.Post,
     );

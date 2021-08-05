@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IAcceptCallRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, spawn } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -32,7 +33,6 @@ import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 
 import { AcceptCallSuccess } from './accept-call-success';
 import { IAcceptCallActionPayload } from './action-payloads/accept-call-action-payload';
-import { IAcceptCallApiRequest } from './api-requests/accept-call-api-request';
 
 export class AcceptCall {
   static get action() {
@@ -126,7 +126,7 @@ export class AcceptCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IAcceptCallApiRequest>(
+    return httpRequestFactory<AxiosResponse, IAcceptCallRequest>(
       MAIN_API.ACCEPT_CALL,
       HttpRequestMethod.Post,
     );

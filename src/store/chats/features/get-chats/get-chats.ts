@@ -1,15 +1,15 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IPaginationParams, IChat, IUser, IGetChatsRequest } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { IChat, INormalizedChat } from '@store/chats/models';
+import { INormalizedChat } from '@store/chats/models';
 import { ById } from '@store/chats/models/by-id';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { IUser, IPage } from '@store/common/models';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
 import { CHATS_LIMIT } from '../../../../utils/pagination-limits';
@@ -20,7 +20,6 @@ import { modelChatList } from '../../utils/model-chat-list';
 
 import { IGetChatsActionPayload } from './action-payloads/get-chats-action-payload';
 import { IGetChatsSuccessActionPayload } from './action-payloads/get-chats-success-action-payload';
-import { IGetChatsApiRequest } from './api-requests/get-chats-api-request';
 import { GetChatsSuccess } from './get-chats-success';
 
 export class GetChats {
@@ -65,7 +64,7 @@ export class GetChats {
       const pageNumber = yield select(getChatsPageSelector);
       const searchPageNumber = yield select(getChatsSearchPageSelector);
 
-      const page: IPage = {
+      const page: IPaginationParams = {
         offset: (action.payload.name?.length ? searchPageNumber : pageNumber) * CHATS_LIMIT,
         limit: CHATS_LIMIT,
       };
@@ -106,7 +105,7 @@ export class GetChats {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IChat[]>, IGetChatsApiRequest>(
+    return httpRequestFactory<AxiosResponse<IChat[]>, IGetChatsRequest>(
       MAIN_API.GET_CHATS,
       HttpRequestMethod.Post,
     );

@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef } from 'react';
 
 import classnames from 'classnames';
+import { IPaginationParams } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -13,7 +14,6 @@ import {
   getMembersListForSelectedGroupChatSelector,
   getSelectedGroupChatCreatorIdSelector,
 } from '@store/chats/selectors';
-import { IPage } from '@store/common/models';
 import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 
 import { Member } from './chat-member/chat-member';
@@ -35,7 +35,7 @@ export const ChatMembers: React.FC = () => {
   const userCreatorId = useSelector(getSelectedGroupChatCreatorIdSelector);
 
   const loadMore = useCallback(() => {
-    const page: IPage = {
+    const page: IPaginationParams = {
       offset: membersListForGroupChat?.memberIds?.length || 0,
       limit: CHAT_MEMBERS_LIMIT,
     };

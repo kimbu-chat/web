@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
 import dayjs from 'dayjs';
+import { ISessionDto } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -8,16 +9,15 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { Button } from '@shared-components/button';
 import { deviceIdSelector } from '@store/auth/selectors';
 import { terminateSessionAction } from '@store/settings/actions';
-import { ISession } from '@store/settings/comon/models/session';
 import { MONTH_DAY_YEAR } from '@utils/constants';
 
 import './session.scss';
 
-interface ISessionProps {
-  session: ISession;
+interface ISessionDtoProps {
+  session: ISessionDto;
 }
 
-export const Session: React.FC<ISessionProps> = ({ session }) => {
+export const Session: React.FC<ISessionDtoProps> = ({ session }) => {
   const { t } = useTranslation();
 
   const [revoking, setRevoking] = useState(false);

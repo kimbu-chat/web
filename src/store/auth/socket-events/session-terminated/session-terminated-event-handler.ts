@@ -6,11 +6,11 @@ import { deviceIdSelector } from '@store/auth/selectors';
 
 import { Logout } from '../../features/logout/logout';
 
-import { ISessionTerminatedIntegrationEvent } from './session-terminated-event';
+import { ISessionDtoTerminatedIntegrationEvent } from './session-terminated-event';
 
 export class SessionTerminatedEventHandler {
   static get action() {
-    return createAction('SessionTerminated')<ISessionTerminatedIntegrationEvent>();
+    return createAction('SessionTerminated')<ISessionDtoTerminatedIntegrationEvent>();
   }
 
   static get saga() {

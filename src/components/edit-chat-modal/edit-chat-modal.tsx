@@ -1,5 +1,6 @@
 import React, { lazy, useCallback, useRef, useState } from 'react';
 
+import { IGroupChat, IAvatar } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -15,9 +16,8 @@ import { loadPhotoEditor } from '@routing/module-loader';
 import { Button } from '@shared-components/button';
 import { editGroupChatAction } from '@store/chats/actions';
 import { IEditGroupChatActionPayload } from '@store/chats/features/edit-group-chat/action-payloads/edit-group-chat-action-payload';
-import { IGroupChat } from '@store/chats/models';
 import { getSelectedGroupChatSelector } from '@store/chats/selectors';
-import { IAvatar, IAvatarSelectedData } from '@store/common/models';
+import { IAvatarSelectedData } from '@store/common/models';
 import {
   uploadAvatarRequestAction,
   cancelAvatarUploadingRequestAction,
@@ -48,7 +48,7 @@ const EditChatModal: React.FC<IEditChatModalProps> = ({ onClose }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [newName, setNewName] = useState(selectedGroupChat?.name);
-  const [avatarData, setAvatarData] = useState<IAvatar | null>(selectedGroupChat?.avatar || null);
+  const [avatarData, setAvatarData] = useState<IAvatar | undefined>(selectedGroupChat?.avatar);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [newDescription, setNewDescription] = useState(selectedGroupChat?.description || '');
 
@@ -62,8 +62,8 @@ const EditChatModal: React.FC<IEditChatModalProps> = ({ onClose }) => {
         });
         setAvatarData(response);
       } catch {
-        setAvatarData(null);
-        setAvatarData(null);
+        setAvatarData(undefined);
+        setAvatarData(undefined);
       }
     },
     [setAvatarData, uploadGroupChatAvatar],
@@ -116,7 +116,7 @@ const EditChatModal: React.FC<IEditChatModalProps> = ({ onClose }) => {
 
   const discardNewAvatar = useCallback(() => {
     cancelAvatarUploading();
-    setAvatarData(null);
+    setAvatarData(undefined);
   }, [cancelAvatarUploading]);
 
   return (

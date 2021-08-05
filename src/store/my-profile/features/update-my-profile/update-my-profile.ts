@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { IEditUserRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -11,7 +12,6 @@ import { myProfileSelector } from '@store/my-profile/selectors';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
 import { IUpdateMyProfileActionPayload } from './action-payloads/update-my-profile-action-payload';
-import { IUpdateMyProfileApiRequest } from './api-requests/update-my-profile-api-request';
 
 export class UpdateMyProfile {
   static get action() {
@@ -24,7 +24,7 @@ export class UpdateMyProfile {
     ): SagaIterator {
       const { firstName, lastName, nickname, avatar } = action.payload;
 
-      const requestData: IUpdateMyProfileApiRequest = {
+      const requestData: IEditUserRequest = {
         firstName,
         lastName,
         nickname,
@@ -53,7 +53,7 @@ export class UpdateMyProfile {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IUpdateMyProfileApiRequest>(
+    return httpRequestFactory<AxiosResponse, IEditUserRequest>(
       MAIN_API.UPDATE_PROFILE,
       HttpRequestMethod.Put,
     );

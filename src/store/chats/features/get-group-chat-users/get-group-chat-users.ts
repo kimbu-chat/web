@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { produce } from 'immer';
+import { IGetGroupChatMembersRequest, IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
@@ -11,13 +12,11 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { userArrNormalizationSchema } from '@store/friends/normalization';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
-import { IUser } from '../../../common/models';
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
 import { getInfoChatIdSelector } from '../../selectors';
 
 import { IGetGroupChatUsersActionPayload } from './action-payloads/get-group-chat-users-action-payload';
-import { IGetGroupChatUsersApiRequest } from './api-requests/get-group-chat-users-api-request';
 import { GetGroupChatUsersSuccess } from './get-group-chat-users-success';
 
 export class GetGroupChatUsers {
@@ -71,7 +70,7 @@ export class GetGroupChatUsers {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IUser[]>, IGetGroupChatUsersApiRequest>(
+    return httpRequestFactory<AxiosResponse<IUser[]>, IGetGroupChatMembersRequest>(
       MAIN_API.GET_GROUP_CHAT_USERS,
       HttpRequestMethod.Post,
     );

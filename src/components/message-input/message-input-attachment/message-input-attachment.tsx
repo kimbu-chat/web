@@ -1,5 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import {
+  AttachmentType,
+  IAttachmentBase,
+  IPictureAttachment,
+  IVideoAttachment,
+} from 'kimbu-models';
+
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as CloseSVG } from '@icons/close-x.svg';
 import { ReactComponent as FileSVG } from '@icons/file.svg';
@@ -8,20 +15,14 @@ import { ReactComponent as PlaySVG } from '@icons/play.svg';
 import { ReactComponent as VideoSVG } from '@icons/video.svg';
 import { ReactComponent as MicrophoneSvg } from '@icons/voice.svg';
 import { removeAttachmentAction } from '@store/chats/actions';
-import {
-  FileType,
-  IAttachmentCreation,
-  IAttachmentToSend,
-  IBaseAttachment,
-  IPictureAttachment,
-  IVideoAttachment,
-} from '@store/chats/models';
+import { IAttachmentToSend, IAttachmentCreation } from '@store/chats/models';
+import { INamedAttachment } from '@store/chats/models/named-attachment';
 import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';
 
 import './message-input-attachment.scss';
 
 interface IMessageInputAttachmentProps {
-  attachment: IAttachmentToSend<IBaseAttachment>;
+  attachment: IAttachmentToSend<IAttachmentBase>;
   isFromEdit?: boolean;
   removeSelectedAttachment?: (attachmentToRemove: IAttachmentCreation) => void;
 }
@@ -54,7 +55,7 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = ({
   ]);
 
   useEffect(() => {
-    if (attachment.attachment.type === FileType.Picture && !isFromEdit) {
+    if (attachment.attachment.type === AttachmentType.Picture && !isFromEdit) {
       const reader = new FileReader();
 
       reader.onload = (e) => {
@@ -67,10 +68,10 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = ({
 
   return (
     <div className="message-input-attachment">
-      {attachment.attachment.type === FileType.Raw && (
+      {attachment.attachment.type === AttachmentType.Raw && (
         <FileSVG className="message-input-attachment__type-icon" viewBox="0 0 24 24" />
       )}
-      {attachment.attachment.type === FileType.Video && (
+      {attachment.attachment.type === AttachmentType.Video && (
         <>
           {(attachment.attachment as IVideoAttachment).firstFrameUrl && (
             <img
@@ -82,7 +83,7 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = ({
           <VideoSVG className="message-input-attachment__type-icon" viewBox="0 0 18 19" />
         </>
       )}
-      {attachment.attachment.type === FileType.Picture && (
+      {attachment.attachment.type === AttachmentType.Picture && (
         <>
           {((attachment.attachment as IPictureAttachment).previewUrl || previewUrl) && (
             <img
@@ -94,26 +95,28 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = ({
           <PhotoSVG className="message-input-attachment__type-icon" viewBox="0 0 18 19" />
         </>
       )}
-      {attachment.attachment.type === FileType.Audio && (
+      {attachment.attachment.type === AttachmentType.Audio && (
         <PlaySVG className="message-input-attachment__type-icon" viewBox="0 0 24 24" />
       )}
 
-      {attachment.attachment.type === FileType.Voice && (
+      {attachment.attachment.type === AttachmentType.Voice && (
         <MicrophoneSvg className="message-input-attachment__type-icon" viewBox="0 0 20 24" />
       )}
 
       <div
         style={{ width: `${attachment.progress}%` }}
         className={`message-input-attachment__progress ${
-          attachment.attachment.type === FileType.Picture ||
-          attachment.attachment.type === FileType.Video
+          attachment.attachment.type === AttachmentType.Picture ||
+          attachment.attachment.type === AttachmentType.Video
             ? 'message-input-attachment__progress--photo'
             : ''
         }`}
       />
 
       <div className="message-input-attachment__data">
-        <div className="message-input-attachment__title">{attachment.attachment.fileName}</div>
+        <div className="message-input-attachment__title">
+          {(attachment.attachment as INamedAttachment).fileName}
+        </div>
         <div className="message-input-attachment__size">{`${getRawAttachmentSizeUnit(
           attachment.uploadedBytes || attachment.attachment.byteSize,
         )}/${getRawAttachmentSizeUnit(attachment.attachment.byteSize)}}`}</div>

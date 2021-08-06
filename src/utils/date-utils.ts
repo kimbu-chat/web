@@ -45,8 +45,8 @@ export const separateGroupable = <T>(groupableItems: (T & IGroupable)[]) =>
 const MONTH_ONLY = 'MMMM';
 const MONTH_YEAR = 'MMMM YYYY';
 
-export const dateByOffset = (date: Date): string => {
-  const isDifferFromCurrent = doesYearDifferFromCurrent(date);
+export const dateByOffset = (date: string): string => {
+  const isDifferFromCurrent = doesYearDifferFromCurrent(new Date(date));
   return dayjs(date).format(isDifferFromCurrent ? MONTH_YEAR : MONTH_ONLY);
 };
 

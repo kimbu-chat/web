@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react';
 
+import { IPaginationParams } from 'kimbu-models';
 import { useSelector } from 'react-redux';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
@@ -7,7 +8,6 @@ import { CenteredLoader, LoaderSize } from '@components/loader';
 import { SearchBox } from '@components/search-box';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { IPage } from '@store/common/models';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
 import { FRIENDS_LIMIT } from '@utils/pagination-limits';
@@ -54,7 +54,7 @@ export const FriendList = () => {
   );
 
   const loadMore = useCallback(() => {
-    const page: IPage = {
+    const page: IPaginationParams = {
       offset: searchString.length ? searchFriendIds?.length || 0 : friendIds.length,
       limit: FRIENDS_LIMIT,
     };

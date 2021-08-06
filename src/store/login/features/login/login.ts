@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import jwtDecode from 'jwt-decode';
+import { ILoginRequest, ISecurityTokens } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, apply, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -10,8 +11,6 @@ import { AuthService } from '@services/auth-service';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { ILoginActionPayload } from './action-payloads/login-action-payload';
-import { ILoginApiRequest } from './api-requests/login-api-request';
-import { ILoginApiResponse } from './api-requests/login-api-response';
 import { LoginSuccess } from './login-success';
 import { ICustomJwtPayload } from './models/custom-jwt-payload';
 
@@ -28,7 +27,7 @@ export class Login {
         yield call(() => loginHttpRequest.generator(action.payload)),
       );
 
-      if (status === HTTPStatusCode.OK) {
+      if (status === HTTPStatusCode.OK && data.accessToken) {
         const decodedJwt = jwtDecode<ICustomJwtPayload>(data.accessToken);
 
         const deviceId = decodedJwt.refreshTokenId;
@@ -43,7 +42,7 @@ export class Login {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse<ILoginApiResponse>, ILoginApiRequest>(
+    return authRequestFactory<AxiosResponse<ISecurityTokens>, ILoginRequest>(
       MAIN_API.TOKENS,
       HttpRequestMethod.Post,
     );

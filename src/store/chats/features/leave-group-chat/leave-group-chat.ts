@@ -11,7 +11,6 @@ import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { ChatId } from '../../chat-id';
 import { getSelectedChatIdSelector } from '../../selectors';
 
-import { ILeaveGroupChatApiRequest } from './api-requests/leave-group-chat-api-request';
 import { LeaveGroupChatSuccess } from './leave-group-chat-success';
 
 export class LeaveGroupChat {
@@ -28,7 +27,7 @@ export class LeaveGroupChat {
 
       if (groupChatId) {
         const { status } = LeaveGroupChat.httpRequest.call(
-          yield call(() => LeaveGroupChat.httpRequest.generator({ groupChatId })),
+          yield call(() => LeaveGroupChat.httpRequest.generator(groupChatId)),
         );
 
         if (status === HTTPStatusCode.OK) {
@@ -40,8 +39,8 @@ export class LeaveGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, ILeaveGroupChatApiRequest>(
-      ({ groupChatId }: ILeaveGroupChatApiRequest) =>
+    return httpRequestFactory<AxiosResponse, number>(
+      (groupChatId: number) =>
         replaceInUrl(MAIN_API.LEAVE_GROUP_CHAT, ['groupChatId', groupChatId]),
       HttpRequestMethod.Delete,
     );

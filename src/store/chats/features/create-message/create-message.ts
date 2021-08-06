@@ -1,17 +1,17 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { ICreateMessageRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
+import { MessageState } from '@store/chats/models';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { IChatsState } from '../../chats-state';
-import { MessageState } from '../../models';
 
 import { ICreateMessageActionPayload } from './action-payloads/create-message-action-payload';
-import { ICreateMessageApiRequest } from './api-requests/create-message-api-request';
 import { CreateMessageSuccess } from './create-message-success';
 
 export class CreateMessage {
@@ -56,7 +56,7 @@ export class CreateMessage {
 
       const attachmentsToSend = message.attachments?.map(({ id, type }) => ({ id, type })) || [];
 
-      const messageCreationReq: ICreateMessageApiRequest = {
+      const messageCreationReq: ICreateMessageRequest = {
         text: message.text,
         chatId,
         attachments: attachmentsToSend,
@@ -87,7 +87,7 @@ export class CreateMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<number>, ICreateMessageApiRequest>(
+    return httpRequestFactory<AxiosResponse<number>, ICreateMessageRequest>(
       MAIN_API.MESSAGES,
       HttpRequestMethod.Post,
     );

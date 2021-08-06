@@ -1,6 +1,6 @@
-import { FileType } from './file-type';
+import { AttachmentType } from 'kimbu-models';
 
 export interface IAttachmentCreation {
   id: number;
-  type: FileType;
+  type: AttachmentType;
 }

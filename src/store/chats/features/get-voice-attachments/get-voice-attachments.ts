@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IGetVoiceAttachmentsRequest, IVoiceAttachment } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -9,11 +10,9 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IChatsState } from '../../chats-state';
-import { IVoiceAttachment } from '../../models';
 import { getInfoChatIdSelector } from '../../selectors';
 
 import { IGetVoiceAttachmentsActionPayload } from './action-payloads/get-voice-attachments-action-payload';
-import { IGetVoiceAttachmentsApiRequest } from './api-requests/get-voice-attachments-api-request';
 import { GetVoiceAttachmentsSuccess } from './get-voice-attachments-success';
 
 export class GetVoiceAttachments {
@@ -53,7 +52,7 @@ export class GetVoiceAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IVoiceAttachment[]>, IGetVoiceAttachmentsApiRequest>(
+    return httpRequestFactory<AxiosResponse<IVoiceAttachment[]>, IGetVoiceAttachmentsRequest>(
       MAIN_API.GET_VOICE_ATTACHMENTS,
       HttpRequestMethod.Post,
     );

@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { IAddUsersToBlackListRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -8,7 +9,6 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { Meta } from '../../../common/actions';
 
-import { IBlockUserApiRequest } from './api-requests/block-user-api-request';
 import { BlockUserSuccess } from './block-user-success';
 
 export class BlockUser {
@@ -27,7 +27,7 @@ export class BlockUser {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IBlockUserApiRequest>(
+    return httpRequestFactory<AxiosResponse, IAddUsersToBlackListRequest>(
       MAIN_API.BLACK_LIST,
       HttpRequestMethod.Post,
     );

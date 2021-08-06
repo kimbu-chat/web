@@ -1,17 +1,17 @@
 import { AxiosResponse } from 'axios';
+import { IChat, IChatInfo, IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { IChat, INormalizedChat } from '@store/chats/models';
+import { INormalizedChat } from '@store/chats/models';
 import { ById } from '@store/chats/models/by-id';
 import { chatNormalizationSchema } from '@store/chats/normalization';
 import { getChatByIdSelector } from '@store/chats/selectors';
 import { modelChatList } from '@store/chats/utils/model-chat-list';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { IUser } from '@store/common/models';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { replaceInUrl } from '@utils/replace-in-url';
 
@@ -19,8 +19,6 @@ import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { ChangeSelectedChat } from '../change-selected-chat/change-selected-chat';
 import { UnshiftChat } from '../unshift-chat/unshift-chat';
 
-import { IGetChatInfoApiRequest } from './api-requests/get-chat-info-api-request';
-import { IGetChatInfoApiResponse } from './api-requests/get-chat-info-api-response';
 import { GetChatInfoSuccess } from './get-chat-info-success';
 
 export class GetChatInfo {
@@ -37,11 +35,7 @@ export class GetChatInfo {
 
       if (!chatExists) {
         const { data } = ChangeSelectedChat.httpRequest.call(
-          yield call(() =>
-            ChangeSelectedChat.httpRequest.generator({
-              chatId: action.payload,
-            }),
-          ),
+          yield call(() => ChangeSelectedChat.httpRequest.generator(action.payload)),
         );
 
         const {
@@ -58,7 +52,7 @@ export class GetChatInfo {
       }
 
       const { data, status } = GetChatInfo.httpRequest.call(
-        yield call(() => GetChatInfo.httpRequest.generator({ chatId })),
+        yield call(() => GetChatInfo.httpRequest.generator(chatId)),
       );
 
       if (status === HTTPStatusCode.OK) {
@@ -68,9 +62,8 @@ export class GetChatInfo {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IGetChatInfoApiResponse>, IGetChatInfoApiRequest>(
-      ({ chatId }: IGetChatInfoApiRequest) =>
-        replaceInUrl(MAIN_API.GET_CHAT_INFO, ['chatId', chatId]),
+    return httpRequestFactory<AxiosResponse<IChatInfo>, number>(
+      (chatId: number) => replaceInUrl(MAIN_API.GET_CHAT_INFO, ['chatId', chatId]),
       HttpRequestMethod.Get,
     );
   }

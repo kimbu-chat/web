@@ -1,6 +1,6 @@
 import { ById } from '@store/chats/models/by-id';
 
-import { INormalizedCall } from './common/models/call';
+import { INormalizedCall } from './common/models';
 
 interface ICallList {
   callIds: number[];

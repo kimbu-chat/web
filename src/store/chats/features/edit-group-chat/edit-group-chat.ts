@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { IEditGroupChatRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -12,7 +13,6 @@ import { ChatId } from '../../chat-id';
 import { getSelectedChatIdSelector } from '../../selectors';
 
 import { IEditGroupChatActionPayload } from './action-payloads/edit-group-chat-action-payload';
-import { IEditGroupChatApiRequest } from './api-requests/edit-group-chat-api-request';
 import { EditGroupChatSuccess } from './edit-group-chat-success';
 
 export class EditGroupChat {
@@ -27,7 +27,7 @@ export class EditGroupChat {
       const chatId = yield select(getSelectedChatIdSelector);
       const { groupChatId } = ChatId.fromId(chatId);
 
-      const requestData: IEditGroupChatApiRequest = {
+      const requestData: IEditGroupChatRequest = {
         id: groupChatId as number,
         name,
         description,
@@ -53,7 +53,7 @@ export class EditGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IEditGroupChatApiRequest>(
+    return httpRequestFactory<AxiosResponse, IEditGroupChatRequest>(
       MAIN_API.GROUP_CHAT,
       HttpRequestMethod.Put,
     );

@@ -6,7 +6,7 @@ import { authenticatedSelector } from '@store/auth/selectors';
 import { uploadAttachmentRequestAction } from '@store/chats/actions';
 import { getSelectedChatIdSelector } from '@store/chats/selectors';
 import { containsFiles } from '@utils/contains-files';
-import { getFileType } from '@utils/get-file-extension';
+import { getAttachmentType } from '@utils/get-file-extension';
 
 import { useActionWithDispatch } from './use-action-with-dispatch';
 
@@ -66,7 +66,7 @@ export const useDragDrop = () => {
           for (let index = 0; index < (e.dataTransfer?.files.length || 0); index += 1) {
             const file = e.dataTransfer?.files[index] as File;
 
-            const fileType = getFileType(file.name);
+            const fileType = getAttachmentType(file.name);
 
             uploadAttachmentRequest({
               type: fileType,

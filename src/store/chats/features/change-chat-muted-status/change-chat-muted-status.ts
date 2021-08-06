@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { IChangeChatsMuteStatusRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -10,7 +11,6 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { getChatByIdSelector } from '../../selectors';
 
-import { IChangeChatMutedStatusApiRequest } from './api-requests/change-chat-muted-status-api-request';
 import { ChangeChatMutedStatusSuccess } from './change-chat-muted-status-success';
 
 export class ChangeChatMutedStatus {
@@ -25,7 +25,7 @@ export class ChangeChatMutedStatus {
       const chatId = action.payload;
       const { isMuted } = yield select(getChatByIdSelector(chatId));
 
-      const request: IChangeChatMutedStatusApiRequest = {
+      const request: IChangeChatsMuteStatusRequest = {
         chatIds: [chatId],
         isMuted: !isMuted,
       };
@@ -47,7 +47,7 @@ export class ChangeChatMutedStatus {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IChangeChatMutedStatusApiRequest>(
+    return httpRequestFactory<AxiosResponse, IChangeChatsMuteStatusRequest>(
       MAIN_API.CHANGE_CHAT_MUTED_STATUS,
       HttpRequestMethod.Put,
     );

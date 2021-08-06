@@ -1,6 +1,17 @@
 import React, { useCallback, useMemo, ReactElement } from 'react';
 
 import classNames from 'classnames';
+import {
+  IAttachmentBase,
+  IPictureAttachment,
+  IVoiceAttachment,
+  IVideoAttachment,
+  IAudioAttachment,
+  AttachmentType,
+  SystemMessageType,
+  MessageLinkType,
+  CallStatus,
+} from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -25,19 +36,9 @@ import { ReactComponent as SelectSvg } from '@icons/select.svg';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { changeChatInfoOpenedAction, selectMessageAction } from '@store/chats/actions';
 import { ChatId } from '@store/chats/chat-id';
-import {
-  IBaseAttachment,
-  IPictureAttachment,
-  IVoiceAttachment,
-  IVideoAttachment,
-  IAudioAttachment,
-  FileType,
-  MessageState,
-  SystemMessageType,
-  MessageLinkType,
-} from '@store/chats/models';
+import { MessageState } from '@store/chats/models';
+import { INamedAttachment } from '@store/chats/models/named-attachment';
 import { getMessageSelector, getIsSelectMessagesStateSelector } from '@store/chats/selectors';
-import { CallStatus } from '@store/common/models/call-status';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
 import { getShortTimeAmPm } from '@utils/date-utils';
@@ -126,7 +127,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
         messageToProcess?.attachments?.reduce(
           (
             accum: {
-              files: IBaseAttachment[];
+              files: IAttachmentBase[];
               media: (IVideoAttachment | IPictureAttachment)[];
               audios: IAudioAttachment[];
               recordings: IVoiceAttachment[];
@@ -134,27 +135,27 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
             currentAttachment,
           ) => {
             switch (currentAttachment.type) {
-              case FileType.Raw:
-                if (currentAttachment.fileName.endsWith('.gif')) {
+              case AttachmentType.Raw:
+                if ((currentAttachment as INamedAttachment).fileName?.endsWith('.gif')) {
                   accum.media.push(currentAttachment as IPictureAttachment);
                 } else {
                   accum.files.push(currentAttachment);
                 }
 
                 break;
-              case FileType.Picture:
+              case AttachmentType.Picture:
                 accum.media.push(currentAttachment as IPictureAttachment);
 
                 break;
-              case FileType.Video:
+              case AttachmentType.Video:
                 accum.media.push(currentAttachment as IVideoAttachment);
 
                 break;
-              case FileType.Audio:
+              case AttachmentType.Audio:
                 accum.audios.push(currentAttachment as IAudioAttachment);
 
                 break;
-              case FileType.Voice:
+              case AttachmentType.Voice:
                 accum.recordings.push(currentAttachment as IVoiceAttachment);
 
                 break;

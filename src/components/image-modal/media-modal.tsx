@@ -1,6 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
 import classNames from 'classnames';
+import {
+  AttachmentType,
+  IPictureAttachment,
+  IVideoAttachment,
+  IAttachmentBase,
+} from 'kimbu-models';
 import Mousetrap from 'mousetrap';
 import { useTranslation } from 'react-i18next';
 
@@ -8,12 +14,7 @@ import { useAnimation } from '@hooks/use-animation';
 import { ReactComponent as ArrowSvg } from '@icons/arrow.svg';
 import { ReactComponent as CloseSVG } from '@icons/close.svg';
 import { BackgroundBlur } from '@shared-components/with-background';
-import {
-  FileType,
-  IPictureAttachment,
-  IVideoAttachment,
-  IBaseAttachment,
-} from '@store/chats/models';
+import { INamedAttachment } from '@store/chats/models/named-attachment';
 import { stopPropagation } from '@utils/stop-propagation';
 
 import './media-modal.scss';
@@ -23,8 +24,8 @@ interface IImageModalProps {
   attachmentsArr: (
     | IPictureAttachment
     | IVideoAttachment
-    | IBaseAttachment
-    | { url: string; type: FileType; id: number }
+    | IAttachmentBase
+    | { url: string; type: AttachmentType; id: number }
   )[];
   onClose: () => void;
 }
@@ -85,8 +86,8 @@ export const MediaModal: React.FC<IImageModalProps> = ({
           </div>
 
           <div className={`${BLOCK_NAME}__media-wrapper`}>
-            {(currentAttachment.type === FileType.Picture ||
-              (currentAttachment as IBaseAttachment)?.fileName.endsWith('.gif')) && (
+            {(currentAttachment.type === AttachmentType.Picture ||
+              (currentAttachment as INamedAttachment)?.fileName?.endsWith('.gif')) && (
               <img
                 onClick={stopPropagation}
                 src={currentAttachment.url}
@@ -94,7 +95,7 @@ export const MediaModal: React.FC<IImageModalProps> = ({
                 className={`${BLOCK_NAME}__photo`}
               />
             )}
-            {currentAttachment.type === FileType.Video && (
+            {currentAttachment.type === AttachmentType.Video && (
               <video
                 preload="metadata"
                 autoPlay

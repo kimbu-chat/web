@@ -1,10 +1,9 @@
 import React from 'react';
 
 import classnames from 'classnames';
+import { IGroupChat, IUser } from 'kimbu-models';
 
 import { ReactComponent as DeletedSvg } from '@icons/deleted.svg';
-import { IGroupChat } from '@store/chats/models';
-import { IUser } from '@store/common/models';
 import { getInterlocutorInitials } from '@utils/user-utils';
 
 import { StatusBadge } from '../status-badge';

@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IGetPictureAttachmentsRequest, IPictureAttachment } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -9,11 +10,9 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IChatsState } from '../../chats-state';
-import { IPictureAttachment } from '../../models';
 import { getInfoChatIdSelector } from '../../selectors';
 
 import { IGetPhotoAttachmentsActionPayload } from './action-payloads/get-photo-attachments-action-payload';
-import { IGetPhotoAttachmentsApiRequest } from './api-requests/get-photo-attachments-api-request';
 import { GetPhotoAttachmentsSuccess } from './get-photo-attachments-success';
 
 export class GetPhotoAttachments {
@@ -54,7 +53,7 @@ export class GetPhotoAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IPictureAttachment[]>, IGetPhotoAttachmentsApiRequest>(
+    return httpRequestFactory<AxiosResponse<IPictureAttachment[]>, IGetPictureAttachmentsRequest>(
       MAIN_API.GET_PHOTO_ATTACHMENTS,
       HttpRequestMethod.Post,
     );

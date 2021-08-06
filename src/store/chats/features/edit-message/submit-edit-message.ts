@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IEditMessageRequest } from 'kimbu-models';
 import unionBy from 'lodash/unionBy';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
@@ -14,7 +15,6 @@ import { IChatsState } from '../../chats-state';
 import { getSelectedChatIdSelector, getChatByIdDraftSelector } from '../../selectors';
 
 import { ISumbitEditMessageActionPayload } from './action-payloads/submit-edit-message-action-payload';
-import { ISubmitEditMessageApiRequest } from './api-requests/submit-edit-message-api-request';
 import { SubmitEditMessageSuccess } from './sumbit-edit-message-success';
 
 export class SubmitEditMessage {
@@ -85,7 +85,7 @@ export class SubmitEditMessage {
       const { removedAttachments, newAttachments, text, messageId } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 
-      const editRequest: ISubmitEditMessageApiRequest = {
+      const editRequest: IEditMessageRequest = {
         text,
         messageId,
         removedAttachments,
@@ -108,7 +108,7 @@ export class SubmitEditMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, ISubmitEditMessageApiRequest>(
+    return httpRequestFactory<AxiosResponse, IEditMessageRequest>(
       MAIN_API.MESSAGES,
       HttpRequestMethod.Put,
     );

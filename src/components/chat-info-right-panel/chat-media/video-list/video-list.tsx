@@ -1,14 +1,14 @@
 import React, { useCallback, useRef } from 'react';
 
+import { IVideoAttachment, IPaginationParams } from 'kimbu-models';
 import { useSelector } from 'react-redux';
 
 import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getVideoAttachmentsAction } from '@store/chats/actions';
-import { IVideoAttachment } from '@store/chats/models';
+import { IGroupable } from '@store/chats/models';
 import { getSelectedChatVideosSelector } from '@store/chats/selectors';
-import { IPage } from '@store/common/models';
 import { separateGroupable } from '@utils/date-utils';
 import { VIDEO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { setSeparators } from '@utils/set-separators';
@@ -23,7 +23,7 @@ export const VideoList = () => {
   const videosForSelectedChat = useSelector(getSelectedChatVideosSelector);
 
   const loadMore = useCallback(() => {
-    const page: IPage = {
+    const page: IPaginationParams = {
       offset: videosForSelectedChat?.videos?.length || 0,
       limit: VIDEO_ATTACHMENTS_LIMIT,
     };
@@ -39,7 +39,7 @@ export const VideoList = () => {
     { separateByMonth: true, separateByYear: true },
   );
 
-  const VideoAttachmentComponent: React.FC<IVideoAttachment> = ({ ...video }) =>
+  const VideoAttachmentComponent: React.FC<IVideoAttachment & IGroupable> = ({ ...video }) =>
     videosForSelectedChat?.videos ? (
       <VideoFromList video={video} attachmentsArr={videosForSelectedChat.videos} />
     ) : null;

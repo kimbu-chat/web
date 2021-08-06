@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IAttachmentBase, IGetRawAttachmentsRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -9,11 +10,9 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IChatsState } from '../../chats-state';
-import { IBaseAttachment } from '../../models';
 import { getInfoChatIdSelector } from '../../selectors';
 
 import { IGetRawAttachmentsActionPayload } from './action-payloads/get-raw-attachments-action-payload';
-import { IGetRawAttachmentsApiRequest } from './api-requests/get-raw-attachments-api-request';
 import { GetRawAttachmentsSuccess } from './get-raw-attachments-success';
 
 export class GetRawAttachments {
@@ -54,7 +53,7 @@ export class GetRawAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IBaseAttachment[]>, IGetRawAttachmentsApiRequest>(
+    return httpRequestFactory<AxiosResponse<IAttachmentBase[]>, IGetRawAttachmentsRequest>(
       MAIN_API.GET_RAW_ATTACHMENTS,
       HttpRequestMethod.Post,
     );

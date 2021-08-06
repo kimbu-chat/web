@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { IVoiceAttachment } from 'kimbu-models';
 import WaveSurfer from 'wavesurfer.js';
 
 import { ReactComponent as PauseSvg } from '@icons/pause.svg';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
-import { IVoiceAttachment } from '@store/chats/models';
 import { changeMusic, Origin } from '@utils/current-music';
 import { getMinutesSeconds } from '@utils/date-utils';
 
@@ -72,7 +72,9 @@ export const RecordingAttachment: React.FC<IVoiceAttachment> = ({ ...attachment 
         setIsPlaying(false);
       });
 
-      wavesurfer.current?.load(attachment.url, JSON.parse(attachment.waveFormJson));
+      if (attachment.url && attachment.waveFormJson) {
+        wavesurfer.current?.load(attachment.url, JSON.parse(attachment.waveFormJson));
+      }
     }
 
     return () => {

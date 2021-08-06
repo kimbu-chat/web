@@ -1,4 +1,4 @@
-export interface IRemoveChatApiRequest {
+export interface IRemoveChatRequest {
   userId: number;
   forEveryone: boolean;
 }

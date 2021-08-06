@@ -1,4 +1,6 @@
-import { IPictureAttachment, IGroupable } from '../../../models';
+import { IPictureAttachment } from 'kimbu-models';
+
+import { IGroupable } from '@store/chats/models';
 
 export interface IGetPhotoAttachmentsSuccessActionPayload {
   chatId: number;

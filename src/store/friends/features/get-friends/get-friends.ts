@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IGetContactsRequest, IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
@@ -11,11 +12,9 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { userArrNormalizationSchema } from '@store/friends/normalization';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
-import { IUser } from '../../../common/models';
 import { IFriendsState } from '../../friends-state';
 
 import { IGetFriendsActionPayload } from './action-payloads/get-friends-action-payload';
-import { IGetFriendsApiRequest } from './api-requests/get-friends-api-request';
 import { GetFriendsSuccess } from './get-friends-success';
 
 export class GetFriends {
@@ -73,7 +72,7 @@ export class GetFriends {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IUser[]>, IGetFriendsApiRequest>(
+    return httpRequestFactory<AxiosResponse<IUser[]>, IGetContactsRequest>(
       MAIN_API.GET_CONTACTS,
       HttpRequestMethod.Post,
     );

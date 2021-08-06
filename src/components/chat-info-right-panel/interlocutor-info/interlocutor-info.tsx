@@ -58,7 +58,8 @@ export const InterlocutorInfo = () => {
           <div className={`${BLOCK_NAME}__info-block`}>
             <PhoneSvg className={`${BLOCK_NAME}__info-svg`} />
             <div className={`${BLOCK_NAME}__data-value`}>
-              {parsePhoneNumber(interlocutor?.phoneNumber).formatInternational()}
+              {interlocutor?.phoneNumber &&
+                parsePhoneNumber(interlocutor?.phoneNumber).formatInternational()}
             </div>
           </div>
         )}

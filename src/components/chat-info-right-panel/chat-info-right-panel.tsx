@@ -1,5 +1,6 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 
+import { AttachmentType } from 'kimbu-models';
 import { useSelector } from 'react-redux';
 
 import {
@@ -12,7 +13,6 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useIntersectionObserver } from '@hooks/use-intersection-observer';
 import { useToggledState } from '@hooks/use-toggled-state';
 import { getChatInfoAction } from '@store/chats/actions';
-import { FileType } from '@store/chats/models';
 import { getInfoChatSelector } from '@store/chats/selectors';
 import { getUserSelector } from '@store/users/selectors';
 
@@ -79,7 +79,7 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
 
         {isAvatarMaximized && chatFullSizeAvatar && (
           <MediaModal
-            attachmentsArr={[{ url: chatFullSizeAvatar, id: 1, type: FileType.Picture }]}
+            attachmentsArr={[{ url: chatFullSizeAvatar, id: 1, type: AttachmentType.Picture }]}
             attachmentId={1}
             onClose={minimizeAvatrar}
           />

@@ -1,5 +1,6 @@
 import React, { lazy, useCallback, useRef, useState } from 'react';
 
+import { IAvatar } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 
 import { LabeledInput } from '@components/labeled-input';
@@ -10,7 +11,7 @@ import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { ReactComponent as PictureSvg } from '@icons/picture.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
 import { loadPhotoEditor } from '@routing/module-loader';
-import { IAvatar, IAvatarSelectedData } from '@store/common/models';
+import { IAvatarSelectedData } from '@store/common/models';
 import {
   uploadAvatarRequestAction,
   cancelAvatarUploadingRequestAction,
@@ -19,7 +20,7 @@ import {
 const PhotoEditor = lazy(loadPhotoEditor);
 
 interface IGroupChatCreationProps {
-  setAvatarUploadResponse: (avatar: IAvatar | null) => void;
+  setAvatarUploadResponse: (avatar?: IAvatar) => void;
   setName: (name: string) => void;
   setDescription: (description: string) => void;
 }
@@ -52,7 +53,7 @@ const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
         setAvatarUploadResponse(response);
       } catch {
         setAvatarData(null);
-        setAvatarUploadResponse(null);
+        setAvatarUploadResponse(undefined);
       }
     },
     [setAvatarData, uploadGroupChatAvatar, setAvatarUploadResponse],
@@ -92,7 +93,7 @@ const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
   const discardAvatar = useCallback(() => {
     cancelAvatarUploading();
     setAvatarData(null);
-    setAvatarUploadResponse(null);
+    setAvatarUploadResponse(undefined);
   }, [cancelAvatarUploading, setAvatarUploadResponse]);
 
   return (

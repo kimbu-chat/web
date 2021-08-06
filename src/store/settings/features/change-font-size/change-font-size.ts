@@ -6,8 +6,7 @@ import { createAction } from 'typesafe-actions';
 import { SettingsService } from '@services/settings-service';
 import { IUserSettings } from '@store/settings/user-settings-state';
 
-import { AllowedFontSize } from '../models';
-import { isFontSizeAllowed } from '../models/allowed-font-size';
+import { AllowedFontSize, isFontSizeAllowed } from '../models/allowed-font-size';
 
 export class ChangeFontSize {
   static get action() {

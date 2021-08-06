@@ -1,15 +1,17 @@
 import React from 'react';
 
+import { IPictureAttachment } from 'kimbu-models';
+
 import { MediaModal } from '@components/image-modal';
 import ProgressiveImage from '@components/progressive-image';
 import { useToggledState } from '@hooks/use-toggled-state';
-import { IPictureAttachment } from '@store/chats/models';
+import { IGroupable } from '@store/chats/models';
 
 import type { ObserveFn } from '@hooks/use-intersection-observer';
 
 type PhotoProps = {
-  photo: IPictureAttachment;
-  attachmentsArr: IPictureAttachment[];
+  photo: IPictureAttachment | (IPictureAttachment & IGroupable);
+  attachmentsArr: (IPictureAttachment | (IPictureAttachment & IGroupable))[];
   observeIntersection: ObserveFn;
 };
 

@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { ICreateMessageRequest, MessageLinkType } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -7,10 +8,8 @@ import { HTTPStatusCode } from '@common/http-status-code';
 import { Meta } from '@store/common/actions';
 
 import { IChatsState } from '../../chats-state';
-import { MessageLinkType } from '../../models';
-import { INormalizedMessage } from '../../models/message';
+import { INormalizedMessage } from '../../models/normalized-message';
 import { getMessageSelector, getSelectedChatIdSelector } from '../../selectors';
-import { ICreateMessageApiRequest } from '../create-message/api-requests/create-message-api-request';
 import { CreateMessage } from '../create-message/create-message';
 
 import { IForwardMessagesActionPayload } from './action-payloads/forward-messages-action-payload';
@@ -42,7 +41,7 @@ export class ForwardMessages {
         const originalMessageId = message.linkedMessage?.id;
         // eslint-disable-next-line no-restricted-syntax
         for (const chatId of chatIdsToForward) {
-          const messageCreationReq: ICreateMessageApiRequest = {
+          const messageCreationReq: ICreateMessageRequest = {
             text: '',
             chatId,
             link: {
@@ -50,8 +49,10 @@ export class ForwardMessages {
                 message.linkedMessageType === MessageLinkType.Forward
                   ? (originalMessageId as number)
                   : messageId,
-              type: 'Forward',
+              type: MessageLinkType.Forward,
             },
+            // Property clientId has no meaning here because messages are not added in forward-messages reduce
+            clientId: 0,
           };
 
           const { status } = CreateMessage.httpRequest.call(

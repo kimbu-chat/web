@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 
+import { SystemMessageType, MessageLinkType, IAttachmentBase } from 'kimbu-models';
 import throttle from 'lodash/throttle';
 import Mousetrap from 'mousetrap';
 import { useTranslation } from 'react-i18next';
@@ -20,13 +21,10 @@ import {
   removeAllAttachmentsAction,
 } from '@store/chats/actions';
 import {
-  SystemMessageType,
-  MessageState,
-  MessageLinkType,
   IAttachmentCreation,
-  IAttachmentToSend,
-  IBaseAttachment,
   INormalizedMessage,
+  MessageState,
+  IAttachmentToSend,
 } from '@store/chats/models';
 import {
   getMessageToReplySelector,
@@ -38,7 +36,7 @@ import { TypingStrategy } from '@store/settings/features/models';
 import { getTypingStrategySelector } from '@store/settings/selectors';
 import { MESSAGE_INPUT_ID } from '@utils/constants';
 import { focusEditableElement } from '@utils/focus-editable-element';
-import { getFileType } from '@utils/get-file-extension';
+import { getAttachmentType } from '@utils/get-file-extension';
 import { parseMessageInput } from '@utils/parse-message-input';
 import renderText from '@utils/render-text/render-text';
 import { isSelectionInsideInput } from '@utils/selection';
@@ -319,7 +317,7 @@ const CreateMessageInput = () => {
         for (let index = 0; index < event.target.files.length; index += 1) {
           const file = event.target.files.item(index) as File;
 
-          const fileType = getFileType(file.name);
+          const fileType = getAttachmentType(file.name);
 
           uploadAttachmentRequest({
             type: fileType,
@@ -345,7 +343,7 @@ const CreateMessageInput = () => {
           const file = event.clipboardData.files.item(index) as File;
 
           // extension test
-          const fileType = getFileType(file.name);
+          const fileType = getAttachmentType(file.name);
 
           uploadAttachmentRequest({
             type: fileType,
@@ -376,7 +374,7 @@ const CreateMessageInput = () => {
               <div className="message-input__attachments-box__container">
                 {editingMessageAttachments?.map((attachment) => (
                   <MessageInputAttachment
-                    attachment={{ attachment } as IAttachmentToSend<IBaseAttachment>}
+                    attachment={{ attachment } as IAttachmentToSend<IAttachmentBase>}
                     isFromEdit
                     removeSelectedAttachment={removeAttachment}
                     key={attachment.id}

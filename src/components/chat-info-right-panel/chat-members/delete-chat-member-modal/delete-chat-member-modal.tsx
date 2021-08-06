@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react';
 
+import { IUser } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 
 import { Modal } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { Button } from '@shared-components/button';
 import { removeUserFromGroupChatAction } from '@store/chats/actions';
-import { IUser } from '@store/common/models';
 
 import './delete-chat-member-modal.scss';
 

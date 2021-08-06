@@ -1,10 +1,10 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 
+import { MessageState } from '@store/chats/models';
 import { getChatByIdDraftSelector } from '@store/chats/selectors';
 
 import { IChatsState } from '../../chats-state';
-import { MessageState } from '../../models';
 
 import { ISumbitEditMessageSuccessActionPayload } from './action-payloads/sumbit-edit-message-success-action-payload';
 

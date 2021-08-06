@@ -1,4 +1,4 @@
-import { IUser } from '@store/common/models';
+import { IUser } from 'kimbu-models';
 
 import { ById } from '../chats/models/by-id';
 

@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { ISendCallOfferCommandResponse, ISendCallOfferRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, delay, put, race, select, spawn, take } from 'redux-saga/effects';
 import { createAction, RootState } from 'typesafe-actions';
@@ -32,8 +33,6 @@ import { InterlocutorBusy } from '../interlocutor-busy/interlocutor-busy';
 import { TimeoutCall } from '../timeout-call/timeout-call';
 
 import { IOutgoingCallActionPayload } from './action-payloads/outgoing-call-action-payload';
-import { IOutgoingCallApiRequest } from './api-requests/outgoing-call-api-request';
-import { IOutgoingCallApiResponse } from './api-requests/outgoing-call-api-response';
 
 export class OutgoingCall {
   static get action() {
@@ -157,7 +156,7 @@ export class OutgoingCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IOutgoingCallApiResponse>, IOutgoingCallApiRequest>(
+    return httpRequestFactory<AxiosResponse<ISendCallOfferCommandResponse>, ISendCallOfferRequest>(
       MAIN_API.SEND_CALL_OFFER,
       HttpRequestMethod.Post,
     );

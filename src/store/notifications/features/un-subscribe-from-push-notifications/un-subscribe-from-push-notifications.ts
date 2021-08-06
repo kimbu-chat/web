@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { IUnsubscribeFromPushNotificationsRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
@@ -8,7 +9,6 @@ import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 import { messaging } from '@store/middlewares/firebase/firebase';
 import { getPushNotificationToken } from '@store/notifications/utils';
 
-import { IUnsubscribeFromPushNotificationsRequest } from './api-requests/unsubscribe-from-push-notifications-api-request';
 import { UnSubscribeToPushNotificationsSuccess } from './un-subscribe-from-push-notifications_success';
 
 export class UnSubscribeFromPushNotifications {

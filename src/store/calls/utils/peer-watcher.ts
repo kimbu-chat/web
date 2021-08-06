@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { ISendRenegotiationRequest } from 'kimbu-models';
 import { buffers, eventChannel, SagaIterator } from 'redux-saga';
 import { call, cancel, put, race, select, take, takeEvery } from 'redux-saga/effects';
 
@@ -11,15 +12,18 @@ import { OpenInterlocutorAudioStatus } from '../features/change-interlocutor-med
 import { OpenInterlocutorVideoStatus } from '../features/change-interlocutor-media-status/open-interlocutor-video-status';
 import { DeclineCall } from '../features/decline-call/decline-call';
 import { EndCall } from '../features/end-call/end-call';
-import { getCallInterlocutorIdSelector, getIsVideoEnabledSelector } from '../selectors';
+import {
+  getCallInterlocutorIdSelector,
+  getIsScreenSharingEnabledSelector,
+  getIsVideoEnabledSelector,
+} from '../selectors';
 import { CallEndedEventHandler } from '../socket-events/call-ended/call-ended-event-handler';
 
-import { IRenegociateApiRequest } from './api-requests/renegotiate-api-request';
 import { setIsRenegotiationAccepted, setMakingOffer } from './glare-utils';
 import { assignInterlocutorAudioTrack, assignInterlocutorVideoTrack } from './user-media';
 
 const CallsHttpRequests = {
-  renegotiate: httpRequestFactory<AxiosResponse, IRenegociateApiRequest>(
+  renegotiate: httpRequestFactory<AxiosResponse, ISendRenegotiationRequest>(
     MAIN_API.SEND_RENEGOTIATION,
     HttpRequestMethod.Post,
   ),
@@ -94,9 +98,11 @@ export function* peerWatcher(): SagaIterator {
 
             // yield call(waitForAllICE, peerConnection);
 
-            const isVideoEnabled = yield select(getIsVideoEnabledSelector);
+            const isVideoEnabled =
+              (yield select(getIsVideoEnabledSelector)) ||
+              (yield select(getIsScreenSharingEnabledSelector));
             if (peerConnection?.localDescription) {
-              const request: IRenegociateApiRequest = {
+              const request: ISendRenegotiationRequest = {
                 offer: peerConnection.localDescription,
                 interlocutorId,
                 isVideoEnabled,

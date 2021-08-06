@@ -1,7 +1,7 @@
-import { IPage } from '../../../../common/models';
+import { IPaginationParams } from 'kimbu-models';
 
 export interface IGetGroupChatUsersActionPayload {
-  page: IPage;
+  page: IPaginationParams;
   isFromSearch: boolean;
   name?: string;
 }

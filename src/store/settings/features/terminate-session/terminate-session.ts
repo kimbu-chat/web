@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { ITerminateSessionRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -8,7 +9,6 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { Meta } from '../../../common/actions';
 
-import { ITerminateSession } from './api-requests/terminate-session-api-request';
 import { TerminateSessionSuccess } from './terminate-session-success';
 
 export class TerminateSession {
@@ -29,7 +29,7 @@ export class TerminateSession {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, ITerminateSession>(
+    return httpRequestFactory<AxiosResponse, ITerminateSessionRequest>(
       MAIN_API.TERMINATE_SESSION,
       HttpRequestMethod.Post,
     );

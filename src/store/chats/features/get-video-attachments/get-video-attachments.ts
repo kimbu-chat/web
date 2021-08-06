@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IGetVideoAttachmentsRequest, IVideoAttachment } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -9,11 +10,9 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IChatsState } from '../../chats-state';
-import { IVideoAttachment } from '../../models';
 import { getInfoChatIdSelector } from '../../selectors';
 
 import { IGetVideoAttachmentsActionPayload } from './action-payloads/get-video-attachments-action-payload';
-import { IGetVideoAttachmentsApiRequest } from './api-requests/get-video-attachments-api-request';
 import { GetVideoAttachmentsSuccess } from './get-video-attachments-success';
 
 export class GetVideoAttachments {
@@ -54,7 +53,7 @@ export class GetVideoAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IVideoAttachment[]>, IGetVideoAttachmentsApiRequest>(
+    return httpRequestFactory<AxiosResponse<IVideoAttachment[]>, IGetVideoAttachmentsRequest>(
       MAIN_API.GET_VIDEO_ATTACHMENTS,
       HttpRequestMethod.Post,
     );

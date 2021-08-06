@@ -1,6 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react';
 
 import classNames from 'classnames';
+import { IChat, IAvatar } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -14,8 +15,6 @@ import { Button } from '@shared-components/button';
 import { AnimationMode } from '@shared-components/with-background/with-background';
 import { createGroupChatAction } from '@store/chats/actions';
 import { ICreateGroupChatActionPayload } from '@store/chats/features/create-group-chat/action-payloads/create-group-chat-action-payload';
-import { IChat } from '@store/chats/models';
-import { IAvatar } from '@store/common/models';
 import { resetSearchFriendsAction } from '@store/friends/actions';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { replaceInUrl } from '@utils/replace-in-url';
@@ -61,7 +60,7 @@ const CreateGroupChat: React.FC<ICreateGroupChatProps> = ({
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>(preSelectedUserIds || []);
   const [currentStage, setCurrrentStage] = useState(GroupChatCreationStage.UserSelecting);
   const [creationLoading, setCreationLoading] = useState(false);
-  const [avararUploadResponse, setAvatarUploadResponse] = useState<IAvatar | null>(null);
+  const [avararUploadResponse, setAvatarUploadResponse] = useState<IAvatar>();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 

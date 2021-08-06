@@ -9,7 +9,6 @@ import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { replaceInUrl } from '@utils/replace-in-url';
 
 import { ICheckNicknameAvailabilityActionPayload } from './action-payloads/check-nickname-availability-action-payload';
-import { ICheckNicknameAvailabilityApiRequest } from './api-requests/check-nickname-availability-api-request';
 
 export class CheckNicknameAvailability {
   static get action() {
@@ -25,7 +24,7 @@ export class CheckNicknameAvailability {
     ): SagaIterator {
       const { httpRequest } = CheckNicknameAvailability;
       const { data } = httpRequest.call(
-        yield call(() => httpRequest.generator({ nickname: action.payload.nickname })),
+        yield call(() => httpRequest.generator(action.payload.nickname)),
       );
 
       action.meta.deferred?.resolve({ isAvailable: data });
@@ -33,8 +32,8 @@ export class CheckNicknameAvailability {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse<boolean>, ICheckNicknameAvailabilityApiRequest>(
-      ({ nickname }: ICheckNicknameAvailabilityApiRequest) =>
+    return authRequestFactory<AxiosResponse<boolean>, string>(
+      (nickname: string) =>
         replaceInUrl(MAIN_API.CHECK_NICKNAME_AVAILABILITY, ['nickname', nickname]),
       HttpRequestMethod.Get,
     );

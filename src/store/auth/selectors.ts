@@ -1,6 +1,5 @@
+import { ISecurityTokens } from 'kimbu-models';
 import { RootState } from 'typesafe-actions';
-
-import { ISecurityTokens } from './common/models';
 
 export const securityTokensSelector = (state: RootState): ISecurityTokens | undefined =>
   state.auth?.securityTokens;

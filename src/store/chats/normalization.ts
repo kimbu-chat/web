@@ -1,8 +1,5 @@
+import { IChat, IMessage, ILinkedMessage, IUser } from 'kimbu-models';
 import { schema } from 'normalizr';
-
-import { IChat, IMessage } from '@store/chats/models';
-import { ILinkedMessage } from '@store/chats/models/linked-message';
-import { IUser } from '@store/common/models';
 
 const userSchema = new schema.Entity<IUser>('users');
 

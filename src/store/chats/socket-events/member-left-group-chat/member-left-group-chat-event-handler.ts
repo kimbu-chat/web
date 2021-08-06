@@ -34,7 +34,7 @@ export class MemberLeftGroupChatEventHandler {
           delete draft.chats[chatId];
 
           if (draft.selectedChatId === chatId) {
-            draft.selectedChatId = null;
+            draft.selectedChatId = undefined;
           }
         } else {
           const chat = getChatByIdDraftSelector(chatId, draft);

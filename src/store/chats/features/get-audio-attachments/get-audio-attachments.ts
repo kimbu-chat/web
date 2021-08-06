@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IAudioAttachment, IGetAudioAttachmentsRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -9,11 +10,9 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IChatsState } from '../../chats-state';
-import { IAudioAttachment } from '../../models';
 import { getChatByIdDraftSelector, getInfoChatIdSelector } from '../../selectors';
 
 import { IGetAudioAttachmentsActionPayload } from './action-payloads/get-audio-attachments-action-payload';
-import { IGetAudioAttachmentsApiRequest } from './api-requests/get-audio-attachments-api-request';
 import { GetAudioAttachmentsSuccess } from './get-audio-attachments-success';
 
 export class GetAudioAttachments {
@@ -56,7 +55,7 @@ export class GetAudioAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IAudioAttachment[]>, IGetAudioAttachmentsApiRequest>(
+    return httpRequestFactory<AxiosResponse<IAudioAttachment[]>, IGetAudioAttachmentsRequest>(
       MAIN_API.GET_AUDIO_ATTACHMENTS,
       HttpRequestMethod.Post,
     );

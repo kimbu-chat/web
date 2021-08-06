@@ -1,9 +1,11 @@
 import React from 'react';
 
+import { IVideoAttachment } from 'kimbu-models';
+
 import { MediaModal } from '@components/image-modal';
 import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
-import { IGroupable, IVideoAttachment } from '@store/chats/models';
+import { IGroupable } from '@store/chats/models';
 import { SECOND_DURATION } from '@utils/constants';
 import { getMinutesSeconds } from '@utils/date-utils';
 

@@ -1,6 +1,5 @@
+import { IUser } from 'kimbu-models';
 import { RootState } from 'typesafe-actions';
-
-import { IUser } from '../common/models';
 
 export const myIdSelector = (state: RootState): number | undefined => state.myProfile.userId;
 

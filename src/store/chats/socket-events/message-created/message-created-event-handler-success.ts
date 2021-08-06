@@ -1,18 +1,17 @@
 import produce from 'immer';
-import { createAction } from 'typesafe-actions';
-
-import { MyProfileService } from '@services/my-profile-service';
-import { IChatsState } from '@store/chats/chats-state';
-import { INormalizedLinkedMessage } from '@store/chats/models/linked-message';
-
 import {
-  FileType,
+  AttachmentType,
   IAudioAttachment,
   IPictureAttachment,
   IVideoAttachment,
   IVoiceAttachment,
-  INormalizedMessage,
-} from '../../models';
+} from 'kimbu-models';
+import { createAction } from 'typesafe-actions';
+
+import { MyProfileService } from '@services/my-profile-service';
+import { IChatsState } from '@store/chats/chats-state';
+import { INormalizedLinkedMessage, INormalizedMessage } from '@store/chats/models';
+
 import { getMessageDraftSelector } from '../../selectors';
 
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
@@ -95,43 +94,43 @@ export class MessageCreatedEventHandlerSuccess {
 
           attachments?.forEach((attachment) => {
             switch (attachment.type) {
-              case FileType.Audio:
+              case AttachmentType.Audio:
                 chat.audioAttachmentsCount = (chat.audioAttachmentsCount || 0) + 1;
                 chat.audios.audios.unshift({
                   ...(attachment as IAudioAttachment),
-                  creationDateTime: new Date(),
+                  creationDateTime: new Date().toISOString(),
                 });
 
                 break;
-              case FileType.Picture:
+              case AttachmentType.Picture:
                 chat.pictureAttachmentsCount = (chat.pictureAttachmentsCount || 0) + 1;
                 chat.photos.photos.unshift({
                   ...(attachment as IPictureAttachment),
-                  creationDateTime: new Date(),
+                  creationDateTime: new Date().toISOString(),
                 });
 
                 break;
-              case FileType.Raw:
+              case AttachmentType.Raw:
                 chat.rawAttachmentsCount = (chat.rawAttachmentsCount || 0) + 1;
                 chat.files.files.unshift({
                   ...attachment,
-                  creationDateTime: new Date(),
+                  creationDateTime: new Date().toISOString(),
                 });
 
                 break;
-              case FileType.Video:
+              case AttachmentType.Video:
                 chat.videoAttachmentsCount = (chat.videoAttachmentsCount || 0) + 1;
                 chat.videos.videos.unshift({
                   ...(attachment as IVideoAttachment),
-                  creationDateTime: new Date(),
+                  creationDateTime: new Date().toISOString(),
                 });
 
                 break;
-              case FileType.Voice:
+              case AttachmentType.Voice:
                 chat.voiceAttachmentsCount = (chat.voiceAttachmentsCount || 0) + 1;
                 chat.recordings.recordings.unshift({
                   ...(attachment as IVoiceAttachment),
-                  creationDateTime: new Date(),
+                  creationDateTime: new Date().toISOString(),
                 });
 
                 break;

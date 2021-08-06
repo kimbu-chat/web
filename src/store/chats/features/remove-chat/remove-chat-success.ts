@@ -18,7 +18,7 @@ export class RemoveChatSuccess {
         draft.chatList.chatIds = draft.chatList.chatIds.filter((id) => id !== chatId);
         delete draft.chats[chatId];
         if (draft.selectedChatId === chatId) {
-          draft.selectedChatId = null;
+          draft.selectedChatId = undefined;
         }
 
         return draft;

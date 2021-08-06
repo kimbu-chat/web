@@ -1,4 +1,4 @@
-import { TypingStrategy } from '@store/settings/features/models';
+import { TypingStrategy } from '../../models';
 
 export interface IChangeTypingStrategyActionPayload {
   strategy: TypingStrategy;

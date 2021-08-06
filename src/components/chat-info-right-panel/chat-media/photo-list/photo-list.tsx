@@ -1,14 +1,13 @@
 import React, { useCallback, useRef } from 'react';
 
+import { IPictureAttachment, IPaginationParams } from 'kimbu-models';
 import { useSelector } from 'react-redux';
 
 import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getPhotoAttachmentsAction } from '@store/chats/actions';
-import { IPictureAttachment } from '@store/chats/models';
 import { getSelectedChatPhotosSelector } from '@store/chats/selectors';
-import { IPage } from '@store/common/models';
 import { separateGroupable } from '@utils/date-utils';
 import { PHOTO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { setSeparators } from '@utils/set-separators';
@@ -29,7 +28,7 @@ const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const loadMore = useCallback(() => {
-    const page: IPage = {
+    const page: IPaginationParams = {
       offset: photoForSelectedChat?.photos.length || 0,
       limit: PHOTO_ATTACHMENTS_LIMIT,
     };

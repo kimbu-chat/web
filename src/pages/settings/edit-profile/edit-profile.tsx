@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useRef, lazy, Suspense } from 'react';
 
+import { AttachmentType } from 'kimbu-models';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -15,7 +16,6 @@ import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
 import { ReactComponent as UserSvg } from '@icons/user.svg';
 import { loadPhotoEditor } from '@routing/module-loader';
 import { Button } from '@shared-components/button';
-import { FileType } from '@store/chats/models';
 import { IAvatarSelectedData } from '@store/common/models';
 import {
   uploadAvatarRequestAction,
@@ -320,7 +320,7 @@ const EditProfile = () => {
 
       {newAvatar?.url && bigPhotoDisplayed && (
         <MediaModal
-          attachmentsArr={[{ url: newAvatar.url, id: 1, type: FileType.Picture }]}
+          attachmentsArr={[{ url: newAvatar.url, id: 1, type: AttachmentType.Picture }]}
           attachmentId={1}
           onClose={hideBigPhoto}
         />

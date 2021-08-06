@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 
+import { AttachmentType } from 'kimbu-models';
 import useInterval from 'use-interval';
 import WaveSurfer from 'wavesurfer.js';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -9,7 +10,6 @@ import MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
 import { uploadAttachmentRequestAction } from '@store/chats/actions';
-import { FileType } from '@store/chats/models';
 import { getMinutesSeconds } from '@utils/date-utils';
 
 import './recording-message.scss';
@@ -96,7 +96,7 @@ export const RecordingMessage: React.FC<IRecordingMessageProps> = ({ hide }) => 
             const onReady = () => {
               waveSurferInstance?.exportPCM(5, undefined, true).then((waveForm) => {
                 uploadAttachmentRequest({
-                  type: FileType.Voice,
+                  type: AttachmentType.Voice,
                   file: audioFile as File,
                   attachmentId: new Date().getTime(),
                   waveFormJson: JSON.stringify(waveForm),

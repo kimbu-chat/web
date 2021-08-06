@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { ISessionDto } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
@@ -8,7 +9,6 @@ import { deviceIdSelector } from '@store/auth/selectors';
 import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
-import { ISession } from '../../comon/models/session';
 import { IUserSettings } from '../../user-settings-state';
 
 import { GetSessionListSuccess } from './get-sesion-list-success';
@@ -46,7 +46,7 @@ export class GetSessionList {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<ISession[]>>(
+    return httpRequestFactory<AxiosResponse<ISessionDto[]>>(
       MAIN_API.USER_SESSIONS,
       HttpRequestMethod.Get,
     );

@@ -1,15 +1,12 @@
 import React from 'react';
 
+import { AttachmentType, IPictureAttachment, IVideoAttachment } from 'kimbu-models';
+
 import { MediaModal } from '@components/image-modal';
 import ProgressiveImage from '@components/progressive-image';
 import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
-import {
-  FileType,
-  IPictureAttachment,
-  IVideoAttachment,
-  IBaseAttachment,
-} from '@store/chats/models';
+import { INamedAttachment } from '@store/chats/models/named-attachment';
 import { getMinutesSeconds } from '@utils/date-utils';
 
 import type { ObserveFn } from '@hooks/use-intersection-observer';
@@ -18,7 +15,7 @@ import './media-attachment.scss';
 
 interface IMessageMediaAttachmentProps {
   attachmentId: number;
-  attachmentsArr: (IPictureAttachment | IVideoAttachment | IBaseAttachment)[];
+  attachmentsArr: INamedAttachment[];
   observeIntersection: ObserveFn;
 }
 
@@ -34,8 +31,8 @@ export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
   return (
     <>
       <div onClick={displayBigMedia} className="media-attachment">
-        {(currentAttachment?.type === FileType.Picture ||
-          currentAttachment?.fileName.endsWith('.gif')) && (
+        {(currentAttachment?.type === AttachmentType.Picture ||
+          currentAttachment?.fileName?.endsWith('.gif')) && (
           <ProgressiveImage
             thumb={(currentAttachment as IPictureAttachment).previewUrl}
             src={currentAttachment.url}
@@ -51,7 +48,7 @@ export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
           // />
         )}
 
-        {currentAttachment?.type === FileType.Video && (
+        {currentAttachment?.type === AttachmentType.Video && (
           <>
             <img
               src={(currentAttachment as IVideoAttachment).firstFrameUrl}

@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { ISendSmsCodeRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -11,7 +12,6 @@ import { authRequestFactory } from '@store/common/http/auth-request-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 
 import { ISendSmsCodeActionPayload } from './action-payloads/send-sms-code-action-payload';
-import { ISendSmsCodeApiRequest } from './api-requests/send-sms-code-api-request';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
 import { SendSmsCodeSuccess } from './send-sms-code-success';
 
@@ -56,7 +56,7 @@ export class SendSmsCode {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse<string>, ISendSmsCodeApiRequest>(
+    return authRequestFactory<AxiosResponse<string>, ISendSmsCodeRequest>(
       MAIN_API.SEND_SMS_CODE,
       HttpRequestMethod.Post,
     );

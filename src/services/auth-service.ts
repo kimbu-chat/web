@@ -1,4 +1,5 @@
-import { ISecurityTokens } from '@store/auth/common/models';
+import { ISecurityTokens } from 'kimbu-models';
+
 import { BrowserStorage } from '@utils/browser-storage';
 import { getAccessTokenExpirationTime } from '@utils/get-access-token-expiration-time';
 
@@ -13,10 +14,10 @@ export class AuthService {
     const tokens = this.browserStorage.getObject<ISecurityTokens>(this.authentication);
 
     if (tokens) {
-      const accessTokenExpirationTime = getAccessTokenExpirationTime(tokens.accessToken);
+      const refreshTokenExpirationTime = getAccessTokenExpirationTime(tokens.accessToken ?? '');
       return {
         ...tokens,
-        accessTokenExpirationTime,
+        refreshTokenExpirationTime,
       };
     }
 

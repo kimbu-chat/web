@@ -1,5 +1,5 @@
-import { IPage } from '../../../../common/models';
+import { IPaginationParams } from 'kimbu-models';
 
 export interface IGetAudioAttachmentsActionPayload {
-  page: IPage;
+  page: IPaginationParams;
 }

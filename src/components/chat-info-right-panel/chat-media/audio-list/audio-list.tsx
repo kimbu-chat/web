@@ -1,5 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 
+import { IAudioAttachment } from 'kimbu-models';
 import { useSelector } from 'react-redux';
 
 import { MessageAudioAttachment } from '@components/audio-attachment';
@@ -7,7 +8,6 @@ import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getAudioAttachmentsAction } from '@store/chats/actions';
-import { IAudioAttachment } from '@store/chats/models';
 import { getSelectedChatAudiosSelector } from '@store/chats/selectors';
 import { separateGroupable } from '@utils/date-utils';
 import { AUDIO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';

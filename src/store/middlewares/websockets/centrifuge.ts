@@ -73,7 +73,9 @@ export const centrifugeInvokeMiddleware: Middleware<RootAction, RootState> =
   async (action: RootAction): Promise<RootAction> => {
     switch (action.type) {
       case getType(InitSocketConnection.action): {
-        const expTime = store.getState().auth?.securityTokens?.accessTokenExpirationTime;
+        const expTime = new Date(
+          store.getState().auth?.securityTokens?.accessTokenExpirationTime || '',
+        );
 
         if (!expTime) {
           return next(action);
@@ -100,7 +102,7 @@ export const centrifugeInvokeMiddleware: Middleware<RootAction, RootState> =
       case getType(refreshTokenSuccessAction): {
         if (!refreshResponseCallback) {
           openConnection(store);
-        } else {
+        } else if (action.payload.accessToken) {
           refreshResponseCallback({
             status: 200,
             data: {

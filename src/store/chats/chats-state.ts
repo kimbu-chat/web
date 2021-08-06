@@ -1,5 +1,5 @@
+import { INormalizedChat } from './models';
 import { ById } from './models/by-id';
-import { INormalizedChat } from './models/chat';
 
 interface IChatList {
   loading?: boolean;
@@ -14,7 +14,7 @@ export interface IChatsState {
   chatList: IChatList;
   searchChatList: IChatList;
 
-  selectedChatId: number | null;
+  selectedChatId?: number;
   selectedMessageIds: number[];
 
   chatInfo: {

@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios';
+import { ISecurityTokens } from 'kimbu-models';
 import noop from 'lodash/noop';
 import { END, eventChannel, SagaIterator, buffers } from 'redux-saga';
 import { call, cancelled, put, select, take, takeEvery } from 'redux-saga/effects';
@@ -7,7 +8,6 @@ import { RootState } from 'typesafe-actions';
 import { emitToast } from '@utils/emit-toast';
 
 import { isNetworkError } from '../../../utils/error-utils';
-import { ISecurityTokens } from '../../auth/common/models';
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
 import { RefreshToken } from '../../auth/features/refresh-token/refresh-token';
 import { securityTokensSelector } from '../../auth/selectors';

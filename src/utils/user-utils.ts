@@ -1,7 +1,7 @@
 import { TFunction } from 'i18next';
+import { IGroupChat, IUser } from 'kimbu-models';
 
-import { INormalizedChat, IGroupChat } from '../store/chats/models';
-import { IUser } from '../store/common/models';
+import { INormalizedChat } from '@store/chats/models';
 
 export const getChatInterlocutor = (
   interlocutor?: IUser,

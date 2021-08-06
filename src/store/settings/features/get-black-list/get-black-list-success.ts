@@ -1,7 +1,6 @@
 import produce from 'immer';
+import { IUser } from 'kimbu-models';
 import { createAction } from 'typesafe-actions';
-
-import { IUser } from '@store/common/models';
 
 import { IUserSettings } from '../../user-settings-state';
 

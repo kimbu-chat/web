@@ -1,3 +1,3 @@
-export interface ISessionTerminatedIntegrationEvent {
+export interface ISessionDtoTerminatedIntegrationEvent {
   refreshTokenId: number;
 }

@@ -1,4 +1,4 @@
-import { IUser } from '../../../common/models';
+import { IUser } from 'kimbu-models';
 
 export interface IIncomingCallIntegrationEvent {
   userInterlocutor: IUser;

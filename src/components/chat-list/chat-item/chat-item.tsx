@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 
 import classnames from 'classnames';
 import dayjs from 'dayjs';
+import { MessageLinkType, SystemMessageType } from 'kimbu-models';
 import truncate from 'lodash/truncate';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -14,12 +15,7 @@ import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
 import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import Ripple from '@shared-components/ripple';
-import {
-  MessageLinkType,
-  MessageState,
-  SystemMessageType,
-  INormalizedMessage,
-} from '@store/chats/models';
+import { INormalizedMessage, MessageState } from '@store/chats/models';
 import { getTypingStringSelector, getChatSelector } from '@store/chats/selectors';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';

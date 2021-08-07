@@ -54,7 +54,7 @@ export const CountrySelect: React.FC<ICountrySelectProps> = ({
       className={`country-select ${popupOpen ? 'country-select--open' : ''}`}>
       <div className="country-select__label">{t('phoneInputGroup.country')}</div>
       <input
-        autoComplete="off"
+        autoComplete="new-password"
         placeholder={t('phoneInputGroup.country')}
         type="text"
         className="country-select__input"

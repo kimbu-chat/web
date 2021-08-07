@@ -27,7 +27,7 @@ export const LabeledInput: React.FC<ILabeledInputProps> = ({
     <span className="labeled-input__label">{label}</span>
     <input
       autoFocus={autoFocus}
-      autoComplete="off"
+      autoComplete="new-password"
       placeholder={placeholder}
       value={value}
       onChange={onChange}

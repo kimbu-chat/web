@@ -98,7 +98,7 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
         </button>
         <span className={`${BLOCK_NAME}__separator`} />
         <input
-          autoComplete="off"
+          autoComplete="new-password"
           autoFocus
           className={`${BLOCK_NAME}__input`}
           placeholder={t('loginPage.mobile_phone')}

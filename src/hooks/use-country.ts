@@ -3,41 +3,40 @@ import { useState, useEffect } from 'react';
 import { ICountry } from '@common/country';
 import { CountryService } from '@services/country-service';
 import { getCountryList } from '@utils/get-country-list';
-import { getCountry } from '@utils/get-country';
+import { getUserCountryCode } from '@utils/get-user-country-code';
 
 let cancelLoad: () => void;
 
+const defaultCountry: ICountry = { code: 'AF', number: '+93', title: 'Afghanistan' };
+
+const defaultUserCountry: ICountry = new CountryService().country || defaultCountry;
+
 export const useCountry = () => {
-  const [countries, setCountries] = useState<ICountry[]>([
-    { code: 'AF', number: '+93', title: 'Afghanistan' },
-  ]);
-  const [country, setCountry] = useState<ICountry>({
-    code: 'AF',
-    number: '+93',
-    title: 'Afghanistan',
-  });
+  const [countries, setCountries] = useState<ICountry[]>([defaultUserCountry]);
+  const [country, setCountry] = useState<ICountry>(defaultUserCountry);
 
   useEffect(() => {
     (async () => {
       try {
+        setCountry(defaultUserCountry);
+
         const { loadCountryList, cancelLoadCountryList } = getCountryList();
         cancelLoad = cancelLoadCountryList;
         const loadedCountries = await loadCountryList();
-        setCountries(loadedCountries);
-        let countryOfResidence =
-          loadedCountries?.find(({ code }) => code === new CountryService().country) ||
-          loadedCountries[0];
-        setCountry(countryOfResidence || loadedCountries[0]);
 
-        const { loadCountry, cancelLoadCountry } = getCountry();
+        setCountries(loadedCountries);
+
+        const { loadCountry, cancelLoadCountry } = getUserCountryCode();
+
         cancelLoad = cancelLoadCountry;
+
         const countryCode = await loadCountry();
 
-        countryOfResidence =
-          loadedCountries?.find(({ code }) => code === countryCode) || loadedCountries[0];
+        const countryOfResidence = loadedCountries.find(({ code }) => code === countryCode);
 
-        if (countryOfResidence) {
+        if (countryOfResidence && countryOfResidence.code !== defaultUserCountry.code) {
           setCountry(countryOfResidence);
+          new CountryService().initializeOrUpdate(countryOfResidence);
         }
         // eslint-disable-next-line no-empty
       } catch {}

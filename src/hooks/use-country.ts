@@ -36,7 +36,7 @@ export const useCountry = () => {
         countryOfResidence =
           loadedCountries?.find(({ code }) => code === countryCode) || loadedCountries[0];
 
-        if (countryOfResidence) {
+        if (countryOfResidence && countryOfResidence.code !== new CountryService().country) {
           setCountry(countryOfResidence);
         }
         // eslint-disable-next-line no-empty

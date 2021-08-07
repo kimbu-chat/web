@@ -18,6 +18,8 @@ export const useCountry = () => {
   useEffect(() => {
     (async () => {
       try {
+        setCountry(defaultUserCountry);
+
         const { loadCountryList, cancelLoadCountryList } = getCountryList();
         cancelLoad = cancelLoadCountryList;
         const loadedCountries = await loadCountryList();

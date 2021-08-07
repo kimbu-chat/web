@@ -1,9 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-import { CountryService } from '@services/country-service';
 import { HttpRequestMethod } from '@store/common/http';
 
-export const getCountry = () => {
+export const getUserCountryCode = () => {
   const { CancelToken } = axios;
   const source = CancelToken.source();
 
@@ -18,8 +17,6 @@ export const getCountry = () => {
   const loadCountry = async () => {
     const countryCode = (await axios.get('https://ipapi.co/json/', requestConfig)).data
       ?.country_code as string;
-
-    new CountryService().initializeOrUpdate(countryCode);
 
     return countryCode;
   };

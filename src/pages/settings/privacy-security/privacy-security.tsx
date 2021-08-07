@@ -22,31 +22,31 @@ const PrivacySecurity = () => {
       <h2 className={`${BLOCK_NAME}__subject`}>{t('privacySecurity.who-can-message-me')}</h2>
       <div className={`${BLOCK_NAME}__radiobox-group`}>
         <RadioBox
-          groupName="who-can-message-me"
           defaultChecked
-          content={t('privacySecurity.contacts')}
+          groupName="who-can-message-me"
+          content={t('privacySecurity.everyone')}
         />
+        <RadioBox groupName="who-can-message-me" content={t('privacySecurity.contacts')} />
         <RadioBox groupName="who-can-message-me" content={t('privacySecurity.no-one')} />
-        <RadioBox groupName="who-can-message-me" content={t('privacySecurity.everyone')} />
       </div>
       <HorizontalSeparator />
 
       <h2 className={`${BLOCK_NAME}__subject`}>{t('privacySecurity.who-can-call-me')}</h2>
       <div className={`${BLOCK_NAME}__radiobox-group`}>
         <RadioBox
-          groupName="who-can-call-me"
           defaultChecked
-          content={t('privacySecurity.contacts')}
+          groupName="who-can-call-me"
+          content={t('privacySecurity.everyone')}
         />
+        <RadioBox groupName="who-can-call-me" content={t('privacySecurity.contacts')} />
         <RadioBox groupName="who-can-call-me" content={t('privacySecurity.no-one')} />
-        <RadioBox groupName="who-can-call-me" content={t('privacySecurity.everyone')} />
       </div>
       <HorizontalSeparator />
 
       <h2 className={`${BLOCK_NAME}__subject`}>{t('privacySecurity.who-can-find-me')}</h2>
       <div className={`${BLOCK_NAME}__radiobox-group`}>
-        <RadioBox groupName="who-can-find-me" content={t('privacySecurity.no-one')} />
         <RadioBox groupName="who-can-find-me" content={t('privacySecurity.everyone')} />
+        <RadioBox groupName="who-can-find-me" content={t('privacySecurity.no-one')} />
       </div>
       <HorizontalSeparator />
 

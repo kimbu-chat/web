@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo, useState, memo } from 'react';
+import React, { FC, useCallback, useMemo, useState, memo, useEffect, useRef } from 'react';
 
 import debounce from 'lodash/debounce';
 
@@ -10,11 +10,21 @@ const BLOCK_NAME = 'ripple-container';
 
 const RippleEffect: FC = () => {
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number; size: number }[]>([]);
+  const unmounted = useRef(false);
+
+  useEffect(
+    () => () => {
+      unmounted.current = true;
+    },
+    [],
+  );
 
   const cleanUpDebounced = useMemo(
     () =>
       debounce(() => {
-        setRipples([]);
+        if (!unmounted.current) {
+          setRipples([]);
+        }
       }, ANIMATION_DURATION_MS),
     [],
   );

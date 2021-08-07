@@ -28,7 +28,7 @@ export const SearchBox: React.FC<ISearchBoxProps> = ({
   return (
     <div className={classnames(`${BLOCK_NAME}__input-wrapper`, containerClassName)}>
       <input
-        autoComplete="off"
+        autoComplete="new-password"
         onChange={onChange}
         placeholder={t('chatActions.search')}
         type="text"

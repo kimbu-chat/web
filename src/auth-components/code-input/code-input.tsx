@@ -61,7 +61,7 @@ export const CodeInput = forwardRef<HTMLDivElement, CodeInputProps>(
               )}
               key={idx.toString()}>
               <input
-                autoComplete="off"
+                autoComplete="new-password"
                 className={classnames(
                   `${BLOCK_NAME}__input`,
                   !code[idx] && `${BLOCK_NAME}__input--with-border`,

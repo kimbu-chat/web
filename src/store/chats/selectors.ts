@@ -1,13 +1,14 @@
-import { TFunction } from 'i18next';
 import { AttachmentType, IAttachmentBase } from 'kimbu-models';
 import unionBy from 'lodash/unionBy';
-import { RootState } from 'typesafe-actions';
 
-import { IChatsState } from './chats-state';
-import { INormalizedChat, InterlocutorType } from './models';
-import { IAttachmentToSend } from './models/attachment-to-send';
+import { INormalizedChat, INormalizedMessage, InterlocutorType } from './models';
 
+import type { IChatsState } from './chats-state';
+import type { IAttachmentToSend } from './models/attachment-to-send';
+import type { ById } from './models/by-id';
+import type { TFunction } from 'i18next';
 import type { IAudioAttachment } from 'kimbu-models';
+import type { RootState } from 'typesafe-actions';
 
 // RootState selectors
 export const getSelectedChatSelector = (state: RootState): INormalizedChat | undefined =>
@@ -203,7 +204,7 @@ export const getHasMoreMessagesMessagesSelector = (state: RootState) =>
 export const getMessagesIdsByChatIdSelector = (state: RootState) =>
   state.chats.chats[state.chats.selectedChatId || -1]?.messages.messageIds;
 
-export const getSelectedChatMessagesSelector = (state: RootState) =>
+export const getSelectedChatMessagesSelector = (state: RootState): ById<INormalizedMessage> =>
   state.chats.chats[state.chats.selectedChatId || -1]?.messages.messages;
 
 export const getMessageSelector = (chatId: number, messageId: number) => (state: RootState) =>

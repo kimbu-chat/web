@@ -78,7 +78,7 @@ export const CallList = () => {
         />
       </div>
       <div className={BLOCK_NAME} ref={containerRef}>
-        {searchCallsList.loading || callsList.loading ? (
+        {(searchCallsList.loading || callsList.loading) && !renderedCalls.length ? (
           <CenteredLoader size={LoaderSize.LARGE} />
         ) : (
           <InfiniteScroll

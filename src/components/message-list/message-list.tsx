@@ -36,6 +36,11 @@ import './message-list.scss';
 
 const BLOCK_NAME = 'chat';
 
+type ISeparatedMessagesPack = {
+  id: string;
+  messages: number[];
+};
+
 const MessageList = () => {
   const getMessages = useActionWithDispatch(getMessagesAction);
   const markMessagesAsRead = useActionWithDispatch(markMessagesAsReadAction);
@@ -78,28 +83,33 @@ const MessageList = () => {
     });
   }, [getMessages, messagesIds?.length, messagesSearchString]);
 
-  const separatedMessagesPacks = useMemo(
-    () =>
-      messagesIds?.reduce(
-        (accumulator: number[][], currentMessageId, index) => {
-          if (
-            index > 0 &&
-            checkIfDatesAreDifferentDate(
-              messages[messagesIds[index - 1]]?.creationDateTime || '',
-              messages[currentMessageId]?.creationDateTime || '',
-            )
-          ) {
-            accumulator.push([]);
-          }
+  const separatedMessagesPacks = useMemo(() => {
+    let id = 0;
+    return messagesIds?.reduce((accumulator: ISeparatedMessagesPack[], currentMessageId, index) => {
+      if (!accumulator.length) {
+        accumulator.push({
+          id: `${(id += 1)}`,
+          messages: [],
+        });
+      }
+      if (
+        index > 0 &&
+        checkIfDatesAreDifferentDate(
+          (messages && messages[messagesIds[index - 1]]?.creationDateTime) || '',
+          (messages && messages[currentMessageId]?.creationDateTime) || '',
+        )
+      ) {
+        accumulator.push({
+          id: `${(id += 1)}`,
+          messages: [],
+        });
+      }
 
-          accumulator[accumulator.length - 1].push(currentMessageId);
+      accumulator[accumulator.length - 1]?.messages.push(currentMessageId);
 
-          return accumulator;
-        },
-        [[]] as number[][],
-      ),
-    [messages, messagesIds],
-  );
+      return accumulator;
+    }, []);
+  }, [messages, messagesIds]);
 
   if (!selectedChatId) {
     return <Welcome />;
@@ -113,7 +123,7 @@ const MessageList = () => {
           !hasMoreMessages &&
           !messagesIds?.length && (
             <div className={`${BLOCK_NAME}__messages-list__empty`}>
-              <p>{t('chat.empty')}</p>f
+              <p>{t('chat.empty')}</p>
             </div>
           )}
 
@@ -125,11 +135,9 @@ const MessageList = () => {
             hasMore={hasMoreMessages}
             className={`${BLOCK_NAME}__messages-list__scroll`}
             isLoading={areMessagesLoading}>
-            {separatedMessagesPacks.map((separatedMessages) => (
-              <div
-                key={`${separatedMessages[separatedMessages.length - 1]}group`}
-                className={`${BLOCK_NAME}__messages-group`}>
-                {separatedMessages.map((messageId, index) => (
+            {separatedMessagesPacks.map((pack) => (
+              <div key={pack.id} className={`${BLOCK_NAME}__messages-group`}>
+                {pack.messages.map((messageId, index) => (
                   <MessageItem
                     observeIntersection={observeIntersectionForMedia}
                     selectedChatId={selectedChatId}
@@ -139,17 +147,17 @@ const MessageList = () => {
                     needToShowCreator={
                       messages &&
                       (messages[messageId]?.userCreatorId !==
-                        messages[separatedMessages[index + 1]]?.userCreatorId ||
-                        messages[separatedMessages[index + 1]]?.systemMessageType !==
+                        messages[pack.messages[index + 1]]?.userCreatorId ||
+                        messages[pack.messages[index + 1]]?.systemMessageType !==
                           SystemMessageType.None)
                     }
                   />
                 ))}
-                {separatedMessages.length > 0 && (
+                {pack.messages.length > 0 && (
                   <div className={`${BLOCK_NAME}__separator`}>
                     <span className={`${BLOCK_NAME}__separator-date`}>
                       {dayjs
-                        .utc(messages[separatedMessages[0]]?.creationDateTime || '')
+                        .utc(messages[pack.messages[0]]?.creationDateTime || '')
                         .local()
                         .format(DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR)
                         .toString()}

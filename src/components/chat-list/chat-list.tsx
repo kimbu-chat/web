@@ -3,7 +3,7 @@ import React, { useEffect, useCallback, useState, useMemo, useRef } from 'react'
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { CreateGroupChat } from '@components/create-group-chat-modal';
+import { CreateGroupChatModal } from '@components/create-group-chat-modal';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { CenteredLoader, LoaderSize } from '@components/loader';
 import { NewMessageModal } from '@components/new-message-modal';
@@ -136,7 +136,7 @@ const ChatList = React.memo(() => {
       )}
 
       {createGroupChatDisplayed && (
-        <CreateGroupChat
+        <CreateGroupChatModal
           animationMode={AnimationMode.CLOSE}
           onClose={changeCreateGroupChatDisplayedState}
         />

@@ -1,1 +1,1 @@
-export { CreateGroupChat } from './create-group-chat-modal';
+export { CreateGroupChatModal } from './create-group-chat-modal';

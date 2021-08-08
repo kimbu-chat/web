@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
-import { Modal } from '@components/modal';
+import { IModalChildrenProps, Modal } from '@components/modal';
 import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { INSTANT_MESSAGING_PATH } from '@routing/routing.constants';
 import { Button } from '@shared-components/button';
@@ -17,7 +17,9 @@ interface ILeaveChatModalProps {
 
 const BLOCK_NAME = 'leave-chat-modal';
 
-export const LeaveChatModal: React.FC<ILeaveChatModalProps> = ({ hide }) => {
+const InitialLeaveChatModal: React.FC<ILeaveChatModalProps & IModalChildrenProps> = ({
+  animatedClose,
+}) => {
   const { t } = useTranslation();
   const history = useHistory();
 
@@ -34,25 +36,35 @@ export const LeaveChatModal: React.FC<ILeaveChatModalProps> = ({ hide }) => {
   }, [leaveGroupChat, history]);
 
   return (
-    <Modal closeModal={hide}>
-      <>
-        <Modal.Header>{t('chatActions.leave-chat')}</Modal.Header>
-        <div className={BLOCK_NAME}>
-          <div className={`${BLOCK_NAME}__сontent`}>{t('chatInfo.leave-confirmation')}</div>
-          <div className={`${BLOCK_NAME}__btn-block`}>
-            <button type="button" className={`${BLOCK_NAME}__cancel-btn`} onClick={hide}>
-              {t('chatInfo.cancel')}
-            </button>
-            <Button
-              loading={loading}
-              type="button"
-              className={`${BLOCK_NAME}__confirm-btn`}
-              onClick={deleteGroupChat}>
-              {t('chatInfo.leave')}
-            </Button>
-          </div>
+    <>
+      <Modal.Header>{t('chatActions.leave-chat')}</Modal.Header>
+      <div className={BLOCK_NAME}>
+        <div className={`${BLOCK_NAME}__сontent`}>{t('chatInfo.leave-confirmation')}</div>
+        <div className={`${BLOCK_NAME}__btn-block`}>
+          <button type="button" className={`${BLOCK_NAME}__cancel-btn`} onClick={animatedClose}>
+            {t('chatInfo.cancel')}
+          </button>
+          <Button
+            loading={loading}
+            type="button"
+            className={`${BLOCK_NAME}__confirm-btn`}
+            onClick={deleteGroupChat}>
+            {t('chatInfo.leave')}
+          </Button>
         </div>
-      </>
-    </Modal>
+      </div>
+    </>
   );
 };
+
+const LeaveChatModal: React.FC<ILeaveChatModalProps> = ({ hide, ...props }) => (
+  <Modal closeModal={hide}>
+    {(animatedClose: () => void) => (
+      <InitialLeaveChatModal {...props} hide={hide} animatedClose={animatedClose} />
+    )}
+  </Modal>
+);
+
+LeaveChatModal.displayName = 'LeaveChatModal';
+
+export { LeaveChatModal };

@@ -22,7 +22,7 @@ type InfiniteScrollProps = {
 
 const TRIGGER_MARGIN = 500;
 
-const LOAD_MORE_DEBOUNCE = 500;
+const LOAD_MORE_DEBOUNCE = 1000;
 
 const BLOCK_NAME = 'infinite-scroll';
 
@@ -37,9 +37,11 @@ export const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
 }) => {
   const backwardsTriggerRef = React.useRef<HTMLDivElement>(null);
   const forwardsTriggerRef = React.useRef<HTMLDivElement>(null);
-
   const [loadMoreTop, loadMoreBottom] = useMemo(
-    () => [debounce(onReachTop, LOAD_MORE_DEBOUNCE), debounce(onReachBottom, LOAD_MORE_DEBOUNCE)],
+    () => [
+      debounce(onReachTop, LOAD_MORE_DEBOUNCE, { leading: true, trailing: false }),
+      debounce(onReachBottom, LOAD_MORE_DEBOUNCE, { leading: true, trailing: false }),
+    ],
     [onReachTop, onReachBottom],
   );
 

@@ -142,27 +142,6 @@
     white-space: nowrap;
   }
 
-  &__separator {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 14px;
-    margin-top: 14px;
-    position: sticky;
-    top: 20px;
-    text-transform: capitalize;
-
-    span {
-      background-color: rgba(63, 138, 224, 0.25);
-      border-radius: 6px;
-      color: var(--dt-white-wt-dark);
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 300;
-      line-height: 14px;
-      padding: 4px 16px;
-    }
-  }
-
   &__system-message {
     display: flex;
     justify-content: center;
@@ -214,7 +193,7 @@
   }
 
   &__contents-wrapper {
-    animation: message 0.15s ease-out 0s forwards;
+    animation: message 0.15s ease-in 0s forwards;
     opacity: 0;
     display: block;
     margin-right: 16px;

@@ -6,6 +6,7 @@
     overflow: auto;
     margin-bottom: 16px;
     padding-right: 8px;
+    margin-top: -16px;
 
     & > * {
       &:first-child {
@@ -46,7 +47,7 @@
     cursor: pointer;
     display: flex;
     margin-bottom: 16px;
-    margin-top: 24px;
+    margin-top: 16px;
     position: relative;
     user-select: none;
 

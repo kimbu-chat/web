@@ -40,48 +40,4 @@
       text-indent: 50px;
     }
   }
-
-  &__new-group {
-    align-items: center;
-    cursor: pointer;
-    display: flex;
-    margin-bottom: 16px;
-    margin-top: 18px;
-    position: relative;
-    user-select: none;
-
-    &__img {
-      align-items: center;
-      background-color: var(--dt-whiter-wt-bright-blue);
-      border-radius: 6px;
-      display: flex;
-      height: 48px;
-      justify-content: center;
-      width: 48px;
-
-      svg {
-        color: #3f8ae0;
-        height: 24px;
-        width: 24px;
-      }
-    }
-
-    &__title {
-      color: var(--dt-white-wt-dark);
-      font-size: 1rem;
-      font-weight: normal;
-      line-height: 19px;
-      margin-left: 20px;
-    }
-
-    &__go {
-      position: absolute;
-      right: 0;
-
-      svg {
-        color: var(--dt-kingBlue-wt-kingBlueLight);
-        width: 14px;
-      }
-    }
-  }
 }

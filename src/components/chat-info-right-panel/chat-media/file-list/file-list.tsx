@@ -15,6 +15,8 @@ import { setSeparators } from '@utils/set-separators';
 
 import './file-list.scss';
 
+const ATTACHMENTS_GROUP_PREFIX = 'files';
+
 const FileAttachmentComponent: React.FC<IAttachmentBase> = ({ ...file }) => (
   <div>
     <FileAttachment {...file} />
@@ -52,9 +54,15 @@ export const FileList = () => {
         isLoading={filesForSelectedChat?.loading}
         threshold={0.3}>
         {filesWithSeparators &&
-          separateGroupable(filesWithSeparators).map((filesArr) => (
-            <div key={`${filesArr[0]?.id}Arr`}>
-              <ChatAttachment items={filesArr} AttachmentComponent={FileAttachmentComponent} />
+          separateGroupable({
+            groupableItems: filesWithSeparators,
+            prefix: ATTACHMENTS_GROUP_PREFIX,
+          }).map((pack) => (
+            <div key={pack.id}>
+              <ChatAttachment
+                items={pack.attachments}
+                AttachmentComponent={FileAttachmentComponent}
+              />
             </div>
           ))}
       </InfiniteScroll>

@@ -22,6 +22,8 @@ type PhotoListProps = {
   observeIntersection: ObserveFn;
 };
 
+const ATTACHMENTS_GROUP_PREFIX = 'photos';
+
 const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection }) => {
   const getPhotoAttachments = useActionWithDispatch(getPhotoAttachmentsAction);
   const photoForSelectedChat = useSelector(getSelectedChatPhotosSelector);
@@ -62,10 +64,13 @@ const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection }) => {
         hasMore={photoForSelectedChat?.hasMore}
         isLoading={photoForSelectedChat?.loading}>
         {photosWithSeparators &&
-          separateGroupable(photosWithSeparators).map((photoArr) => (
+          separateGroupable({
+            groupableItems: photosWithSeparators,
+            prefix: ATTACHMENTS_GROUP_PREFIX,
+          }).map((pack) => (
             <ChatAttachment
-              key={`${photoArr[0]?.id}Arr`}
-              items={photoArr}
+              key={pack.id}
+              items={pack.attachments}
               AttachmentComponent={PhotoAttachmentComponent}
             />
           ))}

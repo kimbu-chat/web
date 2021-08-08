@@ -17,6 +17,8 @@ import { VideoFromList } from './video/video-from-list';
 
 import './video-list.scss';
 
+const ATTACHMENTS_GROUP_PREFIX = 'videos';
+
 export const VideoList = () => {
   const getVideoAttachmentss = useActionWithDispatch(getVideoAttachmentsAction);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -53,9 +55,15 @@ export const VideoList = () => {
         hasMore={videosForSelectedChat?.hasMore}
         isLoading={videosForSelectedChat?.loading}>
         {videosWithSeparators &&
-          separateGroupable(videosWithSeparators).map((videosArr) => (
-            <div key={`${videosArr[0]?.id}Arr`} className="chat-video__video-container">
-              <ChatAttachment items={videosArr} AttachmentComponent={VideoAttachmentComponent} />
+          separateGroupable({
+            groupableItems: videosWithSeparators,
+            prefix: ATTACHMENTS_GROUP_PREFIX,
+          }).map((pack) => (
+            <div key={pack.id} className="chat-video__video-container">
+              <ChatAttachment
+                items={pack.attachments}
+                AttachmentComponent={VideoAttachmentComponent}
+              />
             </div>
           ))}
       </InfiniteScroll>

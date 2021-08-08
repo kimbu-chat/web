@@ -14,6 +14,8 @@ import { setSeparators } from '@utils/set-separators';
 
 import './recordings-list.scss';
 
+const ATTACHMENTS_GROUP_PREFIX = 'recordings';
+
 export const RecordingsList = () => {
   const recordingsForSelectedChat = useSelector(getSelectedChatRecordingsSelector);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -44,9 +46,15 @@ export const RecordingsList = () => {
           hasMore={recordingsForSelectedChat?.hasMore}
           isLoading={recordingsForSelectedChat?.loading}>
           {recordingsWithSeparators &&
-            separateGroupable(recordingsWithSeparators).map((recordingsArr) => (
-              <div key={`${recordingsArr[0]?.id}Arr`}>
-                <ChatAttachment items={recordingsArr} AttachmentComponent={RecordingAttachment} />
+            separateGroupable({
+              groupableItems: recordingsWithSeparators,
+              prefix: ATTACHMENTS_GROUP_PREFIX,
+            }).map((pack) => (
+              <div key={pack.id}>
+                <ChatAttachment
+                  items={pack.attachments}
+                  AttachmentComponent={RecordingAttachment}
+                />
               </div>
             ))}
         </InfiniteScroll>

@@ -16,9 +16,9 @@ type ChatAttachmentProps<T> = {
 export function ChatAttachment<T extends IAttachmentBase>({
   items,
   AttachmentComponent,
-}: ChatAttachmentProps<T>): JSX.Element {
+}: ChatAttachmentProps<T>) {
   return (
-    <React.Fragment key={`${items[0]?.id}Arr`}>
+    <>
       {items.map((item) => (
         <React.Fragment key={item.id}>
           {item.needToShowMonthSeparator && (
@@ -29,6 +29,6 @@ export function ChatAttachment<T extends IAttachmentBase>({
           <AttachmentComponent {...item} />
         </React.Fragment>
       ))}
-    </React.Fragment>
+    </>
   );
 }

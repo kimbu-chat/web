@@ -15,6 +15,8 @@ import { setSeparators } from '@utils/set-separators';
 
 import './audio-list.scss';
 
+const ATTACHMENTS_GROUP_PREFIX = 'audios';
+
 const AudioAttachmentComponent: React.FC<IAudioAttachment> = ({ ...audio }) => (
   <div className="chat-audios__audio">
     <MessageAudioAttachment {...audio} />
@@ -48,9 +50,15 @@ export const AudioList = () => {
           isLoading={audiosForSelectedChat?.loading}
           threshold={0.3}>
           {audiosWithSeparators &&
-            separateGroupable(audiosWithSeparators).map((audiosArr) => (
-              <div key={`${audiosArr[0]?.id}Arr`}>
-                <ChatAttachment items={audiosArr} AttachmentComponent={AudioAttachmentComponent} />
+            separateGroupable({
+              groupableItems: audiosWithSeparators,
+              prefix: ATTACHMENTS_GROUP_PREFIX,
+            }).map((pack) => (
+              <div key={pack.id}>
+                <ChatAttachment
+                  items={pack.attachments}
+                  AttachmentComponent={AudioAttachmentComponent}
+                />
               </div>
             ))}
         </InfiniteScroll>

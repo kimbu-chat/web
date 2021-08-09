@@ -34,7 +34,7 @@ export const DeleteAccountModal: React.FC<IDeleteAccountModalProps> = ({ onClose
       <>
         <Modal.Header>
           <>
-            <DeleteSvg viewBox="0 0 15 16" className={`${BLOCK_NAME}__icon`} />
+            <DeleteSvg className={`${BLOCK_NAME}__icon`} />
             <span> {t('deleteAccountModal.title')} </span>
           </>
         </Modal.Header>

@@ -47,7 +47,7 @@ export const RemoveChatModal: React.FC<IRemoveChatModalProps> = ({ onClose }) =>
       <>
         <Modal.Header>
           <>
-            <DeleteSvg viewBox="0 0 15 16" className={`${BLOCK_NAME}__icon`} />
+            <DeleteSvg className={`${BLOCK_NAME}__icon`} />
             <span> {t('removeChatModal.title')} </span>
           </>
         </Modal.Header>

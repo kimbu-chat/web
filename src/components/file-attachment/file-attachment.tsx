@@ -50,15 +50,11 @@ const FileAttachment: React.FC<INamedAttachment> = ({ ...attachment }) => {
     <div className="file-attachment">
       {isDownloading ? (
         <div onClick={abortDownloading} className="file-attachment__cancel">
-          <ProgressSVG
-            ref={progressSvgRef}
-            viewBox="0 0 25 25"
-            className="file-attachment__progress-svg"
-          />
+          <ProgressSVG ref={progressSvgRef} className="file-attachment__progress-svg" />
         </div>
       ) : (
         <div onClick={download} className="file-attachment__download">
-          <DownloadSvg viewBox="0 0 22 24" />
+          <DownloadSvg />
         </div>
       )}
       <div className="file-attachment__data">

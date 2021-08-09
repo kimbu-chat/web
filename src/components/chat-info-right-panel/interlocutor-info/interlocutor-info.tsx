@@ -49,7 +49,7 @@ export const InterlocutorInfo = () => {
               type="button"
               onClick={displayEditGroupChat}
               className={`${BLOCK_NAME}__rename-btn`}>
-              <EditSvg viewBox="0 0 16 16" />
+              <EditSvg />
             </button>
           )}
         </div>

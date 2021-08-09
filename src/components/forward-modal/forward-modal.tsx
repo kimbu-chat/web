@@ -120,7 +120,7 @@ export const ForwardModal: React.FC<IForwardModalProps> = ({ onClose, messageIds
       <div ref={containerRef}>
         <Modal.Header>
           <>
-            <ForwardSvg viewBox="0 0 16 16" className={`${BLOCK_NAME}__icon`} />
+            <ForwardSvg className={`${BLOCK_NAME}__icon`} />
             <span> {t('forwardModal.forward', { count: messageIdsToForward.length })} </span>
           </>
         </Modal.Header>

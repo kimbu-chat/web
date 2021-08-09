@@ -85,16 +85,12 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
             [`${BLOCK_NAME}__type-icon--missed`]: missedByMe,
           })}>
           {call?.status === CallStatus.Ended &&
-            (isOutgoing ? (
-              <OutgoingCallSvg viewBox="0 0 11 12" />
-            ) : (
-              <IncomingCallSvg viewBox="0 0 12 12" />
-            ))}
+            (isOutgoing ? <OutgoingCallSvg /> : <IncomingCallSvg />)}
           {(call?.status === CallStatus.Declined || call?.status === CallStatus.Cancelled) && (
-            <DeclinedCallSvg viewBox="0 0 13 14" />
+            <DeclinedCallSvg />
           )}
           {(call?.status === CallStatus.NotAnswered || call?.status === CallStatus.Interrupted) && (
-            <MissedCallSvg viewBox="0 0 12 12" />
+            <MissedCallSvg />
           )}
         </div>
       </div>

@@ -12,7 +12,7 @@ export const MessageError = () => {
   return (
     <div className="message-error">
       <div className="message-error__icon">
-        <BulbSvg viewBox="0 0 24 24" />
+        <BulbSvg />
       </div>
       <div className="message-error__description">{t('messageError.description')}</div>
 

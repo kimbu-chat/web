@@ -61,7 +61,6 @@ export const CountrySelect: React.FC<ICountrySelectProps> = ({
         {...inputProps}
       />
       <ArrowSvg
-        viewBox="0 0 8 14"
         className={`country-select__input-svg ${
           popupOpen ? 'country-select__input-svg--open' : ''
         }`}

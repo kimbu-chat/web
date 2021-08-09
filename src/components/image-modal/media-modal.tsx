@@ -80,7 +80,7 @@ export const MediaModal: React.FC<IImageModalProps> = ({
           <div className={classNames(`${BLOCK_NAME}__controls`, `${BLOCK_NAME}__controls--prev`)}>
             {currentAttachmentIndex > 0 && (
               <button type="button" onClick={goPrev}>
-                <ArrowSvg viewBox="0 0 48 48" />
+                <ArrowSvg />
               </button>
             )}
           </div>
@@ -114,14 +114,14 @@ export const MediaModal: React.FC<IImageModalProps> = ({
           <div className={classNames(`${BLOCK_NAME}__controls`, `${BLOCK_NAME}__controls--next`)}>
             {currentAttachmentIndex < attachmentsArr.length - 1 && (
               <button type="button" onClick={goNext}>
-                <ArrowSvg viewBox="0 0 48 48" />
+                <ArrowSvg />
               </button>
             )}
           </div>
         </div>
 
         <button className={`${BLOCK_NAME}__close`} type="button">
-          <CloseSVG viewBox="0 0 24 24" />
+          <CloseSVG />
         </button>
       </div>
     </BackgroundBlur>

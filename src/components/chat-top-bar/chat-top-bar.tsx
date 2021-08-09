@@ -112,7 +112,7 @@ export const ChatTopBar = () => {
                   {selectedChat.typingInterlocutors &&
                   selectedChat.typingInterlocutors?.length > 0 ? (
                     <div className={`${BLOCK_NAME}__chat-info__info__typing`}>
-                      <TypingSvg viewBox="0 0 12 12" />
+                      <TypingSvg />
                       <span>{t('chatData.typing')}</span>
                     </div>
                   ) : (

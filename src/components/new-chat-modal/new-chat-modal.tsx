@@ -109,7 +109,7 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose }) => {
       <div ref={containerRef}>
         <Modal.Header>
           <>
-            <NewMessageSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__icon`} />
+            <NewMessageSvg className={`${BLOCK_NAME}__icon`} />
             <span>{t('newChat.new_chat')}</span>
           </>
         </Modal.Header>

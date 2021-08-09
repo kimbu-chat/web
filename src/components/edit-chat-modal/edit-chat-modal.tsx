@@ -125,7 +125,7 @@ const EditChatModal: React.FC<IEditChatModalProps> = ({ onClose }) => {
         <Modal.Header>{t('editChatModal.title')}</Modal.Header>
         <div className={BLOCK_NAME}>
           <div className={`${BLOCK_NAME}__current-photo-wrapper`}>
-            <GroupSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__current-photo-wrapper__alt`} />
+            <GroupSvg className={`${BLOCK_NAME}__current-photo-wrapper__alt`} />
             <input
               onChange={handleImageChange}
               ref={fileInputRef}
@@ -147,17 +147,11 @@ const EditChatModal: React.FC<IEditChatModalProps> = ({ onClose }) => {
                 fileInputRef.current?.click();
               }}
               className={`${BLOCK_NAME}__change-photo-btn`}>
-              <PictureSvg viewBox="0 0 18 19" />
+              <PictureSvg />
               <span>{t('editChatModal.upload_new')}</span>
             </button>
-            <TopAvatarLine
-              className={`${BLOCK_NAME}__current-photo-wrapper__top-line`}
-              viewBox="0 0 48 48"
-            />
-            <BottomAvatarLine
-              className={`${BLOCK_NAME}__current-photo-wrapper__bottom-line`}
-              viewBox="0 0 114 114"
-            />
+            <TopAvatarLine className={`${BLOCK_NAME}__current-photo-wrapper__top-line`} />
+            <BottomAvatarLine className={`${BLOCK_NAME}__current-photo-wrapper__bottom-line`} />
           </div>
           <div className={`${BLOCK_NAME}__criteria`}>{t('editChatModal.requirements')}</div>
 

@@ -25,7 +25,7 @@ export const RespondingMessage = () => {
 
   return (
     <div className="responding-message">
-      <ReplySvg className="responding-message__icon" viewBox="0 0 15 16" />
+      <ReplySvg className="responding-message__icon" />
       <div className="responding-message__line" />
 
       <Avatar size={32} user={userCreator} />
@@ -39,7 +39,7 @@ export const RespondingMessage = () => {
         {replyingMessage?.text && renderText(replyingMessage?.text)}
       </div>
       <button type="button" onClick={resetReplyToMessage} className="responding-message__close">
-        <CloseSvg viewBox="0 0 24 24" />
+        <CloseSvg />
       </button>
     </div>
   );

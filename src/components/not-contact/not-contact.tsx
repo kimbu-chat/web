@@ -56,7 +56,7 @@ export const NotContact = () => {
 
   return (
     <div className={BLOCK_NAME}>
-      <ContactSvg className={`${BLOCK_NAME}__contact-icon`} viewBox="0 0 24 24" />
+      <ContactSvg className={`${BLOCK_NAME}__contact-icon`} />
 
       <div className={`${BLOCK_NAME}__description`}>
         {t('notContact.description', {
@@ -83,7 +83,7 @@ export const NotContact = () => {
           onClick={dismissSelectedUserToBlackList}
           type="button"
           className={`${BLOCK_NAME}__close-btn`}>
-          <CloseSvg viewBox="0 0 24 24" />
+          <CloseSvg />
         </button>
       </div>
     </div>

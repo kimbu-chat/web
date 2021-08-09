@@ -20,7 +20,7 @@ const AddCall = () => {
     <>
       <div className={BLOCK_NAME}>
         <div className={`${BLOCK_NAME}__icon-wrapper`}>
-          <AddCallSvg viewBox="0 0 65 64" />
+          <AddCallSvg />
         </div>
 
         <h3 className={`${BLOCK_NAME}__title`}>{t('addCall.title')}</h3>

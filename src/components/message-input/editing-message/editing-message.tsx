@@ -19,7 +19,7 @@ export const EditingMessage = () => {
   return (
     <div className="editing-message">
       <div>
-        <CrayonSvg className="editing-message__icon" viewBox="0 0 16 16" />
+        <CrayonSvg className="editing-message__icon" />
       </div>
       <div className="editing-message__line" />
 
@@ -27,7 +27,7 @@ export const EditingMessage = () => {
         {editingMessage?.text && renderText(editingMessage.text)}
       </div>
       <button type="button" onClick={resetEditToMessage} className="editing-message__close">
-        <CloseSvg viewBox="0 0 24 24" />
+        <CloseSvg />
       </button>
     </div>
   );

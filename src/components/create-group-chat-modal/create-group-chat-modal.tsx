@@ -115,12 +115,12 @@ const CreateGroupChat: React.FC<ICreateGroupChatProps> = ({
           <Modal.Header>
             {currentStage === GroupChatCreationStage.UserSelecting ? (
               <>
-                <GroupSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__icon`} />
+                <GroupSvg className={`${BLOCK_NAME}__icon`} />
                 <span>{t('createGroupChatModal.add_members')}</span>
               </>
             ) : (
               <>
-                <GroupSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__icon`} />
+                <GroupSvg className={`${BLOCK_NAME}__icon`} />
                 <span>{t('createGroupChatModal.new_group')}</span>
               </>
             )}

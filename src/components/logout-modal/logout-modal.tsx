@@ -34,7 +34,7 @@ export const LogoutModal: React.FC<ILogoutModalProps> = ({ onClose }) => {
       <>
         <Modal.Header>
           <>
-            <LogoutSvg viewBox="0 0 30 28" className={`${BLOCK_NAME}__icon`} />
+            <LogoutSvg className={`${BLOCK_NAME}__icon`} />
             <span> {t('logoutModal.title')} </span>
           </>
         </Modal.Header>

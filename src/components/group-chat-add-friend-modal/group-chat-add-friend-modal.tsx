@@ -138,7 +138,7 @@ const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({ onCl
       <div ref={containerRef}>
         <Modal.Header>
           <>
-            <GroupSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__icon`} />
+            <GroupSvg className={`${BLOCK_NAME}__icon`} />
             <span>{t('groupChatAddFriendModal.add_members')}</span>
           </>
         </Modal.Header>

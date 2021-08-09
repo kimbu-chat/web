@@ -129,7 +129,7 @@ const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, hideChan
       <>
         <Modal.Header>
           <>
-            <PhotoSvg viewBox="0 0 18 19" className={`${BLOCK_NAME}__icon`} />
+            <PhotoSvg className={`${BLOCK_NAME}__icon`} />
 
             <span> {t('changePhoto.title')} </span>
           </>
@@ -183,15 +183,15 @@ const PhotoEditor: React.FC<IPhotoEditorProps> = ({ imageUrl, onSubmit, hideChan
           <div className={`${BLOCK_NAME}__btn-group`}>
             <button onClick={rotateLeft} type="button" className={`${BLOCK_NAME}__modify-btn`}>
               <Tooltip>Left Rotation</Tooltip>
-              <LeftRotateSvg viewBox="0 0 18 18" />
+              <LeftRotateSvg />
             </button>
             <button onClick={mirrorImage} type="button" className={`${BLOCK_NAME}__modify-btn`}>
               <Tooltip>Mirror</Tooltip>
-              <ReflectSvg viewBox="0 0 18 18" />
+              <ReflectSvg />
             </button>
             <button onClick={rotateRight} type="button" className={`${BLOCK_NAME}__modify-btn`}>
               <Tooltip>Right Rotation</Tooltip>
-              <RightRotateSvg viewBox="0 0 18 18" />
+              <RightRotateSvg />
             </button>
           </div>
 

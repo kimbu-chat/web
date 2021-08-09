@@ -100,7 +100,7 @@ const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
     <>
       <div className={BLOCK_NAME}>
         <div className={`${BLOCK_NAME}__current-photo-wrapper`}>
-          <GroupSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__current-photo-wrapper__alt`} />
+          <GroupSvg className={`${BLOCK_NAME}__current-photo-wrapper__alt`} />
           <input
             onChange={handleImageChange}
             ref={fileInputRef}
@@ -122,17 +122,11 @@ const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
               fileInputRef.current?.click();
             }}
             className={`${BLOCK_NAME}__change-photo-btn`}>
-            <PictureSvg viewBox="0 0 18 19" />
+            <PictureSvg />
             <span>{t('groupChatCreation.upload_new')}</span>
           </button>
-          <TopAvatarLine
-            className={`${BLOCK_NAME}__current-photo-wrapper__top-line`}
-            viewBox="0 0 48 48"
-          />
-          <BottomAvatarLine
-            className={`${BLOCK_NAME}__current-photo-wrapper__bottom-line`}
-            viewBox="0 0 114 114"
-          />
+          <TopAvatarLine className={`${BLOCK_NAME}__current-photo-wrapper__top-line`} />
+          <BottomAvatarLine className={`${BLOCK_NAME}__current-photo-wrapper__bottom-line`} />
         </div>
         <div className={`${BLOCK_NAME}__criteria`}>{t('groupChatCreation.requirements')}</div>
 

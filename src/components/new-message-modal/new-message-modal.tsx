@@ -117,7 +117,7 @@ const NewMessageModal: React.FC<INewMessageModalProps> = ({ onClose, displayCrea
       <div ref={containerRef}>
         <Modal.Header>
           <>
-            <NewMessageSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__icon`} />
+            <NewMessageSvg className={`${BLOCK_NAME}__icon`} />
             <span>{t('newMessage.new_message')}</span>
           </>
         </Modal.Header>
@@ -129,11 +129,11 @@ const NewMessageModal: React.FC<INewMessageModalProps> = ({ onClose, displayCrea
 
           <div onClick={createGroupChat} className={`${BLOCK_NAME}__new-group`}>
             <div className={`${BLOCK_NAME}__new-group__img`}>
-              <GroupSvg viewBox="0 0 24 24" />
+              <GroupSvg />
             </div>
             <span className={`${BLOCK_NAME}__new-group__title`}>{t('newMessage.new_group')}</span>
             <div className={`${BLOCK_NAME}__new-group__go`}>
-              <ArrowSvg viewBox="0 0 8 14" />
+              <ArrowSvg />
             </div>
           </div>
           <InfiniteScroll

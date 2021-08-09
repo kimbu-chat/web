@@ -73,7 +73,7 @@ export const BlockedMessageInput: React.FC<IBlockedMessageInputProps> = ({
 
   return (
     <div className={BLOCK_NAME}>
-      <BlockedSvg className={`${BLOCK_NAME}__icon`} viewBox="0 0 22 22" />
+      <BlockedSvg className={`${BLOCK_NAME}__icon`} />
       <div className={`${BLOCK_NAME}__description`}>{text}</div>
 
       {isCurrentChatBlackListed && (

@@ -41,11 +41,7 @@ const MainModal = ({
         className={classNames(rootClass, {
           [`${BLOCK_NAME}--no-animated-open`]: animationMode === AnimationMode.CLOSE,
         })}>
-        <CloseSVG
-          onClick={animatedClose}
-          viewBox="0 0 25 25"
-          className={`${BLOCK_NAME}__close-btn`}
-        />
+        <CloseSVG onClick={animatedClose} className={`${BLOCK_NAME}__close-btn`} />
         <div className={`${BLOCK_NAME}__content`}>{children}</div>
       </div>
     </BackgroundBlur>

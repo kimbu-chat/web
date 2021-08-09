@@ -118,12 +118,12 @@ const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) => {
         <Modal.Header>
           {submited ? (
             <>
-              <ChatSvg className={`${BLOCK_NAME}__icon`} viewBox="0 0 24 24" />
+              <ChatSvg className={`${BLOCK_NAME}__icon`} />
               <span> {t('changePhoneModal.code-sent')} </span>
             </>
           ) : (
             <>
-              <CrayonSvg className={`${BLOCK_NAME}__icon`} viewBox="0 0 16 16" />
+              <CrayonSvg className={`${BLOCK_NAME}__icon`} />
               <span> {t('changePhoneModal.change-number')} </span>
             </>
           )}
@@ -139,7 +139,7 @@ const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose }) => {
             phoneInputIcon={
               submited ? (
                 <button type="button" className={`${BLOCK_NAME}__back-icon`}>
-                  <CrayonSvg onClick={prevStep} viewBox="0 0 16 16" />
+                  <CrayonSvg onClick={prevStep} />
                 </button>
               ) : undefined
             }

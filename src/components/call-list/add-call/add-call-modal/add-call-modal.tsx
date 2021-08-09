@@ -110,7 +110,7 @@ export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
     <Modal closeModal={onClose}>
       <div ref={containerRef}>
         <Modal.Header>
-          <AddCallSvg viewBox="0 0 65 64" className="add-call-modal__icon" />
+          <AddCallSvg className="add-call-modal__icon" />
           <span> {t('addCallModal.title')} </span>
         </Modal.Header>
         <div className="add-call-modal">

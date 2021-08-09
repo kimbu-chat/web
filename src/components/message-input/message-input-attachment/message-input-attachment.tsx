@@ -69,7 +69,7 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = ({
   return (
     <div className="message-input-attachment">
       {attachment.attachment.type === AttachmentType.Raw && (
-        <FileSVG className="message-input-attachment__type-icon" viewBox="0 0 24 24" />
+        <FileSVG className="message-input-attachment__type-icon" />
       )}
       {attachment.attachment.type === AttachmentType.Video && (
         <>
@@ -80,7 +80,7 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = ({
               className="message-input-attachment__bg"
             />
           )}
-          <VideoSVG className="message-input-attachment__type-icon" viewBox="0 0 18 19" />
+          <VideoSVG className="message-input-attachment__type-icon" />
         </>
       )}
       {attachment.attachment.type === AttachmentType.Picture && (
@@ -92,15 +92,15 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = ({
               className="message-input-attachment__bg"
             />
           )}
-          <PhotoSVG className="message-input-attachment__type-icon" viewBox="0 0 18 19" />
+          <PhotoSVG className="message-input-attachment__type-icon" />
         </>
       )}
       {attachment.attachment.type === AttachmentType.Audio && (
-        <PlaySVG className="message-input-attachment__type-icon" viewBox="0 0 24 24" />
+        <PlaySVG className="message-input-attachment__type-icon" />
       )}
 
       {attachment.attachment.type === AttachmentType.Voice && (
-        <MicrophoneSvg className="message-input-attachment__type-icon" viewBox="0 0 20 24" />
+        <MicrophoneSvg className="message-input-attachment__type-icon" />
       )}
 
       <div
@@ -126,7 +126,7 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = ({
         type="button"
         onClick={removeThisAttachment}
         className="message-input-attachment__close">
-        <CloseSVG viewBox="0 0 8 8" />
+        <CloseSVG />
       </button>
     </div>
   );

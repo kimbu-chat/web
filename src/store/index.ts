@@ -39,15 +39,14 @@ type InjectorReduxStore = Store<ReducersStore, RootAction> & {
 
 const staticReducers = {};
 
+const dummyReducer = () => ({});
+
 function* staticRootSaga() {
   yield all([]);
 }
 
 function createReducer(asyncReducers?: ReducersStore) {
-  return combineReducers({
-    ...staticReducers,
-    ...asyncReducers,
-  });
+  return combineReducers({ dummyReducer, ...staticReducers, ...asyncReducers });
 }
 
 function createSagaInjector(

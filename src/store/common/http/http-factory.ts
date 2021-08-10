@@ -1,17 +1,16 @@
 import axios, { AxiosError, CancelTokenSource } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, cancelled, put, select, take } from 'redux-saga/effects';
-import { RootState } from 'typesafe-actions';
 
 import { RefreshToken } from '@store/auth/features/refresh-token/refresh-token';
 import { securityTokensSelector } from '@store/auth/selectors';
 import { httpRequest } from '@store/common/http/http-request';
-import { REQUEST_TIMEOUT } from '@utils/constants';
 import { emitToast } from '@utils/emit-toast';
 
 import { isNetworkError } from '../../../utils/error-utils';
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
 
+import { checkTokensSaga } from './check-tokens';
 import { HttpRequestMethod } from './http-request-method';
 
 import type { IRequestGenerator, UrlGenerator, HttpHeaders } from './types';
@@ -34,33 +33,13 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
     let cancelTokenSource: CancelTokenSource | null = null;
 
     try {
-      const refreshTokenRequestLoading = yield select(
-        (rootState: RootState) => rootState.auth?.refreshTokenRequestLoading,
-      );
-
-      if (refreshTokenRequestLoading) {
-        yield take(RefreshTokenSuccess.action);
-      }
-
       let finalUrl = url as string;
 
       if (body && typeof url === 'function') {
         finalUrl = (url as UrlGenerator<TBody>)(body);
       }
 
-      const securityTokens: ISecurityTokens & { accessTokenExpirationTime: string } = yield select(
-        securityTokensSelector,
-      );
-      const accessTokenExpirationTime = new Date(securityTokens.accessTokenExpirationTime);
-
-      if (!accessTokenExpirationTime) {
-        throw new Error(`accessTokenExpirationTime is undefined`);
-      }
-
-      if (accessTokenExpirationTime.getTime() < new Date().getTime() - REQUEST_TIMEOUT) {
-        yield put(RefreshToken.action());
-        yield take(RefreshTokenSuccess.action);
-      }
+      yield call(checkTokensSaga);
 
       try {
         const authHeader = yield call(getAuthHeader);

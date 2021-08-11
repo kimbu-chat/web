@@ -39,6 +39,7 @@
     cursor: pointer;
     padding: 5px;
     border-radius: 15%;
+    user-select: none;
 
     &:hover {
       background-color: rgba(63, 138, 224, 0.35);

@@ -2,11 +2,13 @@ import React, { useCallback, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 
 import { CheckBox } from '@components/check-box';
 import { IModalChildrenProps, Modal } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
+import { INSTANT_MESSAGING_PATH } from '@routing/routing.constants';
 import { Button } from '@shared-components/button';
 import { removeChat } from '@store/chats/actions';
 import { getInfoChatIdSelector } from '@store/chats/selectors';
@@ -24,6 +26,8 @@ const InitialRemoveChatModal: React.FC<IRemoveChatModalProps & IModalChildrenPro
 }) => {
   const { t } = useTranslation();
 
+  const history = useHistory();
+
   const chatId = useSelector(getInfoChatIdSelector);
 
   const removeThisChat = useActionWithDeferred(removeChat);
@@ -38,11 +42,11 @@ const InitialRemoveChatModal: React.FC<IRemoveChatModalProps & IModalChildrenPro
     if (chatId) {
       setLoading(true);
       removeThisChat({ forEveryone: deleteForInterlocutor, chatId }).then(() => {
-        setLoading(false);
         animatedClose();
+        history.push(INSTANT_MESSAGING_PATH);
       });
     }
-  }, [removeThisChat, deleteForInterlocutor, setLoading, chatId, animatedClose]);
+  }, [chatId, removeThisChat, deleteForInterlocutor, animatedClose, history]);
 
   return (
     <>

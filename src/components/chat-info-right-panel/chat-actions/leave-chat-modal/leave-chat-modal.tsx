@@ -30,10 +30,10 @@ const InitialLeaveChatModal: React.FC<ILeaveChatModalProps & IModalChildrenProps
   const deleteGroupChat = useCallback(() => {
     setLoading(true);
     leaveGroupChat().then(() => {
-      setLoading(false);
+      animatedClose();
       history.push(INSTANT_MESSAGING_PATH);
     });
-  }, [leaveGroupChat, history]);
+  }, [leaveGroupChat, animatedClose, history]);
 
   return (
     <>

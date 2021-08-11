@@ -8,10 +8,10 @@ import { getUserCountryCode } from '@utils/get-user-country-code';
 let cancelLoad: () => void;
 
 const defaultCountry: ICountry = { code: 'AF', number: '+93', title: 'Afghanistan' };
-
-const defaultUserCountry: ICountry = new CountryService().country || defaultCountry;
+const countryService = new CountryService();
 
 export const useCountry = () => {
+  const defaultUserCountry: ICountry = countryService.country || defaultCountry;
   const [countries, setCountries] = useState<ICountry[]>([defaultUserCountry]);
   const [country, setCountry] = useState<ICountry>(defaultUserCountry);
 
@@ -47,7 +47,7 @@ export const useCountry = () => {
         cancelLoad();
       }
     };
-  }, []);
+  }, [defaultUserCountry]);
 
   return { countries, setCountry, country };
 };

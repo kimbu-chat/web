@@ -256,11 +256,7 @@ const ActiveCall: React.FC = () => {
             type="button"
             onClick={changeFullScreenStatus}
             className={`${BLOCK_NAME}__change-screen`}>
-            {isFullScreen ? (
-              <ExitFullScreenSvg viewBox="0 0 25 25" />
-            ) : (
-              <FullScreenSvg viewBox="0 0 25 25" />
-            )}
+            {isFullScreen ? <ExitFullScreenSvg /> : <FullScreenSvg />}
           </button>
         </div>
 
@@ -347,11 +343,7 @@ const ActiveCall: React.FC = () => {
               className={classNames(`${BLOCK_NAME}__call-btn`, {
                 [`${BLOCK_NAME}__call-btn--big`]: isFullScreen,
               })}>
-              {isAudioOpened ? (
-                <MicrophoneEnableSvg viewBox="0 0 25 25" />
-              ) : (
-                <MicrophoneDisableSvg viewBox="0 0 25 25" />
-              )}
+              {isAudioOpened ? <MicrophoneEnableSvg /> : <MicrophoneDisableSvg />}
             </button>
           )}
 
@@ -362,11 +354,7 @@ const ActiveCall: React.FC = () => {
               className={classNames(`${BLOCK_NAME}__call-btn`, {
                 [`${BLOCK_NAME}__call-btn--big`]: isFullScreen,
               })}>
-              {isVideoOpened ? (
-                <VideoEnableSvg viewBox="0 0 25 25" />
-              ) : (
-                <VideoDisableSvg viewBox="0 0 25 25" />
-              )}
+              {isVideoOpened ? <VideoEnableSvg /> : <VideoDisableSvg />}
             </button>
           )}
 
@@ -377,11 +365,7 @@ const ActiveCall: React.FC = () => {
               className={classNames(`${BLOCK_NAME}__call-btn`, {
                 [`${BLOCK_NAME}__call-btn--big`]: isFullScreen,
               })}>
-              {isScreenSharingOpened ? (
-                <ScreenSharingEnableSvg viewBox="0 0 25 25" />
-              ) : (
-                <ScreenSharingDisableSvg viewBox="0 0 25 25" />
-              )}
+              {isScreenSharingOpened ? <ScreenSharingEnableSvg /> : <ScreenSharingDisableSvg />}
             </button>
           )}
 
@@ -392,7 +376,7 @@ const ActiveCall: React.FC = () => {
               className={classNames(`${BLOCK_NAME}__call-btn`, {
                 [`${BLOCK_NAME}__call-btn--big`]: isFullScreen,
               })}>
-              <VideoEnableSvg viewBox="0 0 25 25" />
+              <VideoEnableSvg />
             </button>
           )}
 
@@ -403,7 +387,7 @@ const ActiveCall: React.FC = () => {
               className={classNames(`${BLOCK_NAME}__call-btn`, {
                 [`${BLOCK_NAME}__call-btn--big`]: isFullScreen,
               })}>
-              <VoiceCallSvg viewBox="0 0 25 25" />
+              <VoiceCallSvg />
             </button>
           )}
 
@@ -419,7 +403,7 @@ const ActiveCall: React.FC = () => {
                 endCall();
               }
             }}>
-            <HangUpSvg viewBox="0 0 25 25" />
+            <HangUpSvg />
           </button>
         </div>
       </div>

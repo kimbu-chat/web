@@ -193,51 +193,33 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                   callStatus === CallStatus.Interrupted,
               })}>
               {message?.systemMessageType === SystemMessageType.GroupChatMemberAdded && (
-                <AddUsersSvg
-                  className={`${BLOCK_NAME}__system-message__icon`}
-                  viewBox="0 0 18 18"
-                />
+                <AddUsersSvg className={`${BLOCK_NAME}__system-message__icon`} />
               )}
               {message?.systemMessageType === SystemMessageType.GroupChatMemberRemoved && (
-                <LeaveSvg className={`${BLOCK_NAME}__system-message__icon`} viewBox="0 0 18 18" />
+                <LeaveSvg className={`${BLOCK_NAME}__system-message__icon`} />
               )}
               {message?.systemMessageType === SystemMessageType.GroupChatCreated && (
-                <CreateChatSvg
-                  className={`${BLOCK_NAME}__system-message__icon`}
-                  viewBox="0 0 24 24"
-                />
+                <CreateChatSvg className={`${BLOCK_NAME}__system-message__icon`} />
               )}
               {message?.systemMessageType === SystemMessageType.GroupChatNameChanged && (
-                <CrayonSvg className={`${BLOCK_NAME}__system-message__icon`} viewBox="0 0 16 16" />
+                <CrayonSvg className={`${BLOCK_NAME}__system-message__icon`} />
               )}
               {message?.systemMessageType === SystemMessageType.GroupChatAvatarChanged && (
-                <PictureSvg className={`${BLOCK_NAME}__system-message__icon`} viewBox="0 0 18 19" />
+                <PictureSvg className={`${BLOCK_NAME}__system-message__icon`} />
               )}
 
               {(message?.systemMessageType === SystemMessageType.CallEnded &&
                 callStatus === CallStatus.Ended &&
                 (isOutgoing ? (
-                  <OutgoingCallSvg
-                    className={`${BLOCK_NAME}__system-message__icon`}
-                    viewBox="0 0 11 12"
-                  />
+                  <OutgoingCallSvg className={`${BLOCK_NAME}__system-message__icon`} />
                 ) : (
-                  <IncomingCallSvg
-                    className={`${BLOCK_NAME}__system-message__icon`}
-                    viewBox="0 0 12 12"
-                  />
+                  <IncomingCallSvg className={`${BLOCK_NAME}__system-message__icon`} />
                 ))) ||
                 (callStatus === CallStatus.NotAnswered && (
-                  <MissedCallSvg
-                    className={`${BLOCK_NAME}__system-message__icon`}
-                    viewBox="0 0 12 12"
-                  />
+                  <MissedCallSvg className={`${BLOCK_NAME}__system-message__icon`} />
                 )) ||
                 ((callStatus === CallStatus.Declined || callStatus === CallStatus.Interrupted) && (
-                  <DeclinedCallSvg
-                    className={`${BLOCK_NAME}__system-message__icon`}
-                    viewBox="0 0 13 14"
-                  />
+                  <DeclinedCallSvg className={`${BLOCK_NAME}__system-message__icon`} />
                 ))}
 
               <span>{constructSystemMessageText(message, t, myId, userCreator)}</span>

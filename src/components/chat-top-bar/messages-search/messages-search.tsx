@@ -121,13 +121,13 @@ const MessagesSearch = () => {
               <button
                 type="button"
                 className="className='messages-search__pointer-arrow messages-search__pointer-arrow--top">
-                <ArrowSvg viewBox="0 0 8 14" />
+                <ArrowSvg  />
               </button>
 
               <button
                 type="button"
                 className="className='messages-search__pointer-arrow messages-search__pointer-arrow--bottom">
-                <ArrowSvg viewBox="0 0 8 14" />
+                <ArrowSvg  />
               </button>
             </div>
           </div> */}

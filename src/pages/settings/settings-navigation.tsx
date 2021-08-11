@@ -33,7 +33,7 @@ const SettingsNavigation = () => {
         to={PROFILE_SETTINGS_PATH}
         className={`${BLOCK_NAME}__element`}
         activeClassName={`${BLOCK_NAME}__element--active`}>
-        <UserSvg className={`${BLOCK_NAME}__icon`} viewBox="0 0 24 24" />
+        <UserSvg className={`${BLOCK_NAME}__icon`} />
         <span className={`${BLOCK_NAME}__text`}>{t('settings.edit_profile')}</span>
       </NavLink>
 
@@ -41,7 +41,7 @@ const SettingsNavigation = () => {
         to={NOTIFICATIONS_SETTINGS_PATH}
         className={`${BLOCK_NAME}__element`}
         activeClassName={`${BLOCK_NAME}__element--active`}>
-        <MuteSvg className={`${BLOCK_NAME}__icon`} viewBox="0 0 18 18" />
+        <MuteSvg className={`${BLOCK_NAME}__icon`} />
         <span className={`${BLOCK_NAME}__text`}>{t('settings.notifications')} </span>
       </NavLink>
 
@@ -49,7 +49,7 @@ const SettingsNavigation = () => {
         to={TYPING_SETTINGS_PATH}
         className={`${BLOCK_NAME}__element`}
         activeClassName={`${BLOCK_NAME}__element--active`}>
-        <TypeSvg className={`${BLOCK_NAME}__icon`} viewBox="0 0 24 24" />
+        <TypeSvg className={`${BLOCK_NAME}__icon`} />
         <span className={`${BLOCK_NAME}__text`}>{t('settings.text_typing')} </span>
       </NavLink>
 
@@ -57,7 +57,7 @@ const SettingsNavigation = () => {
         to={LANGUAGE_SETTINGS_PATH}
         className={`${BLOCK_NAME}__element`}
         activeClassName={`${BLOCK_NAME}__element--active`}>
-        <LanguageSvg className={`${BLOCK_NAME}__icon`} viewBox="0 0 24 24" />
+        <LanguageSvg className={`${BLOCK_NAME}__icon`} />
         <span className={`${BLOCK_NAME}__text`}>{t('settings.language')} </span>
       </NavLink>
 
@@ -65,7 +65,7 @@ const SettingsNavigation = () => {
         to={APPEARANCE_SETTINGS_PATH}
         className={`${BLOCK_NAME}__element`}
         activeClassName={`${BLOCK_NAME}__element--active`}>
-        <AppearanceSvg className={`${BLOCK_NAME}__icon`} viewBox="0 0 24 24" />
+        <AppearanceSvg className={`${BLOCK_NAME}__icon`} />
         <span className={`${BLOCK_NAME}__text`}>{t('settings.appearance')} </span>
       </NavLink>
 
@@ -73,7 +73,7 @@ const SettingsNavigation = () => {
         to={AUDIO_VIDEO_SETTINGS_PATH}
         className={`${BLOCK_NAME}__element`}
         activeClassName={`${BLOCK_NAME}__element--active`}>
-        <PlaySvg className={`${BLOCK_NAME}__icon`} viewBox="0 0 24 24" />
+        <PlaySvg className={`${BLOCK_NAME}__icon`} />
         <span className={`${BLOCK_NAME}__text`}>{t('settings.audio-video')} </span>
       </NavLink>
 
@@ -81,7 +81,7 @@ const SettingsNavigation = () => {
         to={PRIVACY_SECURITY_SETTINGS_PATH}
         className={`${BLOCK_NAME}__element`}
         activeClassName={`${BLOCK_NAME}__element--active`}>
-        <PrivacySvg className={`${BLOCK_NAME}__icon`} viewBox="0 0 25 25" />
+        <PrivacySvg className={`${BLOCK_NAME}__icon`} />
         <span className={`${BLOCK_NAME}__text`}>{t('settings.privacy-security')} </span>
       </NavLink>
     </>

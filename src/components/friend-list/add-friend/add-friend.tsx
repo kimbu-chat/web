@@ -22,7 +22,7 @@ const AddFriend = () => {
     <>
       <div className={BLOCK_NAME}>
         <div className={`${BLOCK_NAME}__icon-wrapper`}>
-          <AddContactSvg viewBox="0 0 18 18" />
+          <AddContactSvg />
         </div>
 
         <h3 className={`${BLOCK_NAME}__title`}>{t('addFriend.title')}</h3>

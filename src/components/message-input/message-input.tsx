@@ -388,7 +388,7 @@ const CreateMessageInput = () => {
                 onClick={removeAllAttachments}
                 type="button"
                 className="message-input__attachments-box__delete-all">
-                <CloseSvg viewBox="0 0 24 24" />
+                <CloseSvg />
               </button>
             </div>
           )}
@@ -426,7 +426,7 @@ const CreateMessageInput = () => {
                     type="button"
                     onClick={handleRegisterAudioBtnClick}
                     className="message-input__voice-btn">
-                    <VoiceSvg viewBox="0 0 20 24" />
+                    <VoiceSvg />
                   </button>
 
                   <button

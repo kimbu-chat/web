@@ -46,7 +46,7 @@ export const ClearChatModal: React.FC<IClearChatModalProps> = ({ hide }) => {
       <>
         <Modal.Header>
           <>
-            <ClearSvg viewBox="0 0 18 18" className={`${BLOCK_NAME}__icon`} />
+            <ClearSvg className={`${BLOCK_NAME}__icon`} />
             <span> {t('clearChat.title')} </span>
           </>
         </Modal.Header>

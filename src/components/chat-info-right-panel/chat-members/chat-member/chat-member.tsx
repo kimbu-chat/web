@@ -85,7 +85,7 @@ export const Member: React.FC<IMemberProps> = ({ memberId, isOwner }) => {
             onClick={changeRemoveChatMemberModalDisplayed}
             type="button"
             className={`${BLOCK_NAME}__delete-user`}>
-            <DeleteSvg viewBox="0 0 15 16" />
+            <DeleteSvg />
           </button>
         )}
       </div>

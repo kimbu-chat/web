@@ -139,7 +139,7 @@ export const ChatMedia: React.FC<ChatMediaProps> = ({ observeIntersection }) => 
           {voiceAttachmentsCount > 0 && (
             <div className="chat-media__media-group">
               <div className="chat-media__media-heading">
-                <VoiceSvg viewBox="0 0 20 24" />
+                <VoiceSvg />
                 <div className="chat-media__media-title">
                   {t('chatMedia.voice', { count: voiceAttachmentsCount })}
                 </div>

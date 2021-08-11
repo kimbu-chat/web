@@ -56,7 +56,7 @@ export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
               className="media-attachment__img"
             />
             <div className="media-attachment__blur" />
-            <PlaySvg className="media-attachment__svg" viewBox="0 0 25 25" />
+            <PlaySvg className="media-attachment__svg" />
             <div className="media-attachment__duration">
               {getMinutesSeconds((currentAttachment as IVideoAttachment).duration)}
             </div>{' '}

@@ -4,7 +4,7 @@ import { put, call, select, take, delay, spawn } from 'redux-saga/effects';
 import { authenticatedSelector } from '@store/auth/selectors';
 import { createEmptyAction } from '@store/common/actions';
 
-import { getWebsocketStateSelector } from '../../selectors';
+import { getInternetStateSelector, getWebsocketStateSelector } from '../../selectors';
 import { WebsocketsDisconnected } from '../websockets-connection/websockets-disconnected';
 
 import { InternetConnected } from './internet-connected';
@@ -36,16 +36,19 @@ function* watchInternetConnectionChange(): SagaIterator {
       yield take(WebsocketsDisconnected.action);
     }
     const internetState = yield call(ping);
+    const storeInternetState = yield select(getInternetStateSelector);
 
     const offlineMessage = ' [Offline]';
 
-    if (internetState) {
-      yield put(InternetConnected.action());
-      [window.document.title] = window.document.title.split(offlineMessage);
-    } else {
-      yield put(InternetDisconnected.action());
-      if (!window.document.title.includes(offlineMessage)) {
-        window.document.title += offlineMessage;
+    if (internetState !== storeInternetState) {
+      if (internetState) {
+        yield put(InternetConnected.action());
+        [window.document.title] = window.document.title.split(offlineMessage);
+      } else {
+        yield put(InternetDisconnected.action());
+        if (!window.document.title.includes(offlineMessage)) {
+          window.document.title += offlineMessage;
+        }
       }
     }
   }

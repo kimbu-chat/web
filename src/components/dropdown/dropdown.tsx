@@ -38,7 +38,6 @@ export const Dropdown: React.FC<IDropdownProps> = ({ selectedString, options, di
         <span>{selectedString}</span>
         <DropDownSvg
           className={`dropdown__icon ${optionsOpened ? 'dropdown__icon--opened' : ''}`}
-          viewBox="0 0 48 48"
         />
       </div>
       {optionsOpened && (

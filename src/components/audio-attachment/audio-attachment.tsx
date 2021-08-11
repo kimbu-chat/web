@@ -27,11 +27,7 @@ export const MessageAudioAttachment: React.FC<IAudioAttachment> = ({ ...attachme
           }
           type="button"
           className={`${BLOCK_NAME}__download`}>
-          {isPlayingAudio && currentAudio?.audioId === attachment.id ? (
-            <PauseSvg viewBox="0 0 24 24" />
-          ) : (
-            <PlaySvg viewBox="0 0 24 24" />
-          )}
+          {isPlayingAudio && currentAudio?.audioId === attachment.id ? <PauseSvg /> : <PlaySvg />}
         </button>
         <div className={`${BLOCK_NAME}__play-data`}>
           <div className={`${BLOCK_NAME}__data`}>

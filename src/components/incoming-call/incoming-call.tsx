@@ -84,19 +84,19 @@ export const IncomingCall: React.FC = () => {
             type="button"
             onClick={acceptWithAudio}
             className="incoming-call__call-btn incoming-call__call-btn--accept">
-            <AcceptWithAudioSvg viewBox="0 0 24 24" />
+            <AcceptWithAudioSvg />
           </button>
           <button
             type="button"
             onClick={acceptWithVideo}
             className="incoming-call__call-btn incoming-call__call-btn--video">
-            <AcceptWithVideoSvg viewBox="0 0 24 24" />
+            <AcceptWithVideoSvg />
           </button>
           <button
             type="button"
             onClick={declineCall}
             className="incoming-call__call-btn incoming-call__call-btn--cancel">
-            <DeclineCallSvg viewBox="0 0 13 14" />
+            <DeclineCallSvg />
           </button>
         </div>
       </div>

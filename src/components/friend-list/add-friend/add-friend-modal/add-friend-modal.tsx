@@ -81,7 +81,7 @@ const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
       <>
         <Modal.Header>
           <>
-            <AddContactSvg className={`${BLOCK_NAME}__icon`} viewBox="0 0 18 18" />
+            <AddContactSvg className={`${BLOCK_NAME}__icon`} />
             <span> {t('addFriendModal.title')} </span>
           </>
         </Modal.Header>
@@ -130,7 +130,7 @@ const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
                   type="button"
                   onClick={closeError}
                   className={`${BLOCK_NAME}__error__close`}>
-                  <CloseSvg viewBox="0 0 10 10" />
+                  <CloseSvg />
                 </button>
               </div>
             )}

@@ -129,7 +129,7 @@ export const RecordingMessage: React.FC<IRecordingMessageProps> = ({ hide }) => 
       <div className="recording-message__counter">{getMinutesSeconds(recordedSeconds)}</div>
       <div ref={waveformRef} className="recording-message__vaweform" />
       <button type="button" onClick={stopRecording} className="recording-message__voice-btn">
-        <VoiceSvg viewBox="0 0 20 24" />
+        <VoiceSvg />
       </button>
     </div>
   );

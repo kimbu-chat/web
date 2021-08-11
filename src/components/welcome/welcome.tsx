@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 
-import { CreateGroupChat } from '@components/create-group-chat-modal';
+import { CreateGroupChatModal } from '@components/create-group-chat-modal';
 import { AddFriendModal } from '@components/friend-list/add-friend/add-friend-modal/add-friend-modal';
 import { NewChatModal } from '@components/new-chat-modal';
 import { useToggledState } from '@hooks/use-toggled-state';
@@ -69,7 +69,7 @@ export const Welcome = () => {
         </div>
       </div>
 
-      {createNewGroupChatDisplayed && <CreateGroupChat onClose={hideCreateNewGroupChat} />}
+      {createNewGroupChatDisplayed && <CreateGroupChatModal onClose={hideCreateNewGroupChat} />}
       {addFriendsModalDisplayed && <AddFriendModal onClose={hideAddFriendsModal} />}
       {createChatModalDisplayed && <NewChatModal onClose={hideCreateChatModal} />}
     </>

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
-import { Modal } from '@components/modal';
+import { Modal, IModalChildrenProps } from '@components/modal';
 import { SearchBox } from '@components/search-box';
 import { SelectEntity } from '@components/select-entity';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -30,7 +30,10 @@ interface INewMessageModalProps {
 
 const BLOCK_NAME = 'new-message-modal';
 
-const NewMessageModal: React.FC<INewMessageModalProps> = ({ onClose, displayCreateGroupChat }) => {
+const InitialNewMessageModal: React.FC<INewMessageModalProps & IModalChildrenProps> = ({
+  animatedClose,
+  displayCreateGroupChat,
+}) => {
   const { t } = useTranslation();
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -63,9 +66,9 @@ const NewMessageModal: React.FC<INewMessageModalProps> = ({ onClose, displayCrea
     (user: INormalizedChat | IUser) => {
       const chatId = ChatId.from((user as IUser).id).id;
       history.push(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chatId]));
-      onClose();
+      animatedClose();
     },
-    [history, onClose],
+    [history, animatedClose],
   );
 
   const loadMore = useCallback(() => {
@@ -90,8 +93,8 @@ const NewMessageModal: React.FC<INewMessageModalProps> = ({ onClose, displayCrea
 
   const createGroupChat = useCallback(() => {
     displayCreateGroupChat();
-    onClose();
-  }, [displayCreateGroupChat, onClose]);
+    animatedClose();
+  }, [displayCreateGroupChat, animatedClose]);
 
   const handleSearchInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => queryFriends(e.target.value),
@@ -113,42 +116,48 @@ const NewMessageModal: React.FC<INewMessageModalProps> = ({ onClose, displayCrea
   }, [name.length, searchFriendIds, friendIds, renderSelectEntity]);
 
   return (
-    <Modal closeModal={onClose}>
-      <div ref={containerRef}>
-        <Modal.Header>
-          <>
-            <NewMessageSvg className={`${BLOCK_NAME}__icon`} />
-            <span>{t('newMessage.new_message')}</span>
-          </>
-        </Modal.Header>
-        <div className={BLOCK_NAME}>
-          <SearchBox
-            containerClassName={`${BLOCK_NAME}__search`}
-            onChange={handleSearchInputChange}
-          />
+    <div ref={containerRef}>
+      <Modal.Header>
+        <>
+          <NewMessageSvg className={`${BLOCK_NAME}__icon`} />
+          <span>{t('newMessage.new_message')}</span>
+        </>
+      </Modal.Header>
+      <div className={BLOCK_NAME}>
+        <SearchBox
+          containerClassName={`${BLOCK_NAME}__search`}
+          onChange={handleSearchInputChange}
+        />
 
-          <div onClick={createGroupChat} className={`${BLOCK_NAME}__new-group`}>
-            <div className={`${BLOCK_NAME}__new-group__img`}>
-              <GroupSvg />
-            </div>
-            <span className={`${BLOCK_NAME}__new-group__title`}>{t('newMessage.new_group')}</span>
-            <div className={`${BLOCK_NAME}__new-group__go`}>
-              <ArrowSvg />
-            </div>
+        <div onClick={createGroupChat} className={`${BLOCK_NAME}__new-group`}>
+          <div className={`${BLOCK_NAME}__new-group__img`}>
+            <GroupSvg />
           </div>
-          <InfiniteScroll
-            containerRef={containerRef}
-            className={`${BLOCK_NAME}__friends-block`}
-            onReachBottom={loadMore}
-            hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
-            isLoading={name.length ? searchFriendsLoading : friendsLoading}>
-            {selectEntities}
-          </InfiniteScroll>
+          <span className={`${BLOCK_NAME}__new-group__title`}>{t('newMessage.new_group')}</span>
+          <div className={`${BLOCK_NAME}__new-group__go`}>
+            <ArrowSvg />
+          </div>
         </div>
+        <InfiniteScroll
+          containerRef={containerRef}
+          className={`${BLOCK_NAME}__friends-block`}
+          onReachBottom={loadMore}
+          hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
+          isLoading={name.length ? searchFriendsLoading : friendsLoading}>
+          {selectEntities}
+        </InfiniteScroll>
       </div>
-    </Modal>
+    </div>
   );
 };
+
+const NewMessageModal: React.FC<INewMessageModalProps> = ({ onClose, ...props }) => (
+  <Modal closeModal={onClose}>
+    {(animatedClose: () => void) => (
+      <InitialNewMessageModal {...props} onClose={onClose} animatedClose={animatedClose} />
+    )}
+  </Modal>
+);
 
 NewMessageModal.displayName = 'NewMessageModal';
 

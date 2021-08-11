@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
-import { Modal } from '@components/modal';
+import { Modal, IModalChildrenProps } from '@components/modal';
 import { SearchBox } from '@components/search-box';
 import { SelectEntity } from '@components/select-entity';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -27,7 +27,9 @@ interface INewChatModalProps {
 
 const BLOCK_NAME = 'new-chat-modal';
 
-const NewChatModal: React.FC<INewChatModalProps> = ({ onClose }) => {
+const InitialNewChatModal: React.FC<INewChatModalProps & IModalChildrenProps> = ({
+  animatedClose,
+}) => {
   const { t } = useTranslation();
 
   const [name, setName] = useState('');
@@ -60,9 +62,9 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose }) => {
     (user: INormalizedChat | IUser) => {
       const chatId = ChatId.from((user as IUser).id).id;
       history.push(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chatId]));
-      onClose();
+      animatedClose();
     },
-    [history, onClose],
+    [history, animatedClose],
   );
 
   const loadMore = useCallback(() => {
@@ -105,32 +107,38 @@ const NewChatModal: React.FC<INewChatModalProps> = ({ onClose }) => {
   }, [name.length, searchFriendIds, friendIds, renderSelectEntity]);
 
   return (
-    <Modal closeModal={onClose}>
-      <div ref={containerRef}>
-        <Modal.Header>
-          <>
-            <NewMessageSvg className={`${BLOCK_NAME}__icon`} />
-            <span>{t('newChat.new_chat')}</span>
-          </>
-        </Modal.Header>
-        <div className={BLOCK_NAME}>
-          <SearchBox
-            containerClassName={`${BLOCK_NAME}__search`}
-            onChange={handleSearchInputChange}
-          />
-          <InfiniteScroll
-            containerRef={containerRef}
-            className={`${BLOCK_NAME}__friends-block`}
-            onReachBottom={loadMore}
-            hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
-            isLoading={name.length ? searchFriendsLoading : friendsLoading}>
-            {selectEntities}
-          </InfiniteScroll>
-        </div>
+    <div ref={containerRef}>
+      <Modal.Header>
+        <>
+          <NewMessageSvg className={`${BLOCK_NAME}__icon`} />
+          <span>{t('newChat.new_chat')}</span>
+        </>
+      </Modal.Header>
+      <div className={BLOCK_NAME}>
+        <SearchBox
+          containerClassName={`${BLOCK_NAME}__search`}
+          onChange={handleSearchInputChange}
+        />
+        <InfiniteScroll
+          containerRef={containerRef}
+          className={`${BLOCK_NAME}__friends-block`}
+          onReachBottom={loadMore}
+          hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
+          isLoading={name.length ? searchFriendsLoading : friendsLoading}>
+          {selectEntities}
+        </InfiniteScroll>
       </div>
-    </Modal>
+    </div>
   );
 };
+
+const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, ...props }) => (
+  <Modal closeModal={onClose}>
+    {(animatedClose: () => void) => (
+      <InitialNewChatModal {...props} onClose={onClose} animatedClose={animatedClose} />
+    )}
+  </Modal>
+);
 
 NewChatModal.displayName = 'NewChatModal';
 

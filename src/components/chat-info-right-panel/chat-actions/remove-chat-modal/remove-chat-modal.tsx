@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { CheckBox } from '@components/check-box';
-import { Modal } from '@components/modal';
+import { IModalChildrenProps, Modal } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { Button } from '@shared-components/button';
@@ -19,7 +19,9 @@ interface IRemoveChatModalProps {
 
 const BLOCK_NAME = 'remove-chat-modal';
 
-export const RemoveChatModal: React.FC<IRemoveChatModalProps> = ({ onClose }) => {
+const InitialRemoveChatModal: React.FC<IRemoveChatModalProps & IModalChildrenProps> = ({
+  animatedClose,
+}) => {
   const { t } = useTranslation();
 
   const chatId = useSelector(getInfoChatIdSelector);
@@ -37,45 +39,55 @@ export const RemoveChatModal: React.FC<IRemoveChatModalProps> = ({ onClose }) =>
       setLoading(true);
       removeThisChat({ forEveryone: deleteForInterlocutor, chatId }).then(() => {
         setLoading(false);
-        onClose();
+        animatedClose();
       });
     }
-  }, [removeThisChat, deleteForInterlocutor, setLoading, chatId, onClose]);
+  }, [removeThisChat, deleteForInterlocutor, setLoading, chatId, animatedClose]);
 
   return (
-    <Modal closeModal={onClose}>
-      <>
-        <Modal.Header>
-          <>
-            <DeleteSvg className={`${BLOCK_NAME}__icon`} />
-            <span> {t('removeChatModal.title')} </span>
-          </>
-        </Modal.Header>
-        <div className={BLOCK_NAME}>
-          <div className={`${BLOCK_NAME}__delete-all`}>
-            <CheckBox
-              className={`${BLOCK_NAME}__check-box`}
-              onClick={changeDeleteForInterlocutorState}
-              isChecked={deleteForInterlocutor}
-              title={t('removeChatModal.delete-confirmation')}
-            />
-          </div>
-
-          <div className={`${BLOCK_NAME}__btn-block`}>
-            <button type="button" onClick={onClose} className={`${BLOCK_NAME}__cancel-btn`}>
-              {t('removeChatModal.cancel')}
-            </button>
-
-            <Button
-              type="button"
-              loading={loading}
-              onClick={deleteTheseMessages}
-              className={`${BLOCK_NAME}__confirm-btn`}>
-              {t('removeChatModal.delete-confirm')}
-            </Button>
-          </div>
+    <>
+      <Modal.Header>
+        <>
+          <DeleteSvg className={`${BLOCK_NAME}__icon`} />
+          <span> {t('removeChatModal.title')} </span>
+        </>
+      </Modal.Header>
+      <div className={BLOCK_NAME}>
+        <div className={`${BLOCK_NAME}__delete-all`}>
+          <CheckBox
+            className={`${BLOCK_NAME}__check-box`}
+            onClick={changeDeleteForInterlocutorState}
+            isChecked={deleteForInterlocutor}
+            title={t('removeChatModal.delete-confirmation')}
+          />
         </div>
-      </>
-    </Modal>
+
+        <div className={`${BLOCK_NAME}__btn-block`}>
+          <button type="button" onClick={animatedClose} className={`${BLOCK_NAME}__cancel-btn`}>
+            {t('removeChatModal.cancel')}
+          </button>
+
+          <Button
+            type="button"
+            loading={loading}
+            onClick={deleteTheseMessages}
+            className={`${BLOCK_NAME}__confirm-btn`}>
+            {t('removeChatModal.delete-confirm')}
+          </Button>
+        </div>
+      </div>
+    </>
   );
 };
+
+const RemoveChatModal: React.FC<IRemoveChatModalProps> = ({ onClose, ...props }) => (
+  <Modal closeModal={onClose}>
+    {(animatedClose: () => void) => (
+      <InitialRemoveChatModal {...props} onClose={onClose} animatedClose={animatedClose} />
+    )}
+  </Modal>
+);
+
+RemoveChatModal.displayName = 'RemoveChatModal';
+
+export { RemoveChatModal };

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { LabeledInput } from '@components/labeled-input';
-import { Modal } from '@components/modal';
+import { IModalChildrenProps, Modal } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
@@ -33,7 +33,9 @@ export interface IEditChatModalProps {
   onClose: () => void;
 }
 
-const EditChatModal: React.FC<IEditChatModalProps> = ({ onClose }) => {
+const InitialEditChatModal: React.FC<IEditChatModalProps & IModalChildrenProps> = ({
+  animatedClose,
+}) => {
   const { t } = useTranslation();
 
   const selectedGroupChat: IGroupChat | undefined = useSelector(
@@ -110,9 +112,9 @@ const EditChatModal: React.FC<IEditChatModalProps> = ({ onClose }) => {
     setSubmitLoading(true);
     editGroupChat(changes).then(() => {
       setSubmitLoading(false);
-      onClose();
+      animatedClose();
     });
-  }, [onClose, avatarData, newName, newDescription, editGroupChat]);
+  }, [animatedClose, avatarData, newName, newDescription, editGroupChat]);
 
   const discardNewAvatar = useCallback(() => {
     cancelAvatarUploading();
@@ -120,82 +122,88 @@ const EditChatModal: React.FC<IEditChatModalProps> = ({ onClose }) => {
   }, [cancelAvatarUploading]);
 
   return (
-    <Modal closeModal={onClose}>
-      <>
-        <Modal.Header>{t('editChatModal.title')}</Modal.Header>
-        <div className={BLOCK_NAME}>
-          <div className={`${BLOCK_NAME}__current-photo-wrapper`}>
-            <GroupSvg className={`${BLOCK_NAME}__current-photo-wrapper__alt`} />
-            <input
-              onChange={handleImageChange}
-              ref={fileInputRef}
-              type="file"
-              hidden
-              accept="image/*"
+    <>
+      <Modal.Header>{t('editChatModal.title')}</Modal.Header>
+      <div className={BLOCK_NAME}>
+        <div className={`${BLOCK_NAME}__current-photo-wrapper`}>
+          <GroupSvg className={`${BLOCK_NAME}__current-photo-wrapper__alt`} />
+          <input
+            onChange={handleImageChange}
+            ref={fileInputRef}
+            type="file"
+            hidden
+            accept="image/*"
+          />
+          {avatarData?.previewUrl && (
+            <img
+              src={avatarData.previewUrl}
+              alt=""
+              className={`${BLOCK_NAME}__current-photo-wrapper__img`}
             />
-            {avatarData?.previewUrl && (
-              <img
-                src={avatarData.previewUrl}
-                alt=""
-                className={`${BLOCK_NAME}__current-photo-wrapper__img`}
-              />
-            )}
-            <button
-              type="button"
-              onClick={() => {
-                discardNewAvatar();
-                fileInputRef.current?.click();
-              }}
-              className={`${BLOCK_NAME}__change-photo-btn`}>
-              <PictureSvg />
-              <span>{t('editChatModal.upload_new')}</span>
-            </button>
-            <TopAvatarLine className={`${BLOCK_NAME}__current-photo-wrapper__top-line`} />
-            <BottomAvatarLine className={`${BLOCK_NAME}__current-photo-wrapper__bottom-line`} />
-          </div>
-          <div className={`${BLOCK_NAME}__criteria`}>{t('editChatModal.requirements')}</div>
-
-          <LabeledInput
-            label={t('editChatModal.name')}
-            value={newName}
-            onChange={changeName}
-            containerClassName={`${BLOCK_NAME}__input`}
-          />
-
-          <LabeledInput
-            label={t('editChatModal.description')}
-            value={newDescription}
-            onChange={changeDescription}
-            containerClassName={`${BLOCK_NAME}__input`}
-          />
-          <div className={`${BLOCK_NAME}__btn-block`}>
-            <button
-              type="button"
-              onClick={onClose}
-              className={`${BLOCK_NAME}__btn edit-chat-modal__btn--cancel`}>
-              {t('editChatModal.cancel')}
-            </button>
-            <Button
-              disabled={newName?.length === 0}
-              type="button"
-              loading={submitLoading}
-              onClick={onSubmit}
-              className={`${BLOCK_NAME}__btn edit-chat-modal__btn--confirm`}>
-              {t('editChatModal.save')}
-            </Button>
-          </div>
+          )}
+          <button
+            type="button"
+            onClick={() => {
+              discardNewAvatar();
+              fileInputRef.current?.click();
+            }}
+            className={`${BLOCK_NAME}__change-photo-btn`}>
+            <PictureSvg />
+            <span>{t('editChatModal.upload_new')}</span>
+          </button>
+          <TopAvatarLine className={`${BLOCK_NAME}__current-photo-wrapper__top-line`} />
+          <BottomAvatarLine className={`${BLOCK_NAME}__current-photo-wrapper__bottom-line`} />
         </div>
-        {imageUrl && (
-          <PhotoEditor
-            hideChangePhoto={hideChangePhoto}
-            imageUrl={imageUrl}
-            onSubmit={applyAvatarData}
-          />
-        )}
-      </>
-    </Modal>
+        <div className={`${BLOCK_NAME}__criteria`}>{t('editChatModal.requirements')}</div>
+
+        <LabeledInput
+          label={t('editChatModal.name')}
+          value={newName}
+          onChange={changeName}
+          containerClassName={`${BLOCK_NAME}__input`}
+        />
+
+        <LabeledInput
+          label={t('editChatModal.description')}
+          value={newDescription}
+          onChange={changeDescription}
+          containerClassName={`${BLOCK_NAME}__input`}
+        />
+        <div className={`${BLOCK_NAME}__btn-block`}>
+          <button
+            type="button"
+            onClick={animatedClose}
+            className={`${BLOCK_NAME}__btn edit-chat-modal__btn--cancel`}>
+            {t('editChatModal.cancel')}
+          </button>
+          <Button
+            disabled={newName?.length === 0}
+            type="button"
+            loading={submitLoading}
+            onClick={onSubmit}
+            className={`${BLOCK_NAME}__btn edit-chat-modal__btn--confirm`}>
+            {t('editChatModal.save')}
+          </Button>
+        </div>
+      </div>
+      {imageUrl && (
+        <PhotoEditor
+          hideChangePhoto={hideChangePhoto}
+          imageUrl={imageUrl}
+          onSubmit={applyAvatarData}
+        />
+      )}
+    </>
   );
 };
+
+const EditChatModal: React.FC<IEditChatModalProps> = ({ onClose, ...props }) => (
+  <Modal closeModal={onClose}>
+    {(animatedClose: () => void) => (
+      <InitialEditChatModal {...props} onClose={onClose} animatedClose={animatedClose} />
+    )}
+  </Modal>
+);
 
 EditChatModal.displayName = 'EditChatModal';
 

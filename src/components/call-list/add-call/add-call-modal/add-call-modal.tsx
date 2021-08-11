@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
-import { Modal } from '@components/modal';
+import { IModalChildrenProps, Modal } from '@components/modal';
 import { SearchBox } from '@components/search-box';
 import { SelectEntity } from '@components/select-entity';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -22,7 +22,9 @@ interface IAddCallModalProps {
   onClose: () => void;
 }
 
-export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
+const InitialAddCallModal: React.FC<IAddCallModalProps & IModalChildrenProps> = ({
+  animatedClose,
+}) => {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -60,7 +62,7 @@ export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
 
   const call = useCallback(
     (userId: number) => {
-      onClose();
+      animatedClose();
       callInterlocutor({
         callingUserId: userId,
         constraints: {
@@ -69,7 +71,7 @@ export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
         },
       });
     },
-    [callInterlocutor, onClose],
+    [callInterlocutor, animatedClose],
   );
 
   const handleSearchInputChange = useCallback(
@@ -107,29 +109,39 @@ export const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose }) => {
   }, [name.length, searchFriendIds, friendIds, renderSelectEntity]);
 
   return (
-    <Modal closeModal={onClose}>
-      <div ref={containerRef}>
-        <Modal.Header>
-          <AddCallSvg className="add-call-modal__icon" />
-          <span> {t('addCallModal.title')} </span>
-        </Modal.Header>
-        <div className="add-call-modal">
-          <SearchBox
-            containerClassName="add-call-modal__search-container"
-            iconClassName="add-call-modal__search__icon"
-            inputClassName="add-call-modal__search__input"
-            onChange={handleSearchInputChange}
-          />
-          <InfiniteScroll
-            containerRef={containerRef}
-            className="add-call-modal__friends-block 1"
-            onReachBottom={loadMore}
-            hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
-            isLoading={name.length ? searchFriendsLoading : friendsLoading}>
-            {selectEntities}
-          </InfiniteScroll>
-        </div>
+    <div ref={containerRef}>
+      <Modal.Header>
+        <AddCallSvg className="add-call-modal__icon" />
+        <span> {t('addCallModal.title')} </span>
+      </Modal.Header>
+      <div className="add-call-modal">
+        <SearchBox
+          containerClassName="add-call-modal__search-container"
+          iconClassName="add-call-modal__search__icon"
+          inputClassName="add-call-modal__search__input"
+          onChange={handleSearchInputChange}
+        />
+        <InfiniteScroll
+          containerRef={containerRef}
+          className="add-call-modal__friends-block 1"
+          onReachBottom={loadMore}
+          hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
+          isLoading={name.length ? searchFriendsLoading : friendsLoading}>
+          {selectEntities}
+        </InfiniteScroll>
       </div>
-    </Modal>
+    </div>
   );
 };
+
+const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose, ...props }) => (
+  <Modal closeModal={onClose}>
+    {(animatedClose: () => void) => (
+      <InitialAddCallModal {...props} onClose={onClose} animatedClose={animatedClose} />
+    )}
+  </Modal>
+);
+
+AddCallModal.displayName = 'AddCallModal';
+
+export { AddCallModal };

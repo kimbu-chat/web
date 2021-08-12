@@ -176,8 +176,7 @@
     "cancel": "Отмена"
   },
   "deleteMessageModal": {
-    "title": "Удалить сообщение",
-    "title_plural": "Удалить ({{count}}) сообщения",
+    "title": "Удалить сообщения ({{count}})",
     "delete-confirmation": "Удалить для всех",
     "delete-confirm": "Удалить",
     "cancel": "Отмена"
@@ -244,8 +243,7 @@
     }
   },
   "forwardModal": {
-    "forward": "Переслать сообщение",
-    "forward_plural": "Переслать ({{count}}) сообщения",
+    "forward": "Переслать сообщения ({{count}})",
     "send": "Отправить",
     "cancel": "Отмена"
   },
@@ -442,5 +440,6 @@
     "outgoing_call_intrrerupted": "Исходящий вызов был прерван",
     "incoming_call_intrrerupted": "Входящий вызов был прерван"
   },
-  "deleted": "УДАЛЁН"
+  "deleted": "УДАЛЁН",
+  "unread-messages": "Непрочитанное сообщение ({{count}})"
 }

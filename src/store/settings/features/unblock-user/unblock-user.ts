@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { IRemoveUsersFromBlackListRequest } from 'kimbu-models';
+import { IRemoveUserFromBlackListRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -17,7 +17,7 @@ export class UnblockUser {
 
   static get saga() {
     return function* unblockUserSaga(action: ReturnType<typeof UnblockUser.action>): SagaIterator {
-      yield call(() => UnblockUser.httpRequest.generator({ userIds: [action.payload] }));
+      yield call(() => UnblockUser.httpRequest.generator({ userId: action.payload }));
 
       yield put(UnblockUserSuccess.action(action.payload));
 
@@ -26,7 +26,7 @@ export class UnblockUser {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IRemoveUsersFromBlackListRequest>(
+    return httpRequestFactory<AxiosResponse, IRemoveUserFromBlackListRequest>(
       MAIN_API.REMOVE_FROM_BLACK_LIST,
       HttpRequestMethod.Post,
     );

@@ -439,5 +439,5 @@
     "incoming_call_intrrerupted": "Incoming call interrupted"
   },
   "deleted": "DELETED",
-  "unread-messages": "Unread message ({{count}})"
+  "unread-messages": "Unread messages ({{count}})"
 }

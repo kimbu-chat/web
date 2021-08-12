@@ -46,12 +46,12 @@ export const BlockedMessageInput: React.FC<IBlockedMessageInputProps> = ({
   const text = useMemo(() => {
     let processedText = '';
 
-    if (isCurrentChatBlackListed) {
-      processedText = t('blockedMessageInput.blocked-by-me');
-    }
-
     if (amIBlackListedByInterlocutor) {
       processedText = t('blockedMessageInput.I-am-blocked');
+    }
+
+    if (isCurrentChatBlackListed) {
+      processedText = t('blockedMessageInput.blocked-by-me');
     }
 
     if (isCurrentChatUserDeactivated) {
@@ -76,15 +76,20 @@ export const BlockedMessageInput: React.FC<IBlockedMessageInputProps> = ({
       <BlockedSvg className={`${BLOCK_NAME}__icon`} />
       <div className={`${BLOCK_NAME}__description`}>{text}</div>
 
-      {isCurrentChatBlackListed && (
-        <Button
-          loading={unBlocking}
-          onClick={unBlockSelectedUser}
-          type="button"
-          className={`${BLOCK_NAME}__btn`}>
-          {t('blockedMessageInput.unblock')}
-        </Button>
-      )}
+      {isCurrentChatBlackListed &&
+        !(
+          amIBlackListedByInterlocutor ||
+          isCurrentChatUserDeactivated ||
+          isCurrentChatUserDeleted
+        ) && (
+          <Button
+            loading={unBlocking}
+            onClick={unBlockSelectedUser}
+            type="button"
+            className={`${BLOCK_NAME}__btn`}>
+            {t('blockedMessageInput.unblock')}
+          </Button>
+        )}
     </div>
   );
 };

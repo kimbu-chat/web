@@ -132,6 +132,7 @@ const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
 
         <LabeledInput
           autoFocus
+          maxLength={35}
           label={t('groupChatCreation.name')}
           onChange={(e) => setName(e.target.value)}
           containerClassName={`${BLOCK_NAME}__input`}

@@ -37,6 +37,7 @@ export const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
 }) => {
   const backwardsTriggerRef = React.useRef<HTMLDivElement>(null);
   const forwardsTriggerRef = React.useRef<HTMLDivElement>(null);
+
   const [loadMoreTop, loadMoreBottom] = useMemo(
     () => [
       debounce(onReachTop, LOAD_MORE_DEBOUNCE, { leading: true, trailing: false }),

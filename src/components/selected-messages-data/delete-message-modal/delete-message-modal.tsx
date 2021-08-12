@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { CheckBox } from '@components/check-box';
-import { Modal } from '@components/modal';
+import { Modal, IModalChildrenProps } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { Button } from '@shared-components/button';
@@ -18,30 +18,29 @@ interface IDeleteMessageModalProps {
 
 const BLOCK_NAME = 'delete-message-modal';
 
-export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = ({
-  onClose,
-  selectedMessages,
-}) => {
-  const { t } = useTranslation();
+export const InitialDeleteMessageModal: React.FC<IDeleteMessageModalProps & IModalChildrenProps> =
+  ({ animatedClose, selectedMessages }) => {
+    const { t } = useTranslation();
 
-  const deleteMessage = useActionWithDeferred(deleteMessageAction);
+    const deleteMessage = useActionWithDeferred(deleteMessageAction);
 
-  const [deleteForInterlocutor, setDeleteForInterlocutor] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const changeDeleteForInterlocutorState = useCallback(() => {
-    setDeleteForInterlocutor((oldState) => !oldState);
-  }, [setDeleteForInterlocutor]);
+    const [deleteForInterlocutor, setDeleteForInterlocutor] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const changeDeleteForInterlocutorState = useCallback(() => {
+      setDeleteForInterlocutor((oldState) => !oldState);
+    }, [setDeleteForInterlocutor]);
 
-  const deleteTheseMessages = useCallback(() => {
-    setLoading(true);
-    deleteMessage({ messageIds: selectedMessages, forEveryone: deleteForInterlocutor }).then(() => {
-      setLoading(false);
-      onClose();
-    });
-  }, [deleteMessage, selectedMessages, deleteForInterlocutor, onClose, setLoading]);
+    const deleteTheseMessages = useCallback(() => {
+      setLoading(true);
+      deleteMessage({ messageIds: selectedMessages, forEveryone: deleteForInterlocutor }).then(
+        () => {
+          setLoading(false);
+          animatedClose();
+        },
+      );
+    }, [deleteMessage, selectedMessages, deleteForInterlocutor, animatedClose, setLoading]);
 
-  return (
-    <Modal closeModal={onClose}>
+    return (
       <>
         <Modal.Header>
           <>
@@ -59,7 +58,7 @@ export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = ({
             />
           </div>
           <div className={`${BLOCK_NAME}__btn-block`}>
-            <button type="button" onClick={onClose} className={`${BLOCK_NAME}__cancel-btn`}>
+            <button type="button" onClick={animatedClose} className={`${BLOCK_NAME}__cancel-btn`}>
               {t('deleteMessageModal.cancel')}
             </button>
             <Button
@@ -72,6 +71,17 @@ export const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = ({
           </div>
         </div>
       </>
-    </Modal>
-  );
-};
+    );
+  };
+
+const DeleteMessageModal: React.FC<IDeleteMessageModalProps> = ({ onClose, ...props }) => (
+  <Modal closeModal={onClose}>
+    {(animatedClose: () => void) => (
+      <InitialDeleteMessageModal {...props} onClose={onClose} animatedClose={animatedClose} />
+    )}
+  </Modal>
+);
+
+DeleteMessageModal.displayName = 'DeleteMessageModal';
+
+export { DeleteMessageModal };

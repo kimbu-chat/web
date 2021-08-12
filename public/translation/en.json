@@ -152,8 +152,7 @@
     "cancel": "Cancel"
   },
   "deleteMessageModal": {
-    "title": "Delete message",
-    "title_plural": "Delete ({{count}}) messages",
+    "title": "Delete messages ({{count}})",
     "delete-confirmation": "Delete for everyone",
     "delete-confirm": "Delete",
     "cancel": "Cancel"
@@ -221,8 +220,7 @@
     }
   },
   "forwardModal": {
-    "forward": "Forward message",
-    "forward_plural": "Forward ({{count}}) messages",
+    "forward": "Forward messages ({{count}})",
     "send": "Forward",
     "cancel": "Cancel"
   },
@@ -440,5 +438,6 @@
     "outgoing_call_intrrerupted": "Outgoing call interrupted",
     "incoming_call_intrrerupted": "Incoming call interrupted"
   },
-  "deleted": "DELETED"
+  "deleted": "DELETED",
+  "unread-messages": "Unread messages ({{count}})"
 }

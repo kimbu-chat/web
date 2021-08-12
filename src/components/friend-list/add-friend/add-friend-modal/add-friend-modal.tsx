@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Avatar } from '@components/avatar';
-import { Modal } from '@components/modal';
+import { IModalChildrenProps, Modal } from '@components/modal';
 import { PhoneInputGroup } from '@components/phone-input-group';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as AddContactSvg } from '@icons/add-users.svg';
@@ -29,7 +29,9 @@ interface IAddFriendModalProps {
 
 const BLOCK_NAME = 'add-friends-modal';
 
-const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
+const InitialAddFriendModal: React.FC<IAddFriendModalProps & IModalChildrenProps> = ({
+  animatedClose,
+}) => {
   const { t } = useTranslation();
   const getUserByPhone = useActionWithDeferred(getUserByPhoneAction);
   const addFriend = useActionWithDeferred(addFriendAction);
@@ -77,85 +79,88 @@ const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose }) => {
   }, [setError]);
 
   return (
-    <Modal closeModal={onClose}>
-      <>
-        <Modal.Header>
-          <>
-            <AddContactSvg className={`${BLOCK_NAME}__icon`} />
-            <span> {t('addFriendModal.title')} </span>
-          </>
-        </Modal.Header>
-        {user ? (
-          <div className={`${BLOCK_NAME}__user`}>
-            <Avatar className={`${BLOCK_NAME}__user__avatar`} size={80} user={user} />
+    <>
+      <Modal.Header>
+        <>
+          <AddContactSvg className={`${BLOCK_NAME}__icon`} />
+          <span> {t('addFriendModal.title')} </span>
+        </>
+      </Modal.Header>
+      {user ? (
+        <div className={`${BLOCK_NAME}__user`}>
+          <Avatar className={`${BLOCK_NAME}__user__avatar`} size={80} user={user} />
 
-            <h2 className={`${BLOCK_NAME}__user__name`}>{`${user.firstName} ${user.lastName}`}</h2>
-            <h4 className={`${BLOCK_NAME}__user__phone`}>
-              {user?.phoneNumber && parsePhoneNumber(user?.phoneNumber).formatInternational()}
-            </h4>
+          <h2 className={`${BLOCK_NAME}__user__name`}>{`${user.firstName} ${user.lastName}`}</h2>
+          <h4 className={`${BLOCK_NAME}__user__phone`}>
+            {user?.phoneNumber && parsePhoneNumber(user?.phoneNumber).formatInternational()}
+          </h4>
 
-            {success && (
-              <div className={`${BLOCK_NAME}__success`}>
-                <span>{t('addFriendModal.success')}</span>
-              </div>
-            )}
-
-            <div className={`${BLOCK_NAME}__btn-block`}>
-              <Link
-                className={classNames(`${BLOCK_NAME}__btn`, {
-                  [`${BLOCK_NAME}__btn--confirm`]: added,
-                  [`${BLOCK_NAME}__btn--cancel`]: !added,
-                })}
-                to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', ChatId.from(user.id).id])}>
-                {t('addFriendModal.chat')}
-              </Link>
-              {!added && (
-                <Button
-                  type="button"
-                  loading={loading}
-                  className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}
-                  onClick={addRequiredUser}>
-                  {t('addFriendModal.add')}
-                </Button>
-              )}
+          {success && (
+            <div className={`${BLOCK_NAME}__success`}>
+              <span>{t('addFriendModal.success')}</span>
             </div>
-          </div>
-        ) : (
-          <div className={BLOCK_NAME}>
-            <PhoneInputGroup submitFunction={getRequiredUser} phone={phone} setPhone={setPhone} />
-            {error && (
-              <div className={`${BLOCK_NAME}__error`}>
-                <span>{t('addFriendModal.error')}</span>
-                <button
-                  type="button"
-                  onClick={closeError}
-                  className={`${BLOCK_NAME}__error__close`}>
-                  <CloseSvg />
-                </button>
-              </div>
-            )}
-            <div className={`${BLOCK_NAME}__btn-block`}>
-              <button
-                type="button"
-                className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}
-                onClick={onClose}>
-                {t('addFriendModal.cancel')}
-              </button>
+          )}
+
+          <div className={`${BLOCK_NAME}__btn-block`}>
+            <Link
+              className={classNames(`${BLOCK_NAME}__btn`, {
+                [`${BLOCK_NAME}__btn--confirm`]: added,
+                [`${BLOCK_NAME}__btn--cancel`]: !added,
+              })}
+              to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', ChatId.from(user.id).id])}>
+              {t('addFriendModal.chat')}
+            </Link>
+            {!added && (
               <Button
-                disabled={!parsePhoneNumberFromString(phone)?.isValid()}
-                loading={loading}
                 type="button"
+                loading={loading}
                 className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}
-                onClick={getRequiredUser}>
-                {t('addFriendModal.find')}
+                onClick={addRequiredUser}>
+                {t('addFriendModal.add')}
               </Button>
-            </div>
+            )}
           </div>
-        )}
-      </>
-    </Modal>
+        </div>
+      ) : (
+        <div className={BLOCK_NAME}>
+          <PhoneInputGroup submitFunction={getRequiredUser} phone={phone} setPhone={setPhone} />
+          {error && (
+            <div className={`${BLOCK_NAME}__error`}>
+              <span>{t('addFriendModal.error')}</span>
+              <button type="button" onClick={closeError} className={`${BLOCK_NAME}__error__close`}>
+                <CloseSvg />
+              </button>
+            </div>
+          )}
+          <div className={`${BLOCK_NAME}__btn-block`}>
+            <button
+              type="button"
+              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}
+              onClick={animatedClose}>
+              {t('addFriendModal.cancel')}
+            </button>
+            <Button
+              disabled={!parsePhoneNumberFromString(phone)?.isValid()}
+              loading={loading}
+              type="button"
+              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}
+              onClick={getRequiredUser}>
+              {t('addFriendModal.find')}
+            </Button>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
+
+const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose, ...props }) => (
+  <Modal closeModal={onClose}>
+    {(animatedClose: () => void) => (
+      <InitialAddFriendModal {...props} onClose={onClose} animatedClose={animatedClose} />
+    )}
+  </Modal>
+);
 
 AddFriendModal.displayName = 'AddFriendModal';
 

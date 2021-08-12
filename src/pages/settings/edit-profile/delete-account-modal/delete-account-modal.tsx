@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import { Modal } from '@components/modal';
+import { Modal, IModalChildrenProps } from '@components/modal';
 import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { Button } from '@shared-components/button';
@@ -17,20 +17,20 @@ interface IDeleteAccountModalProps {
 
 const BLOCK_NAME = 'delete-account-modal';
 
-export const DeleteAccountModal: React.FC<IDeleteAccountModalProps> = ({ onClose }) => {
-  const { t } = useTranslation();
+export const InitialDeleteAccountModal: React.FC<IDeleteAccountModalProps & IModalChildrenProps> =
+  ({ animatedClose }) => {
+    const { t } = useTranslation();
 
-  const deactivateAccount = useEmptyActionWithDeferred(deleteAccountAction);
+    const deactivateAccount = useEmptyActionWithDeferred(deleteAccountAction);
 
-  const [deleting, setDeleting] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
-  const submitDeleteing = useCallback(() => {
-    setDeleting(true);
-    deactivateAccount();
-  }, [setDeleting, deactivateAccount]);
+    const submitDeleteing = useCallback(() => {
+      setDeleting(true);
+      deactivateAccount();
+    }, [setDeleting, deactivateAccount]);
 
-  return (
-    <Modal closeModal={onClose}>
+    return (
       <>
         <Modal.Header>
           <>
@@ -44,7 +44,7 @@ export const DeleteAccountModal: React.FC<IDeleteAccountModalProps> = ({ onClose
           <div className={`${BLOCK_NAME}__btn-block`}>
             <Button
               type="button"
-              onClick={onClose}
+              onClick={animatedClose}
               className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}>
               {t('deleteAccountModal.cancel')}
             </Button>
@@ -58,6 +58,17 @@ export const DeleteAccountModal: React.FC<IDeleteAccountModalProps> = ({ onClose
           </div>
         </div>
       </>
-    </Modal>
-  );
-};
+    );
+  };
+
+const DeleteAccountModal: React.FC<IDeleteAccountModalProps> = ({ onClose, ...props }) => (
+  <Modal closeModal={onClose}>
+    {(animatedClose: () => void) => (
+      <InitialDeleteAccountModal {...props} onClose={onClose} animatedClose={animatedClose} />
+    )}
+  </Modal>
+);
+
+DeleteAccountModal.displayName = 'DeleteAccountModal';
+
+export { DeleteAccountModal };

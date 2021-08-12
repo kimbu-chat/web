@@ -9,9 +9,8 @@ let cancelLoad: () => void;
 
 const defaultCountry: ICountry = { code: 'AF', number: '+93', title: 'Afghanistan' };
 
-const defaultUserCountry: ICountry = new CountryService().country || defaultCountry;
-
 export const useCountry = () => {
+  const defaultUserCountry: ICountry = CountryService.country || defaultCountry;
   const [countries, setCountries] = useState<ICountry[]>([defaultUserCountry]);
   const [country, setCountry] = useState<ICountry>(defaultUserCountry);
 
@@ -36,7 +35,7 @@ export const useCountry = () => {
 
         if (countryOfResidence && countryOfResidence.code !== defaultUserCountry.code) {
           setCountry(countryOfResidence);
-          new CountryService().initializeOrUpdate(countryOfResidence);
+          CountryService.initializeOrUpdate(countryOfResidence);
         }
         // eslint-disable-next-line no-empty
       } catch {}
@@ -47,7 +46,7 @@ export const useCountry = () => {
         cancelLoad();
       }
     };
-  }, []);
+  }, [defaultUserCountry]);
 
   return { countries, setCountry, country };
 };

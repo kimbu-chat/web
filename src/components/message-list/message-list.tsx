@@ -28,7 +28,6 @@ import {
 } from '@store/chats/selectors';
 import { DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR } from '@utils/constants';
 import { checkIfDatesAreDifferentDate } from '@utils/date-utils';
-import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 
 import { Welcome } from '../welcome/welcome';
 
@@ -37,7 +36,7 @@ import './message-list.scss';
 const BLOCK_NAME = 'chat';
 
 type ISeparatedMessagesPack = {
-  id: string;
+  date: string;
   messages: number[];
 };
 
@@ -71,45 +70,52 @@ const MessageList = () => {
   }, [unreadMessagesCount, selectedChatId, markMessagesAsRead]);
 
   const loadMore = useCallback(() => {
-    const pageData = {
-      limit: MESSAGES_LIMIT,
-      offset: messagesIds?.length || 0,
-    };
-
     getMessages({
-      page: pageData,
       isFromScroll: true,
       searchString: messagesSearchString,
     });
-  }, [getMessages, messagesIds?.length, messagesSearchString]);
+  }, [getMessages, messagesSearchString]);
 
-  const separatedMessagesPacks = useMemo(() => {
-    let id = 0;
-    return messagesIds?.reduce((accumulator: ISeparatedMessagesPack[], currentMessageId, index) => {
-      if (!accumulator.length) {
-        accumulator.push({
-          id: `${(id += 1)}`,
-          messages: [],
-        });
-      }
-      if (
-        index > 0 &&
-        checkIfDatesAreDifferentDate(
-          (messages && messages[messagesIds[index - 1]]?.creationDateTime) || '',
-          (messages && messages[currentMessageId]?.creationDateTime) || '',
-        )
-      ) {
-        accumulator.push({
-          id: `${(id += 1)}`,
-          messages: [],
-        });
-      }
+  const formatDateForSeparator = useCallback(
+    (date) => dayjs.utc(date).local().format(DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR).toString(),
+    [],
+  );
 
-      accumulator[accumulator.length - 1]?.messages.push(currentMessageId);
+  const separatedMessagesPacks = useMemo(
+    () =>
+      messagesIds?.reduce((accumulator: ISeparatedMessagesPack[], currentMessageId, index) => {
+        if (!accumulator.length) {
+          return [
+            ...accumulator,
+            {
+              date: formatDateForSeparator(messages[currentMessageId]?.creationDateTime),
+              messages: [currentMessageId],
+            },
+          ];
+        }
+        if (
+          checkIfDatesAreDifferentDate(
+            messages[messagesIds[index - 1]]?.creationDateTime,
+            messages[currentMessageId]?.creationDateTime,
+          )
+        ) {
+          return [
+            ...accumulator,
+            {
+              date: formatDateForSeparator(messages[currentMessageId]?.creationDateTime),
+              messages: [currentMessageId],
+            },
+          ];
+        }
 
-      return accumulator;
-    }, []);
-  }, [messages, messagesIds]);
+        accumulator[accumulator.length - 1]?.messages.push(currentMessageId);
+
+        return accumulator;
+      }, []),
+    [messages, messagesIds, formatDateForSeparator],
+  );
+
+  useEffect(loadMore, [loadMore, selectedChatId]);
 
   if (!selectedChatId) {
     return <Welcome />;
@@ -128,48 +134,47 @@ const MessageList = () => {
           )}
 
         {selectedMessageIds.length > 0 && <SelectedMessagesData />}
-        {messagesIds?.length ? (
-          <InfiniteScroll
-            containerRef={rootRef}
-            onReachBottom={loadMore}
-            hasMore={hasMoreMessages}
-            className={`${BLOCK_NAME}__messages-list__scroll`}
-            isLoading={areMessagesLoading}>
-            {separatedMessagesPacks.map((pack) => (
-              <div key={pack.id} className={`${BLOCK_NAME}__messages-group`}>
-                {pack.messages.map((messageId, index) => (
-                  <MessageItem
-                    observeIntersection={observeIntersectionForMedia}
-                    selectedChatId={selectedChatId}
-                    isSelected={selectedMessageIds.includes(messageId)}
-                    messageId={messageId}
-                    key={messageId}
-                    needToShowCreator={
-                      messages &&
-                      (messages[messageId]?.userCreatorId !==
-                        messages[pack.messages[index + 1]]?.userCreatorId ||
-                        messages[pack.messages[index + 1]]?.systemMessageType !==
-                          SystemMessageType.None)
-                    }
-                  />
-                ))}
-                {pack.messages.length > 0 && (
-                  <div className={`${BLOCK_NAME}__separator`}>
-                    <span className={`${BLOCK_NAME}__separator-date`}>
-                      {dayjs
-                        .utc(messages[pack.messages[0]]?.creationDateTime || '')
-                        .local()
-                        .format(DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR)
-                        .toString()}
-                    </span>
+        {!areMessagesLoading || messagesIds?.length
+          ? Boolean(messagesIds?.length) && (
+              <InfiniteScroll
+                containerRef={rootRef}
+                onReachBottom={loadMore}
+                hasMore={hasMoreMessages}
+                className={`${BLOCK_NAME}__messages-list__scroll`}
+                isLoading={areMessagesLoading}>
+                {separatedMessagesPacks.map((pack) => (
+                  <div key={pack.date} className={`${BLOCK_NAME}__messages-group`}>
+                    {pack.messages.map((messageId, index) => (
+                      <MessageItem
+                        observeIntersection={observeIntersectionForMedia}
+                        selectedChatId={selectedChatId}
+                        isSelected={selectedMessageIds.includes(messageId)}
+                        messageId={messageId}
+                        key={messageId}
+                        needToShowCreator={
+                          messages &&
+                          (messages[messageId]?.userCreatorId !==
+                            messages[pack.messages[index + 1]]?.userCreatorId ||
+                            messages[pack.messages[index + 1]]?.systemMessageType !==
+                              SystemMessageType.None)
+                        }
+                      />
+                    ))}
+                    {pack.messages.length > 0 && (
+                      <div className={`${BLOCK_NAME}__separator`}>
+                        <span className={`${BLOCK_NAME}__separator-date`}>{pack.date}</span>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            ))}
-          </InfiniteScroll>
-        ) : (
-          <CenteredLoader size={LoaderSize.LARGE} />
-        )}
+                ))}
+              </InfiniteScroll>
+            )
+          : areMessagesLoading &&
+            hasMoreMessages && (
+              <>
+                <CenteredLoader size={LoaderSize.LARGE} />
+              </>
+            )}
       </div>
     </div>
   );

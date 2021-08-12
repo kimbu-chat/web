@@ -24,8 +24,8 @@ export function getDayStart(datetime: string | Date) {
 }
 
 export const checkIfDatesAreDifferentDate = (
-  startDate: string | Date,
-  endDate: string | Date,
+  startDate: string | Date = '',
+  endDate: string | Date = '',
 ): boolean => Number(getDayStart(startDate)) !== Number(getDayStart(endDate));
 
 type IAttachmentGroupSeparated<T> = {

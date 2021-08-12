@@ -1,3 +1,5 @@
+import i18n from '@localization/i18n';
+
 const originalFavicons = [
   {
     rel: 'icon',
@@ -80,11 +82,11 @@ export const setNewTitleNotificationInterval = () => {
 
   let notificationsDisplayed = false;
 
-  window.document.title = `${unreadNotifications} unread Notification !`;
+  window.document.title = i18n.t('unread-messages', { count: unreadNotifications });
   windowNotificationIntervalCode = setInterval(() => {
     window.document.title = notificationsDisplayed
       ? 'Kimbu'
-      : `${unreadNotifications} unread Notification !`;
+      : i18n.t('unread-messages', { count: unreadNotifications });
     notificationsDisplayed = !notificationsDisplayed;
   }, 500);
 };

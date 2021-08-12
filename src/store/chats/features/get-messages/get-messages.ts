@@ -11,6 +11,7 @@ import { MessageState } from '@store/chats/models';
 import { ById } from '@store/chats/models/by-id';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 
 import { IChatsState } from '../../chats-state';
 import { INormalizedMessage } from '../../models/normalized-message';
@@ -34,7 +35,17 @@ export class GetMessages {
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetMessages.action>) => {
       if (draft.selectedChatId) {
-        const selectedChatMessages = draft.chats[draft.selectedChatId]?.messages;
+        const chat = draft.chats[draft.selectedChatId];
+
+        if (!chat) {
+          return draft;
+        }
+
+        const selectedChatMessages = chat.messages;
+
+        if (payload.isFromScroll && !chat.messages.hasMore) {
+          return draft;
+        }
 
         if (selectedChatMessages) {
           selectedChatMessages.loading = true;
@@ -48,7 +59,7 @@ export class GetMessages {
 
   static get saga() {
     return function* getMessages(action: ReturnType<typeof GetMessages.action>): SagaIterator {
-      const { page, isFromScroll } = action.payload;
+      const { isFromScroll } = action.payload;
 
       const isFirstChatsLoad = yield select(getIsFirstChatsLoadSelector);
 
@@ -58,11 +69,22 @@ export class GetMessages {
 
       const chat = yield select(getSelectedChatSelector);
 
+      if (!chat) {
+        return;
+      }
+
+      if (isFromScroll && !chat.messages.hasMore) {
+        return;
+      }
+
       const searchString = yield select(getSelectedChatMessagesSearchStringSelector);
 
       if (chat) {
         const request: IGetMessagesRequest = {
-          page,
+          page: {
+            limit: MESSAGES_LIMIT,
+            offset: isFromScroll ? chat.messages.messageIds?.length || 0 : 0,
+          },
           chatId: chat.id,
           searchString,
         };
@@ -94,7 +116,7 @@ export class GetMessages {
             chatId: chat.id,
             messages: messages || {},
             messageIds: result,
-            hasMoreMessages: newMessages.length >= page.limit,
+            hasMoreMessages: newMessages.length >= MESSAGES_LIMIT,
             searchString,
             isFromScroll,
           };

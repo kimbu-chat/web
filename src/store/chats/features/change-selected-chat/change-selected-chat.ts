@@ -52,6 +52,7 @@ export class ChangeSelectedChat {
               oldChatMessages.searchString = '';
               oldChatMessages.messages = {};
               oldChatMessages.messageIds = [];
+              oldChatMessages.hasMore = true;
             } else if (chat && (oldChatMessages?.messageIds.length || 0) > MESSAGES_LIMIT) {
               const messageIdsToDelete = oldChatMessages.messageIds.slice(
                 30,

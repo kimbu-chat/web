@@ -52,7 +52,7 @@ export function* chatSaga() {
     takeEvery(UploadAttachmentRequest.action, UploadAttachmentRequest.saga),
     takeEvery(RemoveAttachment.action, RemoveAttachment.saga),
     takeLeading(MessageTyping.action, MessageTyping.saga),
-    takeLatest(GetMessages.action, GetMessages.saga),
+    takeLeading(GetMessages.action, GetMessages.saga),
     takeLatest(ClearChatHistory.action, ClearChatHistory.saga),
     takeEvery(CreateMessage.action, CreateMessage.saga),
     takeEvery(CopyMessages.action, CopyMessages.saga),

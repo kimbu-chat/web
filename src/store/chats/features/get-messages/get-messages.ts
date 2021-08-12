@@ -14,7 +14,6 @@ import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 
 import { IChatsState } from '../../chats-state';
-import { INormalizedChat } from '../../models/chat';
 import { INormalizedMessage } from '../../models/normalized-message';
 import { messageArrNormalizationSchema } from '../../normalization';
 import {

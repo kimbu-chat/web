@@ -4,14 +4,14 @@ import { ErrorTooltip } from '@components/error-tooltip/error-tooltip';
 
 import './labeled-input.scss';
 
-interface ILabeledInputProps {
+interface ILabeledInputProps
+  extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   label: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string;
   containerClassName: string;
   placeholder?: string;
   errorText?: string | null;
-  autoFocus?: boolean;
 }
 
 export const LabeledInput: React.FC<ILabeledInputProps> = ({
@@ -21,18 +21,18 @@ export const LabeledInput: React.FC<ILabeledInputProps> = ({
   containerClassName,
   placeholder,
   errorText,
-  autoFocus,
+  ...props
 }) => (
   <div className={`labeled-input ${errorText ? 'labeled-input--error' : ''} ${containerClassName}`}>
     <span className="labeled-input__label">{label}</span>
     <input
-      autoFocus={autoFocus}
       autoComplete="new-password"
       placeholder={placeholder}
       value={value}
       onChange={onChange}
       type="text"
       className="labeled-input__input"
+      {...props}
     />
 
     {errorText && <ErrorTooltip>{errorText}</ErrorTooltip>}

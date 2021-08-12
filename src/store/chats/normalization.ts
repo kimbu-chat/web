@@ -11,7 +11,7 @@ export const linkedMessageNormalizationSchema = new schema.Entity<ILinkedMessage
   {
     processStrategy: (linkedMessage) => ({
       ...linkedMessage,
-      userCreatorId: linkedMessage.userCreator,
+      userCreatorId: linkedMessage.userCreatorId || linkedMessage.userCreator.id,
       userCreator: undefined,
     }),
   },
@@ -32,10 +32,11 @@ export const messageNormalizationSchema = new schema.Entity<IMessage>(
         ? {
             ...message?.linkedMessage,
             userCreator: undefined,
-            userCreatorId: message?.linkedMessage?.userCreator,
+            userCreatorId:
+              message?.linkedMessage.userCreatorId || message?.linkedMessage.userCreator.id,
           }
         : undefined,
-      userCreatorId: message.userCreator ? message.userCreator : message.userCreatorId,
+      userCreatorId: message.userCreator?.id || message.userCreatorId,
       userCreator: undefined,
     }),
   },
@@ -64,11 +65,13 @@ export const chatNormalizationSchema = new schema.Entity<IChat>(
               ? {
                   ...chat.lastMessage?.linkedMessage,
                   userCreator: undefined,
-                  userCreatorId: chat.lastMessage?.linkedMessage?.userCreator,
+                  userCreatorId:
+                    chat.lastMessage?.linkedMessage?.userCreatorId ||
+                    chat.lastMessage?.linkedMessage?.userCreator,
                 }
               : undefined,
             userCreator: undefined,
-            userCreatorId: chat.lastMessage?.userCreator,
+            userCreatorId: chat.lastMessage?.userCreatorId || chat.lastMessage?.userCreator,
           }
         : undefined,
     }),

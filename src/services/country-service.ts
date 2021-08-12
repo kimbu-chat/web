@@ -2,25 +2,26 @@ import { ICountry } from '@common/country';
 import { BrowserStorage } from '@utils/browser-storage';
 
 export class CountryService {
-  private readonly userCountryKey = 'userCountry';
+  private static readonly userCountryKey = 'userCountry';
 
-  private browserStorage = new BrowserStorage(this.userCountryKey);
+  private static browserStorage = new BrowserStorage(CountryService.userCountryKey);
 
-  private currentCountry: ICountry = this.browserStorage.getObject<ICountry>(this.userCountryKey);
+  private static currentCountry: ICountry = CountryService.browserStorage.getObject<ICountry>(
+    CountryService.userCountryKey,
+  );
 
-  public get country(): ICountry {
+  public static get country(): ICountry {
     return this.currentCountry;
   }
 
-  public initializeOrUpdate(country: ICountry) {
-    this.browserStorage.setObject<ICountry>(this.userCountryKey, country);
-
+  public static initializeOrUpdate(country: ICountry) {
     if (country.code !== this.currentCountry?.code) {
+      this.browserStorage.setObject<ICountry>(this.userCountryKey, country);
       this.currentCountry = country;
     }
   }
 
-  public clear() {
-    this.browserStorage.clear();
+  public static clear() {
+    CountryService.browserStorage.clear();
   }
 }

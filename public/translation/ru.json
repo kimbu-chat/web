@@ -441,5 +441,5 @@
     "incoming_call_intrrerupted": "Входящий вызов был прерван"
   },
   "deleted": "УДАЛЁН",
-  "unread-messages": "Непрочитанное сообщение ({{count}})"
+  "unread-messages": "Непрочитанные сообщения ({{count}})"
 }

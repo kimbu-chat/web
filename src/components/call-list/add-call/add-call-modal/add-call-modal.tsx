@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 
-import { IPaginationParams } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -14,7 +13,6 @@ import { ReactComponent as CallSvg } from '@icons/call.svg';
 import { outgoingCallAction } from '@store/calls/actions';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
-import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 
 import './add-call-modal.scss';
 
@@ -53,12 +51,8 @@ const InitialAddCallModal: React.FC<IAddCallModalProps & IModalChildrenProps> = 
   const [name, setName] = useState('');
 
   const loadMore = useCallback(() => {
-    const page: IPaginationParams = {
-      offset: name.length ? searchFriendIds?.length || 0 : friendIds.length,
-      limit: FRIENDS_LIMIT,
-    };
-    loadFriends({ page, name, initializedByScroll: true });
-  }, [searchFriendIds?.length, friendIds.length, loadFriends, name]);
+    loadFriends({ name, initializedByScroll: true });
+  }, [loadFriends, name]);
 
   const call = useCallback(
     (userId: number) => {
@@ -78,7 +72,6 @@ const InitialAddCallModal: React.FC<IAddCallModalProps & IModalChildrenProps> = 
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setName(e.target.value);
       loadFriends({
-        page: { offset: 0, limit: FRIENDS_LIMIT },
         name: e.target.value,
         initializedByScroll: false,
       });

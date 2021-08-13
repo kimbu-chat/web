@@ -1,6 +1,5 @@
 import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react';
 
-import { IPaginationParams } from 'kimbu-models';
 import { useSelector } from 'react-redux';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
@@ -10,7 +9,6 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
-import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 
 import { Friend } from './friend-from-list/friend';
 
@@ -45,7 +43,6 @@ export const FriendList = () => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchString(e.target.value);
       loadFriends({
-        page: { offset: 0, limit: FRIENDS_LIMIT },
         name: e.target.value,
         initializedByScroll: false,
       });
@@ -54,12 +51,8 @@ export const FriendList = () => {
   );
 
   const loadMore = useCallback(() => {
-    const page: IPaginationParams = {
-      offset: searchString.length ? searchFriendIds?.length || 0 : friendIds.length,
-      limit: FRIENDS_LIMIT,
-    };
-    loadFriends({ page, name: searchString, initializedByScroll: true });
-  }, [friendIds.length, searchFriendIds?.length, loadFriends, searchString]);
+    loadFriends({ name: searchString, initializedByScroll: true });
+  }, [loadFriends, searchString]);
 
   const renderFriend = useCallback(
     (friendId: number) => <Friend key={friendId} friendId={friendId} />,

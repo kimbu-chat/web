@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 
 import classNames from 'classnames';
-import { IPaginationParams } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -16,7 +15,6 @@ import { Button } from '@shared-components/button';
 import { addUsersToGroupChatAction } from '@store/chats/actions';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
-import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 
 import './group-chat-add-friend-modal.scss';
 
@@ -85,18 +83,13 @@ const InitialGroupChatAddFriendModal: React.FC<
   }, [addUsersToGroupChat, selectedUserIds, animatedClose]);
 
   const loadMore = useCallback(() => {
-    const page: IPaginationParams = {
-      offset: name.length ? searchFriendIds?.length || 0 : friendIds.length,
-      limit: FRIENDS_LIMIT,
-    };
-    loadFriends({ page, name, initializedByScroll: true });
-  }, [searchFriendIds?.length, friendIds?.length, loadFriends, name]);
+    loadFriends({ name, initializedByScroll: true });
+  }, [loadFriends, name]);
 
   const queryFriends = useCallback(
     (searchName: string) => {
       setName(searchName);
       loadFriends({
-        page: { offset: 0, limit: FRIENDS_LIMIT },
         name: searchName,
         initializedByScroll: false,
       });

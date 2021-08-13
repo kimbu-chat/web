@@ -11,10 +11,14 @@ import { ById } from '@store/chats/models/by-id';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { userArrNormalizationSchema } from '@store/friends/normalization';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
-import { getInfoChatIdSelector } from '../../selectors';
+import {
+  getInfoChatIdSelector,
+  getMembersCountForSelectedGroupChatSelector,
+} from '../../selectors';
 
 import { IGetGroupChatUsersActionPayload } from './action-payloads/get-group-chat-users-action-payload';
 import { GetGroupChatUsersSuccess } from './get-group-chat-users-success';
@@ -40,14 +44,22 @@ export class GetGroupChatUsers {
     return function* getGroupChatUsersSaga(
       action: ReturnType<typeof GetGroupChatUsers.action>,
     ): SagaIterator {
-      const { isFromSearch, page, name } = action.payload;
+      const { isFromSearch, name } = action.payload;
 
       const chatId = yield select(getInfoChatIdSelector);
       const { groupChatId } = ChatId.fromId(chatId);
 
       if (groupChatId) {
+        const membersOffset = yield select(getMembersCountForSelectedGroupChatSelector);
+
+        const request: IGetGroupChatMembersRequest = {
+          name,
+          groupChatId,
+          page: { limit: CHAT_MEMBERS_LIMIT, offset: membersOffset },
+        };
+
         const { data } = GetGroupChatUsers.httpRequest.call(
-          yield call(() => GetGroupChatUsers.httpRequest.generator({ name, page, groupChatId })),
+          yield call(() => GetGroupChatUsers.httpRequest.generator(request)),
         );
 
         const {
@@ -60,7 +72,7 @@ export class GetGroupChatUsers {
             userIds: result,
             chatId,
             isFromSearch,
-            hasMore: data.length >= page.limit,
+            hasMore: data.length >= CHAT_MEMBERS_LIMIT,
           }),
         );
 

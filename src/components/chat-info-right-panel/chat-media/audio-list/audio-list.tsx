@@ -10,7 +10,6 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getAudioAttachmentsAction } from '@store/chats/actions';
 import { getSelectedChatAudiosSelector } from '@store/chats/selectors';
 import { separateGroupable } from '@utils/date-utils';
-import { AUDIO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { setSeparators } from '@utils/set-separators';
 
 import './audio-list.scss';
@@ -29,10 +28,8 @@ export const AudioList = () => {
   const getAudios = useActionWithDispatch(getAudioAttachmentsAction);
 
   const loadMore = useCallback(() => {
-    getAudios({
-      page: { offset: audiosForSelectedChat?.audios.length || 0, limit: AUDIO_ATTACHMENTS_LIMIT },
-    });
-  }, [getAudios, audiosForSelectedChat?.audios.length]);
+    getAudios();
+  }, [getAudios]);
 
   const audiosWithSeparators = setSeparators(
     audiosForSelectedChat?.audios,

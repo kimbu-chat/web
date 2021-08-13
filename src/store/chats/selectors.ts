@@ -75,17 +75,37 @@ export const getChatsSearchPageSelector = (state: RootState) => state.chats.sear
 export const getSelectedChatRecordingsSelector = (state: RootState) =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.recordings;
 
+export const getSelectedChatRecordingsLengthSelector = (state: RootState) =>
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.recordings
+    .recordings.length || 0;
+
 export const getSelectedChatAudiosSelector = (state: RootState) =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.audios;
+
+export const getSelectedChatAudiosLengthSelector = (state: RootState) =>
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.audios.audios
+    .length || 0;
 
 export const getSelectedChatFilesSelector = (state: RootState) =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.files;
 
+export const getSelectedChatFilesLengthSelector = (state: RootState) =>
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.files.files
+    .length || 0;
+
 export const getSelectedChatPhotosSelector = (state: RootState) =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.photos;
 
+export const getSelectedChatPhotosLengthSelector = (state: RootState) =>
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.photos.photos
+    .length || 0;
+
 export const getSelectedChatVideosSelector = (state: RootState) =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.videos;
+
+export const getSelectedChatVideosLengthSelector = (state: RootState) =>
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.videos.videos
+    .length || 0;
 
 // Attachments count selector
 
@@ -147,6 +167,9 @@ export const getChatsListSelector = (state: RootState) => state.chats.chatList;
 
 export const getMembersListForSelectedGroupChatSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.members;
+
+export const getMembersCountForSelectedGroupChatSelector = (state: RootState) =>
+  state.chats.chats[state?.chats?.selectedChatId || -1]?.members.memberIds.length || 0;
 
 export const getTypingStringSelector =
   (t: TFunction, chatId: number | null) => (state: RootState) => {

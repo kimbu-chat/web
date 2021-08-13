@@ -75,15 +75,13 @@ const ChatList = React.memo(() => {
   );
 
   const loadMore = useCallback(() => {
-    if (!(searchString.length ? searchChatsList.loading : chatsList.loading)) {
-      getChatsRequest({
-        initializedByScroll: true,
-        name: searchString,
-        showOnlyHidden: false,
-        showAll: true,
-      });
-    }
-  }, [getChatsRequest, searchString, searchChatsList.loading, chatsList.loading]);
+    getChatsRequest({
+      initializedByScroll: true,
+      name: searchString,
+      showOnlyHidden: false,
+      showAll: true,
+    });
+  }, [getChatsRequest, searchString]);
 
   const renderChats = useCallback(
     (chatId: number) => <ChatFromList chatId={chatId} key={chatId} />,

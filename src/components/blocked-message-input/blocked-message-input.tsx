@@ -76,20 +76,15 @@ export const BlockedMessageInput: React.FC<IBlockedMessageInputProps> = ({
       <BlockedSvg className={`${BLOCK_NAME}__icon`} />
       <div className={`${BLOCK_NAME}__description`}>{text}</div>
 
-      {isCurrentChatBlackListed &&
-        !(
-          amIBlackListedByInterlocutor ||
-          isCurrentChatUserDeactivated ||
-          isCurrentChatUserDeleted
-        ) && (
-          <Button
-            loading={unBlocking}
-            onClick={unBlockSelectedUser}
-            type="button"
-            className={`${BLOCK_NAME}__btn`}>
-            {t('blockedMessageInput.unblock')}
-          </Button>
-        )}
+      {isCurrentChatBlackListed && !(isCurrentChatUserDeactivated || isCurrentChatUserDeleted) && (
+        <Button
+          loading={unBlocking}
+          onClick={unBlockSelectedUser}
+          type="button"
+          className={`${BLOCK_NAME}__btn`}>
+          {t('blockedMessageInput.unblock')}
+        </Button>
+      )}
     </div>
   );
 };

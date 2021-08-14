@@ -16,13 +16,11 @@ export class UserContactsRemovedEventHandler {
         draft: IFriendsState,
         { payload }: ReturnType<typeof UserContactsRemovedEventHandler.action>,
       ) => {
-        const { removedUserIds } = payload;
+        const { userIds } = payload;
 
-        draft.friends.friendIds = draft.friends.friendIds.filter(
-          (id) => !removedUserIds.includes(id),
-        );
+        draft.friends.friendIds = draft.friends.friendIds.filter((id) => !userIds.includes(id));
         draft.searchFriends.friendIds = draft.searchFriends.friendIds?.filter(
-          (id) => !removedUserIds.includes(id),
+          (id) => !userIds.includes(id),
         );
 
         return draft;

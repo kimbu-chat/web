@@ -7,7 +7,7 @@ import { IUserContactAddedIntegrationEvent } from './user-contact-added-integrat
 
 export class UserContactAddedSuccessEventHandler {
   static get action() {
-    return createAction('UserContactsRemoved')<IUserContactAddedIntegrationEvent>();
+    return createAction('UserContactAddedSuccess')<IUserContactAddedIntegrationEvent>();
   }
 
   static get reducer() {

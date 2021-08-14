@@ -16,7 +16,7 @@ import { UserContactAddedSuccessEventHandler } from './user-contact-added-succes
 
 export class UserContactAddedEventHandler {
   static get action() {
-    return createAction('UserContactsRemoved')<IUserContactAddedIntegrationEvent>();
+    return createAction('UserContactAdded')<IUserContactAddedIntegrationEvent>();
   }
 
   static get saga() {

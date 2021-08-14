@@ -72,7 +72,7 @@ export class MessagesDeletedIntegrationEventHandler {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IMessage>, number>(
-      (chatId: number) => replaceInUrl(MAIN_API.MESSAGE_DELETED_EVENT, ['chatId', chatId]),
+      (chatId: number) => replaceInUrl(MAIN_API.GET_CHAT_LATEST_MESSAGE, ['chatId', chatId]),
       HttpRequestMethod.Get,
     );
   }

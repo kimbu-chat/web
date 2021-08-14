@@ -185,7 +185,7 @@ export class MessageCreatedEventHandler {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse<IMessage>, number>(
-      (messageId: number) => replaceInUrl(MAIN_API.MESSAGE_CREATED_EVENT, ['messageId', messageId]),
+      (messageId: number) => replaceInUrl(MAIN_API.GET_MESSAGE_BY_ID, ['messageId', messageId]),
       HttpRequestMethod.Get,
     );
   }

@@ -67,7 +67,7 @@ export const FriendList = () => {
   }, [searchString.length, searchFriendIds, friendIds, renderFriend]);
 
   return (
-    <div ref={containerRef}>
+    <div>
       <div className="friend-list__search-top">
         <SearchBox
           containerClassName="friend-list__search-top__search-container"
@@ -76,8 +76,10 @@ export const FriendList = () => {
           onChange={changeSearchString}
         />
       </div>
-      <div className="friend-list">
-        {!friendsLoading ? (
+      <div className="friend-list" ref={containerRef}>
+        {friendsLoading && !friendIds.length ? (
+          <CenteredLoader size={LoaderSize.LARGE} />
+        ) : (
           <InfiniteScroll
             containerRef={containerRef}
             onReachBottom={loadMore}
@@ -85,8 +87,6 @@ export const FriendList = () => {
             isLoading={searchString.length ? searchFriendsLoading : friendsLoading}>
             {renderedFriends}
           </InfiniteScroll>
-        ) : (
-          <CenteredLoader size={LoaderSize.LARGE} />
         )}
       </div>
     </div>

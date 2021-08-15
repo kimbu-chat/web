@@ -97,7 +97,7 @@ const ChatList = React.memo(() => {
 
   return (
     <>
-      <div ref={containerRef}>
+      <div>
         <div className={`${BLOCK_NAME}__search-top`}>
           <SearchBox
             containerClassName={`${BLOCK_NAME}__search-top__search-container`}
@@ -112,8 +112,8 @@ const ChatList = React.memo(() => {
             <CreateChatSvg />
           </button>
         </div>
-        <div className={BLOCK_NAME}>
-          {searchChatsList.loading || chatsList.loading ? (
+        <div className={BLOCK_NAME} ref={containerRef}>
+          {searchChatsList.loading || (chatsList.loading && !chatsList.chatIds.length) ? (
             <CenteredLoader size={LoaderSize.LARGE} />
           ) : (
             <InfiniteScroll

@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 
-import { IAttachmentBase, IPaginationParams } from 'kimbu-models';
+import { IAttachmentBase } from 'kimbu-models';
 import { useSelector } from 'react-redux';
 
 import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
@@ -10,7 +10,6 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getRawAttachmentsAction } from '@store/chats/actions';
 import { getSelectedChatFilesSelector } from '@store/chats/selectors';
 import { separateGroupable } from '@utils/date-utils';
-import { FILE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { setSeparators } from '@utils/set-separators';
 
 import './file-list.scss';
@@ -29,15 +28,8 @@ export const FileList = () => {
   const filesForSelectedChat = useSelector(getSelectedChatFilesSelector);
 
   const loadMore = useCallback(() => {
-    const page: IPaginationParams = {
-      offset: filesForSelectedChat?.files.length || 0,
-      limit: FILE_ATTACHMENTS_LIMIT,
-    };
-
-    getRawAttachments({
-      page,
-    });
-  }, [filesForSelectedChat?.files, getRawAttachments]);
+    getRawAttachments();
+  }, [getRawAttachments]);
 
   const filesWithSeparators = setSeparators(
     filesForSelectedChat?.files,

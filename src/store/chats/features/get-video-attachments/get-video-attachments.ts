@@ -3,21 +3,21 @@ import produce from 'immer';
 import { IGetVideoAttachmentsRequest, IVideoAttachment } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
+import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { VIDEO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IChatsState } from '../../chats-state';
-import { getInfoChatIdSelector } from '../../selectors';
+import { getInfoChatIdSelector, getSelectedChatVideosLengthSelector } from '../../selectors';
 
-import { IGetVideoAttachmentsActionPayload } from './action-payloads/get-video-attachments-action-payload';
 import { GetVideoAttachmentsSuccess } from './get-video-attachments-success';
 
 export class GetVideoAttachments {
   static get action() {
-    return createAction('GET_VIDEO_ATTACHMENTS')<IGetVideoAttachmentsActionPayload>();
+    return createEmptyAction('GET_VIDEO_ATTACHMENTS');
   }
 
   static get reducer() {
@@ -34,17 +34,20 @@ export class GetVideoAttachments {
   }
 
   static get saga() {
-    return function* getVideoAttachmentsSaga(
-      action: ReturnType<typeof GetVideoAttachments.action>,
-    ): SagaIterator {
-      const { page } = action.payload;
+    return function* getVideoAttachmentsSaga(): SagaIterator {
       const chatId = yield select(getInfoChatIdSelector);
+      const videoOffset = yield select(getSelectedChatVideosLengthSelector);
 
       const { data, status } = GetVideoAttachments.httpRequest.call(
-        yield call(() => GetVideoAttachments.httpRequest.generator({ page, chatId })),
+        yield call(() =>
+          GetVideoAttachments.httpRequest.generator({
+            page: { offset: videoOffset, limit: VIDEO_ATTACHMENTS_LIMIT },
+            chatId,
+          }),
+        ),
       );
 
-      const hasMore = data.length >= page.limit;
+      const hasMore = data.length >= VIDEO_ATTACHMENTS_LIMIT;
 
       if (status === HTTPStatusCode.OK) {
         yield put(GetVideoAttachmentsSuccess.action({ videos: data, hasMore, chatId }));

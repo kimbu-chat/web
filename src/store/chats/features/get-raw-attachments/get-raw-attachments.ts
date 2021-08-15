@@ -3,21 +3,21 @@ import produce from 'immer';
 import { IAttachmentBase, IGetRawAttachmentsRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
+import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { FILE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IChatsState } from '../../chats-state';
-import { getInfoChatIdSelector } from '../../selectors';
+import { getInfoChatIdSelector, getSelectedChatFilesLengthSelector } from '../../selectors';
 
-import { IGetRawAttachmentsActionPayload } from './action-payloads/get-raw-attachments-action-payload';
 import { GetRawAttachmentsSuccess } from './get-raw-attachments-success';
 
 export class GetRawAttachments {
   static get action() {
-    return createAction('GET_RAW_ATTACHMENTS')<IGetRawAttachmentsActionPayload>();
+    return createEmptyAction('GET_RAW_ATTACHMENTS');
   }
 
   static get reducer() {
@@ -34,17 +34,20 @@ export class GetRawAttachments {
   }
 
   static get saga() {
-    return function* getRawAttachmentsSaga(
-      action: ReturnType<typeof GetRawAttachments.action>,
-    ): SagaIterator {
-      const { page } = action.payload;
+    return function* getRawAttachmentsSaga(): SagaIterator {
       const chatId = yield select(getInfoChatIdSelector);
+      const filesOffset = yield select(getSelectedChatFilesLengthSelector);
 
       const { data, status } = GetRawAttachments.httpRequest.call(
-        yield call(() => GetRawAttachments.httpRequest.generator({ page, chatId })),
+        yield call(() =>
+          GetRawAttachments.httpRequest.generator({
+            page: { offset: filesOffset, limit: FILE_ATTACHMENTS_LIMIT },
+            chatId,
+          }),
+        ),
       );
 
-      const hasMore = data.length >= page.limit;
+      const hasMore = data.length >= FILE_ATTACHMENTS_LIMIT;
 
       if (status === HTTPStatusCode.OK) {
         yield put(GetRawAttachmentsSuccess.action({ files: data, hasMore, chatId }));

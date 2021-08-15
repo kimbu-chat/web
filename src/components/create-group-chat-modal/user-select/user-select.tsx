@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo, useState, useRef } from 'react';
 
-import { IPaginationParams } from 'kimbu-models';
 import { useSelector } from 'react-redux';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
@@ -9,7 +8,6 @@ import { SelectEntity } from '@components/select-entity';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { getFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
-import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 
 interface IUserSelectProps {
   changeSelectedState: (id: number) => void;
@@ -37,7 +35,6 @@ const UserSelect: React.FC<IUserSelectProps> = ({ changeSelectedState, isSelecte
     (searchName: string) => {
       setName(searchName);
       loadFriends({
-        page: { offset: 0, limit: FRIENDS_LIMIT },
         name: searchName,
         initializedByScroll: false,
       });
@@ -63,12 +60,8 @@ const UserSelect: React.FC<IUserSelectProps> = ({ changeSelectedState, isSelecte
   );
 
   const loadMore = useCallback(() => {
-    const page: IPaginationParams = {
-      offset: name.length ? searchFriendIds?.length || 0 || 0 : friendIds.length,
-      limit: FRIENDS_LIMIT,
-    };
-    loadFriends({ page, name, initializedByScroll: true });
-  }, [searchFriendIds?.length, friendIds.length, loadFriends, name]);
+    loadFriends({ name, initializedByScroll: true });
+  }, [loadFriends, name]);
 
   const selectEntities = useMemo(() => {
     if (name.length) {

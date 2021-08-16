@@ -115,7 +115,7 @@
     "members_4": "{{count}} участников",
     "members_5": "{{count}} участника",
     "online": "Онлайн",
-    "last-time": "Последний раз был в сети",
+    "last-time": "Был в сети",
     "typing": "печатает что-то..."
   },
   "chatMember": {

@@ -1,7 +1,6 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import classnames from 'classnames';
-import dayjs from 'dayjs';
 import { MessageLinkType, SystemMessageType } from 'kimbu-models';
 import truncate from 'lodash/truncate';
 import { useTranslation } from 'react-i18next';
@@ -19,8 +18,7 @@ import { INormalizedMessage, MessageState } from '@store/chats/models';
 import { getTypingStringSelector, getChatSelector } from '@store/chats/selectors';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
-import { DAY_MONTH_YEAR } from '@utils/constants';
-import { checkIfDatesAreDifferentDate, getShortTimeAmPm } from '@utils/date-utils';
+import { checkIfDatesAreDifferentDate, getDayMonthYear, getShortTimeAmPm } from '@utils/date-utils';
 import { constructSystemMessageText } from '@utils/message-utils';
 import renderText from '@utils/render-text/render-text';
 import { replaceInUrl } from '@utils/replace-in-url';
@@ -44,11 +42,6 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const typingString = useSelector(getTypingStringSelector(t, chatId));
 
   const isMessageCreatorCurrentUser: boolean = chat?.lastMessage?.userCreatorId === currentUserId;
-
-  const getDayMonthYear = useCallback(
-    (creationDateTime: string) => dayjs.utc(creationDateTime).local().format(DAY_MONTH_YEAR),
-    [],
-  );
 
   const messageText = useMemo((): string => {
     const messageToProcess =

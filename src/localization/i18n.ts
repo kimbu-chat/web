@@ -5,8 +5,6 @@ import { initReactI18next } from 'react-i18next';
 
 import { SettingsService } from '@services/settings-service';
 
-// todo: load only needed local at runtime
-
 i18n.on('languageChanged', (language: string) => {
   if (language.includes('en')) {
     const lang = 'en';

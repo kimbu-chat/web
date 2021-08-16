@@ -70,7 +70,7 @@
     "@types/react-router": "5.1.16",
     "@types/react-router-dom": "5.1.8",
     "@types/wavesurfer.js": "5.1.0",
-    "@typescript-eslint/eslint-plugin": "4.29.0",
+    "@typescript-eslint/eslint-plugin": "4.29.1",
     "@typescript-eslint/parser": "4.29.0",
     "@welldone-software/why-did-you-render": "6.2.0",
     "babel-preset-react-app": "10.0.0",

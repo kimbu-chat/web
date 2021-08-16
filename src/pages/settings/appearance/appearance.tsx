@@ -103,8 +103,8 @@ const Appearance: React.FC = () => {
           handleStyle={handleStyle}
           railStyle={railStyle}
           value={fontSize}
-          min={11.25}
-          max={25.1}
+          min={11}
+          max={25}
           step={2}
           marks={{
             12: getFontLabel(12),

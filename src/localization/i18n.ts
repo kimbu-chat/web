@@ -8,10 +8,12 @@ import { SettingsService } from '@services/settings-service';
 // todo: load only needed local at runtime
 
 i18n.on('languageChanged', (language: string) => {
-  if (language.includes('ru')) {
-    const lang = 'ru';
-    import(`dayjs/locale/${lang}.js`).then(() => {
-      dayjs.locale(lang);
+  if (language.includes('en')) {
+    const lang = 'en';
+    dayjs.locale(lang);
+  } else {
+    import(`dayjs/locale/${language}.js`).then(() => {
+      dayjs.locale(language);
     });
   }
 });

@@ -1,12 +1,11 @@
-import { IS_EMOJI_SUPPORTED } from './emoji-constants';
-
 export function parseMarkdown(html: string) {
   let parsedHtml = html.slice(0);
 
-  if (!IS_EMOJI_SUPPORTED) {
-    // Emojis
-    parsedHtml = parsedHtml.replace(/<img[^>]+alt="([^"]+)"[^>]*>/gm, '$1');
-  }
+  // TODO: Remove following commented code if emoji works on IOS
+  // if (!IS_EMOJI_SUPPORTED) {
+  // Emojis
+  parsedHtml = parsedHtml.replace(/<img[^>]+alt="([^"]+)"[^>]*>/gm, '$1');
+  // }
 
   // Strip redundant <span> tags
   parsedHtml = parsedHtml.replace(/<\/?span([^>]*)?>/g, '');

@@ -1,10 +1,11 @@
-import { getPlatform } from './get-platform';
+// TODO: Remove following commented code if emoji works on IOS
 
-export const PLATFORM_ENV = getPlatform();
-export const IS_MAC_OS = PLATFORM_ENV === 'macOS';
-export const IS_IOS = PLATFORM_ENV === 'iOS';
+// import { getPlatform } from './get-platform';
 
-export const IS_EMOJI_SUPPORTED = PLATFORM_ENV && (IS_MAC_OS || IS_IOS);
+// export const PLATFORM_ENV = getPlatform();
+// export const IS_MAC_OS = PLATFORM_ENV === 'macOS';
+// export const IS_IOS = PLATFORM_ENV === 'iOS';
+// export const IS_EMOJI_SUPPORTED = PLATFORM_ENV && (IS_MAC_OS || IS_IOS);
 
 export const IS_TOUCH_ENV = window.matchMedia('(pointer: coarse)').matches;
 

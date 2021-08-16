@@ -1,7 +1,7 @@
 import React from 'react';
 import './render-text.scss';
 
-import { EMOJI_REGEX, IS_EMOJI_SUPPORTED } from '../emoji-constants';
+import { EMOJI_REGEX } from '../emoji-constants';
 
 type TextPart = string | JSX.Element;
 
@@ -116,9 +116,10 @@ function nativeToUnfified(emoji: string) {
 }
 
 function replaceEmojis(textParts: TextPart[], type: 'jsx' | 'html'): TextPart[] {
-  if (IS_EMOJI_SUPPORTED) {
-    return textParts;
-  }
+  // TODO: Remove following commented code if emoji works on IOS
+  // if (IS_EMOJI_SUPPORTED) {
+  //   return textParts;
+  // }
 
   return textParts.reduce((result, part) => {
     if (typeof part !== 'string') {

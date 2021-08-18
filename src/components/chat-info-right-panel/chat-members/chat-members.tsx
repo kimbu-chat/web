@@ -57,17 +57,18 @@ export const ChatMembers: React.FC = () => {
 
   return (
     <div className={BLOCK_NAME} ref={containerRef}>
-      <div className={`${BLOCK_NAME}__heading-block`}>
+      <button
+        onClick={changeMembersDisplayedState}
+        type="button"
+        className={`${BLOCK_NAME}__heading-block`}>
         <h3 className={`${BLOCK_NAME}__heading`}>{t('chatMembers.title')}</h3>
-        <button
-          type="button"
-          onClick={changeMembersDisplayedState}
+        <div
           className={classnames(`${BLOCK_NAME}__open-arrow`, {
             [`${BLOCK_NAME}__open-arrow--rotated`]: membersDisplayed,
           })}>
           <OpenArrowSvg />
-        </button>
-      </div>
+        </div>
+      </button>
 
       {membersDisplayed && (
         <>

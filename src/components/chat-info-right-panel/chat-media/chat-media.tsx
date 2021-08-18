@@ -81,96 +81,101 @@ export const ChatMedia: React.FC<ChatMediaProps> = ({ observeIntersection }) => 
           <h3 className="chat-media__title">{t('chatMedia.media')}</h3>
           {pictureAttachmentsCount > 0 && (
             <div className="chat-media__media-group">
-              <div className="chat-media__media-heading">
+              <button
+                onClick={changePictureDisplayedState}
+                type="button"
+                className="chat-media__media-heading">
                 <PictureSvg />
                 <div className="chat-media__media-title">
                   {t('chatMedia.picture', { count: pictureAttachmentsCount })}
                 </div>
-                <button
-                  type="button"
-                  onClick={changePictureDisplayedState}
+                <div
                   className={`chat-media__open-arrow ${
                     pictureDisplayed ? 'chat-media__open-arrow--rotated' : ''
                   }`}>
                   <OpenArrowSvg />
-                </button>
-              </div>
+                </div>
+              </button>
               {pictureDisplayed && <PhotoList observeIntersection={observeIntersection} />}
             </div>
           )}
           {videoAttachmentsCount > 0 && (
             <div className="chat-media__media-group">
-              <div className="chat-media__media-heading">
+              <button
+                onClick={changeVideoDisplayedState}
+                type="button"
+                className="chat-media__media-heading">
                 <VideoSvg />
                 <div className="chat-media__media-title">
                   {t('chatMedia.video', { count: videoAttachmentsCount })}
                 </div>
-                <button
-                  type="button"
-                  onClick={changeVideoDisplayedState}
+                <div
                   className={`chat-media__open-arrow ${
                     videoDisplayed ? 'chat-media__open-arrow--rotated' : ''
                   }`}>
                   <OpenArrowSvg />
-                </button>
-              </div>
+                </div>
+              </button>
               {videoDisplayed && <VideoList />}
             </div>
           )}
           {audioAttachmentsCount > 0 && (
             <div className="chat-media__media-group">
-              <div className="chat-media__media-heading">
+              <button
+                onClick={changeAudioDisplayedState}
+                type="button"
+                className="chat-media__media-heading">
                 <AudioSvg />
                 <div className="chat-media__media-title">
                   {t('chatMedia.audio', { count: audioAttachmentsCount })}
                 </div>
-                <button
-                  type="button"
-                  onClick={changeAudioDisplayedState}
+                <div
                   className={`chat-media__open-arrow ${
                     audioDisplayed ? 'chat-media__open-arrow--rotated' : ''
                   }`}>
                   <OpenArrowSvg />
-                </button>
-              </div>
+                </div>
+              </button>
               {audioDisplayed && <AudioList />}
             </div>
           )}
           {voiceAttachmentsCount > 0 && (
             <div className="chat-media__media-group">
-              <div className="chat-media__media-heading">
+              <button
+                onClick={changeVoiceDisplayedState}
+                type="button"
+                className="chat-media__media-heading">
                 <VoiceSvg />
                 <div className="chat-media__media-title">
                   {t('chatMedia.voice', { count: voiceAttachmentsCount })}
                 </div>
-                <button
-                  type="button"
-                  onClick={changeVoiceDisplayedState}
+                <div
                   className={`chat-media__open-arrow ${
                     voiceDisplayed ? 'chat-media__open-arrow--rotated' : ''
                   }`}>
                   <OpenArrowSvg />
-                </button>
-              </div>
+                </div>
+              </button>
               {voiceDisplayed && <RecordingsList />}
             </div>
           )}
           {filesAttachmentsCount > 0 && (
             <div className="chat-media__media-group">
-              <div className="chat-media__media-heading">
+              <button
+                onClick={changeFilesDisplayedState}
+                type="button"
+                className="chat-media__media-heading">
                 <FilesSvg />
                 <div className="chat-media__media-title">
                   {t('chatMedia.file', { count: filesAttachmentsCount })}
                 </div>
-                <button
-                  type="button"
-                  onClick={changeFilesDisplayedState}
+                <div
                   className={`chat-media__open-arrow ${
                     filesDisplayed ? 'chat-media__open-arrow--rotated' : ''
                   }`}>
                   <OpenArrowSvg />
-                </button>
-              </div>
+                </div>
+              </button>
               {filesDisplayed && <FileList />}
             </div>
           )}

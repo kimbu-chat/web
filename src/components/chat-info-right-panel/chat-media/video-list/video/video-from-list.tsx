@@ -22,9 +22,7 @@ const VideoFromList: React.FC<IVideoFromListProps> = ({ video, attachmentsArr })
       <div onClick={displayVideoPlayer} className="chat-video__video-wrapper">
         <img alt="" className="chat-video__video" src={video.firstFrameUrl} />
         <div className="chat-video__blur" />
-        <span className="chat-video__duration">
-          {getMinutesSeconds(video.duration * SECOND_DURATION)}
-        </span>
+        <span className="chat-video__duration">{getMinutesSeconds(video.duration)}</span>
         <button type="button" className="chat-video__play">
           <PlaySvg />
         </button>

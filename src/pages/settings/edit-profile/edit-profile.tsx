@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef, lazy, Suspense } from 'react';
+import React, { useCallback, useState, useRef, lazy, Suspense, useEffect } from 'react';
 
 import { AttachmentType } from 'kimbu-models';
 import { parsePhoneNumber } from 'libphonenumber-js';
@@ -44,6 +44,10 @@ enum NicknameState {
 const EditProfile = () => {
   const { t } = useTranslation();
   const myProfile = useSelector(myProfileSelector);
+
+  useEffect(() => {
+    loadPhotoEditor();
+  }, []);
 
   const uploadAvatar = useActionWithDeferred(uploadAvatarRequestAction);
   const updateMyProfile = useActionWithDeferred(updateMyProfileAction);

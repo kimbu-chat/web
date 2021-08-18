@@ -7,7 +7,7 @@ export interface INormalizedMessage {
   id: number;
   userCreatorId: number;
   creationDateTime: string;
-  text: string;
+  text?: string;
   attachmentsJson?: string;
   systemMessageType: SystemMessageType;
   state?: MessageState;

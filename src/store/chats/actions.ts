@@ -62,6 +62,8 @@ import { UploadAttachmentFailure } from './features/upload-attachment/upload-att
 import { UploadAttachmentProgress } from './features/upload-attachment/upload-attachment-progress';
 import { UploadAttachmentRequest } from './features/upload-attachment/upload-attachment-request';
 import { UploadAttachmentSuccess } from './features/upload-attachment/upload-attachment-success';
+import { UploadVoiceAttachmentSuccess } from './features/upload-voice-attachment/upload-voice-attachment-success';
+import { UploadVoiceAttachment } from './features/upload-voice-attachment/upload-voice-attachment';
 import { ChatClearedEventHandler } from './socket-events/chat-cleared/chat-cleared-event-handler';
 import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
 import { DialogRemovedEventHandler } from './socket-events/dialog-removed/dialog-removed-event-handler';
@@ -138,6 +140,8 @@ export const removeAllAttachmentsAction = RemoveAllAttachments.action;
 export const removeUserFromGroupChatAction = RemoveUserFromGroupChat.action;
 export const removeUserFromGroupChatSuccessAction = RemoveUserFromGroupChatSuccess.action;
 export const resetSearchChatsAction = ResetSearchChats.action;
+export const uploadVoiceAttachmentAction = UploadVoiceAttachment.action;
+export const uploadVoiceAttachmentSuccess = UploadVoiceAttachmentSuccess.action;
 
 // socket-events
 
@@ -223,6 +227,8 @@ export const ChatActions = {
   removeUserFromGroupChatSuccessAction,
   removeChat,
   removeChatSuccess,
+  uploadVoiceAttachmentAction,
+  uploadVoiceAttachmentSuccess,
 
   // socket-events
 

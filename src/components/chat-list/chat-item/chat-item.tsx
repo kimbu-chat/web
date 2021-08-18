@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 
 import classnames from 'classnames';
 import { MessageLinkType, SystemMessageType } from 'kimbu-models';
+import { size } from 'lodash';
 import truncate from 'lodash/truncate';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -51,16 +52,16 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
         : chat?.lastMessage;
 
     if (
-      (chat?.lastMessage?.text.length === 0 && (chat?.lastMessage.attachments?.length || 0) > 0) ||
-      (chat?.lastMessage?.linkedMessage?.text?.length === 0 &&
-        (chat?.lastMessage?.linkedMessage?.attachments?.length || 0) > 0)
+      (size(chat?.lastMessage?.text) === 0 && size(chat?.lastMessage?.attachments) > 0) ||
+      (size(chat?.lastMessage?.linkedMessage?.text) === 0 &&
+        size(chat?.lastMessage?.linkedMessage?.attachments) > 0)
     ) {
       return t('chatFromList.media');
     }
 
     if (
-      chat?.lastMessage?.text.length === 0 &&
-      (chat?.lastMessage.attachments?.length || 0) === 0 &&
+      chat?.lastMessage?.text?.length === 0 &&
+      size(chat?.lastMessage.attachments) === 0 &&
       chat?.lastMessage?.linkedMessage === null
     ) {
       return t('message-link.message-deleted');

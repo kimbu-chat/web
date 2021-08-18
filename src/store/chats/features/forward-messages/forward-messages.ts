@@ -42,7 +42,6 @@ export class ForwardMessages {
         // eslint-disable-next-line no-restricted-syntax
         for (const chatId of chatIdsToForward) {
           const messageCreationReq: ICreateMessageRequest = {
-            text: '',
             chatId,
             link: {
               originalMessageId:

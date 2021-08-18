@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 
+import { size } from 'lodash';
 import { useSelector } from 'react-redux';
 
 import { authenticatedSelector } from '@store/auth/selectors';
@@ -62,7 +63,7 @@ export const useDragDrop = () => {
           '.drag-indicator, .drag-indicator *, .chat-page, .chat-page *',
         )
       ) {
-        if ((e.dataTransfer?.files?.length || 0) > 0) {
+        if (size(e.dataTransfer?.files) > 0) {
           for (let index = 0; index < (e.dataTransfer?.files.length || 0); index += 1) {
             const file = e.dataTransfer?.files[index] as File;
 

@@ -12,6 +12,7 @@ import {
   MessageLinkType,
   CallStatus,
 } from 'kimbu-models';
+import { size } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -286,7 +287,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               {messageToProcess?.isEdited && <CrayonSvg className={`${BLOCK_NAME}__edited`} />}
 
               {!(
-                ((message?.attachments?.length || 0) > 0 && message?.text) ||
+                (size(message?.attachments) > 0 && message?.text) ||
                 message?.linkedMessageType === MessageLinkType.Forward ||
                 message?.text
               ) && (
@@ -312,7 +313,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 </div>
               )}
 
-              {(((messageToProcess?.attachments?.length || 0) > 0 && message?.text) ||
+              {((size(messageToProcess?.attachments) > 0 && message?.text) ||
                 message?.linkedMessageType === MessageLinkType.Forward ||
                 message?.text) && (
                 <div className={`${BLOCK_NAME}__content`}>
@@ -341,7 +342,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                       </div>
                     )}
 
-                  {(messageToProcess?.attachments?.length || 0) > 0 && (
+                  {size(messageToProcess?.attachments) > 0 && (
                     <div className={`${BLOCK_NAME}__attachments`}>
                       {structuredAttachments?.files.map((file) => (
                         <FileAttachment key={file.id} {...file} />

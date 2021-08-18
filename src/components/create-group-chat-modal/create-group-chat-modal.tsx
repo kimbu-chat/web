@@ -10,6 +10,7 @@ import { Modal, IModalChildrenProps } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
+import { loadPhotoEditor } from '@routing/module-loader';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { Button } from '@shared-components/button';
 import { AnimationMode } from '@shared-components/with-background/with-background';
@@ -48,6 +49,10 @@ const InitialCreateGroupChatModal: React.FC<ICreateGroupChatModalProps & IModalC
   const history = useHistory();
   const submitGroupChatCreation = useActionWithDeferred(createGroupChatAction);
   const resetSearchFriends = useActionWithDispatch(resetSearchFriendsAction);
+
+  useEffect(() => {
+    loadPhotoEditor();
+  }, []);
 
   useEffect(
     () => () => {

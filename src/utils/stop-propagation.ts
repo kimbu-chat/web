@@ -1,3 +1,3 @@
-export const stopPropagation = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+export const stopPropagation = (e: React.MouseEvent) => {
   e.stopPropagation();
 };

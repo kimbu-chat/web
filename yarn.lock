@@ -12114,10 +12114,10 @@ sass-loader@^10.0.5:
     schema-utils "^3.0.0"
     semver "^7.3.2"
 
-sass@1.37.2:
-  version "1.37.2"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.37.2.tgz#eb87c01a1e6ec12e50fa69571b69628ea043a372"
-  integrity sha512-+XMg8QOg7OGLo4F5R3fLYEti/3MxFkyX0NxYbqWycU8xYMAhPDN5FuCO2ZJudnM1wcnZ3CeJRnpqUBZpLOitCQ==
+sass@1.38.0:
+  version "1.38.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.38.0.tgz#2f3e60a1efdcdc910586fa79dc89d3399a145b4f"
+  integrity sha512-WBccZeMigAGKoI+NgD7Adh0ab1HUq+6BmyBUEaGxtErbUtWUevEbdgo5EZiJQofLUGcKtlNaO2IdN73AHEua5g==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
 

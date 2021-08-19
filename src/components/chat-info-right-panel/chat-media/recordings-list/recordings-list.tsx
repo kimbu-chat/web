@@ -11,8 +11,6 @@ import { getSelectedChatRecordingsSelector } from '@store/chats/selectors';
 import { separateGroupable } from '@utils/date-utils';
 import { setSeparators } from '@utils/set-separators';
 
-import './recordings-list.scss';
-
 const ATTACHMENTS_GROUP_PREFIX = 'recordings';
 
 export const RecordingsList = () => {

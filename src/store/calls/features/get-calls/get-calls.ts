@@ -1,18 +1,20 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
-import { IUser, ICall, IGetCallsRequest } from 'kimbu-models';
+import { IUser, ICall, IGetCallsRequest, IPaginationParams } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { INormalizedCall } from '@store/calls/common/models';
+import { getCallsListSelector, getSearchCallsListSelector } from '@store/calls/selectors';
 import { ById } from '@store/chats/models/by-id';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
+import { CALL_LIMIT } from '../../../../utils/pagination-limits';
 import { ICallsState } from '../../calls-state';
 import { callArrNormalizationSchema } from '../../normalization';
 
@@ -44,16 +46,25 @@ export class GetCalls {
 
   static get saga() {
     return function* getCalls(action: ReturnType<typeof GetCalls.action>): SagaIterator {
-      const { page, name, initializedByScroll } = action.payload;
+      const { name, initializedByScroll } = action.payload;
 
       if (!name?.length && !initializedByScroll) {
         return;
       }
+      const callList = yield select(getCallsListSelector);
+      const searchCallList = yield select(getSearchCallsListSelector);
+
+      const page: IPaginationParams = {
+        offset: action.payload.name?.length
+          ? searchCallList.callIds.length
+          : callList.callIds.length,
+        limit: CALL_LIMIT,
+      };
+
+      const request: IGetCallsRequest = { name, page };
 
       const { httpRequest } = GetCalls;
-      const { data, status } = httpRequest.call(
-        yield call(() => httpRequest.generator(action.payload)),
-      );
+      const { data, status } = httpRequest.call(yield call(() => httpRequest.generator(request)));
 
       const hasMore = data.length >= page.limit;
 

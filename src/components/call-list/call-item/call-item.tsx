@@ -1,7 +1,6 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
-import dayjs from 'dayjs';
 import { CallStatus } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -14,8 +13,12 @@ import { ReactComponent as OutgoingCallSvg } from '@icons/outgoing-call.svg';
 import { getCallSelector } from '@store/calls/selectors';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
-import { FULL_DATE_TIME } from '@utils/constants';
-import { getHourMinuteSecond } from '@utils/date-utils';
+import {
+  checkIfDatesAreDifferentDate,
+  getHourMinuteSecond,
+  getShortTimeAmPm,
+  getDayMonthYear,
+} from '@utils/date-utils';
 import { getUserName } from '@utils/user-utils';
 
 import './call-item.scss';
@@ -36,11 +39,6 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
 
   const isOutgoing = myId === call?.userCallerId;
   const missedByMe = !isOutgoing && call?.status === CallStatus.NotAnswered;
-
-  const getCallCreationDateTime = useCallback(
-    (creationDateTime: string) => dayjs.utc(creationDateTime).local().format(FULL_DATE_TIME),
-    [],
-  );
 
   return (
     <div className={BLOCK_NAME}>
@@ -78,7 +76,9 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
       </div>
       <div className={`${BLOCK_NAME}__aside-data`}>
         <div className={`${BLOCK_NAME}__date`}>
-          {getCallCreationDateTime(call?.creationDateTime)}
+          {checkIfDatesAreDifferentDate(new Date(call?.creationDateTime), new Date())
+            ? getDayMonthYear(call?.creationDateTime)
+            : getShortTimeAmPm(call?.creationDateTime).toLowerCase()}
         </div>
         <div
           className={classnames(`${BLOCK_NAME}__type-icon`, {

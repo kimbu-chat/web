@@ -9,10 +9,7 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getVoiceAttachmentsAction } from '@store/chats/actions';
 import { getSelectedChatRecordingsSelector } from '@store/chats/selectors';
 import { separateGroupable } from '@utils/date-utils';
-import { VOICE_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { setSeparators } from '@utils/set-separators';
-
-import './recordings-list.scss';
 
 const ATTACHMENTS_GROUP_PREFIX = 'recordings';
 
@@ -22,14 +19,8 @@ export const RecordingsList = () => {
   const getRecordings = useActionWithDispatch(getVoiceAttachmentsAction);
 
   const loadMore = useCallback(() => {
-    getRecordings({
-      page: {
-        // TODO: set up default offset and limit values
-        offset: recordingsForSelectedChat?.recordings.length || 0,
-        limit: VOICE_ATTACHMENTS_LIMIT,
-      },
-    });
-  }, [getRecordings, recordingsForSelectedChat]);
+    getRecordings();
+  }, [getRecordings]);
 
   const recordingsWithSeparators = setSeparators(
     recordingsForSelectedChat?.recordings,

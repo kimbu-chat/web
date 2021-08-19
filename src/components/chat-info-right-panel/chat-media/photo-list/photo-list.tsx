@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 
-import { IPictureAttachment, IPaginationParams } from 'kimbu-models';
+import { IPictureAttachment } from 'kimbu-models';
 import { useSelector } from 'react-redux';
 
 import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
@@ -9,7 +9,6 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getPhotoAttachmentsAction } from '@store/chats/actions';
 import { getSelectedChatPhotosSelector } from '@store/chats/selectors';
 import { separateGroupable } from '@utils/date-utils';
-import { PHOTO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { setSeparators } from '@utils/set-separators';
 
 import { Photo } from './photo/photo';
@@ -30,15 +29,8 @@ const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const loadMore = useCallback(() => {
-    const page: IPaginationParams = {
-      offset: photoForSelectedChat?.photos.length || 0,
-      limit: PHOTO_ATTACHMENTS_LIMIT,
-    };
-
-    getPhotoAttachments({
-      page,
-    });
-  }, [photoForSelectedChat?.photos.length, getPhotoAttachments]);
+    getPhotoAttachments();
+  }, [getPhotoAttachments]);
 
   const photosWithSeparators = setSeparators(
     photoForSelectedChat?.photos,

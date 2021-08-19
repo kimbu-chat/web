@@ -69,8 +69,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    display: flex;
     align-items: center;
+
+    .rendered-emoji {
+      margin-bottom: -4px;
+    }
   }
 
   &__count {

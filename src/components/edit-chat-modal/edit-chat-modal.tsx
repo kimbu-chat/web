@@ -1,4 +1,4 @@
-import React, { lazy, useCallback, useRef, useState } from 'react';
+import React, { lazy, useCallback, useRef, useState, useEffect } from 'react';
 
 import { IGroupChat, IAvatar } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
@@ -46,6 +46,10 @@ const InitialEditChatModal: React.FC<IEditChatModalProps & IModalChildrenProps> 
   const uploadGroupChatAvatar = useActionWithDeferred(uploadAvatarRequestAction);
   const cancelAvatarUploading = useActionWithDispatch(cancelAvatarUploadingRequestAction);
   const editGroupChat = useActionWithDeferred(editGroupChatAction);
+
+  useEffect(() => {
+    loadPhotoEditor();
+  }, []);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 

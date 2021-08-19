@@ -97,6 +97,7 @@ export const MediaModal: React.FC<IImageModalProps> = ({
             )}
             {currentAttachment.type === AttachmentType.Video && (
               <video
+                onClick={stopPropagation}
                 preload="metadata"
                 autoPlay
                 controls

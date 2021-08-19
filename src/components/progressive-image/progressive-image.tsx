@@ -36,14 +36,12 @@ const ProgressiveImage: React.FC<ImageContainerProps> = ({
 
   const isIntersecting = useIsIntersecting(ref, observeIntersection);
 
-  const aspectRatio = (height / width) * 100;
-
   return (
     <div
       onClick={onClick}
       ref={ref}
       className={classnames(BLOCK_NAME, className)}
-      style={{ paddingBottom: `${aspectRatio}%`, width }}>
+      style={{ height, width }}>
       <Image src={src} thumb={thumb} alt={alt} isIntersecting={isIntersecting} />
     </div>
   );

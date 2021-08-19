@@ -6,6 +6,7 @@ import {
   HOUR_MINUTE_SECOND,
   MINUTES_SECONDS,
   SECOND_DURATION,
+  DAY_MONTH_YEAR,
 } from '@utils/constants';
 
 import { doesYearDifferFromCurrent } from './set-separators';
@@ -77,3 +78,6 @@ export const getHourMinuteSecond = (duration: number) =>
   dayjs.utc(duration).format(HOUR_MINUTE_SECOND);
 export const getShortTimeAmPm = (creationDateTime: string) =>
   dayjs.utc(creationDateTime).local().format(SHORT_TIME_AM_PM);
+
+export const getDayMonthYear = (creationDateTime: string) =>
+  dayjs.utc(creationDateTime).local().format(DAY_MONTH_YEAR);

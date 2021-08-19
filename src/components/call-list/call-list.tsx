@@ -8,7 +8,6 @@ import { SearchBox } from '@components/search-box';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getCallsAction, resetSearchCallsAction } from '@store/calls/actions';
 import { getCallsListSelector, getSearchCallsListSelector } from '@store/calls/selectors';
-import { CALL_LIMIT } from '@utils/pagination-limits';
 
 import { CallItem } from './call-item/call-item';
 
@@ -28,10 +27,6 @@ export const CallList = () => {
   const changeSearchString = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       getCalls({
-        page: {
-          offset: 0,
-          limit: CALL_LIMIT,
-        },
         initializedByScroll: false,
         name: e.target.value,
       });
@@ -42,14 +37,10 @@ export const CallList = () => {
 
   const loadMore = useCallback(() => {
     getCalls({
-      page: {
-        offset: searchString.length ? searchCallsList.callIds.length : callsList.callIds.length,
-        limit: CALL_LIMIT,
-      },
       initializedByScroll: true,
       name: searchString,
     });
-  }, [callsList.callIds.length, getCalls, searchString, searchCallsList.callIds.length]);
+  }, [getCalls, searchString]);
 
   const renderCall = useCallback((callId: number) => <CallItem key={callId} callId={callId} />, []);
 

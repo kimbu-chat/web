@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react';
 
-import { IUser, IPaginationParams } from 'kimbu-models';
+import { IUser } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -18,7 +18,6 @@ import { ChatId } from '@store/chats/chat-id';
 import { INormalizedChat } from '@store/chats/models';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
-import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 import { replaceInUrl } from '@utils/replace-in-url';
 
 import './new-message-modal.scss';
@@ -72,18 +71,13 @@ const InitialNewMessageModal: React.FC<INewMessageModalProps & IModalChildrenPro
   );
 
   const loadMore = useCallback(() => {
-    const page: IPaginationParams = {
-      offset: name.length ? searchFriendIds?.length || 0 : friendIds.length,
-      limit: FRIENDS_LIMIT,
-    };
-    loadFriends({ page, name, initializedByScroll: true });
-  }, [searchFriendIds?.length, friendIds.length, loadFriends, name]);
+    loadFriends({ name, initializedByScroll: true });
+  }, [loadFriends, name]);
 
   const queryFriends = useCallback(
     (searchName: string) => {
       setName(searchName);
       loadFriends({
-        page: { offset: 0, limit: FRIENDS_LIMIT },
         name: searchName,
         initializedByScroll: false,
       });

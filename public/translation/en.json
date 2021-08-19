@@ -169,7 +169,7 @@
   },
   "changePhoto": {
     "confirm": "Save",
-    "title": "Upload Profile Photo",
+    "title": "Upload Picture",
     "reject": "Cancel",
     "left": "Left Rotation",
     "mirror": "Mirror",

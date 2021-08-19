@@ -6,7 +6,6 @@ import { MediaModal } from '@components/image-modal';
 import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { IGroupable } from '@store/chats/models';
-import { SECOND_DURATION } from '@utils/constants';
 import { getMinutesSeconds } from '@utils/date-utils';
 
 interface IVideoFromListProps {
@@ -22,9 +21,7 @@ const VideoFromList: React.FC<IVideoFromListProps> = ({ video, attachmentsArr })
       <div onClick={displayVideoPlayer} className="chat-video__video-wrapper">
         <img alt="" className="chat-video__video" src={video.firstFrameUrl} />
         <div className="chat-video__blur" />
-        <span className="chat-video__duration">
-          {getMinutesSeconds(video.duration * SECOND_DURATION)}
-        </span>
+        <span className="chat-video__duration">{getMinutesSeconds(video.duration)}</span>
         <button type="button" className="chat-video__play">
           <PlaySvg />
         </button>

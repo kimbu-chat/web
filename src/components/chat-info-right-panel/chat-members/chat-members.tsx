@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react';
 
 import classnames from 'classnames';
-import { IPaginationParams } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -14,7 +13,6 @@ import {
   getMembersListForSelectedGroupChatSelector,
   getSelectedGroupChatCreatorIdSelector,
 } from '@store/chats/selectors';
-import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 
 import { Member } from './chat-member/chat-member';
 
@@ -35,23 +33,16 @@ export const ChatMembers: React.FC = () => {
   const userCreatorId = useSelector(getSelectedGroupChatCreatorIdSelector);
 
   const loadMore = useCallback(() => {
-    const page: IPaginationParams = {
-      offset: membersListForGroupChat?.memberIds?.length || 0,
-      limit: CHAT_MEMBERS_LIMIT,
-    };
-
     getGroupChatUsers({
-      page,
       name: searchStr,
       isFromSearch: searchStr.length > 0,
     });
-  }, [getGroupChatUsers, membersListForGroupChat?.memberIds?.length, searchStr]);
+  }, [getGroupChatUsers, searchStr]);
 
   const search = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchStr(e.target.value);
       getGroupChatUsers({
-        page: { offset: 0, limit: CHAT_MEMBERS_LIMIT },
         name: e.target.value,
         isFromSearch: true,
       });
@@ -66,17 +57,18 @@ export const ChatMembers: React.FC = () => {
 
   return (
     <div className={BLOCK_NAME} ref={containerRef}>
-      <div className={`${BLOCK_NAME}__heading-block`}>
+      <button
+        onClick={changeMembersDisplayedState}
+        type="button"
+        className={`${BLOCK_NAME}__heading-block`}>
         <h3 className={`${BLOCK_NAME}__heading`}>{t('chatMembers.title')}</h3>
-        <button
-          type="button"
-          onClick={changeMembersDisplayedState}
+        <div
           className={classnames(`${BLOCK_NAME}__open-arrow`, {
             [`${BLOCK_NAME}__open-arrow--rotated`]: membersDisplayed,
           })}>
           <OpenArrowSvg />
-        </button>
-      </div>
+        </div>
+      </button>
 
       {membersDisplayed && (
         <>

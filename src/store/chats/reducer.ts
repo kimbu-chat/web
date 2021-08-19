@@ -71,6 +71,8 @@ import { UploadAttachmentFailure } from './features/upload-attachment/upload-att
 import { UploadAttachmentProgress } from './features/upload-attachment/upload-attachment-progress';
 import { UploadAttachmentRequest } from './features/upload-attachment/upload-attachment-request';
 import { UploadAttachmentSuccess } from './features/upload-attachment/upload-attachment-success';
+import { UploadVoiceAttachmentSuccess } from './features/upload-voice-attachment/upload-voice-attachment-success';
+import { UploadVoiceAttachment } from './features/upload-voice-attachment/upload-voice-attachment';
 import { getChatByIdDraftSelector } from './selectors';
 import { ChatClearedEventHandler } from './socket-events/chat-cleared/chat-cleared-event-handler';
 import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
@@ -157,6 +159,8 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(DialogRemovedEventHandler.action, DialogRemovedEventHandler.reducer)
   .handleAction(ResetSearchChats.action, ResetSearchChats.reducer)
   .handleAction(RemoveChat.action, RemoveChat.reducer)
+  .handleAction(UploadVoiceAttachment.action, UploadVoiceAttachment.reducer)
+  .handleAction(UploadVoiceAttachmentSuccess.action, UploadVoiceAttachmentSuccess.reducer)
   .handleAction(
     BlockUserSuccess.action,
     produce((draft, { payload }: ReturnType<typeof BlockUserSuccess.action>) => {

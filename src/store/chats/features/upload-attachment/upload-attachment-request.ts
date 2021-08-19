@@ -39,7 +39,11 @@ export class UploadAttachmentRequest {
   static get reducer() {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentRequest.action>) => {
-        const { type, attachmentId, file, waveFormJson } = payload;
+        const { type, attachmentId, file, waveFormJson, noStateChange } = payload;
+
+        if (noStateChange) {
+          return draft;
+        }
 
         if (file.size / 1048576 > MAX_FILE_SIZE_MB) {
           return draft;

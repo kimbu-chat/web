@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { IUser, IMessage, IGetMessagesRequest } from 'kimbu-models';
+import { size } from 'lodash';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select, take } from 'redux-saga/effects';
@@ -83,7 +84,7 @@ export class GetMessages {
         const request: IGetMessagesRequest = {
           page: {
             limit: MESSAGES_LIMIT,
-            offset: isFromScroll ? chat.messages.messageIds?.length || 0 : 0,
+            offset: isFromScroll ? size(chat.messages.messageIds) : 0,
           },
           chatId: chat.id,
           searchString,

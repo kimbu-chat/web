@@ -11,9 +11,8 @@
 
   &__icon {
     color: var(--dt-white-wt-kingBlue);
-    height: 21px;
+    height: 26px;
     margin-right: 17px;
-    width: 21px;
   }
 
   &__select-friends {
@@ -21,10 +20,8 @@
 
     &__search {
       height: 32px;
-      margin-bottom: 8px;
-      margin-left: 0;
-      margin-right: 0;
-      width: 339px;
+      margin: 0 0 0 0;
+      width: 330px;
 
       svg {
         height: 16px;
@@ -42,7 +39,7 @@
   }
 
   &__friends-block {
-    max-height: 294px;
+    max-height: 337px;
     overflow: auto;
     padding-right: 8px;
 

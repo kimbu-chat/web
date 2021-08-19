@@ -1,10 +1,10 @@
 .add-call-modal {
-  min-width: 339px;
+  width: 330px;
   margin-top: 16px;
 
   &__friends-block {
     margin-top: -8px;
-    max-height: 384px;
+    max-height: 320px;
     overflow: auto;
 
     &__avatar-group {

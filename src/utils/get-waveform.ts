@@ -1,15 +1,12 @@
 import WaveSurfer from 'wavesurfer.js';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone';
 import { Peaks } from 'wavesurfer.js/types/backend';
 
-export const getWaveform = (recordingUrl: string) =>
+export const getWaveform = (recordingUrl: string, seconds: number) =>
   new Promise<Peaks>((resolve) => {
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
     let context;
     let processor;
-
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
     if (isSafari) {
       // Safari 11 or newer automatically suspends new AudioContext's that aren't
@@ -22,20 +19,24 @@ export const getWaveform = (recordingUrl: string) =>
 
     const waveSurferInstance = WaveSurfer.create({
       container: document.createElement('div'),
-      waveColor: '#3f8ae0',
-      interact: false,
+      waveColor: '#ffff',
+      progressColor: '#3f8ae0',
+      backgroundColor: 'transparent',
       cursorWidth: 0,
-      plugins: [MicrophonePlugin.create()],
+      height: 24,
+      barWidth: 1,
       audioScriptProcessor: processor,
       audioContext: context,
-      height: 30,
       hideScrollbar: true,
+      barRadius: 1,
+      barGap: 3,
+      barMinHeight: 1,
     });
 
     waveSurferInstance?.load(recordingUrl);
 
     const onReady = () => {
-      waveSurferInstance?.exportPCM(5, undefined, true).then((waveForm) => {
+      waveSurferInstance?.exportPCM(seconds * 3, undefined, true).then((waveForm) => {
         resolve(waveForm);
       });
     };

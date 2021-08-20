@@ -304,7 +304,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                     <MessageAudioAttachment key={audio.id} {...audio} />
                   ))}
 
-                  {structuredAttachments?.media && (
+                  {structuredAttachments && structuredAttachments.media.length > 0 && (
                     <MediaGrid
                       observeIntersection={observeIntersection}
                       media={structuredAttachments.media}

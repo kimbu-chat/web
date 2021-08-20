@@ -93,7 +93,7 @@
       }
 
       &:last-child {
-        margin-bottom: 15px;
+        margin-bottom: 0;
       }
     }
   }
@@ -211,11 +211,6 @@
 
     & > .message__attachments {
       margin-bottom: 0;
-
-      .media-grid {
-        margin-bottom: 0;
-        margin-top: 0;
-      }
     }
   }
 }

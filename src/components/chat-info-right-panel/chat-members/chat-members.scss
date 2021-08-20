@@ -38,11 +38,19 @@
   }
 
   &__search-container {
-    height: 40px;
-    margin: 16px 24px 10px 24px;
+    height: 32px;
+    margin: 16px 0 19px 24px;
+
+    svg {
+      height: 18px;
+      left: 18px;
+      width: 18px;
+    }
 
     input {
-      text-indent: 50px;
+      font-weight: 300;
+      height: 32px;
+      text-indent: 58px;
     }
   }
 

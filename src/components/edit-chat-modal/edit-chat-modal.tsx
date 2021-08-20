@@ -9,6 +9,7 @@ import { IModalChildrenProps, Modal } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
+import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { ReactComponent as PictureSvg } from '@icons/picture.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
@@ -125,6 +126,8 @@ const InitialEditChatModal: React.FC<IEditChatModalProps & IModalChildrenProps> 
     setAvatarData(undefined);
   }, [cancelAvatarUploading]);
 
+  const openFileExplorer = useCallback(() => fileInputRef.current?.click(), [fileInputRef]);
+
   return (
     <>
       <Modal.Header>{t('editChatModal.title')}</Modal.Header>
@@ -147,10 +150,7 @@ const InitialEditChatModal: React.FC<IEditChatModalProps & IModalChildrenProps> 
           )}
           <button
             type="button"
-            onClick={() => {
-              discardNewAvatar();
-              fileInputRef.current?.click();
-            }}
+            onClick={openFileExplorer}
             className={`${BLOCK_NAME}__change-photo-btn`}>
             <PictureSvg />
             <span>{t('editChatModal.upload_new')}</span>
@@ -159,6 +159,15 @@ const InitialEditChatModal: React.FC<IEditChatModalProps & IModalChildrenProps> 
           <BottomAvatarLine className={`${BLOCK_NAME}__current-photo-wrapper__bottom-line`} />
         </div>
         <div className={`${BLOCK_NAME}__criteria`}>{t('editChatModal.requirements')}</div>
+
+        {avatarData?.previewUrl && (
+          <button type="button" onClick={discardNewAvatar} className={`${BLOCK_NAME}__delete`}>
+            <DeleteSvg className={`${BLOCK_NAME}__delete__icon`} />
+            <span className={`${BLOCK_NAME}__delete__text`}>
+              {t('groupChatCreation.delete-photo')}
+            </span>
+          </button>
+        )}
 
         <LabeledInput
           label={t('editChatModal.name')}

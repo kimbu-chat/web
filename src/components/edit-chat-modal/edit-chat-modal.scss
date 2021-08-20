@@ -87,6 +87,32 @@
     font-weight: 300;
     line-height: 12px;
     margin-top: 13px;
+    margin-bottom: 32px;
+  }
+
+  &__delete {
+    position: absolute;
+    top: 229px;
+    padding: 3px 30px;
+    border-radius: 4px;
+    border: 1px solid var(--dt-white-wt-dark);
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+
+    &__icon {
+      width: 12px;
+      height: 13px;
+      color: var(--dt-white-wt-dark);
+      margin-right: 5px;
+    }
+
+    &__text {
+      color: var(--dt-white-wt-dark);
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 14px;
+    }
   }
 
   &__btn {
@@ -95,7 +121,7 @@
     font-size: 1rem;
     font-weight: 300;
     line-height: 19px;
-    margin-top: 30px;
+    margin-top: 10px;
     padding: 10px 32px;
 
     &--cancel {
@@ -121,6 +147,6 @@
   }
 
   &__input {
-    margin-top: 30px;
+    margin-top: 25px;
   }
 }

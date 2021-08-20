@@ -51,7 +51,8 @@
     "upload_new": "Загрузить Новое Фото",
     "requirements": "Минимум 256*256px PNG или JPG",
     "name": "Название",
-    "description": "Описание"
+    "description": "Описание",
+    "delete-photo": "Удалить фото"
   },
   "register": {
     "photo-requirements": "Как минимум 256*256px PNG или JPG",

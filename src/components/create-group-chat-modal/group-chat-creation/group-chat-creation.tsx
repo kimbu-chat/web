@@ -7,6 +7,7 @@ import { LabeledInput } from '@components/labeled-input';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
+import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { ReactComponent as PictureSvg } from '@icons/picture.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
@@ -96,6 +97,8 @@ const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
     setAvatarUploadResponse(undefined);
   }, [cancelAvatarUploading, setAvatarUploadResponse]);
 
+  const openFileExplorer = useCallback(() => fileInputRef.current?.click(), [fileInputRef]);
+
   return (
     <>
       <div className={BLOCK_NAME}>
@@ -117,10 +120,7 @@ const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
           )}
           <button
             type="button"
-            onClick={() => {
-              discardAvatar();
-              fileInputRef.current?.click();
-            }}
+            onClick={openFileExplorer}
             className={`${BLOCK_NAME}__change-photo-btn`}>
             <PictureSvg />
             <span>{t('groupChatCreation.upload_new')}</span>
@@ -129,6 +129,15 @@ const GroupChatCreation: React.FC<IGroupChatCreationProps> = ({
           <BottomAvatarLine className={`${BLOCK_NAME}__current-photo-wrapper__bottom-line`} />
         </div>
         <div className={`${BLOCK_NAME}__criteria`}>{t('groupChatCreation.requirements')}</div>
+
+        {avatarData?.croppedImagePath && (
+          <button type="button" onClick={discardAvatar} className={`${BLOCK_NAME}__delete`}>
+            <DeleteSvg className={`${BLOCK_NAME}__delete__icon`} />
+            <span className={`${BLOCK_NAME}__delete__text`}>
+              {t('groupChatCreation.delete-photo')}
+            </span>
+          </button>
+        )}
 
         <LabeledInput
           autoFocus

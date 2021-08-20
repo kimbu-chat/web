@@ -62,6 +62,7 @@ export const RecordingMessage: React.FC<IRecordingMessageProps> = ({ hide }) => 
       if (canceled) {
         hide();
         stopGenerating();
+        return;
       }
 
       tracks.forEach((track) => track.stop());
@@ -90,7 +91,7 @@ export const RecordingMessage: React.FC<IRecordingMessageProps> = ({ hide }) => 
           stopGenerating();
         };
 
-        getWaveform(recordingUrl).then(onReady);
+        getWaveform(recordingUrl, referedRecordedSeconds.current).then(onReady);
       }
     });
   }, [hide, uploadVoiceAttachment, referedRecordedSeconds]);
@@ -102,10 +103,10 @@ export const RecordingMessage: React.FC<IRecordingMessageProps> = ({ hide }) => 
   }, []);
 
   const cancelRecording = useCallback(() => {
+    canceled = true;
     mediaRecorder?.stop();
     tracks.forEach((track) => track.stop());
     tracks = [];
-    canceled = true;
   }, []);
 
   return (

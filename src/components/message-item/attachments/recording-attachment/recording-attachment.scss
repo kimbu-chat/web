@@ -7,10 +7,6 @@
   position: relative;
   max-width: calc(100% - 40px);
 
-  &:first-child {
-    margin-top: 0;
-  }
-
   & > * {
     width: 100%;
   }

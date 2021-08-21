@@ -6,6 +6,7 @@ import { ChangeSelectedChat } from './features/change-selected-chat/change-selec
 import { ClearChatHistory } from './features/clear-chat-history/clear-chat-history';
 import { CopyMessages } from './features/copy-messages/copy-messages';
 import { CreateGroupChat } from './features/create-group-chat/create-group-chat';
+import { CreateMessageSuccess } from './features/create-message/create-message-success';
 import { CreateMessage } from './features/create-message/create-message';
 import { DeleteMessage } from './features/delete-message/delete-message';
 import { EditGroupChat } from './features/edit-group-chat/edit-group-chat';
@@ -66,6 +67,7 @@ export function* chatSaga() {
     takeEvery(RemoveChat.action, RemoveChat.saga),
     takeEvery(UploadVoiceAttachment.action, UploadVoiceAttachment.saga),
     takeEvery(UploadVoiceAttachmentSuccess.action, UploadVoiceAttachmentSuccess.saga),
+    takeEvery(CreateMessageSuccess.action, CreateMessageSuccess.saga),
 
     // socket-events
     takeEvery(MessageCreatedEventHandler.action, MessageCreatedEventHandler.saga),

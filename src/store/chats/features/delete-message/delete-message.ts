@@ -6,6 +6,7 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { cancelSendMessageRequest } from '@utils/cancel-send-message-request';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getSelectedChatIdSelector } from '../../selectors';
@@ -25,9 +26,26 @@ export class DeleteMessage {
       const { messageIds, forEveryone } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 
-      const { status } = DeleteMessage.httpRequest.call(
-        yield call(() => DeleteMessage.httpRequest.generator({ ids: messageIds, forEveryone })),
-      );
+      /* Not all messages that come in payload are already resolved on server, that's why we have to
+      filter messages ids and to send to server only 'SENT' messages */
+      const messageIdsToRemove: number[] = [];
+
+      messageIds.forEach((id) => {
+        if (!cancelSendMessageRequest(id)) {
+          messageIdsToRemove.push(id);
+        }
+      });
+
+      // if there is not messages to be sent to server, we will not send request to server and we will suppose that response status is "OK"
+      let status = HTTPStatusCode.OK;
+
+      if (!(messageIdsToRemove.length === 0)) {
+        status = DeleteMessage.httpRequest.call(
+          yield call(() =>
+            DeleteMessage.httpRequest.generator({ ids: messageIdsToRemove, forEveryone }),
+          ),
+        ).status;
+      }
 
       if (status === HTTPStatusCode.OK) {
         yield put(DeleteMessageSuccess.action({ messageIds, chatId }));

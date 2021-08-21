@@ -45,6 +45,15 @@ export function* httpRequest<TBody>(
   }
 
   return yield call(retryOnNetworkConnectionError, function* retry() {
-    return yield call(axios.create().request, requestConfig);
+    try {
+      return yield call(axios.create().request, requestConfig);
+    } catch (e) {
+      if (e.message) {
+        // If request was canceled e.message is undefined and we have not to handle thid error
+        throw e;
+      }
+    }
+
+    return undefined;
   });
 }

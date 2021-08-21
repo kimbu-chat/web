@@ -29,7 +29,10 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
   method: HttpRequestMethod,
   headers?: HttpHeaders,
 ): IRequestGenerator<TResponse, TBody> => {
-  function* generator(body?: TBody): SagaIterator {
+  function* generator(
+    body?: TBody,
+    assignCancelToken?: (token: CancelTokenSource) => void,
+  ): SagaIterator {
     let cancelTokenSource: CancelTokenSource | null = null;
 
     try {
@@ -44,6 +47,9 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
       try {
         const authHeader = yield call(getAuthHeader);
         cancelTokenSource = axios.CancelToken.source();
+        if (assignCancelToken) {
+          assignCancelToken(cancelTokenSource);
+        }
         return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, {
           ...headers,
           ...authHeader,
@@ -58,6 +64,9 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
           yield take(RefreshTokenSuccess.action);
 
           cancelTokenSource = axios.CancelToken.source();
+          if (assignCancelToken) {
+            assignCancelToken(cancelTokenSource);
+          }
           const authHeader = yield call(getAuthHeader);
           return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, {
             ...headers,

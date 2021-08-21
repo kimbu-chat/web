@@ -5,6 +5,7 @@ import { INormalizedLinkedMessage } from './normalized-linked-message';
 
 export interface INormalizedMessage {
   id: number;
+  clientId?: number;
   userCreatorId: number;
   creationDateTime: string;
   text?: string;
@@ -16,7 +17,7 @@ export interface INormalizedMessage {
   isEdited?: boolean;
   isDeleted?: boolean;
 
-  attachments?: IAttachmentBase[];
+  attachments?: (IAttachmentBase & { clientId?: number })[];
   linkedMessageType?: MessageLinkType;
   linkedMessage?: INormalizedLinkedMessage | null;
 }

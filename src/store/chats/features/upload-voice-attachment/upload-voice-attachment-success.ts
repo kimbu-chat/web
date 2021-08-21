@@ -27,11 +27,13 @@ export class UploadVoiceAttachmentSuccess {
         const message = chatMessages?.messages[oldId];
 
         if (message && chatMessages) {
+          message.clientId = message.id;
           message.id = messageId;
           message.state = MessageState.SENT;
           chatMessages.messages[messageId] = message;
 
           if (message.attachments && message.attachments[0]) {
+            message.attachments[0].clientId = message.attachments[0].id;
             message.attachments[0].id = attachmentId;
             message.attachments[0].url = attachmentUrl;
           }

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, ReactElement } from 'react';
+import React, { useCallback, useMemo, ReactElement, useState, useEffect } from 'react';
 
 import classNames from 'classnames';
 import {
@@ -67,13 +67,14 @@ interface IMessageItemProps {
   selectedChatId: number;
   needToShowCreator?: boolean;
   isSelected?: boolean;
+  animated?: boolean;
   observeIntersection: ObserveFn;
 }
 
 const BLOCK_NAME = 'message';
 
 const MessageItem: React.FC<IMessageItemProps> = React.memo(
-  ({ messageId, selectedChatId, needToShowCreator, isSelected, observeIntersection }) => {
+  ({ messageId, selectedChatId, needToShowCreator, isSelected, observeIntersection, animated }) => {
     const isSelectState = useSelector(getIsSelectMessagesStateSelector);
     const myId = useSelector(myIdSelector) as number;
     const message = useSelector(getMessageSelector(selectedChatId, messageId));
@@ -81,6 +82,14 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
     const linkedMessageUserCreator = useSelector(
       getUserSelector(message?.linkedMessage?.userCreatorId),
     );
+
+    const [justCreated, setJustCreated] = useState(false);
+
+    useEffect(() => {
+      if (message.state === MessageState.QUEUED) {
+        setJustCreated(true);
+      }
+    }, [message.state]);
 
     const messageToProcess =
       message?.linkedMessageType === MessageLinkType.Forward ? message?.linkedMessage : message;
@@ -275,6 +284,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
             <div
               className={classNames(`${BLOCK_NAME}__contents-wrapper`, {
                 [`${BLOCK_NAME}__contents-wrapper--upcoming`]: !needToShowCreator,
+                [`${BLOCK_NAME}__contents-wrapper--animated`]: animated || justCreated,
               })}>
               <MessageItemActions
                 messageId={messageId}

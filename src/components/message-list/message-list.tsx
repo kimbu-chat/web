@@ -47,6 +47,7 @@ const MessageList = () => {
   const { t } = useTranslation();
 
   const rootRef = useRef<HTMLDivElement>(null);
+  const animationEnabled = useRef(false);
 
   const { observe: observeIntersectionForMedia } = useIntersectionObserver({
     rootRef,
@@ -62,6 +63,10 @@ const MessageList = () => {
   const areMessagesLoading = useSelector(getMessagesLoadingSelector);
   const hasMoreMessages = useSelector(getHasMoreMessagesMessagesSelector);
   const messagesSearchString = useSelector(getSelectedChatMessagesSearchStringSelector);
+
+  useEffect(() => {
+    animationEnabled.current = !messagesIds?.length;
+  }, [messagesIds]);
 
   useEffect(() => {
     if (selectedChatId && (unreadMessagesCount || 0) > 0) {
@@ -147,6 +152,7 @@ const MessageList = () => {
                     {pack.messages.map((messageId, index) => (
                       <MessageItem
                         observeIntersection={observeIntersectionForMedia}
+                        animated={animationEnabled.current}
                         selectedChatId={selectedChatId}
                         isSelected={selectedMessageIds.includes(messageId)}
                         messageId={messageId}

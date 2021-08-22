@@ -6,7 +6,11 @@ import {
   IVideoAttachment,
   IVoiceAttachment,
 } from 'kimbu-models';
+import { SagaIterator } from 'redux-saga';
+import { call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
+
+import { removeSendMessageRequest } from '@utils/cancel-send-message-request';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
@@ -98,5 +102,13 @@ export class CreateMessageSuccess {
         return draft;
       },
     );
+  }
+
+  static get saga() {
+    return function* createMessageSuccessSaga(
+      action: ReturnType<typeof CreateMessageSuccess.action>,
+    ): SagaIterator {
+      yield call(removeSendMessageRequest, action.payload.oldMessageId);
+    };
   }
 }

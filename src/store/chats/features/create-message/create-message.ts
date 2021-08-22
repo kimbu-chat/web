@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, CancelTokenSource } from 'axios';
 import produce from 'immer';
 import { ICreateMessageRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
@@ -8,6 +8,7 @@ import { createAction } from 'typesafe-actions';
 import { MAIN_API } from '@common/paths';
 import { MessageState } from '@store/chats/models';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { addMessageSendingRequest } from '@utils/cancel-send-message-request';
 
 import { IChatsState } from '../../chats-state';
 
@@ -70,15 +71,26 @@ export class CreateMessage {
         };
       }
 
-      const { data } = CreateMessage.httpRequest.call(
-        yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)),
+      const response = CreateMessage.httpRequest.call(
+        yield call(() =>
+          CreateMessage.httpRequest.generator(
+            messageCreationReq,
+            (cancelToken: CancelTokenSource) =>
+              addMessageSendingRequest(action.payload.message.id, cancelToken),
+          ),
+        ),
       );
+
+      // if request was canceled, response is undefined and we shouldn't submit CreateMessageSuccess
+      if (!response) {
+        return;
+      }
 
       yield put(
         CreateMessageSuccess.action({
           chatId,
           oldMessageId: message.id,
-          newMessageId: data,
+          newMessageId: response.data,
           messageState: MessageState.SENT,
           attachments: message.attachments,
         }),

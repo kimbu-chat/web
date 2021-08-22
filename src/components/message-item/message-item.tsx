@@ -280,7 +280,8 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 messageId={messageId}
                 isEditAllowed={
                   isCurrentUserMessageCreator &&
-                  !(message?.linkedMessageType === MessageLinkType.Forward)
+                  !(message?.linkedMessageType === MessageLinkType.Forward) &&
+                  !message.attachments?.some(({ type }) => type === AttachmentType.Voice)
                 }
               />
 

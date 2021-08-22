@@ -43,7 +43,7 @@ const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage, observe
             files: IAttachmentBase[];
             media: (IVideoAttachment | IPictureAttachment | IAttachmentBase)[];
             audios: IAudioAttachment[];
-            recordings: IVoiceAttachment[];
+            recordings: (IVoiceAttachment & { clientId?: number })[];
           },
           currentAttachment,
         ) => {
@@ -102,7 +102,7 @@ const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage, observe
             <FileAttachment key={file.id} {...file} />
           ))}
           {structuredAttachments?.recordings.map((recording) => (
-            <RecordingAttachment key={recording.id} {...recording} />
+            <RecordingAttachment key={recording.clientId || recording.id} {...recording} />
           ))}
           {structuredAttachments?.audios.map((audio) => (
             <MessageAudioAttachment key={audio.id} {...audio} />

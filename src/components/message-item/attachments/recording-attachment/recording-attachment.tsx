@@ -13,7 +13,12 @@ import './recording-attachment.scss';
 
 const BLOCK_NAME = 'recording-attachment';
 
-export const RecordingAttachment: React.FC<IVoiceAttachment> = ({ ...attachment }) => {
+export const RecordingAttachment: React.FC<IVoiceAttachment> = ({
+  id,
+  url,
+  waveFormJson,
+  duration,
+}) => {
   const element = useRef<HTMLDivElement>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -54,7 +59,7 @@ export const RecordingAttachment: React.FC<IVoiceAttachment> = ({ ...attachment 
 
       wavesurfer.current?.on('play', () => {
         setIsPlaying(true);
-        changeMusic(attachment.id, Origin.Record, () => wavesurfer.current?.pause());
+        changeMusic(id, Origin.Record, () => wavesurfer.current?.pause());
       });
 
       wavesurfer.current?.on('pause', () => {
@@ -65,15 +70,15 @@ export const RecordingAttachment: React.FC<IVoiceAttachment> = ({ ...attachment 
         setIsPlaying(false);
       });
 
-      if (attachment.url && attachment.waveFormJson) {
-        wavesurfer.current?.load(attachment.url, JSON.parse(attachment.waveFormJson));
+      if (url && waveFormJson) {
+        wavesurfer.current?.load(url, JSON.parse(waveFormJson));
       }
     }
 
     return () => {
       wavesurfer.current?.pause();
     };
-  }, [attachment.url, setIsPlaying, attachment.waveFormJson, attachment.id]);
+  }, [url, setIsPlaying, waveFormJson, id]);
 
   const playPause = useCallback(() => {
     wavesurfer.current?.playPause();
@@ -92,7 +97,7 @@ export const RecordingAttachment: React.FC<IVoiceAttachment> = ({ ...attachment 
       <div className={`${BLOCK_NAME}__vaweform-wrapper`}>
         <div ref={element} className={`${BLOCK_NAME}__vaweform`} />
       </div>
-      <div className={`${BLOCK_NAME}__duration`}>{getMinutesSeconds(attachment.duration)}</div>
+      <div className={`${BLOCK_NAME}__duration`}>{getMinutesSeconds(duration)}</div>
     </div>
   );
 };

@@ -150,7 +150,7 @@ const MessageList = () => {
                         selectedChatId={selectedChatId}
                         isSelected={selectedMessageIds.includes(messageId)}
                         messageId={messageId}
-                        key={messageId}
+                        key={messages[messageId]?.clientId || messages[messageId].id}
                         needToShowCreator={
                           messages &&
                           (messages[messageId]?.userCreatorId !==

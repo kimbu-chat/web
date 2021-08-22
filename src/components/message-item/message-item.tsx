@@ -131,7 +131,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               files: IAttachmentBase[];
               media: (IVideoAttachment | IPictureAttachment)[];
               audios: IAudioAttachment[];
-              recordings: IVoiceAttachment[];
+              recordings: (IVoiceAttachment & { clientId?: number })[];
             },
             currentAttachment,
           ) => {
@@ -297,7 +297,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                   ))}
 
                   {structuredAttachments?.recordings.map((recording) => (
-                    <RecordingAttachment key={recording.id} {...recording} />
+                    <RecordingAttachment key={recording.clientId || recording.id} {...recording} />
                   ))}
 
                   {structuredAttachments?.audios.map((audio) => (
@@ -349,7 +349,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                       ))}
 
                       {structuredAttachments?.recordings.map((recording) => (
-                        <RecordingAttachment key={recording.id} {...recording} />
+                        <RecordingAttachment
+                          key={recording.clientId || recording.id}
+                          {...recording}
+                        />
                       ))}
 
                       {structuredAttachments?.audios.map((audio) => (

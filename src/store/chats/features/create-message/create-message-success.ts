@@ -33,6 +33,7 @@ export class CreateMessageSuccess {
         const message = chatMessages?.messages[oldMessageId];
 
         if (message && chatMessages) {
+          message.clientId = message.id;
           message.id = newMessageId;
           message.state = messageState;
           chatMessages.messages[newMessageId] = message;

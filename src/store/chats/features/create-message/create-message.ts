@@ -81,7 +81,7 @@ export class CreateMessage {
         ),
       );
 
-      // if request was canceled, response is undefined and we have not to submit CreateMessageSuccess
+      // if request was canceled, response is undefined and we shouldn't submit CreateMessageSuccess
       if (!response) {
         return;
       }

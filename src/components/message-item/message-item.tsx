@@ -308,7 +308,11 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                   ))}
 
                   {structuredAttachments?.recordings.map((recording) => (
-                    <RecordingAttachment key={recording.clientId || recording.id} {...recording} />
+                    <RecordingAttachment
+                      createdByInterlocutor={!isCurrentUserMessageCreator}
+                      key={recording.clientId || recording.id}
+                      {...recording}
+                    />
                   ))}
 
                   {structuredAttachments?.audios.map((audio) => (
@@ -334,6 +338,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                       <RepliedMessage
                         observeIntersection={observeIntersection}
                         linkedMessage={message.linkedMessage}
+                        isCurrentUserMessageCreator={isCurrentUserMessageCreator}
                       />
                     )}
 
@@ -361,6 +366,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
                       {structuredAttachments?.recordings.map((recording) => (
                         <RecordingAttachment
+                          createdByInterlocutor={!isCurrentUserMessageCreator}
                           key={recording.clientId || recording.id}
                           {...recording}
                         />

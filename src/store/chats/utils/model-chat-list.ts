@@ -13,7 +13,7 @@ export const modelChatList = (chats?: ById<INormalizedChat>) => {
         if (chat.lastMessage) {
           chat.lastMessage.state =
             chat.interlocutorLastReadMessageId &&
-            chat.interlocutorLastReadMessageId >= Number(chat?.lastMessage?.id)
+            chat.interlocutorLastReadMessageId >= chat?.lastMessage?.id
               ? (MessageState.READ as MessageState)
               : (MessageState.SENT as MessageState);
         }

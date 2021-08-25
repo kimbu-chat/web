@@ -24,7 +24,7 @@ const BLOCK_NAME = 'forward-modal';
 
 interface IForwardModalProps {
   onClose: () => void;
-  messageIdsToForward: number[];
+  messageIdsToForward: string[];
 }
 
 export const InitialForwardModal: React.FC<IForwardModalProps & IModalChildrenProps> = ({

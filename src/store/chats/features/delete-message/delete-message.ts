@@ -28,7 +28,7 @@ export class DeleteMessage {
 
       /* Not all messages that come in payload are already resolved on server, that's why we have to
       filter messages ids and to send to server only 'SENT' messages */
-      const messageIdsToRemove: number[] = [];
+      const messageIdsToRemove: string[] = [];
 
       messageIds.forEach((id) => {
         if (!cancelSendMessageRequest(id)) {

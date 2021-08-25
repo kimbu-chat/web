@@ -15,7 +15,7 @@ export interface IChatsState {
   searchChatList: IChatList;
 
   selectedChatId?: number;
-  selectedMessageIds: number[];
+  selectedMessageIds: string[];
 
   chatInfo: {
     chatId?: number;

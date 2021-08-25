@@ -4,8 +4,8 @@ import { MessageState } from './message-state';
 import { INormalizedLinkedMessage } from './normalized-linked-message';
 
 export interface INormalizedMessage {
-  id: number;
-  clientId?: number;
+  id: string;
+  clientId?: string;
   userCreatorId: number;
   creationDateTime: string;
   text?: string;

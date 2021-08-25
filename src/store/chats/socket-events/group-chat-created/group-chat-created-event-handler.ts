@@ -107,7 +107,7 @@ export class GroupChatCreatedEventHandler {
             memberIds: [],
           },
           messages: {
-            messages: [],
+            messages: {},
             messageIds: [],
             hasMore: true,
             loading: false,

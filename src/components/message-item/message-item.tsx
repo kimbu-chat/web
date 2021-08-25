@@ -63,7 +63,7 @@ import type { ObserveFn } from '@hooks/use-intersection-observer';
 import './message-item.scss';
 
 interface IMessageItemProps {
-  messageId: number;
+  messageId: string;
   selectedChatId: number;
   needToShowCreator?: boolean;
   isSelected?: boolean;

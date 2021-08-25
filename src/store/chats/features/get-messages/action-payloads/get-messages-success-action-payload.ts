@@ -1,11 +1,9 @@
-import { ById } from '@store/chats/models/by-id';
-
 import { INormalizedMessage } from '../../../models';
 
 export interface IGetMessagesSuccessActionPayload {
   messageList: {
-    messages: ById<INormalizedMessage>;
-    messageIds: number[];
+    messages: Record<string, INormalizedMessage>;
+    messageIds: string[];
     hasMoreMessages: boolean;
     chatId: number;
     isFromScroll?: boolean;

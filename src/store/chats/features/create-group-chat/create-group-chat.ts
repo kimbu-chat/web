@@ -49,7 +49,7 @@ export class CreateGroupChat {
 
       const firstMessage: INormalizedMessage = {
         creationDateTime: new Date().toISOString(),
-        id: new Date().getTime(),
+        id: String(new Date().getTime()),
         systemMessageType: SystemMessageType.GroupChatCreated,
         text: createSystemMessage({}),
         chatId,

@@ -164,12 +164,14 @@ const CreateMessageInput = () => {
       ({ attachment }) => attachment,
     );
 
-    submitEditMessage({
-      text: parseMessageInput(refferedText.current),
-      removedAttachments: referredRemovedAttachments.current,
-      newAttachments,
-      messageId: editingMessage?.id as number,
-    });
+    if (editingMessage?.id) {
+      submitEditMessage({
+        text: parseMessageInput(refferedText.current),
+        removedAttachments: referredRemovedAttachments.current,
+        newAttachments,
+        messageId: editingMessage.id,
+      });
+    }
   }, [
     updatedSelectedChat,
     submitEditMessage,
@@ -204,7 +206,7 @@ const CreateMessageInput = () => {
           userCreatorId: currentUserId,
           creationDateTime: new Date().toISOString(),
           state: MessageState.QUEUED,
-          id: new Date().getTime(),
+          id: String(new Date().getTime()),
           chatId,
           attachments,
           isDeleted: false,

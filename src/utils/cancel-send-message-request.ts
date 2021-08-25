@@ -1,8 +1,8 @@
 import { CancelTokenSource } from 'axios';
 
-const pendingMessagesMap = new Map<number, CancelTokenSource>();
+const pendingMessagesMap = new Map<string, CancelTokenSource>();
 
-export const cancelSendMessageRequest = (id: number): boolean => {
+export const cancelSendMessageRequest = (id: string): boolean => {
   const cancelToken = pendingMessagesMap.get(id);
   if (cancelToken) {
     cancelToken.cancel();
@@ -14,11 +14,11 @@ export const cancelSendMessageRequest = (id: number): boolean => {
   return false;
 };
 
-export const addMessageSendingRequest = (id: number, cancelToken: CancelTokenSource) => {
+export const addMessageSendingRequest = (id: string, cancelToken: CancelTokenSource) => {
   pendingMessagesMap.set(id, cancelToken);
 };
 
-export const removeSendMessageRequest = (id: number) => {
+export const removeSendMessageRequest = (id: string) => {
   if (pendingMessagesMap.get(id)) {
     pendingMessagesMap.delete(id);
     return true;

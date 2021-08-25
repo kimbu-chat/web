@@ -41,7 +41,7 @@ export class MessagesDeletedIntegrationEventHandler {
           entities: { messages, users },
         } = normalize<
           IMessage[],
-          { messages: ById<INormalizedMessage>; users: ById<IUser> },
+          { messages: Record<string, INormalizedMessage>; users: ById<IUser> },
           number[]
         >(data, messageNormalizationSchema);
 

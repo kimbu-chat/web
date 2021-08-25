@@ -109,8 +109,8 @@ export class GetMessages {
             result,
           } = normalize<
             IMessage[],
-            { messages: ById<INormalizedMessage>; users: ById<IUser> },
-            number[]
+            { messages: Record<string, INormalizedMessage>; users: ById<IUser> },
+            string[]
           >(newMessages, messageArrNormalizationSchema);
 
           const messageList = {

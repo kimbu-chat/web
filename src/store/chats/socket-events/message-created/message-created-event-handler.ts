@@ -106,8 +106,8 @@ export class MessageCreatedEventHandler {
             entities: { linkedMessages, users },
           } = normalize<
             ILinkedMessage[],
-            { linkedMessages: ById<INormalizedLinkedMessage>; users: ById<IUser> },
-            number[]
+            { linkedMessages: Record<string, INormalizedLinkedMessage>; users: ById<IUser> },
+            string[]
           >(data, linkedMessageNormalizationSchema);
           const normalizedLinkedMessage = linkedMessages[data.id];
           if (normalizedLinkedMessage) {
@@ -184,8 +184,8 @@ export class MessageCreatedEventHandler {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IMessage>, number>(
-      (messageId: number) => replaceInUrl(MAIN_API.GET_MESSAGE_BY_ID, ['messageId', messageId]),
+    return httpRequestFactory<AxiosResponse<IMessage>, string>(
+      (messageId: string) => replaceInUrl(MAIN_API.GET_MESSAGE_BY_ID, ['messageId', messageId]),
       HttpRequestMethod.Get,
     );
   }

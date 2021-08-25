@@ -5,7 +5,7 @@ export interface IGroupChatCreatedIntegrationEvent {
   id: number;
   memberIds: number[];
   name: string;
-  systemMessageId: number;
+  systemMessageId: string;
   userCreator: IUser;
   userCreatorId: number;
   avatarId?: number;

@@ -5,7 +5,6 @@ import { INormalizedChat, INormalizedMessage, InterlocutorType } from './models'
 
 import type { IChatsState } from './chats-state';
 import type { IAttachmentToSend } from './models/attachment-to-send';
-import type { ById } from './models/by-id';
 import type { TFunction } from 'i18next';
 import type { IAudioAttachment } from 'kimbu-models';
 import type { RootState } from 'typesafe-actions';
@@ -14,12 +13,12 @@ import type { RootState } from 'typesafe-actions';
 export const getSelectedChatSelector = (state: RootState): INormalizedChat | undefined =>
   state.chats.chats[state?.chats?.selectedChatId || -1];
 
-export const getSelectedChatLastMessageIdSelector = (state: RootState): number | undefined =>
+export const getSelectedChatLastMessageIdSelector = (state: RootState): string | undefined =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.lastMessage?.id;
 
 export const getChatLastMessageIdSelector =
   (chatId: number) =>
-  (state: RootState): number | undefined =>
+  (state: RootState): string | undefined =>
     state.chats.chats[chatId]?.lastMessage?.id;
 
 export const getChatMessagesLengthSelector =
@@ -27,7 +26,7 @@ export const getChatMessagesLengthSelector =
   (state: RootState): number | undefined =>
     state.chats?.chats[chatId]?.messages.messageIds.length;
 
-export const getSelectedChatMessageIdsSelector = (state: RootState): number[] | undefined =>
+export const getSelectedChatMessageIdsSelector = (state: RootState): string[] | undefined =>
   state.chats?.chats[state?.chats?.selectedChatId || -1]?.messages.messageIds;
 
 export const getSelectedChatMessagesSearchStringSelector = (state: RootState): string | undefined =>
@@ -227,14 +226,16 @@ export const getHasMoreMessagesMessagesSelector = (state: RootState) =>
 export const getMessagesIdsByChatIdSelector = (state: RootState) =>
   state.chats.chats[state.chats.selectedChatId || -1]?.messages.messageIds;
 
-export const getSelectedChatMessagesSelector = (state: RootState): ById<INormalizedMessage> =>
+export const getSelectedChatMessagesSelector = (
+  state: RootState,
+): Record<string, INormalizedMessage> =>
   state.chats.chats[state.chats.selectedChatId || -1]?.messages.messages;
 
-export const getMessageSelector = (chatId: number, messageId: number) => (state: RootState) =>
+export const getMessageSelector = (chatId: number, messageId: string) => (state: RootState) =>
   state.chats.chats[chatId]?.messages.messages[messageId];
 
 export const getChatHasMessageWithIdSelector =
-  (messageId: number, chatId: number) => (state: RootState) =>
+  (messageId: string, chatId: number) => (state: RootState) =>
     state.chats.chats[chatId]?.messages.messages[messageId] !== undefined;
 
 // IChatsState selectors
@@ -243,7 +244,7 @@ export const getChatExistsDraftSelector = (chatId: number, draft: IChatsState): 
 
 export const getChatByIdDraftSelector = (chatId: number, draft: IChatsState) => draft.chats[chatId];
 
-export const getMessageDraftSelector = (chatId: number, messageId: number, draft: IChatsState) =>
+export const getMessageDraftSelector = (chatId: number, messageId: string, draft: IChatsState) =>
   draft.chats[chatId]?.messages.messages[messageId];
 
 export const isCurrentChatBlackListedSelector = (state: RootState) =>

@@ -1,4 +1,4 @@
 export interface ISumbitEditMessageSuccessActionPayload {
-  messageId: number;
+  messageId: string;
   chatId: number;
 }

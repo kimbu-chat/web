@@ -1,4 +1,4 @@
 export interface IUserBlockedIntegrationEvent {
-  blockerId: number;
-  blockedId: number;
+  blockerId: string;
+  blockedId: string;
 }

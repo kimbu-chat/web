@@ -16,7 +16,6 @@ import { createAction } from 'typesafe-actions';
 import { MAIN_API } from '@common/paths';
 import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
 import { INormalizedLinkedMessage, INormalizedChat } from '@store/chats/models';
-import { ById } from '@store/chats/models/by-id';
 import {
   chatNormalizationSchema,
   linkedMessageNormalizationSchema,
@@ -76,7 +75,7 @@ export class MessageCreatedEventHandler {
         return;
       }
 
-      const myId: number = yield select(myIdSelector);
+      const myId = yield select(myIdSelector);
 
       if (systemMessageType === SystemMessageType.GroupChatMemberRemoved) {
         const systemMessage =
@@ -106,8 +105,11 @@ export class MessageCreatedEventHandler {
             entities: { linkedMessages, users },
           } = normalize<
             ILinkedMessage[],
-            { linkedMessages: ById<INormalizedLinkedMessage>; users: ById<IUser> },
-            number[]
+            {
+              linkedMessages: Record<string, INormalizedLinkedMessage>;
+              users: Record<string, IUser>;
+            },
+            string[]
           >(data, linkedMessageNormalizationSchema);
           const normalizedLinkedMessage = linkedMessages[data.id];
           if (normalizedLinkedMessage) {
@@ -129,12 +131,13 @@ export class MessageCreatedEventHandler {
         if (data) {
           const {
             entities: { chats, users },
-          } = normalize<IChat[], { chats?: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
-            data,
-            chatNormalizationSchema,
-          );
+          } = normalize<
+            IChat[],
+            { chats?: Record<string, INormalizedChat>; users: Record<string, IUser> },
+            string[]
+          >(data, chatNormalizationSchema);
 
-          const modeledChat = modelChatList(chats)[data.id];
+          const modeledChat = modelChatList(chats)[data.id as string];
 
           if (modeledChat) {
             yield put(UnshiftChat.action({ chat: modeledChat, addToList: true }));
@@ -184,8 +187,8 @@ export class MessageCreatedEventHandler {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IMessage>, number>(
-      (messageId: number) => replaceInUrl(MAIN_API.GET_MESSAGE_BY_ID, ['messageId', messageId]),
+    return httpRequestFactory<AxiosResponse<IMessage>, string>(
+      (messageId: string) => replaceInUrl(MAIN_API.GET_MESSAGE_BY_ID, ['messageId', messageId]),
       HttpRequestMethod.Get,
     );
   }

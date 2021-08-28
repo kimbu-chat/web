@@ -1,3 +1,3 @@
 export interface IUserDeactivatedActionPayload {
-  userId: number;
+  userId: string;
 }

@@ -1,3 +1,3 @@
 export interface IReplyToMessageActionPayload {
-  messageId: number;
+  messageId: string;
 }

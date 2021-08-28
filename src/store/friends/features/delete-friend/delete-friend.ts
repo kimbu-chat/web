@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { IRemoveUsersFromContactListCommand } from 'kimbu-models';
+import { IRemoveUsersFromContactListRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -13,7 +13,7 @@ import { DeleteFriendSuccess } from './delete-friend-success';
 
 export class DeleteFriend {
   static get action() {
-    return createAction('DELETE_FRIEND')<number, Meta>();
+    return createAction('DELETE_FRIEND')<string, Meta>();
   }
 
   static get saga() {
@@ -32,7 +32,7 @@ export class DeleteFriend {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IRemoveUsersFromContactListCommand>(
+    return httpRequestFactory<AxiosResponse, IRemoveUsersFromContactListRequest>(
       MAIN_API.DELETE_CONTACTS,
       HttpRequestMethod.Post,
     );

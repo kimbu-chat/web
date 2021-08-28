@@ -17,7 +17,7 @@ export class GroupChatEditedEventHandler {
       (draft: IChatsState, { payload }: ReturnType<typeof GroupChatEditedEventHandler.action>) => {
         const { avatarId, avatarPreviewUrl, avatarUrl, description, name, id } = payload;
 
-        const chatId: number = ChatId.from(undefined, id).id;
+        const chatId = ChatId.from(undefined, id).id;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
 

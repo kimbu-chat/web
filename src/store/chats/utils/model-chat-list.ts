@@ -1,10 +1,9 @@
 /* eslint-disable no-param-reassign */
 import { ChatId } from '../chat-id';
 import { INormalizedChat, MessageState, InterlocutorType } from '../models';
-import { ById } from '../models/by-id';
 
-export const modelChatList = (chats?: ById<INormalizedChat>) => {
-  const modeledChats: ById<INormalizedChat> = {};
+export const modelChatList = (chats?: Record<string, INormalizedChat>) => {
+  const modeledChats: Record<string, INormalizedChat> = {};
   if (chats) {
     Object.values(chats).forEach((initialChat: INormalizedChat | undefined) => {
       const chat = initialChat;
@@ -13,7 +12,7 @@ export const modelChatList = (chats?: ById<INormalizedChat>) => {
         if (chat.lastMessage) {
           chat.lastMessage.state =
             chat.interlocutorLastReadMessageId &&
-            chat.interlocutorLastReadMessageId >= Number(chat?.lastMessage?.id)
+            chat.interlocutorLastReadMessageId >= chat?.lastMessage?.id
               ? (MessageState.READ as MessageState)
               : (MessageState.SENT as MessageState);
         }

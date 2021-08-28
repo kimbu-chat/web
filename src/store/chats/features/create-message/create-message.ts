@@ -99,7 +99,7 @@ export class CreateMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<number>, ICreateMessageRequest>(
+    return httpRequestFactory<AxiosResponse<string>, ICreateMessageRequest>(
       MAIN_API.MESSAGES,
       HttpRequestMethod.Post,
     );

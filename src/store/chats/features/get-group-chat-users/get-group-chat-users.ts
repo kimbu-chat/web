@@ -7,7 +7,6 @@ import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { ById } from '@store/chats/models/by-id';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { userArrNormalizationSchema } from '@store/friends/normalization';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
@@ -65,7 +64,10 @@ export class GetGroupChatUsers {
         const {
           entities: { users },
           result,
-        } = normalize<IUser[], { users: ById<IUser> }, number[]>(data, userArrNormalizationSchema);
+        } = normalize<IUser[], { users: Record<string, IUser> }, string[]>(
+          data,
+          userArrNormalizationSchema,
+        );
 
         yield put(
           GetGroupChatUsersSuccess.action({

@@ -4,7 +4,7 @@ import { RootState } from 'typesafe-actions';
 export const getCallInterlocutorSelector = (state: RootState): IUser | undefined =>
   state.users.users[state.calls.interlocutorId || -1];
 
-export const getCallInterlocutorIdSelector = (state: RootState): number | undefined =>
+export const getCallInterlocutorIdSelector = (state: RootState): string | undefined =>
   state.calls.interlocutorId;
 
 export const amICalledSelector = (state: RootState): boolean => state.calls.amICalled;

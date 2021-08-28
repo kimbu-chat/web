@@ -1,3 +1,3 @@
 export interface IRemoveUserFromGroupChatActionPayload {
-  userId: number;
+  userId: string;
 }

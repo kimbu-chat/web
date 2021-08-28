@@ -37,7 +37,7 @@ const BLOCK_NAME = 'chat';
 
 type ISeparatedMessagesPack = {
   date: string;
-  messages: number[];
+  messages: string[];
 };
 
 const MessageList = () => {

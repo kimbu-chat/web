@@ -39,8 +39,8 @@ export class LeaveGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, number>(
-      (groupChatId: number) =>
+    return httpRequestFactory<AxiosResponse, string>(
+      (groupChatId: string) =>
         replaceInUrl(MAIN_API.LEAVE_GROUP_CHAT, ['groupChatId', groupChatId]),
       HttpRequestMethod.Delete,
     );

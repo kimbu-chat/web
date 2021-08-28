@@ -5,7 +5,7 @@ import { IFriendsState } from '../../friends-state';
 
 export class DeleteFriendSuccess {
   static get action() {
-    return createAction('DELETE_FRIEND_SUCCESS')<number>();
+    return createAction('DELETE_FRIEND_SUCCESS')<string>();
   }
 
   static get reducer() {

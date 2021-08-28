@@ -1,5 +1,5 @@
 export interface IStatusChangedIntegrationEvent {
   online: boolean;
-  userId: number;
+  userId: string;
   lastOnlineTime: string;
 }

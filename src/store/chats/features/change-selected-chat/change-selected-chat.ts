@@ -8,7 +8,6 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { INormalizedChat } from '@store/chats/models';
-import { ById } from '@store/chats/models/by-id';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { replaceInUrl } from '@utils/replace-in-url';
@@ -71,7 +70,7 @@ export class ChangeSelectedChat {
 
         draft.selectedChatId = newChatId;
 
-        // We have to check if chat exists in ById<IChat> reducer then we will not request it from server
+        // We have to check if chat exists in Record<string, IChat> reducer then we will not request it from server
         if (newChatId) {
           if (
             !draft.chatList.chatIds.includes(newChatId) &&
@@ -113,12 +112,13 @@ export class ChangeSelectedChat {
 
           const {
             entities: { chats, users },
-          } = normalize<IChat[], { chats?: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
-            data,
-            chatNormalizationSchema,
-          );
+          } = normalize<
+            IChat[],
+            { chats?: Record<string, INormalizedChat>; users: Record<string, IUser> },
+            string[]
+          >(data, chatNormalizationSchema);
 
-          const modeledChat = modelChatList(chats)[data.id];
+          const modeledChat = modelChatList(chats)[data.id as string];
 
           yield put(UnshiftChat.action({ chat: modeledChat as INormalizedChat, addToList: true }));
           yield put(AddOrUpdateUsers.action({ users }));
@@ -128,8 +128,8 @@ export class ChangeSelectedChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IChat>, number>(
-      (chatId: number) => replaceInUrl(MAIN_API.GET_CHAT, ['chatId', chatId]),
+    return httpRequestFactory<AxiosResponse<IChat>, string>(
+      (chatId: string) => replaceInUrl(MAIN_API.GET_CHAT, ['chatId', chatId]),
       HttpRequestMethod.Get,
     );
   }

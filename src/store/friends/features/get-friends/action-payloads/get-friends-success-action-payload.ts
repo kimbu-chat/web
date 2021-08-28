@@ -1,5 +1,5 @@
 export interface IGetFriendsSuccessActionPayload {
-  friendIds: number[];
+  friendIds: string[];
   name?: string;
   initializedByScroll?: boolean;
   hasMore: boolean;

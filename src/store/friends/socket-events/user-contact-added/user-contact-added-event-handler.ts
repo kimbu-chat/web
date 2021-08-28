@@ -40,7 +40,7 @@ export class UserContactAddedEventHandler {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IUser>, number>(
+    return httpRequestFactory<AxiosResponse<IUser>, string>(
       (id) => replaceInUrl(MAIN_API.GET_USER, ['userId', id]),
       HttpRequestMethod.Get,
     );

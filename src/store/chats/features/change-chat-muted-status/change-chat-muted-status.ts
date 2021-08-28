@@ -15,7 +15,7 @@ import { ChangeChatMutedStatusSuccess } from './change-chat-muted-status-success
 
 export class ChangeChatMutedStatus {
   static get action() {
-    return createAction('CHANGE_SELECTED_CHAT_MUTE_STATUS')<number, Meta>();
+    return createAction('CHANGE_SELECTED_CHAT_MUTE_STATUS')<string, Meta>();
   }
 
   static get saga() {

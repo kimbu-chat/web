@@ -7,7 +7,6 @@ import { put, call, select } from 'redux-saga/effects';
 import { MAIN_API } from '@common/paths';
 import { Logout } from '@store/auth/features/logout/logout';
 import { authenticatedSelector } from '@store/auth/selectors';
-import { ById } from '@store/chats/models/by-id';
 import { createEmptyAction } from '@store/common/actions';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 import { userSchema } from '@store/friends/normalization';
@@ -38,7 +37,7 @@ export class GetMyProfile {
 
       const {
         entities: { users },
-      } = normalize<IUser, { users: ById<IUser> }, number[]>(data, userSchema);
+      } = normalize<IUser, { users: Record<string, IUser> }, string[]>(data, userSchema);
       yield put(AddOrUpdateUsers.action({ users }));
 
       yield put(GetMyProfileSuccess.action({ user: data }));
@@ -46,7 +45,7 @@ export class GetMyProfile {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IUser>, number>(
+    return httpRequestFactory<AxiosResponse<IUser>, string>(
       MAIN_API.GET_MY_PROFILE,
       HttpRequestMethod.Get,
     );

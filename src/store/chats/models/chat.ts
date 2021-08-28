@@ -8,19 +8,18 @@ import {
 } from 'kimbu-models';
 
 import { IAttachmentToSend } from './attachment-to-send';
-import { ById } from './by-id';
 import { IGroupable } from './groupable';
 import { InterlocutorType } from './interlocutor-type';
 import { INormalizedMessage } from './normalized-message';
 
 export interface INormalizedChat {
-  id: number;
+  id: string;
   interlocutorType?: InterlocutorType;
   groupChat?: IGroupChat;
   lastMessage?: INormalizedMessage | null;
-  interlocutorId?: number;
+  interlocutorId?: string;
   unreadMessagesCount: number;
-  interlocutorLastReadMessageId?: number;
+  interlocutorLastReadMessageId?: string;
   draftMessage?: string;
   typingInterlocutors?: string[];
   isMuted?: boolean;
@@ -50,7 +49,7 @@ export interface INormalizedChat {
     hasMore: boolean;
   };
   members: {
-    memberIds: number[];
+    memberIds: string[];
     loading: boolean;
     hasMore: boolean;
   };
@@ -61,8 +60,8 @@ export interface INormalizedChat {
   };
 
   messages: {
-    messages: ById<INormalizedMessage>;
-    messageIds: number[];
+    messages: Record<string, INormalizedMessage>;
+    messageIds: string[];
     loading: boolean;
     hasMore: boolean;
     searchString?: string;

@@ -1,3 +1,3 @@
 export interface IUserContactAddedIntegrationEvent {
-  userId: number;
+  userId: string;
 }

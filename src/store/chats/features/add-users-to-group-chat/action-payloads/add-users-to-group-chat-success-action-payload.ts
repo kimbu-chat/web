@@ -1,4 +1,4 @@
 export interface IAddUsersToGroupChatSuccessActionPayload {
-  userIds: number[];
-  chatId: number;
+  userIds: string[];
+  chatId: string;
 }

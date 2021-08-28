@@ -1,5 +1,5 @@
 export interface IMessagesReadIntegrationEvent {
-  lastReadMessageId: number;
-  chatId: number;
-  userReaderId: number;
+  lastReadMessageId: string;
+  chatId: string;
+  userReaderId: string;
 }

@@ -63,8 +63,8 @@ import type { ObserveFn } from '@hooks/use-intersection-observer';
 import './message-item.scss';
 
 interface IMessageItemProps {
-  messageId: number;
-  selectedChatId: number;
+  messageId: string;
+  selectedChatId: string;
   needToShowCreator?: boolean;
   isSelected?: boolean;
   animated?: boolean;
@@ -76,7 +76,7 @@ const BLOCK_NAME = 'message';
 const MessageItem: React.FC<IMessageItemProps> = React.memo(
   ({ messageId, selectedChatId, needToShowCreator, isSelected, observeIntersection, animated }) => {
     const isSelectState = useSelector(getIsSelectMessagesStateSelector);
-    const myId = useSelector(myIdSelector) as number;
+    const myId = useSelector(myIdSelector);
     const message = useSelector(getMessageSelector(selectedChatId, messageId));
     const userCreator = useSelector(getUserSelector(message?.userCreatorId));
     const linkedMessageUserCreator = useSelector(
@@ -184,6 +184,10 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
         ),
       [messageToProcess?.attachments],
     );
+
+    if(!myId){
+      return null;
+    }
 
     if (message && message.systemMessageType !== SystemMessageType.None) {
       const additionalData = getSystemMessageData<ICallMessage>(message);

@@ -1,4 +1,4 @@
 export interface IUploadAttachmentFailureActionPayload {
-  chatId: number;
+  chatId: string;
   attachmentId: number;
 }

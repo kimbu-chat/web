@@ -40,12 +40,12 @@ export class UploadVoiceAttachmentSuccess {
 
           delete chatMessages?.messages[oldId];
 
-          const messageIndex = chatMessages.messageIds.indexOf(oldId);
+          const messageIndex = chatMessages.messageIds.indexOf(String(oldId));
           chatMessages.messageIds[messageIndex] = messageId;
         }
 
         if (chat) {
-          if (chat.lastMessage?.id === oldId) {
+          if (chat.lastMessage?.id === String(oldId)) {
             const lastMessage = chat.lastMessage || { id: 0, state: '' };
 
             lastMessage.id = messageId;

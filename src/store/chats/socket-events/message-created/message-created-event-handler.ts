@@ -137,7 +137,7 @@ export class MessageCreatedEventHandler {
             string[]
           >(data, chatNormalizationSchema);
 
-          const modeledChat = modelChatList(chats)[data.id];
+          const modeledChat = modelChatList(chats)[data.id as string];
 
           if (modeledChat) {
             yield put(UnshiftChat.action({ chat: modeledChat, addToList: true }));

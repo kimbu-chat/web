@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
-import { ISendCallOfferCommandResponse, ISendCallOfferRequest } from 'kimbu-models';
+import { ISendCallOfferResponse, ISendCallOfferRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, delay, put, race, select, spawn, take } from 'redux-saga/effects';
 import { createAction, RootState } from 'typesafe-actions';
@@ -156,7 +156,7 @@ export class OutgoingCall {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<ISendCallOfferCommandResponse>, ISendCallOfferRequest>(
+    return httpRequestFactory<AxiosResponse<ISendCallOfferResponse>, ISendCallOfferRequest>(
       MAIN_API.SEND_CALL_OFFER,
       HttpRequestMethod.Post,
     );

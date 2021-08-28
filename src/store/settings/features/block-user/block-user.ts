@@ -13,7 +13,7 @@ import { BlockUserSuccess } from './block-user-success';
 
 export class BlockUser {
   static get action() {
-    return createAction('BLOCK_USER')<number, Meta>();
+    return createAction('BLOCK_USER')<string, Meta>();
   }
 
   static get saga() {

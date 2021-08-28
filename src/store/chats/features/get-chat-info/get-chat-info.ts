@@ -45,7 +45,7 @@ export class GetChatInfo {
           string[]
         >(data, chatNormalizationSchema);
 
-        const modeledChat = modelChatList(chats)[data.id];
+        const modeledChat = modelChatList(chats)[data.id as string];
 
         yield put(UnshiftChat.action({ chat: modeledChat as INormalizedChat, addToList: false }));
         yield put(AddOrUpdateUsers.action({ users }));

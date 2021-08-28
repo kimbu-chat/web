@@ -11,7 +11,7 @@ export const getLoadedFriendsCountSelector = (state: RootState) =>
 export const getLoadedSearchFriendsCountSelector = (state: RootState) =>
   state.friends.searchFriends.friendIds.length;
 
-export const getFriendByIdSelector = (id: number) => (state: RootState) => state.users.users[id];
+export const getFriendByIdSelector = (id: string) => (state: RootState) => state.users.users[id];
 
-export const isFriend = (userId?: number) => (state: RootState) =>
-  state.friends.friends.friendIds.includes(userId || -1);
+export const isFriend = (userId: string | undefined) => (state: RootState) =>
+  userId && state.friends.friends.friendIds.includes(userId);

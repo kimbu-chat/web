@@ -94,7 +94,7 @@ const InitialCreateGroupChatModal: React.FC<ICreateGroupChatModalProps & IModalC
 
       submitGroupChatCreation(groupChatToCreate).then((payload: IChat) => {
         animatedClose();
-        history.push(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', payload.id]));
+        history.push(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', payload?.id as string]));
       });
     }
   }, [

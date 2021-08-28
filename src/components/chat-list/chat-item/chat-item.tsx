@@ -39,7 +39,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const lastMessageUserCreator = useSelector(getUserSelector(chat?.lastMessage?.userCreatorId));
   const interlocutor = useSelector(getUserSelector(chat?.interlocutorId));
 
-  const currentUserId = useSelector(myIdSelector) as number;
+  const currentUserId = useSelector(myIdSelector);
   const typingString = useSelector(getTypingStringSelector(t, chatId));
 
   const isMessageCreatorCurrentUser: boolean = chat?.lastMessage?.userCreatorId === currentUserId;
@@ -78,7 +78,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
             // TODO: replace this logic
             messageToProcess as INormalizedMessage,
             t,
-            currentUserId,
+            currentUserId as string,
             lastMessageUserCreator,
           ),
           {

@@ -49,7 +49,7 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
     }
 
     if (changeSelectedState) {
-      changeSelectedState((userId || chatId) as number);
+      changeSelectedState(userId || chatId || '-1');
     }
   }, [onClick, changeSelectedState, chat, interlocutor, userId, chatId]);
 

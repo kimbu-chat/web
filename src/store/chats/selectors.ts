@@ -23,7 +23,7 @@ export const getChatLastMessageIdSelector =
 
 export const getChatMessagesLengthSelector =
   (chatId: string) =>
-  (state: RootState): string | undefined =>
+  (state: RootState): number | undefined =>
     state.chats?.chats[chatId]?.messages.messageIds.length;
 
 export const getSelectedChatMessageIdsSelector = (state: RootState): string[] | undefined =>
@@ -62,7 +62,7 @@ export const getIsFirstChatsLoadSelector = (state: RootState): boolean =>
   (state.chats.chatList.loading === undefined || state.chats.chatList.loading === true) &&
   state.chats.chatList.chatIds.length === 0;
 
-export const getChatSelector = (chatId?: number) => (state: RootState) =>
+export const getChatSelector = (chatId?: string) => (state: RootState) =>
   state.chats.chats[chatId || -1];
 
 export const getChatsPageSelector = (state: RootState) => state.chats.chatList.page;

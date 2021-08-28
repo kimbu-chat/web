@@ -1,3 +1,3 @@
 export interface IDialogRemovedIntegrationEvent {
-  userInterlocutorId: number;
+  userInterlocutorId: string;
 }

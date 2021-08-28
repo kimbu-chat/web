@@ -6,13 +6,13 @@ import { INormalizedLinkedMessage } from './normalized-linked-message';
 export interface INormalizedMessage {
   id: string;
   clientId?: string;
-  userCreatorId: number;
+  userCreatorId: string;
   creationDateTime: string;
   text?: string;
   attachmentsJson?: string;
   systemMessageType: SystemMessageType;
   state?: MessageState;
-  chatId: number;
+  chatId: string;
 
   isEdited?: boolean;
   isDeleted?: boolean;

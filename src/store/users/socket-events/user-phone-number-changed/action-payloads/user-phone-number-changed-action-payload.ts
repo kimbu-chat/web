@@ -1,4 +1,4 @@
 export interface IUserPhoneNumberChangedActionPayload {
-  userId: number;
+  userId: string;
   phoneNumber: string;
 }

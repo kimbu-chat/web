@@ -28,7 +28,7 @@ import { getChatInterlocutor } from '@utils/user-utils';
 import './chat-item.scss';
 
 interface IChatItemProps {
-  chatId: number;
+  chatId: string;
 }
 
 const BLOCK_NAME = 'chat-item';

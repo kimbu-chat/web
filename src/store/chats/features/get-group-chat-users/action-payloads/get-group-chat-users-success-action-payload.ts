@@ -1,6 +1,6 @@
 export interface IGetGroupChatUsersSuccessActionPayload {
-  chatId: number;
+  chatId: string;
   isFromSearch?: boolean;
   hasMore: boolean;
-  userIds: number[];
+  userIds: string[];
 }

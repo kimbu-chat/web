@@ -15,10 +15,10 @@ import { getUserName } from '@utils/user-utils';
 import './select-entity.scss';
 
 interface ISelectEntityProps {
-  changeSelectedState?: (id: number) => void;
+  changeSelectedState?: (id: string) => void;
   isSelected?: boolean;
-  chatId?: number;
-  userId?: number;
+  chatId?: string;
+  userId?: string;
   icon?: JSX.Element;
   onClick?: (chat: INormalizedChat | IUser) => void;
 }

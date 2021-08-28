@@ -8,7 +8,6 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { INormalizedChat } from '@store/chats/models';
-import { ById } from '@store/chats/models/by-id';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
@@ -83,10 +82,11 @@ export class GetChats {
       const {
         entities: { chats: normalizedChats, users },
         result,
-      } = normalize<IChat[], { chats?: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
-        data,
-        chatArrNormalizationSchema,
-      );
+      } = normalize<
+        IChat[],
+        { chats?: Record<string, INormalizedChat>; users: Record<string, IUser> },
+        string[]
+      >(data, chatArrNormalizationSchema);
 
       const modeledChats = modelChatList(normalizedChats);
 

@@ -1,4 +1,4 @@
 export interface IChangeChatMutedStatusActionPayload {
-  chatId: number;
+  chatId: string;
   isMuted: boolean;
 }

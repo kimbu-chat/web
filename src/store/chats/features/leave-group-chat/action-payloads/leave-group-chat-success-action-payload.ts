@@ -1,3 +1,3 @@
 export interface ILeaveGroupChatSuccessActionPayload {
-  chatId: number;
+  chatId: string;
 }

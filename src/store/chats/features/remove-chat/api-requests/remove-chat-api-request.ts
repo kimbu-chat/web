@@ -1,4 +1,4 @@
 export interface IRemoveChatRequest {
-  userId: number;
+  userId: string;
   forEveryone: boolean;
 }

@@ -7,5 +7,5 @@ export interface ICreateMessageSuccessActionPayload {
   newMessageId: string;
   messageState: MessageState;
   attachments?: IAttachmentBase[];
-  chatId: number;
+  chatId: string;
 }

@@ -1,24 +1,23 @@
 import { INormalizedChat } from './models';
-import { ById } from './models/by-id';
 
 interface IChatList {
   loading?: boolean;
   hasMore: boolean;
-  chatIds: number[];
+  chatIds: string[];
   page: number;
 }
 
 export interface IChatsState {
-  chats: ById<INormalizedChat>;
+  chats: Record<string, INormalizedChat>;
 
   chatList: IChatList;
   searchChatList: IChatList;
 
-  selectedChatId?: number;
+  selectedChatId?: string;
   selectedMessageIds: string[];
 
   chatInfo: {
-    chatId?: number;
+    chatId?: string;
     isInfoOpened: boolean;
   };
 }

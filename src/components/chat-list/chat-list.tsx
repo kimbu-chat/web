@@ -45,8 +45,7 @@ const ChatList = React.memo(() => {
 
   useEffect(() => {
     if (selectedChatId) {
-      const newChatId = Number(selectedChatId);
-      changeSelectedChat({ newChatId });
+      changeSelectedChat({ newChatId: selectedChatId });
     }
   }, [changeSelectedChat, selectedChatId]);
 
@@ -84,7 +83,7 @@ const ChatList = React.memo(() => {
   }, [getChatsRequest, searchString]);
 
   const renderChats = useCallback(
-    (chatId: number) => <ChatFromList chatId={chatId} key={chatId} />,
+    (chatId: string) => <ChatFromList chatId={chatId} key={chatId} />,
     [],
   );
 

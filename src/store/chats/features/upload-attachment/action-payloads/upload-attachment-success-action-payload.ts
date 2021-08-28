@@ -1,7 +1,7 @@
 import { IAttachmentBase } from 'kimbu-models';
 
 export interface IUploadAttachmentSuccessActionPayload<T = IAttachmentBase> {
-  chatId: number;
+  chatId: string;
   attachmentId: number;
   attachment: T;
 }

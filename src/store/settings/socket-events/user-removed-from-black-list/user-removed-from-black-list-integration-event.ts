@@ -1,4 +1,4 @@
 export interface IUserRemovedFromBlackListIntegrationEvent {
-  userInitiatorId: number;
-  unblockedUserId: number;
+  userInitiatorId: string;
+  unblockedUserId: string;
 }

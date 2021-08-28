@@ -64,7 +64,7 @@ import './message-item.scss';
 
 interface IMessageItemProps {
   messageId: string;
-  selectedChatId: number;
+  selectedchatId: string;
   needToShowCreator?: boolean;
   isSelected?: boolean;
   animated?: boolean;

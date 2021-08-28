@@ -55,7 +55,7 @@ const InitialAddCallModal: React.FC<IAddCallModalProps & IModalChildrenProps> = 
   }, [loadFriends, name]);
 
   const call = useCallback(
-    (userId: number) => {
+    (userId: string) => {
       animatedClose();
       callInterlocutor({
         callingUserId: userId,
@@ -80,7 +80,7 @@ const InitialAddCallModal: React.FC<IAddCallModalProps & IModalChildrenProps> = 
   );
 
   const renderSelectEntity = useCallback(
-    (userId: number) => (
+    (userId: string) => (
       <SelectEntity
         icon={
           <button onClick={() => call(userId)} type="button" className="add-call-modal__call">

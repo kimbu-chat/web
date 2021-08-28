@@ -16,7 +16,6 @@ import { createAction } from 'typesafe-actions';
 import { MAIN_API } from '@common/paths';
 import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
 import { INormalizedLinkedMessage, INormalizedChat } from '@store/chats/models';
-import { ById } from '@store/chats/models/by-id';
 import {
   chatNormalizationSchema,
   linkedMessageNormalizationSchema,
@@ -76,7 +75,7 @@ export class MessageCreatedEventHandler {
         return;
       }
 
-      const myId: number = yield select(myIdSelector);
+      const myId = yield select(myIdSelector);
 
       if (systemMessageType === SystemMessageType.GroupChatMemberRemoved) {
         const systemMessage =
@@ -106,7 +105,10 @@ export class MessageCreatedEventHandler {
             entities: { linkedMessages, users },
           } = normalize<
             ILinkedMessage[],
-            { linkedMessages: Record<string, INormalizedLinkedMessage>; users: ById<IUser> },
+            {
+              linkedMessages: Record<string, INormalizedLinkedMessage>;
+              users: Record<string, IUser>;
+            },
             string[]
           >(data, linkedMessageNormalizationSchema);
           const normalizedLinkedMessage = linkedMessages[data.id];
@@ -129,10 +131,11 @@ export class MessageCreatedEventHandler {
         if (data) {
           const {
             entities: { chats, users },
-          } = normalize<IChat[], { chats?: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
-            data,
-            chatNormalizationSchema,
-          );
+          } = normalize<
+            IChat[],
+            { chats?: Record<string, INormalizedChat>; users: Record<string, IUser> },
+            string[]
+          >(data, chatNormalizationSchema);
 
           const modeledChat = modelChatList(chats)[data.id];
 

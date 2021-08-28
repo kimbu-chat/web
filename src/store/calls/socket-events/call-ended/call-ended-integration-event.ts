@@ -1,7 +1,7 @@
 import { CallStatus } from 'kimbu-models';
 
 export interface ICallEndedIntegrationEvent {
-  userInterlocutorId: number;
+  userInterlocutorId: string;
   id: number;
   endDateTime?: string;
   startDateTime: string;

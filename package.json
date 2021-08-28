@@ -87,7 +87,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "file-loader": "6.2.0",
     "husky": "7.0.1",
-    "kimbu-models": "git://github.com/ravudi/frontend-types.git#48c5de4",
+    "kimbu-models": "git://github.com/ravudi/frontend-types.git#3309ae1",
     "lint-staged": "11.1.2",
     "prettier": "2.3.2",
     "run-script-os": "1.1.6",

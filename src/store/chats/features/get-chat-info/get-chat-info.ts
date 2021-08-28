@@ -7,7 +7,6 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { INormalizedChat } from '@store/chats/models';
-import { ById } from '@store/chats/models/by-id';
 import { chatNormalizationSchema } from '@store/chats/normalization';
 import { getChatByIdSelector } from '@store/chats/selectors';
 import { modelChatList } from '@store/chats/utils/model-chat-list';
@@ -23,7 +22,7 @@ import { GetChatInfoSuccess } from './get-chat-info-success';
 
 export class GetChatInfo {
   static get action() {
-    return createAction('GET_CHAT_INFO')<number>();
+    return createAction('GET_CHAT_INFO')<string>();
   }
 
   static get saga() {
@@ -40,10 +39,11 @@ export class GetChatInfo {
 
         const {
           entities: { chats, users },
-        } = normalize<IChat[], { chats: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
-          data,
-          chatNormalizationSchema,
-        );
+        } = normalize<
+          IChat[],
+          { chats: Record<string, INormalizedChat>; users: Record<string, IUser> },
+          string[]
+        >(data, chatNormalizationSchema);
 
         const modeledChat = modelChatList(chats)[data.id];
 
@@ -62,8 +62,8 @@ export class GetChatInfo {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IChatInfo>, number>(
-      (chatId: number) => replaceInUrl(MAIN_API.GET_CHAT_INFO, ['chatId', chatId]),
+    return httpRequestFactory<AxiosResponse<IChatInfo>, string>(
+      (chatId: string) => replaceInUrl(MAIN_API.GET_CHAT_INFO, ['chatId', chatId]),
       HttpRequestMethod.Get,
     );
   }

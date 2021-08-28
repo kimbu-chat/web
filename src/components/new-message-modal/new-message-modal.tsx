@@ -96,7 +96,7 @@ const InitialNewMessageModal: React.FC<INewMessageModalProps & IModalChildrenPro
   );
 
   const renderSelectEntity = useCallback(
-    (friendId: number) => (
+    (friendId: string) => (
       <SelectEntity key={friendId} userId={friendId} onClick={createEmptyChat} />
     ),
     [createEmptyChat],

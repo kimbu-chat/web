@@ -7,7 +7,6 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { INormalizedMessage } from '@store/chats/models';
-import { ById } from '@store/chats/models/by-id';
 import { messageNormalizationSchema } from '@store/chats/normalization';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { replaceInUrl } from '@utils/replace-in-url';
@@ -41,8 +40,8 @@ export class MessagesDeletedIntegrationEventHandler {
           entities: { messages, users },
         } = normalize<
           IMessage[],
-          { messages: Record<string, INormalizedMessage>; users: ById<IUser> },
-          number[]
+          { messages: Record<string, INormalizedMessage>; users: Record<string, IUser> },
+          string[]
         >(data, messageNormalizationSchema);
 
         const message = messages[data.id];
@@ -71,8 +70,8 @@ export class MessagesDeletedIntegrationEventHandler {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IMessage>, number>(
-      (chatId: number) => replaceInUrl(MAIN_API.GET_CHAT_LATEST_MESSAGE, ['chatId', chatId]),
+    return httpRequestFactory<AxiosResponse<IMessage>, string>(
+      (chatId: string) => replaceInUrl(MAIN_API.GET_CHAT_LATEST_MESSAGE, ['chatId', chatId]),
       HttpRequestMethod.Get,
     );
   }

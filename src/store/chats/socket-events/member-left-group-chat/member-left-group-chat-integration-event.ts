@@ -1,4 +1,4 @@
 export interface IMemberLeftGroupChatIntegrationEvent {
-  groupChatId: number;
-  userId: number;
+  groupchatId: string;
+  userId: string;
 }

@@ -13,11 +13,11 @@ import { InterlocutorType } from './interlocutor-type';
 import { INormalizedMessage } from './normalized-message';
 
 export interface INormalizedChat {
-  id: number;
+  id: string;
   interlocutorType?: InterlocutorType;
   groupChat?: IGroupChat;
   lastMessage?: INormalizedMessage | null;
-  interlocutorId?: number;
+  interlocutorId?: string;
   unreadMessagesCount: number;
   interlocutorLastReadMessageId?: string;
   draftMessage?: string;
@@ -49,7 +49,7 @@ export interface INormalizedChat {
     hasMore: boolean;
   };
   members: {
-    memberIds: number[];
+    memberIds: string[];
     loading: boolean;
     hasMore: boolean;
   };

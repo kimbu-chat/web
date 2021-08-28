@@ -9,7 +9,6 @@ import { createAction } from 'typesafe-actions';
 import { MAIN_API } from '@common/paths';
 import { INormalizedCall } from '@store/calls/common/models';
 import { getCallsListSelector, getSearchCallsListSelector } from '@store/calls/selectors';
-import { ById } from '@store/chats/models/by-id';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
@@ -72,10 +71,11 @@ export class GetCalls {
         const {
           entities: { calls, users },
           result,
-        } = normalize<ICall[], { calls: ById<INormalizedCall>; users: ById<IUser> }, number[]>(
-          data,
-          callArrNormalizationSchema,
-        );
+        } = normalize<
+          ICall[],
+          { calls: Record<number, INormalizedCall>; users: Record<string, IUser> },
+          number[]
+        >(data, callArrNormalizationSchema);
 
         yield put(
           GetCallsSuccess.action({ callIds: result, calls, hasMore, name, initializedByScroll }),

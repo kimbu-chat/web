@@ -2,7 +2,7 @@ import { IAttachmentBase } from 'kimbu-models';
 
 export interface INormalizedLinkedMessage {
   id: string;
-  userCreatorId: number;
+  userCreatorId: string;
   text?: string;
   attachments?: IAttachmentBase[];
   isEdited?: boolean;

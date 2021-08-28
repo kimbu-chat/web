@@ -9,7 +9,6 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { MessageState } from '@store/chats/models';
-import { ById } from '@store/chats/models/by-id';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
@@ -109,7 +108,7 @@ export class GetMessages {
             result,
           } = normalize<
             IMessage[],
-            { messages: Record<string, INormalizedMessage>; users: ById<IUser> },
+            { messages: Record<string, INormalizedMessage>; users: Record<string, IUser> },
             string[]
           >(newMessages, messageArrNormalizationSchema);
 

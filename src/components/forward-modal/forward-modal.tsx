@@ -38,7 +38,7 @@ export const InitialForwardModal: React.FC<IForwardModalProps & IModalChildrenPr
   const chatsList = useSelector(getChatsListSelector);
   const searchChatsList = useSelector(getSearchChatsListSelector);
 
-  const [selectedChatIds, setSelectedChatIds] = useState<number[]>([]);
+  const [selectedChatIds, setSelectedChatIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchString, setSearchString] = useState('');
 
@@ -53,10 +53,10 @@ export const InitialForwardModal: React.FC<IForwardModalProps & IModalChildrenPr
     [resetSearchChats],
   );
 
-  const isSelected = useCallback((id: number) => selectedChatIds.includes(id), [selectedChatIds]);
+  const isSelected = useCallback((id: string) => selectedChatIds.includes(id), [selectedChatIds]);
 
   const changeSelectedState = useCallback(
-    (id: number) => {
+    (id: string) => {
       if (selectedChatIds.includes(id)) {
         setSelectedChatIds((oldChatIds) => oldChatIds.filter((idToCheck) => idToCheck !== id));
       } else {
@@ -100,7 +100,7 @@ export const InitialForwardModal: React.FC<IForwardModalProps & IModalChildrenPr
   }, [forwardMessages, messageIdsToForward, selectedChatIds, animatedClose]);
 
   const renderSelectEntity = useCallback(
-    (chatId: number) => (
+    (chatId: string) => (
       <SelectEntity
         key={chatId}
         chatId={chatId}

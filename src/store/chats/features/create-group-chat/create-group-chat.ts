@@ -45,7 +45,7 @@ export class CreateGroupChat {
         yield call(() => CreateGroupChat.httpRequest.generator(groupChatCreationRequest)),
       );
 
-      const chatId: number = ChatId.from(undefined, data).id;
+      const chatId = ChatId.from(undefined, data).id;
 
       const firstMessage: INormalizedMessage = {
         creationDateTime: new Date().toISOString(),
@@ -123,7 +123,7 @@ export class CreateGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<number>, ICreateGroupChatRequest>(
+    return httpRequestFactory<AxiosResponse<string>, ICreateGroupChatRequest>(
       MAIN_API.GROUP_CHAT,
       HttpRequestMethod.Post,
     );

@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { ICreateGroupChatRequest, SystemMessageType } from 'kimbu-models';
+import { ICreateGroupChatRequest, SystemMessageType, ICreateGroupChatResponse } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -45,7 +45,9 @@ export class CreateGroupChat {
         yield call(() => CreateGroupChat.httpRequest.generator(groupChatCreationRequest)),
       );
 
-      const chatId = ChatId.from(undefined, data).id;
+      const groupChatId = data.id;
+      
+      const chatId = ChatId.from(undefined, groupChatId).id;
 
       const firstMessage: INormalizedMessage = {
         creationDateTime: new Date().toISOString(),
@@ -66,7 +68,7 @@ export class CreateGroupChat {
         isMuted: false,
         draftMessage: '',
         groupChat: {
-          id: data,
+          id: groupChatId,
           membersCount: userIds.length + 1,
           name,
           description,
@@ -123,7 +125,7 @@ export class CreateGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<string>, ICreateGroupChatRequest>(
+    return httpRequestFactory<AxiosResponse<ICreateGroupChatResponse>, ICreateGroupChatRequest>(
       MAIN_API.GROUP_CHAT,
       HttpRequestMethod.Post,
     );

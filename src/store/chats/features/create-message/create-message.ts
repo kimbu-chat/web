@@ -1,6 +1,6 @@
 import { AxiosResponse, CancelTokenSource } from 'axios';
 import produce from 'immer';
-import { ICreateMessageRequest } from 'kimbu-models';
+import { ICreateMessageRequest, ICreateMessageResponse } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -90,7 +90,7 @@ export class CreateMessage {
         CreateMessageSuccess.action({
           chatId,
           oldMessageId: message.id,
-          newMessageId: response.data,
+          newMessageId: response.data.id,
           messageState: MessageState.SENT,
           attachments: message.attachments,
         }),
@@ -99,7 +99,7 @@ export class CreateMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<string>, ICreateMessageRequest>(
+    return httpRequestFactory<AxiosResponse<ICreateMessageResponse>, ICreateMessageRequest>(
       MAIN_API.MESSAGES,
       HttpRequestMethod.Post,
     );

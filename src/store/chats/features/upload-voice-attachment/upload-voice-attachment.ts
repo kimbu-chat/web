@@ -110,7 +110,7 @@ export class UploadVoiceAttachment {
         clientId: String(id),
       };
 
-      const { data: messageId } = CreateMessage.httpRequest.call(
+      const { data } = CreateMessage.httpRequest.call(
         yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)),
       );
 
@@ -121,7 +121,7 @@ export class UploadVoiceAttachment {
           attachmentId: uploadResponse.attachment.id,
           attachmentUrl: uploadResponse.attachment.url || '',
           oldAttachmentUrl: url,
-          messageId,
+          messageId: data.id,
         }),
       );
     };

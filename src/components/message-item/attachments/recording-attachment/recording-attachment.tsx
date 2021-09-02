@@ -78,7 +78,7 @@ export const RecordingAttachment: React.FC<
     return () => {
       wavesurfer.current?.pause();
     };
-  }, [url, setIsPlaying, waveFormJson, idForUse]);
+  }, [url, setIsPlaying, waveFormJson, idForUse, createdByInterlocutor]);
 
   const playPause = useCallback(() => {
     wavesurfer.current?.playPause();

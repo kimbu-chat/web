@@ -1,6 +1,4 @@
-import { SagaIterator } from '@redux-saga/core';
 import produce from 'immer';
-import { call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { IChatsState } from '@store/chats/chats-state';
@@ -19,7 +17,7 @@ export class UploadVoiceAttachmentSuccess {
   static get reducer() {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof UploadVoiceAttachmentSuccess.action>) => {
-        const { oldId, attachmentId, attachmentUrl, messageId, chatId } = payload;
+        const { oldId, attachmentId, messageId, chatId } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
         const chatMessages = draft.chats[chatId]?.messages;
@@ -33,9 +31,7 @@ export class UploadVoiceAttachmentSuccess {
           chatMessages.messages[messageId] = message;
 
           if (message.attachments && message.attachments[0]) {
-            message.attachments[0].clientId = message.attachments[0].id;
             message.attachments[0].id = attachmentId;
-            message.attachments[0].url = attachmentUrl;
           }
 
           delete chatMessages?.messages[oldId];
@@ -57,13 +53,5 @@ export class UploadVoiceAttachmentSuccess {
         return draft;
       },
     );
-  }
-
-  static get saga() {
-    return function* uploadVoiceAttachmentSuccessSaga(
-      action: ReturnType<typeof UploadVoiceAttachmentSuccess.action>,
-    ): SagaIterator {
-      yield call(() => URL.revokeObjectURL(action.payload.oldAttachmentUrl));
-    };
   }
 }

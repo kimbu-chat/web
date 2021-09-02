@@ -13,17 +13,16 @@ import './recording-attachment.scss';
 
 const BLOCK_NAME = 'recording-attachment';
 
-export const RecordingAttachment: React.FC<IVoiceAttachment> = ({
-  id,
-  url,
-  waveFormJson,
-  duration,
-}) => {
+export const RecordingAttachment: React.FC<
+  IVoiceAttachment & { clientId?: number; createdByInterlocutor?: boolean }
+> = ({ id, clientId, url, waveFormJson, duration, createdByInterlocutor }) => {
   const element = useRef<HTMLDivElement>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
 
   const wavesurfer = useRef<WaveSurfer | null>(null);
+
+  const idForUse = clientId || id;
 
   useEffect(() => {
     if (element.current) {
@@ -44,7 +43,8 @@ export const RecordingAttachment: React.FC<IVoiceAttachment> = ({
       wavesurfer.current = WaveSurfer.create({
         container: element.current,
         waveColor: '#ffff',
-        progressColor: '#3f8ae0',
+        // TODO: change color for recording that was created by interlocutor
+        progressColor: createdByInterlocutor ? '#000' : '#3f8ae0',
         backgroundColor: 'transparent',
         cursorWidth: 0,
         height: 24,
@@ -59,7 +59,7 @@ export const RecordingAttachment: React.FC<IVoiceAttachment> = ({
 
       wavesurfer.current?.on('play', () => {
         setIsPlaying(true);
-        changeMusic(id, Origin.Record, () => wavesurfer.current?.pause());
+        changeMusic(idForUse, Origin.Record, () => wavesurfer.current?.pause());
       });
 
       wavesurfer.current?.on('pause', () => {
@@ -78,7 +78,7 @@ export const RecordingAttachment: React.FC<IVoiceAttachment> = ({
     return () => {
       wavesurfer.current?.pause();
     };
-  }, [url, setIsPlaying, waveFormJson, id]);
+  }, [url, setIsPlaying, waveFormJson, idForUse]);
 
   const playPause = useCallback(() => {
     wavesurfer.current?.playPause();
@@ -86,12 +86,7 @@ export const RecordingAttachment: React.FC<IVoiceAttachment> = ({
 
   return (
     <div className={BLOCK_NAME}>
-      <button
-        type="button"
-        onClick={playPause}
-        className={classNames(`${BLOCK_NAME}__play-pause`, {
-          [`${BLOCK_NAME}__play-pause--play`]: isPlaying,
-        })}>
+      <button type="button" onClick={playPause} className={classNames(`${BLOCK_NAME}__play-pause`)}>
         {isPlaying ? <PauseSvg /> : <PlaySvg />}
       </button>
       <div className={`${BLOCK_NAME}__vaweform-wrapper`}>

@@ -50,6 +50,7 @@ export class UploadVoiceAttachment {
           attachments: [
             {
               id,
+              clientId: id,
               creationDateTime: new Date().toISOString(),
               url,
               byteSize: file.size,

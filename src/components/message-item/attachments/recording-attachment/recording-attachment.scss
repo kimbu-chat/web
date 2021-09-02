@@ -6,6 +6,8 @@
   align-items: center;
   position: relative;
   background-color: var(--msg-bg-dt-gray-lt-kingBlueLight);
+
+  background-color: var(--msg-bg);
   border-radius: 0px 6px 6px 6px;
   padding: 8px 16px;
 
@@ -33,12 +35,6 @@
       color: #fff;
       height: 24px;
       width: 24px;
-    }
-
-    &--play {
-      svg {
-        color: #3f8ae0;
-      }
     }
   }
 

@@ -41,7 +41,7 @@
     }
 
     &--incoming {
-      color: var(--dt-kingBlue-wt-grayLight);
+      --msg-bg: var(--dt-kingBlue-wt-grayLight);
 
       #{$this}__forward-indicator {
         color: var(--dt-white-wt-kingBlue);
@@ -49,7 +49,7 @@
     }
 
     &--outgoing {
-      color: var(--msg-bg-dt-gray-lt-kingBlueLight);
+      --msg-bg: var(--msg-bg-dt-gray-lt-kingBlueLight);
 
       #{$this}__forward-indicator {
         color: white;
@@ -58,7 +58,7 @@
   }
 
   &__content {
-    background-color: currentColor;
+    background-color: var(--msg-bg);
 
     border-radius: 0 6px 6px;
     line-break: anywhere;

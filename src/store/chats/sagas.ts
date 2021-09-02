@@ -29,7 +29,6 @@ import { RemoveAttachment } from './features/remove-attachment/remove-attachment
 import { RemoveChat } from './features/remove-chat/remove-chat';
 import { RemoveUserFromGroupChat } from './features/remove-user-from-group-chat/remove-user-from-group-chat';
 import { UploadAttachmentRequest } from './features/upload-attachment/upload-attachment-request';
-import { UploadVoiceAttachmentSuccess } from './features/upload-voice-attachment/upload-voice-attachment-success';
 import { UploadVoiceAttachment } from './features/upload-voice-attachment/upload-voice-attachment';
 import { MessageCreatedEventHandler } from './socket-events/message-created/message-created-event-handler';
 import { MessagesDeletedIntegrationEventHandler } from './socket-events/message-deleted/messages-deleted-integration-event-handler';
@@ -66,7 +65,6 @@ export function* chatSaga() {
     takeEvery(RemoveUserFromGroupChat.action, RemoveUserFromGroupChat.saga),
     takeEvery(RemoveChat.action, RemoveChat.saga),
     takeEvery(UploadVoiceAttachment.action, UploadVoiceAttachment.saga),
-    takeEvery(UploadVoiceAttachmentSuccess.action, UploadVoiceAttachmentSuccess.saga),
     takeEvery(CreateMessageSuccess.action, CreateMessageSuccess.saga),
 
     // socket-events

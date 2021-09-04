@@ -26,7 +26,7 @@ export class DeleteMessage {
       const { messageIds, forEveryone } = action.payload;
       const chatId = yield select(getSelectedChatIdSelector);
 
-      /* Not all messages that come in payload are already resolved on server, that's why we have to
+      /* Not all messages that come in payload are already sent to the server, that's why we have to
       filter messages ids and to send to server only 'SENT' messages */
       const messageIdsToRemove: string[] = [];
 
@@ -42,7 +42,7 @@ export class DeleteMessage {
       if (!(messageIdsToRemove.length === 0)) {
         status = DeleteMessage.httpRequest.call(
           yield call(() =>
-            DeleteMessage.httpRequest.generator({ ids: messageIdsToRemove, forEveryone }),
+            DeleteMessage.httpRequest.generator({ ids: messageIdsToRemove, forEveryone, chatId }),
           ),
         ).status;
       }

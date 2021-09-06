@@ -31,7 +31,7 @@ const InitialGroupChatAddFriendModal: React.FC<
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
+  const [selectedUserIds, setselectedUserIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
 
@@ -56,10 +56,10 @@ const InitialGroupChatAddFriendModal: React.FC<
     [resetSearchFriends],
   );
 
-  const isSelected = useCallback((id: number) => selectedUserIds.includes(id), [selectedUserIds]);
+  const isSelected = useCallback((id: string) => selectedUserIds.includes(id), [selectedUserIds]);
 
   const changeSelectedState = useCallback(
-    (id: number) => {
+    (id: string) => {
       if (isSelected(id)) {
         setselectedUserIds((oldChatIds) => oldChatIds.filter((idToCheck) => idToCheck !== id));
       } else {
@@ -110,7 +110,7 @@ const InitialGroupChatAddFriendModal: React.FC<
   );
 
   const renderSelectEntity = useCallback(
-    (friendId: number) => (
+    (friendId: string) => (
       <SelectEntity
         key={friendId}
         userId={friendId}

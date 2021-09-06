@@ -41,7 +41,7 @@
     }
 
     &--incoming {
-      color: var(--dt-kingBlue-wt-grayLight);
+      --msg-bg: var(--dt-kingBlue-wt-grayLight);
 
       #{$this}__forward-indicator {
         color: var(--dt-white-wt-kingBlue);
@@ -49,7 +49,7 @@
     }
 
     &--outgoing {
-      color: var(--msg-bg-dt-gray-lt-kingBlueLight);
+      --msg-bg: var(--msg-bg-dt-gray-lt-kingBlueLight);
 
       #{$this}__forward-indicator {
         color: white;
@@ -58,7 +58,7 @@
   }
 
   &__content {
-    background-color: currentColor;
+    background-color: var(--msg-bg);
 
     border-radius: 0 6px 6px;
     line-break: anywhere;
@@ -85,7 +85,6 @@
     }
 
     & > * {
-      display: inline-flex;
       margin-bottom: 10px;
 
       &:first-child {
@@ -93,7 +92,7 @@
       }
 
       &:last-child {
-        margin-bottom: 15px;
+        margin-bottom: 0;
       }
     }
   }
@@ -193,12 +192,15 @@
   }
 
   &__contents-wrapper {
-    animation: message 0.15s ease-in 0s forwards;
-    opacity: 0;
     display: block;
     margin-right: 16px;
     max-width: 70%;
     position: relative;
+
+    &--animated {
+      opacity: 0;
+      animation: message 0.15s ease-in 0s forwards;
+    }
 
     &--upcoming {
       margin-left: 82px;
@@ -211,11 +213,6 @@
 
     & > .message__attachments {
       margin-bottom: 0;
-
-      .media-grid {
-        margin-bottom: 0;
-        margin-top: 0;
-      }
     }
   }
 }

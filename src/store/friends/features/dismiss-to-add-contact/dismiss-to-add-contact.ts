@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { IDismissAddToContactsCommand } from 'kimbu-models';
+import { IDismissAddToContactsRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -12,7 +12,7 @@ import { DismissToAddContactSuccess } from './dismiss-to-add-contact-success';
 
 export class DismissToAddContact {
   static get action() {
-    return createAction('DISMISS_TO_ADD_CONTACT')<number, Meta>();
+    return createAction('DISMISS_TO_ADD_CONTACT')<string, Meta>();
   }
 
   static get saga() {
@@ -21,7 +21,7 @@ export class DismissToAddContact {
     ): SagaIterator {
       const userId = action.payload;
 
-      const phoneToAdd: IDismissAddToContactsCommand = { userInterlocutorId: userId };
+      const phoneToAdd: IDismissAddToContactsRequest = { userInterlocutorId: userId };
       yield call(() => DismissToAddContact.httpRequest.generator(phoneToAdd));
 
       yield put(DismissToAddContactSuccess.action(userId));
@@ -30,7 +30,7 @@ export class DismissToAddContact {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IDismissAddToContactsCommand>(
+    return httpRequestFactory<AxiosResponse, IDismissAddToContactsRequest>(
       MAIN_API.DISMISS_CONTACT,
       HttpRequestMethod.Post,
     );

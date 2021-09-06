@@ -1,3 +1,3 @@
 export interface IUserContactsRemovedIntegrationEvent {
-  userIds: number[];
+  userIds: string[];
 }

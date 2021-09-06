@@ -42,17 +42,16 @@ export class ForwardMessages {
         // eslint-disable-next-line no-restricted-syntax
         for (const chatId of chatIdsToForward) {
           const messageCreationReq: ICreateMessageRequest = {
-            text: '',
             chatId,
             link: {
               originalMessageId:
                 message.linkedMessageType === MessageLinkType.Forward
-                  ? (originalMessageId as number)
+                  ? (originalMessageId as string)
                   : messageId,
               type: MessageLinkType.Forward,
             },
             // Property clientId has no meaning here because messages are not added in forward-messages reduce
-            clientId: 0,
+            clientId: '0',
           };
 
           const { status } = CreateMessage.httpRequest.call(

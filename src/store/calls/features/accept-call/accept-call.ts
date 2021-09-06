@@ -87,7 +87,7 @@ export class AcceptCall {
         }
       }
       //---
-      const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
+      const interlocutorId = yield select(getCallInterlocutorIdSelector);
       const interlocutorOffer = getInterlocutorOffer();
       const peerConnection = getPeerConnection();
 

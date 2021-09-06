@@ -15,7 +15,7 @@ import { getUserName } from '@utils/user-utils';
 import './friend.scss';
 
 interface IFriendProps {
-  friendId: number;
+  friendId: string;
 }
 
 export const Friend: React.FC<IFriendProps> = React.memo(({ friendId }) => {

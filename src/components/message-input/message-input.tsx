@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 import { SystemMessageType, MessageLinkType, IAttachmentBase } from 'kimbu-models';
+import { size } from 'lodash';
 import throttle from 'lodash/throttle';
 import Mousetrap from 'mousetrap';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +14,7 @@ import { ReactComponent as AddSvg } from '@icons/add-attachment.svg';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { ReactComponent as SendSvg } from '@icons/send.svg';
 import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
+import { Button } from '@shared-components/button';
 import {
   messageTypingAction,
   createMessageAction,
@@ -38,6 +40,7 @@ import { MESSAGE_INPUT_ID } from '@utils/constants';
 import { focusEditableElement } from '@utils/focus-editable-element';
 import { getAttachmentType } from '@utils/get-file-extension';
 import { parseMessageInput } from '@utils/parse-message-input';
+import { setRecordAudioStream } from '@utils/record-audio-stream';
 import renderText from '@utils/render-text/render-text';
 import { isSelectionInsideInput } from '@utils/selection';
 
@@ -73,6 +76,7 @@ const CreateMessageInput = () => {
 
   const [text, setText] = useState('');
   const refferedText = useReferState(text);
+  const [requestMicrophoneLoading, setRequestMicrophoneLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
 
   const messageInputRef = useRef<HTMLDivElement>(null);
@@ -160,12 +164,14 @@ const CreateMessageInput = () => {
       ({ attachment }) => attachment,
     );
 
-    submitEditMessage({
-      text: parseMessageInput(refferedText.current),
-      removedAttachments: referredRemovedAttachments.current,
-      newAttachments,
-      messageId: editingMessage?.id as number,
-    });
+    if (editingMessage?.id) {
+      submitEditMessage({
+        text: parseMessageInput(refferedText.current),
+        removedAttachments: referredRemovedAttachments.current,
+        newAttachments,
+        messageId: editingMessage.id,
+      });
+    }
   }, [
     updatedSelectedChat,
     submitEditMessage,
@@ -185,8 +191,7 @@ const CreateMessageInput = () => {
     const messageText = parseMessageInput(refferedText.current);
 
     if (
-      (messageText.trim().length > 0 ||
-        (updatedSelectedChat.current?.attachmentsToSend?.length || 0) > 0) &&
+      (messageText.trim().length > 0 || size(updatedSelectedChat.current?.attachmentsToSend) > 0) &&
       updatedSelectedChat.current &&
       currentUserId
     ) {
@@ -201,7 +206,7 @@ const CreateMessageInput = () => {
           userCreatorId: currentUserId,
           creationDateTime: new Date().toISOString(),
           state: MessageState.QUEUED,
-          id: new Date().getTime(),
+          id: String(new Date().getTime()),
           chatId,
           attachments,
           isDeleted: false,
@@ -304,8 +309,22 @@ const CreateMessageInput = () => {
   ]);
 
   const handleRegisterAudioBtnClick = useCallback(() => {
-    setIsRecording((oldState) => !oldState);
-  }, [setIsRecording]);
+    if (!isRecording) {
+      setRequestMicrophoneLoading(true);
+      navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then((stream) => {
+          setRecordAudioStream(stream);
+          setRequestMicrophoneLoading(false);
+          setIsRecording(true);
+        })
+        .catch(() => {
+          setRequestMicrophoneLoading(false);
+        });
+    }
+
+    setIsRecording(false);
+  }, [isRecording]);
 
   const openSelectFiles = useCallback(() => {
     fileInputRef.current?.click();
@@ -422,12 +441,13 @@ const CreateMessageInput = () => {
                 <>
                   <MessageSmiles onSelectEmoji={insertTextAndUpdateCursor} />
 
-                  <button
+                  <Button
                     type="button"
                     onClick={handleRegisterAudioBtnClick}
+                    loading={requestMicrophoneLoading}
                     className="message-input__voice-btn">
                     <VoiceSvg />
-                  </button>
+                  </Button>
 
                   <button
                     type="button"

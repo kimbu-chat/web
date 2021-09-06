@@ -5,19 +5,18 @@
   justify-content: flex-start;
   align-items: center;
   position: relative;
-  max-width: calc(100% - 40px);
+  background-color: var(--msg-bg-dt-gray-lt-kingBlueLight);
 
-  &:first-child {
-    margin-top: 0;
-  }
+  background-color: var(--msg-bg);
+  border-radius: 0px 6px 6px 6px;
+  padding: 8px 16px;
 
   & > * {
     width: 100%;
   }
 
   &__vaweform {
-    background: var(--chat-bg-dt-dark-wt-grayLight) !important;
-    height: 40px;
+    height: 24px;
   }
 
   &__vaweform-wrapper {
@@ -26,30 +25,14 @@
     overflow: hidden;
     width: 193px;
     flex: 0 0 193px;
-    margin-right: 24px;
-  }
-
-  &__progress {
-    background: #3f8ae0;
-    position: absolute;
-    overflow: hidden;
-    left: 0;
-    height: 100%;
+    margin-right: 8px;
   }
 
   &__play-pause {
-    margin-right: 10px;
-    background: #3f8ae0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    flex: 0 0 40px;
-    height: 40px;
-    border-radius: 0px 6px 6px 6px;
+    margin-right: 7px;
 
     svg {
-      color: white;
+      color: #fff;
       height: 24px;
       width: 24px;
     }
@@ -57,9 +40,10 @@
 
   &__duration {
     font-weight: normal;
-    font-size: 0.875rem;
-    line-height: 16px;
-    color: var(--dt-white-wt-dark);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 17px;
+    color: #fff;
     white-space: nowrap;
   }
 }

@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import { IUser, IMessage, IGetMessagesRequest } from 'kimbu-models';
+import { size } from 'lodash';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select, take } from 'redux-saga/effects';
@@ -8,7 +9,6 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { MessageState } from '@store/chats/models';
-import { ById } from '@store/chats/models/by-id';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
@@ -83,7 +83,7 @@ export class GetMessages {
         const request: IGetMessagesRequest = {
           page: {
             limit: MESSAGES_LIMIT,
-            offset: isFromScroll ? chat.messages.messageIds?.length || 0 : 0,
+            offset: isFromScroll ? size(chat.messages.messageIds) : 0,
           },
           chatId: chat.id,
           searchString,
@@ -108,8 +108,8 @@ export class GetMessages {
             result,
           } = normalize<
             IMessage[],
-            { messages: ById<INormalizedMessage>; users: ById<IUser> },
-            number[]
+            { messages: Record<string, INormalizedMessage>; users: Record<string, IUser> },
+            string[]
           >(newMessages, messageArrNormalizationSchema);
 
           const messageList = {

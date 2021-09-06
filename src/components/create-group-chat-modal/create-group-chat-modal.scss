@@ -2,6 +2,7 @@
   align-items: center;
   display: flex;
   margin-top: 16px;
+  margin-bottom: 40px;
   flex-direction: column;
 
   &__btn-block {
@@ -12,19 +13,16 @@
 
   &__icon {
     color: var(--dt-white-wt-kingBlue);
-    height: 21px;
+    height: 26px;
     margin-right: 17px;
-    width: 21px;
   }
 
   &__select-friends {
     margin-top: 18px;
     &__search {
       height: 32px;
-      margin-bottom: 8px;
-      margin-left: 0;
-      margin-right: 0;
-      width: 339px;
+      margin: 0 0 0 0;
+      width: 330px;
 
       svg {
         height: 16px;
@@ -42,7 +40,7 @@
   }
 
   &__friends-block {
-    max-height: 294px;
+    max-height: 337px;
     overflow: auto;
     padding-right: 8px;
 
@@ -130,6 +128,32 @@
     font-weight: 300;
     line-height: 12px;
     margin-top: 13px;
+    margin-bottom: 32px;
+  }
+
+  &__delete {
+    position: absolute;
+    top: 229px;
+    padding: 3px 30px;
+    border-radius: 4px;
+    border: 1px solid var(--dt-white-wt-dark);
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+
+    &__icon {
+      width: 12px;
+      height: 13px;
+      color: var(--dt-white-wt-dark);
+      margin-right: 5px;
+    }
+
+    &__text {
+      color: var(--dt-white-wt-dark);
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 14px;
+    }
   }
 
   &__btn {
@@ -171,6 +195,6 @@
   }
 
   &__input {
-    margin-top: 30px;
+    margin-top: 25px;
   }
 }

@@ -16,7 +16,7 @@ import './responding-message.scss';
 
 export const RespondingMessage = () => {
   const replyingMessage = useSelector(getMessageToReplySelector);
-  const myId = useSelector(myIdSelector) as number;
+  const myId = useSelector(myIdSelector) as string;
   const userCreator = useSelector(getUserSelector(replyingMessage?.userCreatorId));
 
   const isCurrentUserMessageCreator = replyingMessage?.userCreatorId === myId;

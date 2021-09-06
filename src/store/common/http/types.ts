@@ -2,7 +2,7 @@ import { AxiosResponse, CancelTokenSource } from 'axios';
 import { SagaIterator } from 'redux-saga';
 
 export type IRequestGenerator<TResponse, TBody> = {
-  generator: (body?: TBody) => SagaIterator;
+  generator: (body?: TBody, assignCancelToken?: (token: CancelTokenSource) => void) => SagaIterator;
   call: (args: TResponse) => TResponse;
 };
 

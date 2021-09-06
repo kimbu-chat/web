@@ -28,9 +28,14 @@ import './replied-message.scss';
 interface IRepliedMessageProps {
   linkedMessage: INormalizedLinkedMessage | null;
   observeIntersection: ObserveFn;
+  isCurrentUserMessageCreator: boolean;
 }
 
-const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage, observeIntersection }) => {
+const RepliedMessage: React.FC<IRepliedMessageProps> = ({
+  linkedMessage,
+  observeIntersection,
+  isCurrentUserMessageCreator,
+}) => {
   const { t } = useTranslation();
 
   const userCreator = useSelector(getUserSelector(linkedMessage?.userCreatorId));
@@ -43,7 +48,7 @@ const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage, observe
             files: IAttachmentBase[];
             media: (IVideoAttachment | IPictureAttachment | IAttachmentBase)[];
             audios: IAudioAttachment[];
-            recordings: IVoiceAttachment[];
+            recordings: (IVoiceAttachment & { clientId?: number })[];
           },
           currentAttachment,
         ) => {
@@ -102,7 +107,11 @@ const RepliedMessage: React.FC<IRepliedMessageProps> = ({ linkedMessage, observe
             <FileAttachment key={file.id} {...file} />
           ))}
           {structuredAttachments?.recordings.map((recording) => (
-            <RecordingAttachment key={recording.id} {...recording} />
+            <RecordingAttachment
+              createdByInterlocutor={!isCurrentUserMessageCreator}
+              key={recording.clientId || recording.id}
+              {...recording}
+            />
           ))}
           {structuredAttachments?.audios.map((audio) => (
             <MessageAudioAttachment key={audio.id} {...audio} />

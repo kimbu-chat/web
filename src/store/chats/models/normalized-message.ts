@@ -4,19 +4,20 @@ import { MessageState } from './message-state';
 import { INormalizedLinkedMessage } from './normalized-linked-message';
 
 export interface INormalizedMessage {
-  id: number;
-  userCreatorId: number;
+  id: string;
+  clientId?: string;
+  userCreatorId: string;
   creationDateTime: string;
-  text: string;
+  text?: string;
   attachmentsJson?: string;
   systemMessageType: SystemMessageType;
   state?: MessageState;
-  chatId: number;
+  chatId: string;
 
   isEdited?: boolean;
   isDeleted?: boolean;
 
-  attachments?: IAttachmentBase[];
+  attachments?: (IAttachmentBase & { clientId?: number })[];
   linkedMessageType?: MessageLinkType;
   linkedMessage?: INormalizedLinkedMessage | null;
 }

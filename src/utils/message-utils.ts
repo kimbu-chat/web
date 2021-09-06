@@ -13,7 +13,7 @@ import type { IUser } from 'kimbu-models';
 interface ISystemMessageBase {}
 
 export interface IGroupChatMemberRemovedSystemMessageContent extends ISystemMessageBase {
-  removedUserId: number;
+  removedUserId: string;
   removedUserName: string;
 }
 
@@ -23,7 +23,7 @@ interface IGroupChatNameChangedSystemMessageContent extends ISystemMessageBase {
 }
 
 interface IGroupChatMemberAddedSystemMessageContent extends ISystemMessageBase {
-  addedUserId: number;
+  addeduserId: string;
   addedUserName: string;
   groupChatName: string;
   groupChatMembersNumber: number;
@@ -31,8 +31,8 @@ interface IGroupChatMemberAddedSystemMessageContent extends ISystemMessageBase {
 }
 
 export interface ICallMessage {
-  userCallerId: number;
-  userCalleeId: number;
+  userCallerId: string;
+  userCalleeId: string;
   duration: number;
   status: CallStatus;
 }
@@ -45,7 +45,7 @@ const getCallEndedMessage = (
   message: INormalizedMessage,
   callMessage: ICallMessage,
   t: TFunction,
-  myId: number,
+  myId: string,
 ) => {
   if (callMessage.userCallerId === myId) {
     return t('systemMessage.outgoing_call_success_ended', {
@@ -61,7 +61,7 @@ const getCallCanceledMessage = (
   message: INormalizedMessage,
   callMessage: ICallMessage,
   t: TFunction,
-  myId: number,
+  myId: string,
 ) =>
   callMessage.userCallerId === myId
     ? t('systemMessage.you_canceled_call')
@@ -71,7 +71,7 @@ const getCallDeclinedMessage = (
   message: INormalizedMessage,
   callMessage: ICallMessage,
   t: TFunction,
-  myId: number,
+  myId: string,
 ) =>
   callMessage.userCallerId === myId
     ? t('systemMessage.someone_declined_call')
@@ -81,7 +81,7 @@ const getCallIntrerruptedMessage = (
   message: INormalizedMessage,
   callMessage: ICallMessage,
   t: TFunction,
-  myId: number,
+  myId: string,
 ) =>
   callMessage.userCallerId === myId
     ? t('systemMessage.outgoing_call_intrrerupted')
@@ -91,7 +91,7 @@ const getCallNotAnsweredMessage = (
   message: INormalizedMessage,
   callMessage: ICallMessage,
   t: TFunction,
-  myId: number,
+  myId: string,
 ) =>
   callMessage.userCallerId === myId
     ? t('systemMessage.someone_missed_call', {
@@ -106,7 +106,7 @@ const callMessageMap: {
     message: INormalizedMessage,
     callMessage: ICallMessage,
     t: TFunction,
-    myId: number,
+    myId: string,
   ) => string;
 } = {
   [CallStatus.Ended]: getCallEndedMessage,
@@ -119,7 +119,7 @@ const callMessageMap: {
 const getGroupChatCreatedMessage = (
   message: INormalizedMessage,
   t: TFunction,
-  myId: number,
+  myId: string,
   userCreator?: IUser,
 ) =>
   userCreator?.id === myId
@@ -131,7 +131,7 @@ const getGroupChatCreatedMessage = (
 const getGroupChatMemberRemovedMessage = (
   message: INormalizedMessage,
   t: TFunction,
-  myId: number,
+  myId: string,
   userCreator?: IUser,
 ) => {
   const systemMessageContent =
@@ -149,7 +149,7 @@ const getGroupChatMemberRemovedMessage = (
 const getGroupChatMemberAddedMessage = (
   message: INormalizedMessage,
   t: TFunction,
-  myId: number,
+  myId: string,
   userCreator?: IUser,
 ) => {
   const systemMessageContent =
@@ -169,7 +169,7 @@ const getGroupChatMemberAddedMessage = (
 const getGroupChatNameChangedMessage = (
   message: INormalizedMessage,
   t: TFunction,
-  myId: number,
+  myId: string,
   userCreator?: IUser,
 ) => {
   const systemMessageContent =
@@ -191,7 +191,7 @@ const getGroupChatNameChangedMessage = (
 const getGroupChatAvatarChangedMessage = (
   message: INormalizedMessage,
   t: TFunction,
-  myId: number,
+  myId: string,
   userCreator?: IUser,
 ) => {
   if (userCreator?.id === myId) {
@@ -205,7 +205,7 @@ const getGroupChatAvatarChangedMessage = (
 const getGroupChatAvatarRemovedMessage = (
   message: INormalizedMessage,
   t: TFunction,
-  myId: number,
+  myId: string,
   userCreator?: IUser,
 ) => {
   if (userCreator?.id === myId) {
@@ -216,7 +216,7 @@ const getGroupChatAvatarRemovedMessage = (
   });
 };
 
-const getCallMessage = (message: INormalizedMessage, t: TFunction, myId: number) => {
+const getCallMessage = (message: INormalizedMessage, t: TFunction, myId: string) => {
   const callMessage = getSystemMessageData<ICallMessage>(message);
   const processingFunction = callMessageMap[callMessage.status];
 
@@ -231,7 +231,7 @@ const systemMessageMap: {
   [key in Partial<SystemMessageType>]?: (
     message: INormalizedMessage,
     t: TFunction,
-    myId: number,
+    myId: string,
     userCreator?: IUser,
   ) => string;
 } = {
@@ -247,7 +247,7 @@ const systemMessageMap: {
 export const constructSystemMessageText = (
   message: INormalizedMessage,
   t: TFunction,
-  myId: number,
+  myId: string,
   userCreator?: IUser,
 ): string => {
   const processingFunction = systemMessageMap[message.systemMessageType];

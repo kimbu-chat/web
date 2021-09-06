@@ -25,7 +25,7 @@ export class ChatClearedEventHandler {
           const chatMessages = draft.chats[chatId]?.messages;
 
           if (chatMessages && chatMessages.messageIds.length !== 0) {
-            chatMessages.messages = [];
+            chatMessages.messages = {};
             chatMessages.messageIds = [];
             chatMessages.hasMore = false;
 

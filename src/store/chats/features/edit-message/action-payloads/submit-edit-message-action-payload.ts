@@ -6,5 +6,5 @@ export interface ISumbitEditMessageActionPayload {
   text: string;
   removedAttachments?: IAttachmentCreation[];
   newAttachments?: IAttachmentBase[];
-  messageId: number;
+  messageId: string;
 }

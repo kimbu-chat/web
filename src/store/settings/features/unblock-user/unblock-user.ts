@@ -12,7 +12,7 @@ import { UnblockUserSuccess } from './unblock-user-success';
 
 export class UnblockUser {
   static get action() {
-    return createAction('UNBLOCK_USER')<number, Meta>();
+    return createAction('UNBLOCK_USER')<string, Meta>();
   }
 
   static get saga() {

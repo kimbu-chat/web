@@ -28,7 +28,7 @@ export class EditGroupChat {
       const { groupChatId } = ChatId.fromId(chatId);
 
       const requestData: IEditGroupChatRequest = {
-        id: groupChatId as number,
+        id: groupChatId as string,
         name,
         description,
         avatarId: avatar?.id,

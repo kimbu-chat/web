@@ -50,7 +50,8 @@
     "upload_new": "Upload New Photo",
     "requirements": "At least 256*256px PNG or JPG",
     "name": "Name",
-    "description": "Description"
+    "description": "Description",
+    "delete-photo": "Delete photo"
   },
   "register": {
     "photo-requirements": "At least 256*256px PNG or JPG",

@@ -1,5 +1,5 @@
 export interface IUserEditedIntegrationEvent {
-  userId: number;
+  userId: string;
   firstName: string;
   lastName: string;
   nickname: string;

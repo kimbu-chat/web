@@ -1,6 +1,6 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, CancelTokenSource } from 'axios';
 import produce from 'immer';
-import { ICreateMessageRequest } from 'kimbu-models';
+import { ICreateMessageRequest, ICreateMessageResponse } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -8,6 +8,7 @@ import { createAction } from 'typesafe-actions';
 import { MAIN_API } from '@common/paths';
 import { MessageState } from '@store/chats/models';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { addMessageSendingRequest } from '@utils/cancel-send-message-request';
 
 import { IChatsState } from '../../chats-state';
 
@@ -41,7 +42,7 @@ export class CreateMessage {
 
       const chatMessages = draft.chats[message.chatId]?.messages;
 
-      if (chatMessages && chatMessages.messages[message.id] === undefined) {
+      if (chatMessages && !chatMessages.messages[message.id]) {
         chatMessages.messages[message.id] = message;
         chatMessages.messageIds.unshift(message.id);
       }
@@ -70,15 +71,26 @@ export class CreateMessage {
         };
       }
 
-      const { data } = CreateMessage.httpRequest.call(
-        yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)),
+      const response = CreateMessage.httpRequest.call(
+        yield call(() =>
+          CreateMessage.httpRequest.generator(
+            messageCreationReq,
+            (cancelToken: CancelTokenSource) =>
+              addMessageSendingRequest(action.payload.message.id, cancelToken),
+          ),
+        ),
       );
+
+      // if request was canceled, response is undefined and we shouldn't submit CreateMessageSuccess
+      if (!response) {
+        return;
+      }
 
       yield put(
         CreateMessageSuccess.action({
           chatId,
           oldMessageId: message.id,
-          newMessageId: data,
+          newMessageId: response.data.id,
           messageState: MessageState.SENT,
           attachments: message.attachments,
         }),
@@ -87,7 +99,7 @@ export class CreateMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<number>, ICreateMessageRequest>(
+    return httpRequestFactory<AxiosResponse<ICreateMessageResponse>, ICreateMessageRequest>(
       MAIN_API.MESSAGES,
       HttpRequestMethod.Post,
     );

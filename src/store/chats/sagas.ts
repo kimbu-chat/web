@@ -6,6 +6,7 @@ import { ChangeSelectedChat } from './features/change-selected-chat/change-selec
 import { ClearChatHistory } from './features/clear-chat-history/clear-chat-history';
 import { CopyMessages } from './features/copy-messages/copy-messages';
 import { CreateGroupChat } from './features/create-group-chat/create-group-chat';
+import { CreateMessageSuccess } from './features/create-message/create-message-success';
 import { CreateMessage } from './features/create-message/create-message';
 import { DeleteMessage } from './features/delete-message/delete-message';
 import { EditGroupChat } from './features/edit-group-chat/edit-group-chat';
@@ -28,6 +29,7 @@ import { RemoveAttachment } from './features/remove-attachment/remove-attachment
 import { RemoveChat } from './features/remove-chat/remove-chat';
 import { RemoveUserFromGroupChat } from './features/remove-user-from-group-chat/remove-user-from-group-chat';
 import { UploadAttachmentRequest } from './features/upload-attachment/upload-attachment-request';
+import { UploadVoiceAttachment } from './features/upload-voice-attachment/upload-voice-attachment';
 import { MessageCreatedEventHandler } from './socket-events/message-created/message-created-event-handler';
 import { MessagesDeletedIntegrationEventHandler } from './socket-events/message-deleted/messages-deleted-integration-event-handler';
 import { UserMessageTypingEventHandler } from './socket-events/message-typing/message-typing-event-handler';
@@ -62,6 +64,8 @@ export function* chatSaga() {
     takeEvery(RemoveAllAttachments.action, RemoveAllAttachments.saga),
     takeEvery(RemoveUserFromGroupChat.action, RemoveUserFromGroupChat.saga),
     takeEvery(RemoveChat.action, RemoveChat.saga),
+    takeEvery(UploadVoiceAttachment.action, UploadVoiceAttachment.saga),
+    takeEvery(CreateMessageSuccess.action, CreateMessageSuccess.saga),
 
     // socket-events
     takeEvery(MessageCreatedEventHandler.action, MessageCreatedEventHandler.saga),

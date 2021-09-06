@@ -1,7 +1,7 @@
 import { IAvatar } from 'kimbu-models';
 
 export interface IEditGroupChatSuccessActionPayload {
-  chatId: number;
+  chatId: string;
   name: string;
   description?: string;
   avatar?: IAvatar;

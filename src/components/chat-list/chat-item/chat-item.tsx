@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 
 import classnames from 'classnames';
 import { MessageLinkType, SystemMessageType } from 'kimbu-models';
+import { size } from 'lodash';
 import truncate from 'lodash/truncate';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -27,7 +28,7 @@ import { getChatInterlocutor } from '@utils/user-utils';
 import './chat-item.scss';
 
 interface IChatItemProps {
-  chatId: number;
+  chatId: string;
 }
 
 const BLOCK_NAME = 'chat-item';
@@ -38,7 +39,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const lastMessageUserCreator = useSelector(getUserSelector(chat?.lastMessage?.userCreatorId));
   const interlocutor = useSelector(getUserSelector(chat?.interlocutorId));
 
-  const currentUserId = useSelector(myIdSelector) as number;
+  const currentUserId = useSelector(myIdSelector);
   const typingString = useSelector(getTypingStringSelector(t, chatId));
 
   const isMessageCreatorCurrentUser: boolean = chat?.lastMessage?.userCreatorId === currentUserId;
@@ -51,16 +52,16 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
         : chat?.lastMessage;
 
     if (
-      (chat?.lastMessage?.text.length === 0 && (chat?.lastMessage.attachments?.length || 0) > 0) ||
-      (chat?.lastMessage?.linkedMessage?.text?.length === 0 &&
-        (chat?.lastMessage?.linkedMessage?.attachments?.length || 0) > 0)
+      (size(chat?.lastMessage?.text) === 0 && size(chat?.lastMessage?.attachments) > 0) ||
+      (size(chat?.lastMessage?.linkedMessage?.text) === 0 &&
+        size(chat?.lastMessage?.linkedMessage?.attachments) > 0)
     ) {
       return t('chatFromList.media');
     }
 
     if (
-      chat?.lastMessage?.text.length === 0 &&
-      (chat?.lastMessage.attachments?.length || 0) === 0 &&
+      chat?.lastMessage?.text?.length === 0 &&
+      size(chat?.lastMessage.attachments) === 0 &&
       chat?.lastMessage?.linkedMessage === null
     ) {
       return t('message-link.message-deleted');
@@ -77,7 +78,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
             // TODO: replace this logic
             messageToProcess as INormalizedMessage,
             t,
-            currentUserId,
+            currentUserId as string,
             lastMessageUserCreator,
           ),
           {

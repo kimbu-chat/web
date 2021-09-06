@@ -1,4 +1,4 @@
-import { all, takeEvery, takeLatest } from 'redux-saga/effects';
+import { all, takeEvery, takeLatest, takeLeading } from 'redux-saga/effects';
 
 import { CancelAvatarUploading } from './features/cancel-avatar-uploading/cancel-avatar-uploading';
 import { ChangeUserOnlineStatus } from './features/change-user-online-status/change-user-online-status';
@@ -18,7 +18,7 @@ export function* myProfileSagas() {
     takeLatest(GetMyProfile.action, GetMyProfile.saga),
     takeLatest(GetMyProfileSuccess.action, GetMyProfileSuccess.saga),
     takeLatest(CheckNicknameAvailability.action, CheckNicknameAvailability.saga),
-    takeLatest(UploadAvatar.action, UploadAvatar.saga),
+    takeLeading(UploadAvatar.action, UploadAvatar.saga),
     takeLatest(ChangeUserOnlineStatus.action, ChangeUserOnlineStatus.saga),
     takeEvery(CancelAvatarUploading.action, CancelAvatarUploading.saga),
     takeLatest(DeactivateAccount.action, DeactivateAccount.saga),

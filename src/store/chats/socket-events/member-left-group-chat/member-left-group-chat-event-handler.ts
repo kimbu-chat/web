@@ -19,8 +19,8 @@ export class MemberLeftGroupChatEventHandler {
         draft: IChatsState,
         { payload }: ReturnType<typeof MemberLeftGroupChatEventHandler.action>,
       ) => {
-        const { groupChatId, userId } = payload;
-        const chatId = ChatId.from(undefined, groupChatId).id;
+        const { groupСhatId, userId } = payload;
+        const chatId = ChatId.from(undefined, groupСhatId).id;
 
         const myId = new MyProfileService().myProfile.id;
 

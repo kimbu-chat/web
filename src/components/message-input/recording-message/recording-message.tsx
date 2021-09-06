@@ -1,31 +1,35 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 
-import { AttachmentType } from 'kimbu-models';
 import useInterval from 'use-interval';
-import WaveSurfer from 'wavesurfer.js';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import MicrophonePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.microphone';
+import { Peaks } from 'wavesurfer.js/types/backend';
 
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useReferState } from '@hooks/use-referred-state';
+import { ReactComponent as DeleteSvg } from '@icons/remove-chat.svg';
+import { ReactComponent as SendSvg } from '@icons/send.svg';
 import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
-import { uploadAttachmentRequestAction } from '@store/chats/actions';
+import { uploadVoiceAttachmentAction } from '@store/chats/actions';
 import { getMinutesSeconds } from '@utils/date-utils';
+import { generateLiveWaveform, stopGenerating } from '@utils/generate-live-waveform';
+import { getWaveform } from '@utils/get-waveform';
 
 import './recording-message.scss';
 
+import { getRecordAudioStream } from '../../../utils/record-audio-stream';
+
 let mediaRecorder: MediaRecorder | null = null;
 let tracks: MediaStreamTrack[] = [];
-let waveSurferInstance: WaveSurfer | null = null;
+let canceled = false;
 
 interface IRecordingMessageProps {
   hide: () => void;
 }
 
 export const RecordingMessage: React.FC<IRecordingMessageProps> = ({ hide }) => {
-  const uploadAttachmentRequest = useActionWithDispatch(uploadAttachmentRequestAction);
+  const uploadVoiceAttachment = useActionWithDispatch(uploadVoiceAttachmentAction);
 
   const [recordedSeconds, setRecordedSeconds] = useState(0);
+  const referedRecordedSeconds = useReferState(recordedSeconds);
 
   const waveformRef = useRef<HTMLDivElement>(null);
 
@@ -38,98 +42,86 @@ export const RecordingMessage: React.FC<IRecordingMessageProps> = ({ hide }) => 
   );
 
   useEffect(() => {
-    if (WaveSurfer && MicrophonePlugin && waveformRef.current) {
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    canceled = false;
+    const stream = getRecordAudioStream();
 
-      let context;
-      let processor;
+    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder?.start();
+    tracks = stream.getTracks();
 
-      if (isSafari) {
-        // Safari 11 or newer automatically suspends new AudioContext's that aren't
-        // created in response to a user-gesture, like a click or tap, so create one
-        // here (inc. the script processor)
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        context = new AudioContext();
-        processor = context.createScriptProcessor(1024, 1, 1);
+    if (waveformRef.current) {
+      generateLiveWaveform(stream, waveformRef.current);
+    }
+
+    const audioChunks: Blob[] = [];
+    mediaRecorder?.addEventListener('dataavailable', (event) => {
+      audioChunks.push(event.data);
+    });
+
+    mediaRecorder?.addEventListener('stop', () => {
+      if (canceled) {
+        hide();
+        stopGenerating();
+        return;
       }
 
-      waveSurferInstance = WaveSurfer.create({
-        container: waveformRef.current,
-        waveColor: '#3f8ae0',
-        interact: false,
-        cursorWidth: 0,
-        plugins: [MicrophonePlugin.create()],
-        audioScriptProcessor: processor,
-        audioContext: context,
-        height: 30,
-        hideScrollbar: true,
-      });
-      waveSurferInstance?.microphone.start();
-      waveSurferInstance?.microphone.play();
+      tracks.forEach((track) => track.stop());
+      tracks = [];
 
-      navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-        mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder?.start();
-        tracks = stream.getTracks();
-
-        const audioChunks: Blob[] = [];
-        mediaRecorder?.addEventListener('dataavailable', (event) => {
-          audioChunks.push(event.data);
+      if (audioChunks[0]?.size > 0) {
+        const audioBlob = new Blob(audioChunks);
+        const audioFile = new File([audioBlob], 'audio.mp3', {
+          type: 'audio/mp3; codecs="opus"',
         });
 
-        mediaRecorder?.addEventListener('stop', () => {
-          tracks.forEach((track) => track.stop());
-          tracks = [];
+        mediaRecorder = null;
 
-          if (audioChunks[0]?.size > 0) {
-            const audioBlob = new Blob(audioChunks);
-            const audioFile = new File([audioBlob], 'audio.mp3', {
-              type: 'audio/mp3; codecs="opus"',
-            });
+        const recordingUrl = URL.createObjectURL(audioBlob);
 
-            mediaRecorder = null;
+        const onReady = (waveForm: Peaks) => {
+          uploadVoiceAttachment({
+            file: audioFile as File,
+            id: new Date().getTime(),
+            waveFormJson: JSON.stringify(waveForm),
+            duration: referedRecordedSeconds.current,
+            url: recordingUrl,
+          });
 
-            waveSurferInstance?.microphone.destroy();
+          hide();
+          stopGenerating();
+        };
 
-            waveSurferInstance?.load(URL.createObjectURL(audioBlob));
-
-            const onReady = () => {
-              waveSurferInstance?.exportPCM(5, undefined, true).then((waveForm) => {
-                uploadAttachmentRequest({
-                  type: AttachmentType.Voice,
-                  file: audioFile as File,
-                  attachmentId: new Date().getTime(),
-                  waveFormJson: JSON.stringify(waveForm),
-                });
-              });
-
-              waveSurferInstance?.destroy();
-              waveSurferInstance = null;
-              hide();
-            };
-
-            waveSurferInstance?.on('ready', onReady);
-          }
-
-          setRecordedSeconds(0);
-        });
-      });
-    }
-  }, [uploadAttachmentRequest, hide]);
+        getWaveform(recordingUrl, referedRecordedSeconds.current).then(onReady);
+      }
+    });
+  }, [hide, uploadVoiceAttachment, referedRecordedSeconds]);
 
   const stopRecording = useCallback(() => {
     mediaRecorder?.stop();
+    tracks.forEach((track) => track.stop());
+    tracks = [];
+  }, []);
 
+  const cancelRecording = useCallback(() => {
+    canceled = true;
+    mediaRecorder?.stop();
     tracks.forEach((track) => track.stop());
     tracks = [];
   }, []);
 
   return (
     <div className="recording-message">
-      <div className="recording-message__counter">{getMinutesSeconds(recordedSeconds)}</div>
-      <div ref={waveformRef} className="recording-message__vaweform" />
-      <button type="button" onClick={stopRecording} className="recording-message__voice-btn">
+      <button type="button" className="recording-message__voice-btn">
         <VoiceSvg />
+      </button>
+      <div ref={waveformRef} className="recording-message__vaweform" />
+      <div className="recording-message__counter">{getMinutesSeconds(recordedSeconds)}</div>
+
+      <button type="button" onClick={cancelRecording} className="recording-message__delete-btn">
+        <DeleteSvg height="24px" width="24px" />
+      </button>
+      <button type="button" onClick={stopRecording} className="recording-message__send-btn">
+        <SendSvg />
       </button>
     </div>
   );

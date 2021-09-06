@@ -1,4 +1,4 @@
 export interface IUserAddedToBlackListIntegrationEvent {
-  userInitiatorId: number;
-  blockedUserId: number;
+  userInitiatorId: string;
+  blockedUserId: string;
 }

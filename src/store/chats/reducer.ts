@@ -71,6 +71,8 @@ import { UploadAttachmentFailure } from './features/upload-attachment/upload-att
 import { UploadAttachmentProgress } from './features/upload-attachment/upload-attachment-progress';
 import { UploadAttachmentRequest } from './features/upload-attachment/upload-attachment-request';
 import { UploadAttachmentSuccess } from './features/upload-attachment/upload-attachment-success';
+import { UploadVoiceAttachmentSuccess } from './features/upload-voice-attachment/upload-voice-attachment-success';
+import { UploadVoiceAttachment } from './features/upload-voice-attachment/upload-voice-attachment';
 import { getChatByIdDraftSelector } from './selectors';
 import { ChatClearedEventHandler } from './socket-events/chat-cleared/chat-cleared-event-handler';
 import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
@@ -157,11 +159,13 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(DialogRemovedEventHandler.action, DialogRemovedEventHandler.reducer)
   .handleAction(ResetSearchChats.action, ResetSearchChats.reducer)
   .handleAction(RemoveChat.action, RemoveChat.reducer)
+  .handleAction(UploadVoiceAttachment.action, UploadVoiceAttachment.reducer)
+  .handleAction(UploadVoiceAttachmentSuccess.action, UploadVoiceAttachmentSuccess.reducer)
   .handleAction(
     BlockUserSuccess.action,
     produce((draft, { payload }: ReturnType<typeof BlockUserSuccess.action>) => {
       const userId = payload;
-      const chatId: number = ChatId.from(userId).id;
+      const chatId = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);
 
       if (!chat) {
@@ -177,7 +181,7 @@ const reducer = createReducer<IChatsState>(initialState)
     UnblockUserSuccess.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof UnblockUserSuccess.action>) => {
       const userId = payload;
-      const chatId: number = ChatId.from(userId).id;
+      const chatId = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);
 
       if (!chat) {
@@ -196,13 +200,13 @@ const reducer = createReducer<IChatsState>(initialState)
       const myId = new MyProfileService().myProfile.id;
 
       if (myId === blockedUserId) {
-        const chatId: number = ChatId.from(userInitiatorId).id;
+        const chatId: string = ChatId.from(userInitiatorId).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
         if (chat) {
           chat.isBlockedByInterlocutor = true;
         }
       } else {
-        const chatId: number = ChatId.from(blockedUserId).id;
+        const chatId: string = ChatId.from(blockedUserId).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
         if (chat) {
           chat.isBlockedByUser = true;
@@ -222,13 +226,13 @@ const reducer = createReducer<IChatsState>(initialState)
         const myId = new MyProfileService().myProfile.id;
 
         if (myId === unblockedUserId) {
-          const chatId: number = ChatId.from(userInitiatorId).id;
+          const chatId = ChatId.from(userInitiatorId).id;
           const chat = getChatByIdDraftSelector(chatId, draft);
           if (chat) {
             chat.isBlockedByInterlocutor = false;
           }
         } else {
-          const chatId: number = ChatId.from(unblockedUserId).id;
+          const chatId = ChatId.from(unblockedUserId).id;
           const chat = getChatByIdDraftSelector(chatId, draft);
           if (chat) {
             chat.isBlockedByUser = false;
@@ -243,7 +247,7 @@ const reducer = createReducer<IChatsState>(initialState)
     produce((draft: IChatsState, { payload }: ReturnType<typeof DeleteFriendSuccess.action>) => {
       const userId = payload;
 
-      const chatId: number = ChatId.from(userId).id;
+      const chatId = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);
 
       if (chat) {
@@ -263,7 +267,7 @@ const reducer = createReducer<IChatsState>(initialState)
         const { userIds } = payload;
 
         userIds.forEach((userId) => {
-          const chatId: number = ChatId.from(userId).id;
+          const chatId = ChatId.from(userId).id;
           const chat = getChatByIdDraftSelector(chatId, draft);
 
           if (chat) {
@@ -284,7 +288,7 @@ const reducer = createReducer<IChatsState>(initialState)
       ) => {
         const { userId } = payload;
 
-        const chatId: number = ChatId.from(userId).id;
+        const chatId = ChatId.from(userId).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (chat) {
@@ -299,7 +303,7 @@ const reducer = createReducer<IChatsState>(initialState)
     AddFriendSuccess.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
       const userId = payload;
-      const chatId: number = ChatId.from(userId).id;
+      const chatId = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);
 
       if (!chat) {
@@ -315,7 +319,7 @@ const reducer = createReducer<IChatsState>(initialState)
     DismissToAddContactSuccess.action,
     produce(
       (draft: IChatsState, { payload }: ReturnType<typeof DismissToAddContactSuccess.action>) => {
-        const chatId: number = ChatId.from(payload).id;
+        const chatId: string = ChatId.from(payload).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (!chat) {

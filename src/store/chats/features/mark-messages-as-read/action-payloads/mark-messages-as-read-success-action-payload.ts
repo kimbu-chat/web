@@ -1,4 +1,4 @@
 export interface IMarkMessagesAsReadSuccessActionPayload {
-  chatId: number;
-  lastReadMessageId: number;
+  chatId: string;
+  lastReadMessageId: string;
 }

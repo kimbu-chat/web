@@ -68,8 +68,11 @@
 
   &__file-size {
     color: var(--dt-white-wt-dark);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 300;
-    line-height: 14px;
+    line-height: 1;
+    margin-right: auto;
+    margin-top: auto;
+    white-space: nowrap;
   }
 }

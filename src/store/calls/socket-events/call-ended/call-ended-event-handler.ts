@@ -7,7 +7,6 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { INormalizedCall } from '@store/calls/common/models';
-import { ById } from '@store/chats/models/by-id';
 import { httpRequestFactory } from '@store/common/http/http-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
@@ -64,10 +63,11 @@ export class CallEndedEventHandler {
 
         const {
           entities: { calls, users },
-        } = normalize<ICall[], { calls: ById<INormalizedCall>; users: ById<IUser> }, number[]>(
-          activeCall,
-          callNormalizationSchema,
-        );
+        } = normalize<
+          ICall[],
+          { calls: Record<number, INormalizedCall>; users: Record<string, IUser> },
+          number[]
+        >(activeCall, callNormalizationSchema);
 
         const normalizedCall = calls[activeCall.id];
 

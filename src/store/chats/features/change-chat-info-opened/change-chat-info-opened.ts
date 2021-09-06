@@ -7,7 +7,7 @@ import { INormalizedChat } from '../../models/chat';
 
 export class ChangeChatInfoOpened {
   static get action() {
-    return createAction('CHANGE_CHAT_INFO_OPENED')<number | undefined>();
+    return createAction('CHANGE_CHAT_INFO_OPENED')<string | undefined>();
   }
 
   static get reducer() {

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import classNames from 'classnames';
 import { IVoiceAttachment } from 'kimbu-models';
 import WaveSurfer from 'wavesurfer.js';
 
@@ -10,13 +11,18 @@ import { getMinutesSeconds } from '@utils/date-utils';
 
 import './recording-attachment.scss';
 
-export const RecordingAttachment: React.FC<IVoiceAttachment> = ({ ...attachment }) => {
+const BLOCK_NAME = 'recording-attachment';
+
+export const RecordingAttachment: React.FC<
+  IVoiceAttachment & { clientId?: number; createdByInterlocutor?: boolean }
+> = ({ id, clientId, url, waveFormJson, duration, createdByInterlocutor }) => {
   const element = useRef<HTMLDivElement>(null);
 
-  const [progress, setProgress] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const wavesurfer = useRef<WaveSurfer | null>(null);
+
+  const idForUse = clientId || id;
 
   useEffect(() => {
     if (element.current) {
@@ -36,11 +42,12 @@ export const RecordingAttachment: React.FC<IVoiceAttachment> = ({ ...attachment 
 
       wavesurfer.current = WaveSurfer.create({
         container: element.current,
-        waveColor: '#3f8ae0',
-        progressColor: '#ffff',
+        waveColor: '#ffff',
+        // TODO: change color for recording that was created by interlocutor
+        progressColor: createdByInterlocutor ? '#000' : '#3f8ae0',
         backgroundColor: 'transparent',
         cursorWidth: 0,
-        height: 40,
+        height: 24,
         barWidth: 1,
         audioScriptProcessor: processor,
         audioContext: context,
@@ -50,52 +57,42 @@ export const RecordingAttachment: React.FC<IVoiceAttachment> = ({ ...attachment 
         barMinHeight: 1,
       });
 
-      wavesurfer.current?.on('audioprocess', (e) => {
-        setProgress(e / (wavesurfer.current?.getDuration() || -1));
-      });
-
       wavesurfer.current?.on('play', () => {
         setIsPlaying(true);
-        changeMusic(attachment.id, Origin.Record, () => wavesurfer.current?.pause());
+        changeMusic(idForUse, Origin.Record, () => wavesurfer.current?.pause());
       });
 
       wavesurfer.current?.on('pause', () => {
         setIsPlaying(false);
       });
 
-      wavesurfer.current?.on('seek', (e) => {
-        setProgress(e);
-      });
-
       wavesurfer.current?.on('finish', () => {
-        setProgress(100);
         setIsPlaying(false);
       });
 
-      if (attachment.url && attachment.waveFormJson) {
-        wavesurfer.current?.load(attachment.url, JSON.parse(attachment.waveFormJson));
+      if (url && waveFormJson) {
+        wavesurfer.current?.load(url, JSON.parse(waveFormJson));
       }
     }
 
     return () => {
       wavesurfer.current?.pause();
     };
-  }, [attachment.url, setProgress, setIsPlaying, attachment.waveFormJson, attachment.id]);
+  }, [url, setIsPlaying, waveFormJson, idForUse, createdByInterlocutor]);
 
   const playPause = useCallback(() => {
     wavesurfer.current?.playPause();
   }, []);
 
   return (
-    <div className="recording-attachment">
-      <button type="button" onClick={playPause} className="recording-attachment__play-pause">
+    <div className={BLOCK_NAME}>
+      <button type="button" onClick={playPause} className={classNames(`${BLOCK_NAME}__play-pause`)}>
         {isPlaying ? <PauseSvg /> : <PlaySvg />}
       </button>
-      <div className="recording-attachment__vaweform-wrapper">
-        <div style={{ width: `${progress * 100}%` }} className="recording-attachment__progress" />
-        <div ref={element} className="recording-attachment__vaweform" />
+      <div className={`${BLOCK_NAME}__vaweform-wrapper`}>
+        <div ref={element} className={`${BLOCK_NAME}__vaweform`} />
       </div>
-      <div className="recording-attachment__duration">{getMinutesSeconds(attachment.duration)}</div>
+      <div className={`${BLOCK_NAME}__duration`}>{getMinutesSeconds(duration)}</div>
     </div>
   );
 };

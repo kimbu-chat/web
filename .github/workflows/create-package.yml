@@ -10,6 +10,16 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+
+    - name: Make envfile
+      uses: SpicyPizza/create-envfile@v1
+      with:
+        envkey_REACT_APP_MAIN_API: https://api.dev.kimbu.io
+        envkey_REACT_APP_NOTIFICATIONS_API: https://notifications.dev.kimbu.io
+        envkey_REACT_APP_FILES_API: https://fs.dev.kimbu.io
+        envkey_REACT_APP_WEBSOCKET_API: wss://ws.dev.kimbu.io/connection/websocket
+        file_name: .env
+
     - name: Build container image
       uses: docker/build-push-action@v1
       with:

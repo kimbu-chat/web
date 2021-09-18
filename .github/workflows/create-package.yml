@@ -1,0 +1,19 @@
+name: Build
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Build container image
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: ghcr.io
+        repository: ${{ github.repository }}
+        tags: latest

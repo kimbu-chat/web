@@ -3,7 +3,7 @@ import { IUnsubscribeFromPushNotificationsRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
-import { NOTIFICATIONS_API } from '@common/paths';
+import { MAIN_API } from '@common/paths';
 import { createEmptyAction } from '@store/common/actions';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 import { messaging } from '@store/middlewares/firebase/firebase';
@@ -36,7 +36,7 @@ export class UnSubscribeFromPushNotifications {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, IUnsubscribeFromPushNotificationsRequest>(
-      NOTIFICATIONS_API.UNSUBSCRIBE,
+      MAIN_API.UNSUBSCRIBE_FROM_PUSH_NOTIFICATIONS,
       HttpRequestMethod.Post,
     );
   }

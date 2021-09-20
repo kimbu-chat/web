@@ -5,7 +5,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { NOTIFICATIONS_API } from '@common/paths';
+import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { myFullNameSelector } from '../../../my-profile/selectors';
@@ -44,7 +44,7 @@ export class MessageTyping {
 
   static get httpRequest() {
     return httpRequestFactory<AxiosResponse, INotifyAboutUserMessageTypingRequest>(
-      NOTIFICATIONS_API.MESSAGE_TYPING,
+      MAIN_API.MESSAGE_TYPING,
       HttpRequestMethod.Post,
     );
   }

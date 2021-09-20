@@ -1,9 +1,4 @@
-export const {
-  REACT_APP_FILES_API,
-  REACT_APP_MAIN_API,
-  REACT_APP_NOTIFICATIONS_API,
-  REACT_APP_WEBSOCKET_API,
-} = window.__config;
+export const { REACT_APP_FILES_API, REACT_APP_MAIN_API, REACT_APP_WEBSOCKET_API } = window.__config;
 
 export const MAIN_API = {
   VERIFY_SMS_CODE: `${REACT_APP_MAIN_API}/api/users/verify-sms-code`,
@@ -61,11 +56,8 @@ export const MAIN_API = {
   DEACTIVATE_ACCOUNT: `${REACT_APP_MAIN_API}/api/users/deactivate`,
   DELETE_ACCOUNT: `${REACT_APP_MAIN_API}/api/users`,
   CHANGE_PHONE: `${REACT_APP_MAIN_API}/api/users/phone-number`,
-};
-
-export const NOTIFICATIONS_API = {
-  SUBSCRIBE: `${REACT_APP_MAIN_API}/api/push-notifications/subscribe`,
-  UNSUBSCRIBE: `${REACT_APP_MAIN_API}/api/push-notifications/unsubscribe`,
+  SUBSCRIBE_TO_PUSH_NOTIFICATIONS: `${REACT_APP_MAIN_API}/api/push-notifications/subscribe`,
+  UNSUBSCRIBE_FROM_PUSH_NOTIFICATIONS: `${REACT_APP_MAIN_API}/api/push-notifications/unsubscribe`,
   MESSAGE_TYPING: `${REACT_APP_MAIN_API}/api/message-typing`,
 };
 

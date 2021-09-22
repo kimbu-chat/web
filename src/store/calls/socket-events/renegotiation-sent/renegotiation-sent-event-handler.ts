@@ -66,16 +66,12 @@ export class RenegotiationSentEventHandler {
         const answer = yield call(async () => peerConnection?.createAnswer());
         yield call(async () => peerConnection?.setLocalDescription(answer));
 
-        // yield call(waitForAllICE, peerConnection);
+        const request = {
+          userInterlocutorId: interlocutorId,
+          answer,
+        };
 
-        if (peerConnection?.localDescription) {
-          const request = {
-            userInterlocutorId: interlocutorId,
-            answer: peerConnection.localDescription,
-          };
-
-          yield call(() => RenegotiationSentEventHandler.httpRequest.generator(request));
-        }
+        yield call(() => RenegotiationSentEventHandler.httpRequest.generator(request));
       }
     };
   }

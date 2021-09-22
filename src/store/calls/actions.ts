@@ -3,6 +3,7 @@ import { AcceptCall } from './features/accept-call/accept-call';
 import { CallEndedEventHandler } from './socket-events/call-ended/call-ended-event-handler';
 import { CancelCall } from './features/cancel-call/cancel-call';
 import { CancelCallSuccess } from './features/cancel-call/cancel-call-success';
+import { IceCandidateSentEventHandler } from './socket-events/ice-candidate-sent/ice-candidate-sent-event-handler';
 import { ChangeActiveDeviceId } from './features/change-active-device-id/change-active-device-id';
 import { ChangeMediaStatus } from './features/change-user-media-status/change-media-status';
 import { ChangeScreenShareStatus } from './features/change-screen-share-status/change-screen-share-status';
@@ -67,6 +68,7 @@ export const renegotiationSentEventHandlerAction = RenegotiationSentEventHandler
 export const renegotiationAcceptedEventHandlerAction = RenegotiationAcceptedEventHandler.action;
 export const interlocutorAcceptedCallEventHandlerAction =
   InterlocutorAcceptedCallEventHandler.action;
+export const iceCandidateSentEventHandlerAction = IceCandidateSentEventHandler.action;
 export const callEndedEventHandlerAction = CallEndedEventHandler.action;
 export const callEndedEventHandlerSuccessAction = CallEndedEventHandlerSuccess.action;
 
@@ -102,6 +104,7 @@ export const CallActions = {
   renegotiationSentEventHandlerAction,
   renegotiationAcceptedEventHandlerAction,
   interlocutorAcceptedCallEventHandlerAction,
+  iceCandidateSentEventHandlerAction,
   callEndedEventHandlerAction,
   callEndedEventHandlerSuccessAction,
 };

@@ -1,5 +1,5 @@
 export interface IAcceptCallApiRequest {
   userInterlocutorId: number;
-  answer: RTCSessionDescription;
+  answer: RTCSessionDescriptionInit;
   isVideoEnabled: boolean;
 }

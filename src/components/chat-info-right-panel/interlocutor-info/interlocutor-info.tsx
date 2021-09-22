@@ -19,7 +19,10 @@ import './interlocutor-info.scss';
 export const InterlocutorInfo = () => {
   const { t } = useTranslation();
 
-  const chat = useSelector(getInfoChatSelector);
+  const chat = useSelector(
+    getInfoChatSelector,
+    (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
+  );
   const interlocutor = useSelector(getUserSelector(chat?.interlocutorId));
   const groupChat = chat?.groupChat;
 

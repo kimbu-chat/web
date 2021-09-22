@@ -21,7 +21,6 @@ import {
   getVideoConstraintsSelector,
 } from '@store/calls/selectors';
 import { MAIN_API } from '@common/paths';
-import { waitForAllICE } from '@store/calls/utils/glare-utils';
 
 import { ICallsState } from '../../calls-state';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
@@ -92,20 +91,16 @@ export class AcceptCall {
       const answer = yield call(async () => peerConnection?.createAnswer());
       yield call(async () => peerConnection?.setLocalDescription(answer));
 
-      yield call(waitForAllICE, peerConnection);
-
       const isVideoEnabled = yield select(getIsVideoEnabledSelector);
 
-      if (peerConnection?.localDescription) {
-        const request = {
-          userInterlocutorId: interlocutorId,
-          answer: peerConnection?.localDescription,
-          isVideoEnabled,
-        };
+      const request = {
+        userInterlocutorId: interlocutorId,
+        answer,
+        isVideoEnabled,
+      };
 
-        yield call(() => AcceptCall.httpRequest.generator(request));
-        yield put(AcceptCallSuccess.action());
-      }
+      yield call(() => AcceptCall.httpRequest.generator(request));
+      yield put(AcceptCallSuccess.action());
     };
   }
 

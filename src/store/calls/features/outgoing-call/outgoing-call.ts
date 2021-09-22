@@ -25,7 +25,7 @@ import { InputType } from '../../common/enums/input-type';
 import { CallEndedEventHandler } from '../../socket-events/call-ended/call-ended-event-handler';
 import { InterlocutorBusy } from '../interlocutor-busy/interlocutor-busy';
 import { peerWatcher } from '../../utils/peer-watcher';
-import { setIsRenegotiationAccepted, waitForAllICE } from '../../utils/glare-utils';
+import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
 
 import { IOutgoingCallActionPayload } from './action-payloads/outgoing-call-action-payload';
 import { IOutgoingCallApiRequest } from './api-requests/outgoing-call-api-request';
@@ -111,38 +111,34 @@ export class OutgoingCall {
       yield spawn(peerWatcher);
       yield call(async () => peerConnection?.setLocalDescription(offer));
 
-      yield call(waitForAllICE, peerConnection);
-
       const isVideoEnabled = yield select(getIsVideoEnabledSelector);
 
-      if (peerConnection?.localDescription) {
-        const request = {
-          offer: peerConnection.localDescription,
-          userInterlocutorId,
-          isVideoEnabled,
-        };
+      const request = {
+        offer,
+        userInterlocutorId,
+        isVideoEnabled,
+      };
 
-        const { httpRequest } = OutgoingCall;
-        const { isInterlocutorBusy } = httpRequest.call(
-          yield call(() => httpRequest.generator(request)),
-        ).data;
+      const { httpRequest } = OutgoingCall;
+      const { isInterlocutorBusy } = httpRequest.call(
+        yield call(() => httpRequest.generator(request)),
+      ).data;
 
-        if (isInterlocutorBusy) {
-          yield put(InterlocutorBusy.action());
-          return;
-        }
+      if (isInterlocutorBusy) {
+        yield put(InterlocutorBusy.action());
+        return;
+      }
 
-        const { timeout } = yield race({
-          canceled: take(CancelCall.action),
-          interlocutorCanceled: take(CallEndedEventHandler.action),
-          declined: take(DeclineCall.action),
-          answered: take(InterlocutorAcceptedCallEventHandler.action),
-          timeout: delay(15000),
-        });
+      const { timeout } = yield race({
+        canceled: take(CancelCall.action),
+        interlocutorCanceled: take(CallEndedEventHandler.action),
+        declined: take(DeclineCall.action),
+        answered: take(InterlocutorAcceptedCallEventHandler.action),
+        timeout: delay(15000),
+      });
 
-        if (timeout) {
-          yield put(TimeoutCall.action());
-        }
+      if (timeout) {
+        yield put(TimeoutCall.action());
       }
     };
   }

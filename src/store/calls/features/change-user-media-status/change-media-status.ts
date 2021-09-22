@@ -55,13 +55,12 @@ export class ChangeMediaStatus {
           stopScreenSharingTracks();
           yield put(CloseScreenShareStatus.action());
         } else {
+          if (videoSender) {
+            videoSender.replaceTrack(null);
+          }
+
           stopVideoTracks();
           yield put(CloseVideoStatus.action());
-
-          if (videoSender) {
-            peerConnection?.removeTrack(videoSender);
-            setVideoSender(null);
-          }
         }
 
         const videoDevices: MediaDeviceInfo[] = yield call(

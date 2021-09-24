@@ -97,8 +97,7 @@ export class GetMessages {
           const newMessages = data.map((message) => ({
             ...message,
             state:
-              chat.interlocutorIdLastReadMessageId &&
-              chat.interlocutorIdLastReadMessageId >= message.id
+              chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= message.id
                 ? MessageState.READ
                 : MessageState.SENT,
           }));

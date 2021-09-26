@@ -89,7 +89,7 @@
     "husky": "7.0.1",
     "kimbu-models": "git://github.com/ravudi/frontend-types.git#bfe53c4",
     "lint-staged": "11.1.2",
-    "prettier": "2.3.2",
+    "prettier": "2.4.1",
     "run-script-os": "1.1.6",
     "sass": "1.38.0",
     "serve": "12.0.0",

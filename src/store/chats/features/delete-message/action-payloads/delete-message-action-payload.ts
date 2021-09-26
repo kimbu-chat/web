@@ -1,4 +1,4 @@
 export interface IDeleteMessageActionPayload {
-  messageIds: string[];
+  messageIds: number[];
   forEveryone: boolean;
 }

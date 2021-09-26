@@ -12,7 +12,7 @@ import { DismissToAddContactSuccess } from './dismiss-to-add-contact-success';
 
 export class DismissToAddContact {
   static get action() {
-    return createAction('DISMISS_TO_ADD_CONTACT')<string, Meta>();
+    return createAction('DISMISS_TO_ADD_CONTACT')<number, Meta>();
   }
 
   static get saga() {

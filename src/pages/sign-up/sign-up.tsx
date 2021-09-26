@@ -45,7 +45,7 @@ const SignUpPage: React.FC = () => {
         return;
       }
 
-      checkNicknameAvailability({ nickname }).then(({ isAvailable }) => {
+      checkNicknameAvailability({ nickname }).then((isAvailable) => {
         if (isAvailable) {
           register({
             firstName,

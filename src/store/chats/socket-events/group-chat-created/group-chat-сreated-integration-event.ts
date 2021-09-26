@@ -2,12 +2,12 @@ import { IUser } from 'kimbu-models';
 
 export interface IGroupChatCreatedIntegrationEvent {
   description?: string;
-  id: string;
-  memberIds: string[];
+  id: number;
+  memberIds: number[];
   name: string;
-  systemMessageId: string;
+  systemMessageId: number;
   userCreator: IUser;
-  userCreatorId: string;
+  userCreatorId: number;
   avatarId?: number;
   avatarUrl?: string;
   avatarPreviewUrl?: string;

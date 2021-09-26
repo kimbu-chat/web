@@ -1,3 +1,3 @@
 export interface IClearChatHistorySuccessActionPayload {
-  chatId: string;
+  chatId: number;
 }

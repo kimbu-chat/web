@@ -1,3 +1,3 @@
 export interface IEditMessageActionPayload {
-  messageId: string;
+  messageId: number;
 }

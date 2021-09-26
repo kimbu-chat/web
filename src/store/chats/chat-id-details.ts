@@ -1,22 +1,22 @@
 import { InterlocutorType } from './models';
 
 export class ChatIdDetails {
-  public readonly id: string;
+  public readonly id: number;
 
-  public readonly interlocutorId: string;
+  public readonly interlocutorId: number;
 
   public readonly interlocutorType: InterlocutorType;
 
-  public readonly userId: string | null;
+  public readonly userId: number | null;
 
-  public readonly groupChatId: string | null;
+  public readonly groupChatId: number | null;
 
   constructor(
-    id: string,
-    interlocutorId: string,
+    id: number,
+    interlocutorId: number,
     interlocutorType: InterlocutorType,
-    userId: string | null,
-    groupChatId: string | null,
+    userId: number | null,
+    groupChatId: number | null,
   ) {
     this.id = id;
     this.interlocutorId = interlocutorId;

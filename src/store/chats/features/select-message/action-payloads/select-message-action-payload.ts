@@ -1,3 +1,3 @@
 export interface ISelectMessageActionPayload {
-  messageId: string;
+  messageId: number;
 }

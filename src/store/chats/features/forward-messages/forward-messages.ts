@@ -46,12 +46,12 @@ export class ForwardMessages {
             link: {
               originalMessageId:
                 message.linkedMessageType === MessageLinkType.Forward
-                  ? (originalMessageId as string)
+                  ? (originalMessageId as number)
                   : messageId,
               type: MessageLinkType.Forward,
             },
             // Property clientId has no meaning here because messages are not added in forward-messages reduce
-            clientId: '0',
+            clientId: 0,
           };
 
           const { status } = CreateMessage.httpRequest.call(

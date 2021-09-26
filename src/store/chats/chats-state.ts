@@ -3,21 +3,21 @@ import { INormalizedChat } from './models';
 interface IChatList {
   loading?: boolean;
   hasMore: boolean;
-  chatIds: string[];
+  chatIds: number[];
   page: number;
 }
 
 export interface IChatsState {
-  chats: Record<string, INormalizedChat>;
+  chats: Record<number, INormalizedChat>;
 
   chatList: IChatList;
   searchChatList: IChatList;
 
-  selectedChatId?: string;
-  selectedMessageIds: string[];
+  selectedChatId?: number;
+  selectedMessageIds: number[];
 
   chatInfo: {
-    chatId?: string;
+    chatId?: number;
     isInfoOpened: boolean;
   };
 }

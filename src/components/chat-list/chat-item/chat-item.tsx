@@ -28,7 +28,7 @@ import { getChatInterlocutor } from '@utils/user-utils';
 import './chat-item.scss';
 
 interface IChatItemProps {
-  chatId: string;
+  chatId: number;
 }
 
 const BLOCK_NAME = 'chat-item';
@@ -78,7 +78,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
             // TODO: replace this logic
             messageToProcess as INormalizedMessage,
             t,
-            currentUserId as string,
+            currentUserId as number,
             lastMessageUserCreator,
           ),
           {

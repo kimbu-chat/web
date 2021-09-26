@@ -4,5 +4,5 @@ export interface IGroupChatEditedIntegrationEvent {
   avatarUrl: string;
   description: string;
   name: string;
-  id: string;
+  id: number;
 }

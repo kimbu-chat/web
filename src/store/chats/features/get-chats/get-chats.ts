@@ -84,8 +84,8 @@ export class GetChats {
         result,
       } = normalize<
         IChat[],
-        { chats?: Record<string, INormalizedChat>; users: Record<string, IUser> },
-        string[]
+        { chats?: Record<number, INormalizedChat>; users: Record<number, IUser> },
+        number[]
       >(data, chatArrNormalizationSchema);
 
       const modeledChats = modelChatList(normalizedChats);

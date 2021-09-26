@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type CurrentAudio = { chatId: string; audioId: number } | null;
+export type CurrentAudio = { chatId: number; audioId: number } | null;
 
 export const AudioContext = React.createContext<{
   currentAudio?: CurrentAudio;

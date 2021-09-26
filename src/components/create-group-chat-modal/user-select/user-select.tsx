@@ -10,8 +10,8 @@ import { getFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
 
 interface IUserSelectProps {
-  changeSelectedState: (id: string) => void;
-  isSelected: (id: string) => boolean;
+  changeSelectedState: (id: number) => void;
+  isSelected: (id: number) => boolean;
 }
 
 const UserSelect: React.FC<IUserSelectProps> = ({ changeSelectedState, isSelected }) => {
@@ -48,7 +48,7 @@ const UserSelect: React.FC<IUserSelectProps> = ({ changeSelectedState, isSelecte
   );
 
   const renderSelectEntity = useCallback(
-    (friendId: string) => (
+    (friendId: number) => (
       <SelectEntity
         key={friendId}
         userId={friendId}

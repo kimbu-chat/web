@@ -24,7 +24,7 @@ const BLOCK_NAME = 'forward-modal';
 
 interface IForwardModalProps {
   onClose: () => void;
-  messageIdsToForward: string[];
+  messageIdsToForward: number[];
 }
 
 export const InitialForwardModal: React.FC<IForwardModalProps & IModalChildrenProps> = ({
@@ -38,7 +38,7 @@ export const InitialForwardModal: React.FC<IForwardModalProps & IModalChildrenPr
   const chatsList = useSelector(getChatsListSelector);
   const searchChatsList = useSelector(getSearchChatsListSelector);
 
-  const [selectedChatIds, setSelectedChatIds] = useState<string[]>([]);
+  const [selectedChatIds, setSelectedChatIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchString, setSearchString] = useState('');
 
@@ -53,10 +53,10 @@ export const InitialForwardModal: React.FC<IForwardModalProps & IModalChildrenPr
     [resetSearchChats],
   );
 
-  const isSelected = useCallback((id: string) => selectedChatIds.includes(id), [selectedChatIds]);
+  const isSelected = useCallback((id: number) => selectedChatIds.includes(id), [selectedChatIds]);
 
   const changeSelectedState = useCallback(
-    (id: string) => {
+    (id: number) => {
       if (selectedChatIds.includes(id)) {
         setSelectedChatIds((oldChatIds) => oldChatIds.filter((idToCheck) => idToCheck !== id));
       } else {
@@ -100,7 +100,7 @@ export const InitialForwardModal: React.FC<IForwardModalProps & IModalChildrenPr
   }, [forwardMessages, messageIdsToForward, selectedChatIds, animatedClose]);
 
   const renderSelectEntity = useCallback(
-    (chatId: string) => (
+    (chatId: number) => (
       <SelectEntity
         key={chatId}
         chatId={chatId}

@@ -13,13 +13,13 @@ import { InterlocutorType } from './interlocutor-type';
 import { INormalizedMessage } from './normalized-message';
 
 export interface INormalizedChat {
-  id: string;
+  id: number;
   interlocutorType?: InterlocutorType;
   groupChat?: IGroupChat;
   lastMessage?: INormalizedMessage | null;
-  interlocutorId?: string;
+  interlocutorId?: number;
   unreadMessagesCount: number;
-  interlocutorLastReadMessageId?: string;
+  interlocutorLastReadMessageId?: number;
   draftMessage?: string;
   typingInterlocutors?: string[];
   isMuted?: boolean;
@@ -49,7 +49,7 @@ export interface INormalizedChat {
     hasMore: boolean;
   };
   members: {
-    memberIds: string[];
+    memberIds: number[];
     loading: boolean;
     hasMore: boolean;
   };
@@ -60,8 +60,8 @@ export interface INormalizedChat {
   };
 
   messages: {
-    messages: Record<string, INormalizedMessage>;
-    messageIds: string[];
+    messages: Record<number, INormalizedMessage>;
+    messageIds: number[];
     loading: boolean;
     hasMore: boolean;
     searchString?: string;

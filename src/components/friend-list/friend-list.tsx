@@ -55,7 +55,7 @@ export const FriendList = () => {
   }, [loadFriends, searchString]);
 
   const renderFriend = useCallback(
-    (friendId: string) => <Friend key={friendId} friendId={friendId} />,
+    (friendId: number) => <Friend key={friendId} friendId={friendId} />,
     [],
   );
 

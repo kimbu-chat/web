@@ -2,8 +2,8 @@ import { CallStatus } from 'kimbu-models';
 
 export interface INormalizedCall {
   id: number;
-  userInterlocutorId: string;
-  userCallerId: string;
+  userInterlocutorId: number;
+  userCallerId: number;
   endDateTime?: string;
   creationDateTime: string;
   startDateTime: string;

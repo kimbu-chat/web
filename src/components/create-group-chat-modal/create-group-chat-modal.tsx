@@ -28,7 +28,7 @@ import './create-group-chat-modal.scss';
 interface ICreateGroupChatModalProps {
   onClose: () => void;
   animationMode?: AnimationMode;
-  preSelectedUserIds?: string[];
+  preSelectedUserIds?: number[];
 }
 
 enum GroupChatCreationStage {
@@ -61,17 +61,17 @@ const InitialCreateGroupChatModal: React.FC<ICreateGroupChatModalProps & IModalC
     [resetSearchFriends],
   );
 
-  const [selectedUserIds, setSelectedUserIds] = useState<string[]>(preSelectedUserIds || []);
+  const [selectedUserIds, setSelectedUserIds] = useState<number[]>(preSelectedUserIds || []);
   const [currentStage, setCurrrentStage] = useState(GroupChatCreationStage.UserSelecting);
   const [creationLoading, setCreationLoading] = useState(false);
   const [avararUploadResponse, setAvatarUploadResponse] = useState<IAvatar>();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
-  const isSelected = useCallback((id: string) => selectedUserIds.includes(id), [selectedUserIds]);
+  const isSelected = useCallback((id: number) => selectedUserIds.includes(id), [selectedUserIds]);
 
   const changeSelectedState = useCallback(
-    (id: string) => {
+    (id: number) => {
       if (selectedUserIds.includes(id)) {
         setSelectedUserIds((oldChatIds) => oldChatIds.filter((idToCheck) => idToCheck !== id));
       } else {
@@ -94,7 +94,7 @@ const InitialCreateGroupChatModal: React.FC<ICreateGroupChatModalProps & IModalC
 
       submitGroupChatCreation(groupChatToCreate).then((payload: IChat) => {
         animatedClose();
-        history.push(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', payload?.id as string]));
+        history.push(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', payload?.id as number]));
       });
     }
   }, [

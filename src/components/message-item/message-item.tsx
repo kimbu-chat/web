@@ -63,8 +63,8 @@ import type { ObserveFn } from '@hooks/use-intersection-observer';
 import './message-item.scss';
 
 interface IMessageItemProps {
-  messageId: string;
-  selectedChatId: string;
+  messageId: number;
+  selectedChatId: number;
   needToShowCreator?: boolean;
   isSelected?: boolean;
   animated?: boolean;
@@ -185,7 +185,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
       [messageToProcess?.attachments],
     );
 
-    if(!myId){
+    if (!myId) {
       return null;
     }
 

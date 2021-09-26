@@ -39,7 +39,7 @@ export class IncomingCallEventHandler {
 
       const {
         entities: { users },
-      } = normalize<IUser, { users: Record<string, IUser> }, string[]>(
+      } = normalize<IUser, { users: Record<number, IUser> }, number[]>(
         action.payload.userInterlocutor,
         userSchema,
       );

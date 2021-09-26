@@ -5,7 +5,7 @@ import { IChatsState } from '../../chats-state';
 
 export class GetMessagesFailure {
   static get action() {
-    return createAction('GET_MESSAGES_FAILURE')<string>();
+    return createAction('GET_MESSAGES_FAILURE')<number>();
   }
 
   static get reducer() {

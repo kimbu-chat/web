@@ -12,7 +12,7 @@ export interface ICallsState {
   isInterlocutorVideoEnabled: boolean;
   isInterlocutorAudioEnabled: boolean;
   isInterlocutorBusy: boolean;
-  interlocutorId?: string;
+  interlocutorId?: number;
   amICalled: boolean;
   amICalling: boolean;
   isSpeaking: boolean;

@@ -70,7 +70,7 @@ export class ChangeSelectedChat {
 
         draft.selectedChatId = newChatId;
 
-        // We have to check if chat exists in Record<string, IChat> reducer then we will not request it from server
+        // We have to check if chat exists in Record<number, IChat> reducer then we will not request it from server
         if (newChatId) {
           if (
             !draft.chatList.chatIds.includes(newChatId) &&
@@ -114,11 +114,11 @@ export class ChangeSelectedChat {
             entities: { chats, users },
           } = normalize<
             IChat[],
-            { chats?: Record<string, INormalizedChat>; users: Record<string, IUser> },
-            string[]
+            { chats?: Record<number, INormalizedChat>; users: Record<number, IUser> },
+            number[]
           >(data, chatNormalizationSchema);
 
-          const modeledChat = modelChatList(chats)[data.id as string];
+          const modeledChat = modelChatList(chats)[data.id as number];
 
           yield put(UnshiftChat.action({ chat: modeledChat as INormalizedChat, addToList: true }));
           yield put(AddOrUpdateUsers.action({ users }));
@@ -128,8 +128,8 @@ export class ChangeSelectedChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IChat>, string>(
-      (chatId: string) => replaceInUrl(MAIN_API.GET_CHAT, ['chatId', chatId]),
+    return httpRequestFactory<AxiosResponse<IChat>, number>(
+      (chatId: number) => replaceInUrl(MAIN_API.GET_CHAT, ['chatId', chatId]),
       HttpRequestMethod.Get,
     );
   }

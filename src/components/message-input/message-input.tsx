@@ -206,7 +206,7 @@ const CreateMessageInput = () => {
           userCreatorId: currentUserId,
           creationDateTime: new Date().toISOString(),
           state: MessageState.QUEUED,
-          id: String(new Date().getTime()),
+          id: new Date().getTime(),
           chatId,
           attachments,
           isDeleted: false,

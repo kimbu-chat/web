@@ -15,10 +15,10 @@ import { getUserName } from '@utils/user-utils';
 import './select-entity.scss';
 
 interface ISelectEntityProps {
-  changeSelectedState?: (id: string) => void;
+  changeSelectedState?: (id: number) => void;
   isSelected?: boolean;
-  chatId?: string;
-  userId?: string;
+  chatId?: number;
+  userId?: number;
   icon?: JSX.Element;
   onClick?: (chat: INormalizedChat | IUser) => void;
 }
@@ -49,7 +49,7 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
     }
 
     if (changeSelectedState) {
-      changeSelectedState(userId || chatId || '-1');
+      changeSelectedState(userId || chatId || -1);
     }
   }, [onClick, changeSelectedState, chat, interlocutor, userId, chatId]);
 

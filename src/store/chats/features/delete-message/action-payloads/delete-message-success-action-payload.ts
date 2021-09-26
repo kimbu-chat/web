@@ -1,4 +1,4 @@
 export interface IDeleteMessageSuccessActionPayload {
-  messageIds: string[];
-  chatId: string;
+  messageIds: number[];
+  chatId: number;
 }

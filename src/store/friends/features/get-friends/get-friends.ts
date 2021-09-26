@@ -71,7 +71,7 @@ export class GetFriends {
       const {
         entities: { users },
         result,
-      } = normalize<IUser[], { users: Record<string, IUser> }, string[]>(
+      } = normalize<IUser[], { users: Record<number, IUser> }, number[]>(
         data,
         userArrNormalizationSchema,
       );

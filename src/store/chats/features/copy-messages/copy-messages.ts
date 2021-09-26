@@ -18,7 +18,7 @@ export class CopyMessages {
 
   static get saga() {
     return function* copyMessages(action: ReturnType<typeof CopyMessages.action>): SagaIterator {
-      const messages: Record<string, INormalizedMessage> = yield select(
+      const messages: Record<number, INormalizedMessage> = yield select(
         getSelectedChatMessagesSelector,
       );
       const users = yield select(getUsersSelector);

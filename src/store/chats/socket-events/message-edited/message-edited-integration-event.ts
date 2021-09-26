@@ -1,7 +1,7 @@
 export interface IMessageEditedIntegrationEvent {
   attachments: string; // TODO: Check for a generic JSON that will receive BaseAttachment[]
-  chatId: string;
-  messageId: string;
+  chatId: number;
+  messageId: number;
   text: string;
-  userEditorId: string;
+  userEditorId: number;
 }

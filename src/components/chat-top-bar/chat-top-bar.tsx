@@ -35,7 +35,7 @@ export const ChatTopBar = () => {
   const selectedChat = useSelector(getSelectedChatSelector);
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);
   const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutorId));
-  const typingString = useSelector(getTypingStringSelector(t, selectedChat?.id || '-1'));
+  const typingString = useSelector(getTypingStringSelector(t, selectedChat?.id || -1));
 
   const callInterlocutor = useActionWithDispatch(outgoingCallAction);
   const openCloseChatInfo = useActionWithDispatch(changeChatInfoOpenedAction);

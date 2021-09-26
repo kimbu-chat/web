@@ -1,5 +1,5 @@
 import { IUser } from 'kimbu-models';
 
 export interface IAddOrUpdateUsersActionPayload {
-  users: Record<string, IUser>;
+  users: Record<number, IUser>;
 }

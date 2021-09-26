@@ -22,7 +22,7 @@ import { GetChatInfoSuccess } from './get-chat-info-success';
 
 export class GetChatInfo {
   static get action() {
-    return createAction('GET_CHAT_INFO')<string>();
+    return createAction('GET_CHAT_INFO')<number>();
   }
 
   static get saga() {
@@ -41,11 +41,11 @@ export class GetChatInfo {
           entities: { chats, users },
         } = normalize<
           IChat[],
-          { chats: Record<string, INormalizedChat>; users: Record<string, IUser> },
-          string[]
+          { chats: Record<number, INormalizedChat>; users: Record<number, IUser> },
+          number[]
         >(data, chatNormalizationSchema);
 
-        const modeledChat = modelChatList(chats)[data.id as string];
+        const modeledChat = modelChatList(chats)[data.id as number];
 
         yield put(UnshiftChat.action({ chat: modeledChat as INormalizedChat, addToList: false }));
         yield put(AddOrUpdateUsers.action({ users }));
@@ -62,8 +62,8 @@ export class GetChatInfo {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IChatInfo>, string>(
-      (chatId: string) => replaceInUrl(MAIN_API.GET_CHAT_INFO, ['chatId', chatId]),
+    return httpRequestFactory<AxiosResponse<IChatInfo>, number>(
+      (chatId: number) => replaceInUrl(MAIN_API.GET_CHAT_INFO, ['chatId', chatId]),
       HttpRequestMethod.Get,
     );
   }

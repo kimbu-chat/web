@@ -147,7 +147,7 @@ const EditProfile = () => {
         setError(NicknameState.ALLOWED_NICKNAME);
 
         setIsLoading(true);
-        checkNicknameAvailability({ nickname: newNickName }).then(({ isAvailable }) => {
+        checkNicknameAvailability({ nickname: newNickName }).then((isAvailable) => {
           setError(isAvailable ? NicknameState.ALLOWED_NICKNAME : NicknameState.BUSY_NICKNAME);
           setIsLoading(false);
         });

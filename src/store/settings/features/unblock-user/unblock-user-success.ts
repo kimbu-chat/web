@@ -5,7 +5,7 @@ import { IUserSettings } from '../../user-settings-state';
 
 export class UnblockUserSuccess {
   static get action() {
-    return createAction('UNBLOCK_USER_SUCCESS')<string>();
+    return createAction('UNBLOCK_USER_SUCCESS')<number>();
   }
 
   static get reducer() {

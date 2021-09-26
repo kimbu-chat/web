@@ -1,5 +1,5 @@
 export interface IGetChatInfoSuccessActionPayload {
-  chatId: string;
+  chatId: number;
   rawAttachmentsCount: number;
   voiceAttachmentsCount: number;
   videoAttachmentsCount: number;

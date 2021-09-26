@@ -92,7 +92,7 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
 
             delete messagesForChat?.messages[msgIdToDelete || -1];
           });
-          if (messageIds.includes(draft.chats[chatId]?.lastMessage?.id || '')) {
+          if (messageIds.includes(draft.chats[chatId]?.lastMessage?.id || -1)) {
             chat.lastMessage = chatNewLastMessage;
           }
 

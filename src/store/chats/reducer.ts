@@ -200,13 +200,13 @@ const reducer = createReducer<IChatsState>(initialState)
       const myId = new MyProfileService().myProfile.id;
 
       if (myId === blockedUserId) {
-        const chatId: string = ChatId.from(userInitiatorId).id;
+        const chatId: number = ChatId.from(userInitiatorId).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
         if (chat) {
           chat.isBlockedByInterlocutor = true;
         }
       } else {
-        const chatId: string = ChatId.from(blockedUserId).id;
+        const chatId: number = ChatId.from(blockedUserId).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
         if (chat) {
           chat.isBlockedByUser = true;
@@ -319,7 +319,7 @@ const reducer = createReducer<IChatsState>(initialState)
     DismissToAddContactSuccess.action,
     produce(
       (draft: IChatsState, { payload }: ReturnType<typeof DismissToAddContactSuccess.action>) => {
-        const chatId: string = ChatId.from(payload).id;
+        const chatId: number = ChatId.from(payload).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (!chat) {

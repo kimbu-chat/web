@@ -11,7 +11,7 @@ type Deferred<TData, TException> = {
   reject: (e?: TException) => void;
 };
 
-export type Meta<TData = Record<string, unknown>, TException = undefined> = {
+export type Meta<TData = Record<number, unknown>, TException = undefined> = {
   deferred: Deferred<TData, TException>;
 };
 

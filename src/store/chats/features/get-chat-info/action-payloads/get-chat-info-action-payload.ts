@@ -1,3 +1,3 @@
 export interface IGetChatInfoActionPayload {
-  chatId: string;
+  chatId: number;
 }

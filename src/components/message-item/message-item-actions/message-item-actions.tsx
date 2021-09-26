@@ -13,7 +13,7 @@ import { editMessageAction, replyToMessageAction } from '@store/chats/actions';
 import './message-item-actions.scss';
 
 interface IMessageItemActionsProps {
-  messageId: string;
+  messageId: number;
   isEditAllowed: boolean;
 }
 

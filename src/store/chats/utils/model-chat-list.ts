@@ -2,8 +2,8 @@
 import { ChatId } from '../chat-id';
 import { INormalizedChat, MessageState, InterlocutorType } from '../models';
 
-export const modelChatList = (chats?: Record<string, INormalizedChat>) => {
-  const modeledChats: Record<string, INormalizedChat> = {};
+export const modelChatList = (chats?: Record<number, INormalizedChat>) => {
+  const modeledChats: Record<number, INormalizedChat> = {};
   if (chats) {
     Object.values(chats).forEach((initialChat: INormalizedChat | undefined) => {
       const chat = initialChat;

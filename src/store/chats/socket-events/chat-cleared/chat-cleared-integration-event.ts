@@ -1,5 +1,5 @@
 export interface IChatClearedIntegrationEvent {
-  chatId: string;
+  chatId: number;
   onlyForUserInitiator: boolean;
-  userInitiatorId: string;
+  userInitiatorId: number;
 }

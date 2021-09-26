@@ -1,4 +1,4 @@
 export interface IForwardMessagesActionPayload {
-  messageIdsToForward: string[];
-  chatIdsToForward: string[];
+  messageIdsToForward: number[];
+  chatIdsToForward: number[];
 }

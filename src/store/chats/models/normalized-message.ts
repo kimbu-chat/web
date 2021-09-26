@@ -4,15 +4,15 @@ import { MessageState } from './message-state';
 import { INormalizedLinkedMessage } from './normalized-linked-message';
 
 export interface INormalizedMessage {
-  id: string;
-  clientId?: string;
-  userCreatorId: string;
+  id: number;
+  clientId?: number;
+  userCreatorId: number;
   creationDateTime: string;
   text?: string;
   attachmentsJson?: string;
   systemMessageType: SystemMessageType;
   state?: MessageState;
-  chatId: string;
+  chatId: number;
 
   isEdited?: boolean;
   isDeleted?: boolean;

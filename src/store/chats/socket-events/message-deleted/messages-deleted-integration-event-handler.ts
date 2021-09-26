@@ -40,8 +40,8 @@ export class MessagesDeletedIntegrationEventHandler {
           entities: { messages, users },
         } = normalize<
           IMessage[],
-          { messages: Record<string, INormalizedMessage>; users: Record<string, IUser> },
-          string[]
+          { messages: Record<number, INormalizedMessage>; users: Record<number, IUser> },
+          number[]
         >(data, messageNormalizationSchema);
 
         const message = messages[data.id];
@@ -70,8 +70,8 @@ export class MessagesDeletedIntegrationEventHandler {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IMessage>, string>(
-      (chatId: string) => replaceInUrl(MAIN_API.GET_CHAT_LATEST_MESSAGE, ['chatId', chatId]),
+    return httpRequestFactory<AxiosResponse<IMessage>, number>(
+      (chatId: number) => replaceInUrl(MAIN_API.GET_CHAT_LATEST_MESSAGE, ['chatId', chatId]),
       HttpRequestMethod.Get,
     );
   }

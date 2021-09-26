@@ -13,7 +13,7 @@ import { DeleteFriendSuccess } from './delete-friend-success';
 
 export class DeleteFriend {
   static get action() {
-    return createAction('DELETE_FRIEND')<string, Meta>();
+    return createAction('DELETE_FRIEND')<number, Meta>();
   }
 
   static get saga() {

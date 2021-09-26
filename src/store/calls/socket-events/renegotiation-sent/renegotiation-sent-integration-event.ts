@@ -1,5 +1,5 @@
 export interface IRenegotiationSentIntegrationEvent {
-  userInterlocutorId: string;
+  userInterlocutorId: number;
   isVideoEnabled: boolean;
   offer: RTCSessionDescriptionInit;
 }

@@ -1,3 +1,3 @@
 export interface IAddUsersToGroupChatActionPayload {
-  userIds: string[];
+  userIds: number[];
 }

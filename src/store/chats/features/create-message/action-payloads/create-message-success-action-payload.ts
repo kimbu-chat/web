@@ -3,9 +3,9 @@ import { IAttachmentBase } from 'kimbu-models';
 import { MessageState } from '@store/chats/models';
 
 export interface ICreateMessageSuccessActionPayload {
-  oldMessageId: string;
-  newMessageId: string;
+  oldMessageId: number;
+  newMessageId: number;
   messageState: MessageState;
   attachments?: IAttachmentBase[];
-  chatId: string;
+  chatId: number;
 }

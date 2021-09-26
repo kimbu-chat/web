@@ -1,5 +1,5 @@
 interface IFriendList {
-  friendIds: string[];
+  friendIds: number[];
   loading: boolean;
   hasMore: boolean;
 }

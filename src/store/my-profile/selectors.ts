@@ -1,9 +1,9 @@
 import { IUser } from 'kimbu-models';
 import { RootState } from 'typesafe-actions';
 
-const undefinedKey = '-1';
+const undefinedKey = -1;
 
-export const myIdSelector = (state: RootState): string | undefined => state.myProfile.userId;
+export const myIdSelector = (state: RootState): number | undefined => state.myProfile.userId;
 
 export const myProfileSelector = (state: RootState): IUser | undefined =>
   state.users.users[state.myProfile.userId || undefinedKey];

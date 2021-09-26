@@ -20,7 +20,7 @@ import { DeleteChatMemberModal } from '../delete-chat-member-modal/delete-chat-m
 import './chat-member.scss';
 
 interface IMemberProps {
-  memberId: string;
+  memberId: number;
   isOwner: boolean;
 }
 

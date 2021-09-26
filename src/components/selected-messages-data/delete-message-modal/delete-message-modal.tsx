@@ -13,7 +13,7 @@ import './delete-message-modal.scss';
 
 interface IDeleteMessageModalProps {
   onClose: () => void;
-  selectedMessages: string[];
+  selectedMessages: number[];
 }
 
 const BLOCK_NAME = 'delete-message-modal';

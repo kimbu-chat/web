@@ -1,5 +1,5 @@
 export interface IUploadAttachmentProgressActionPayload {
-  chatId: string;
+  chatId: number;
   attachmentId: number;
   progress: number;
   uploadedBytes: number;

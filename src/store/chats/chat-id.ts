@@ -2,22 +2,22 @@ import { ChatIdDetails } from './chat-id-details';
 import { InterlocutorType } from './models';
 
 export class ChatId {
-  public static from(userId?: string, groupChatId?: string): ChatIdDetails {
-    if (typeof userId === 'string' && userId) {
-      const id = `${userId}${InterlocutorType.User}`;
+  public static from(userId?: number, groupChatId?: number): ChatIdDetails {
+    if (userId && !Number.isNaN(userId)) {
+      const id: number = +`${userId}${InterlocutorType.User}`;
       return new ChatIdDetails(id, userId, InterlocutorType.User, userId, null);
     }
-    if (typeof groupChatId === 'string' && groupChatId) {
-      const id = `${groupChatId}${InterlocutorType.GroupChat}`;
+    if (groupChatId && !Number.isNaN(groupChatId)) {
+      const id: number = +`${groupChatId}${InterlocutorType.GroupChat}`;
       return new ChatIdDetails(id, groupChatId, InterlocutorType.GroupChat, null, groupChatId);
     }
     throw new Error(`Invalid params: userId = ${userId}, groupChatId = ${groupChatId}`);
   }
 
-  public static fromId(chatId: string): ChatIdDetails {
+  public static fromId(chatId: number): ChatIdDetails {
     // last digit stores interlocutor type
-    const interlocutorId = chatId.substring(0, chatId.length - 1);
-    const interlocutorType: InterlocutorType = +chatId.charAt(chatId.length - 1);
+    const interlocutorId = +chatId.toString().substring(0, chatId.toString().length - 1);
+    const interlocutorType: InterlocutorType = chatId % 10;
 
     if (interlocutorType === InterlocutorType.User) {
       return new ChatIdDetails(chatId, interlocutorId, InterlocutorType.User, interlocutorId, null);

@@ -1,4 +1,4 @@
 export interface IMessagesDeletedIntegrationEvent {
-  chatId: string;
-  messageIds: string[];
+  chatId: number;
+  messageIds: number[];
 }

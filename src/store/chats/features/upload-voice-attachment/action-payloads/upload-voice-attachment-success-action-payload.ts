@@ -1,8 +1,8 @@
 export interface IUploadVoiceAttachmentSuccessActionPayload {
   oldId: number;
-  chatId: string;
+  chatId: number;
   attachmentId: number;
   attachmentUrl: string;
   oldAttachmentUrl: string;
-  messageId: string;
+  messageId: number;
 }

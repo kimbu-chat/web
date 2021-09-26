@@ -73,7 +73,7 @@ export class GetCalls {
           result,
         } = normalize<
           ICall[],
-          { calls: Record<number, INormalizedCall>; users: Record<string, IUser> },
+          { calls: Record<number, INormalizedCall>; users: Record<number, IUser> },
           number[]
         >(data, callArrNormalizationSchema);
 

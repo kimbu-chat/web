@@ -14,7 +14,7 @@ export class CheckNicknameAvailability {
   static get action() {
     return createAction('CHECK_NICKNAME_AVAILABILITY')<
       ICheckNicknameAvailabilityActionPayload,
-      Meta
+      Meta<boolean>
     >();
   }
 
@@ -27,7 +27,7 @@ export class CheckNicknameAvailability {
         yield call(() => httpRequest.generator(action.payload.nickname)),
       );
 
-      action.meta.deferred?.resolve({ isAvailable: data });
+      action.meta.deferred?.resolve(data);
     };
   }
 

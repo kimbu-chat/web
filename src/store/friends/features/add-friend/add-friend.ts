@@ -12,7 +12,7 @@ import { AddFriendSuccess } from './add-friend-success';
 
 export class AddFriend {
   static get action() {
-    return createAction('ADD_FRIEND')<string, Meta>();
+    return createAction('ADD_FRIEND')<number, Meta>();
   }
 
   static get saga() {

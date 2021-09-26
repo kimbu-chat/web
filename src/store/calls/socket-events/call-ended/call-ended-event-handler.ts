@@ -65,7 +65,7 @@ export class CallEndedEventHandler {
           entities: { calls, users },
         } = normalize<
           ICall[],
-          { calls: Record<number, INormalizedCall>; users: Record<string, IUser> },
+          { calls: Record<number, INormalizedCall>; users: Record<number, IUser> },
           number[]
         >(activeCall, callNormalizationSchema);
 

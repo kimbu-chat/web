@@ -48,7 +48,7 @@ export class RenegotiationSentEventHandler {
       action: ReturnType<typeof RenegotiationSentEventHandler.action>,
     ): SagaIterator {
       const polite = yield select(getIsActiveCallIncomingSelector);
-      const interlocutorId: string = yield select(getCallInterlocutorIdSelector);
+      const interlocutorId: number = yield select(getCallInterlocutorIdSelector);
       const peerConnection = getPeerConnection();
       const makingOffer = getMakingOffer();
       const isSettingRemoteAnswerPending = getIsSettingRemoteAnswerPending();

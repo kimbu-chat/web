@@ -46,12 +46,12 @@ export class CreateGroupChat {
       );
 
       const groupChatId = data.id;
-      
+
       const chatId = ChatId.from(undefined, groupChatId).id;
 
       const firstMessage: INormalizedMessage = {
         creationDateTime: new Date().toISOString(),
-        id: String(new Date().getTime()),
+        id: new Date().getTime(),
         systemMessageType: SystemMessageType.GroupChatCreated,
         text: createSystemMessage({}),
         chatId,

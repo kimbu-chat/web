@@ -1,3 +1,3 @@
 export interface IChangeSelectedChatActionPayload {
-  newChatId?: string;
+  newChatId?: number;
 }

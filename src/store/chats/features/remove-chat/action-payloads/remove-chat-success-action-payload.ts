@@ -1,3 +1,3 @@
 export interface IRemoveChatSuccessActionPayload {
-  chatId: string;
+  chatId: number;
 }

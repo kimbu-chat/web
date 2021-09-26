@@ -37,7 +37,7 @@ export class GetMyProfile {
 
       const {
         entities: { users },
-      } = normalize<IUser, { users: Record<string, IUser> }, string[]>(data, userSchema);
+      } = normalize<IUser, { users: Record<number, IUser> }, number[]>(data, userSchema);
       yield put(AddOrUpdateUsers.action({ users }));
 
       yield put(GetMyProfileSuccess.action({ user: data }));
@@ -45,7 +45,7 @@ export class GetMyProfile {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IUser>, string>(
+    return httpRequestFactory<AxiosResponse<IUser>, number>(
       MAIN_API.GET_MY_PROFILE,
       HttpRequestMethod.Get,
     );

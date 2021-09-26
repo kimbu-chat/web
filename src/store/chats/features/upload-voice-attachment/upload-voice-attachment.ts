@@ -45,7 +45,7 @@ export class UploadVoiceAttachment {
           userCreatorId: currentUserId,
           creationDateTime: new Date().toISOString(),
           state: MessageState.QUEUED,
-          id: String(id),
+          id,
           chatId: draft.selectedChatId,
           attachments: [
             {
@@ -108,7 +108,7 @@ export class UploadVoiceAttachment {
       const messageCreationReq: ICreateMessageRequest = {
         chatId,
         attachments: [{ type: AttachmentType.Voice, id: uploadResponse.attachment.id }],
-        clientId: String(id),
+        clientId: id,
       };
 
       const { data } = CreateMessage.httpRequest.call(

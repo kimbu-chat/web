@@ -2,13 +2,13 @@ import { IUser, IAttachmentBase, SystemMessageType, MessageLinkType } from 'kimb
 
 export interface IMessageCreatedIntegrationEvent {
   attachments?: IAttachmentBase[];
-  chatId: string;
+  chatId: number;
   creationDateTime: string;
-  id: string;
-  clientId: string;
+  id: number;
+  clientId: number;
   systemMessageType: SystemMessageType;
   text: string;
   userCreator: IUser;
-  linkedMessageId: string;
+  linkedMessageId: number;
   linkedMessageType: MessageLinkType;
 }

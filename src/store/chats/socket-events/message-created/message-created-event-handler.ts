@@ -106,10 +106,10 @@ export class MessageCreatedEventHandler {
           } = normalize<
             ILinkedMessage[],
             {
-              linkedMessages: Record<string, INormalizedLinkedMessage>;
-              users: Record<string, IUser>;
+              linkedMessages: Record<number, INormalizedLinkedMessage>;
+              users: Record<number, IUser>;
             },
-            string[]
+            number[]
           >(data, linkedMessageNormalizationSchema);
           const normalizedLinkedMessage = linkedMessages[data.id];
           if (normalizedLinkedMessage) {
@@ -133,11 +133,11 @@ export class MessageCreatedEventHandler {
             entities: { chats, users },
           } = normalize<
             IChat[],
-            { chats?: Record<string, INormalizedChat>; users: Record<string, IUser> },
-            string[]
+            { chats?: Record<number, INormalizedChat>; users: Record<number, IUser> },
+            number[]
           >(data, chatNormalizationSchema);
 
-          const modeledChat = modelChatList(chats)[data.id as string];
+          const modeledChat = modelChatList(chats)[data.id as number];
 
           if (modeledChat) {
             yield put(UnshiftChat.action({ chat: modeledChat, addToList: true }));
@@ -187,8 +187,8 @@ export class MessageCreatedEventHandler {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IMessage>, string>(
-      (messageId: string) => replaceInUrl(MAIN_API.GET_MESSAGE_BY_ID, ['messageId', messageId]),
+    return httpRequestFactory<AxiosResponse<IMessage>, number>(
+      (messageId: number) => replaceInUrl(MAIN_API.GET_MESSAGE_BY_ID, ['messageId', messageId]),
       HttpRequestMethod.Get,
     );
   }

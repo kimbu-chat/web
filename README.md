@@ -1,8 +1,47 @@
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ravudi_web&metric=bugs&token=11b963159ccf3ada450d7ad44e28c0fd27fd2c17)](https://sonarcloud.io/dashboard?id=ravudi_web)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ravudi_web&metric=code_smells&token=11b963159ccf3ada450d7ad44e28c0fd27fd2c17)](https://sonarcloud.io/dashboard?id=ravudi_web)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=ravudi_web&metric=duplicated_lines_density&token=11b963159ccf3ada450d7ad44e28c0fd27fd2c17)](https://sonarcloud.io/dashboard?id=ravudi_web)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=ravudi_web&metric=sqale_index&token=11b963159ccf3ada450d7ad44e28c0fd27fd2c17)](https://sonarcloud.io/dashboard?id=ravudi_web)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ravudi_web&metric=vulnerabilities&token=11b963159ccf3ada450d7ad44e28c0fd27fd2c17)](https://sonarcloud.io/dashboard?id=ravudi_web)
+# kimbu-chat/web
 
+## TODO
+- [ ] cleanup github container images
+
+## Notes
 
 Messenger test cases: https://app.qase.io/project/RW
+
+## Setup
+
+```sh
+export KUBECONFIG=~/.kube/kimbu-k3s.yaml
+```
+
+## Commands
+```sh
+# lint
+helm lint helm/chart/
+
+# test template
+helm template helm/chart/
+helm template helm/chart/ -f helm/values-develop.yaml
+
+# dry-run
+helm install web helm/chart/ --dry-run --debug | less
+
+# install
+# NOTE external_secret is used: https://github.com/kimbu-chat/k3s#web-secret
+helm upgrade --install web helm/chart/ --atomic --debug -f helm/values-develop.yaml
+
+# check logs
+kubectl logs deployment/web -c web --since 5m -f
+
+# remove
+helm uninstall web
+
+```
+
+## k8dash
+
+```sh
+# get token
+kubectl -n ops describe secret k8dash-token-xxxxx
+```
+
+Go to https://dash.dev.kimbu.io/  (IP whitelist is requered)

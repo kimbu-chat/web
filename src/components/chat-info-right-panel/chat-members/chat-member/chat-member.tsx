@@ -80,7 +80,7 @@ export const Member: React.FC<IMemberProps> = ({ memberId, isOwner }) => {
             ))}
         </div>
 
-        {!isOwner && !itIsMe && (
+        {isOwner && !itIsMe && (
           <button
             onClick={changeRemoveChatMemberModalDisplayed}
             type="button"

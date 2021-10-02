@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
-import { ISessionDto } from 'kimbu-models';
+import { ISession } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
@@ -46,7 +46,7 @@ export class GetSessionList {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<ISessionDto[]>>(
+    return httpRequestFactory<AxiosResponse<ISession[]>>(
       MAIN_API.USER_SESSIONS,
       HttpRequestMethod.Get,
     );

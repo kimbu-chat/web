@@ -31,7 +31,7 @@ export class RefreshToken {
   }
 
   static get saga() {
-    return function* refToken(): SagaIterator {
+    return function* refreshTokenSaga(): SagaIterator {
       const { refreshToken }: ISecurityTokens = yield select(securityTokensSelector);
       if (!refreshToken) {
         return;

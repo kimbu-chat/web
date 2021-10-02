@@ -1,4 +1,4 @@
-import { IUser, ISessionDto } from 'kimbu-models';
+import { IUser, ISession } from 'kimbu-models';
 
 import { Theme, AllowedFontSize, Langs } from './features/models';
 import { TypingStrategy } from './features/models/typing-strategy';
@@ -15,7 +15,7 @@ export interface IUserSettings {
     isLoading: boolean;
   };
   sessionList: {
-    sessions: ISessionDto[];
+    sessions: ISession[];
     isLoading: boolean;
   };
 }

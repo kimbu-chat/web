@@ -13,6 +13,7 @@ import {
   getMembersListForSelectedGroupChatSelector,
   getSelectedGroupChatCreatorIdSelector,
 } from '@store/chats/selectors';
+import { myIdSelector } from '@store/my-profile/selectors';
 
 import { Member } from './chat-member/chat-member';
 
@@ -24,6 +25,7 @@ export const ChatMembers: React.FC = () => {
   const [searchStr, setSearchStr] = useState<string>('');
   const [membersDisplayed, setMembersDisplayed] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const myId = useSelector(myIdSelector);
 
   const { t } = useTranslation();
 
@@ -31,6 +33,7 @@ export const ChatMembers: React.FC = () => {
 
   const membersListForGroupChat = useSelector(getMembersListForSelectedGroupChatSelector);
   const userCreatorId = useSelector(getSelectedGroupChatCreatorIdSelector);
+  const isCurrentUserGroupChatOwner = userCreatorId === myId;
 
   const loadMore = useCallback(() => {
     getGroupChatUsers({
@@ -84,7 +87,7 @@ export const ChatMembers: React.FC = () => {
             isLoading={membersListForGroupChat?.loading}
             threshold={0.3}>
             {membersListForGroupChat?.memberIds?.map((memberId) => (
-              <Member isOwner={userCreatorId === memberId} memberId={memberId} key={memberId} />
+              <Member isOwner={isCurrentUserGroupChatOwner} memberId={memberId} key={memberId} />
             ))}
           </InfiniteScroll>
         </>

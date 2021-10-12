@@ -101,12 +101,10 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
         });
       }
 
-      const shortedText = truncate(messageToProcess?.text, {
+      return truncate(messageToProcess?.text, {
         length: 53,
         omission: '...',
       });
-
-      return shortedText;
     }
 
     return '';

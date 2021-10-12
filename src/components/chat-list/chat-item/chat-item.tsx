@@ -1,7 +1,8 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import classnames from 'classnames';
-import dayjs from 'dayjs';
+import { MessageLinkType, SystemMessageType } from 'kimbu-models';
+import { size } from 'lodash';
 import truncate from 'lodash/truncate';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -14,17 +15,11 @@ import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
 import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import Ripple from '@shared-components/ripple';
-import {
-  MessageLinkType,
-  MessageState,
-  SystemMessageType,
-  INormalizedMessage,
-} from '@store/chats/models';
+import { INormalizedMessage, MessageState } from '@store/chats/models';
 import { getTypingStringSelector, getChatSelector } from '@store/chats/selectors';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
-import { DAY_MONTH_YEAR } from '@utils/constants';
-import { checkIfDatesAreDifferentDate, getShortTimeAmPm } from '@utils/date-utils';
+import { checkIfDatesAreDifferentDate, getDayMonthYear, getShortTimeAmPm } from '@utils/date-utils';
 import { constructSystemMessageText } from '@utils/message-utils';
 import renderText from '@utils/render-text/render-text';
 import { replaceInUrl } from '@utils/replace-in-url';
@@ -44,15 +39,10 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const lastMessageUserCreator = useSelector(getUserSelector(chat?.lastMessage?.userCreatorId));
   const interlocutor = useSelector(getUserSelector(chat?.interlocutorId));
 
-  const currentUserId = useSelector(myIdSelector) as number;
+  const currentUserId = useSelector(myIdSelector);
   const typingString = useSelector(getTypingStringSelector(t, chatId));
 
   const isMessageCreatorCurrentUser: boolean = chat?.lastMessage?.userCreatorId === currentUserId;
-
-  const getDayMonthYear = useCallback(
-    (creationDateTime: string) => dayjs.utc(creationDateTime).local().format(DAY_MONTH_YEAR),
-    [],
-  );
 
   const messageText = useMemo((): string => {
     const messageToProcess =
@@ -62,16 +52,16 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
         : chat?.lastMessage;
 
     if (
-      (chat?.lastMessage?.text.length === 0 && (chat?.lastMessage.attachments?.length || 0) > 0) ||
-      (chat?.lastMessage?.linkedMessage?.text?.length === 0 &&
-        (chat?.lastMessage?.linkedMessage?.attachments?.length || 0) > 0)
+      (size(chat?.lastMessage?.text) === 0 && size(chat?.lastMessage?.attachments) > 0) ||
+      (size(chat?.lastMessage?.linkedMessage?.text) === 0 &&
+        size(chat?.lastMessage?.linkedMessage?.attachments) > 0)
     ) {
       return t('chatFromList.media');
     }
 
     if (
-      chat?.lastMessage?.text.length === 0 &&
-      (chat?.lastMessage.attachments?.length || 0) === 0 &&
+      chat?.lastMessage?.text?.length === 0 &&
+      size(chat?.lastMessage.attachments) === 0 &&
       chat?.lastMessage?.linkedMessage === null
     ) {
       return t('message-link.message-deleted');
@@ -88,7 +78,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
             // TODO: replace this logic
             messageToProcess as INormalizedMessage,
             t,
-            currentUserId,
+            currentUserId as number,
             lastMessageUserCreator,
           ),
           {

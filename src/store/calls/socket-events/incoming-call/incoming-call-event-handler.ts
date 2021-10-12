@@ -1,14 +1,13 @@
 import produce from 'immer';
+import { IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { apply, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { ById } from '@store/chats/models/by-id';
 import { userSchema } from '@store/friends/normalization';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
-import { IUser } from '../../../common/models';
 import { setInterlocutorOffer } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { ICallsState } from '../../calls-state';
 
@@ -40,7 +39,7 @@ export class IncomingCallEventHandler {
 
       const {
         entities: { users },
-      } = normalize<IUser, { users: ById<IUser> }, number[]>(
+      } = normalize<IUser, { users: Record<number, IUser> }, number[]>(
         action.payload.userInterlocutor,
         userSchema,
       );

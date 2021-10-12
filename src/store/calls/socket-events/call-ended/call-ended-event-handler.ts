@@ -1,25 +1,23 @@
 import { AxiosResponse } from 'axios';
+import { IUser, ICall } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { select, put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { ById } from '@store/chats/models/by-id';
+import { INormalizedCall } from '@store/calls/common/models';
 import { httpRequestFactory } from '@store/common/http/http-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
-import { IUser } from '@store/common/models';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { getUserSelector } from '@store/users/selectors';
 import { replaceInUrl } from '@utils/replace-in-url';
 
 import { resetPeerConnection } from '../../../middlewares/webRTC/reset-peer-connection';
 import { myIdSelector } from '../../../my-profile/selectors';
-import { ICall, INormalizedCall } from '../../common/models';
 import { callNormalizationSchema } from '../../normalization';
 import { getCallInterlocutorIdSelector, getIsActiveCallIncomingSelector } from '../../selectors';
 
-import { IGetCallByIdApiRequest } from './api-requests/get-call-by-id-api-request';
 import { CallEndedEventHandlerSuccess } from './call-ended-event-handler-success';
 import { ICallEndedIntegrationEvent } from './call-ended-integration-event';
 
@@ -57,7 +55,7 @@ export class CallEndedEventHandler {
           };
         } else {
           const { data } = CallEndedEventHandler.httpRequest.call(
-            yield call(() => CallEndedEventHandler.httpRequest.generator({ callId: id })),
+            yield call(() => CallEndedEventHandler.httpRequest.generator(id)),
           );
 
           activeCall = data;
@@ -65,10 +63,11 @@ export class CallEndedEventHandler {
 
         const {
           entities: { calls, users },
-        } = normalize<ICall[], { calls: ById<INormalizedCall>; users: ById<IUser> }, number[]>(
-          activeCall,
-          callNormalizationSchema,
-        );
+        } = normalize<
+          ICall[],
+          { calls: Record<number, INormalizedCall>; users: Record<number, IUser> },
+          number[]
+        >(activeCall, callNormalizationSchema);
 
         const normalizedCall = calls[activeCall.id];
 
@@ -81,9 +80,8 @@ export class CallEndedEventHandler {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<ICall>, IGetCallByIdApiRequest>(
-      ({ callId }: IGetCallByIdApiRequest) =>
-        replaceInUrl(MAIN_API.CALL_ENDED_EVENT, ['callId', callId]),
+    return httpRequestFactory<AxiosResponse<ICall>, number>(
+      (callId: number) => replaceInUrl(MAIN_API.CALL_ENDED_EVENT, ['callId', callId]),
       HttpRequestMethod.Get,
     );
   }

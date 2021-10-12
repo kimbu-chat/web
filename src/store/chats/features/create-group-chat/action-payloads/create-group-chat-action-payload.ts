@@ -1,9 +1,9 @@
-import { IAvatar } from '../../../../common/models';
+import { IAvatar } from 'kimbu-models';
 
 export interface ICreateGroupChatActionPayload {
   name: string;
   description?: string;
-  userIds: Array<number>;
+  userIds: number[];
   currentUserId: number;
-  avatar?: IAvatar | null;
+  avatar?: IAvatar;
 }

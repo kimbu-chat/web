@@ -14,7 +14,11 @@ import { ReactComponent as TypingSvg } from '@icons/typing.svg';
 import { ReactComponent as VideoCallSvg } from '@icons/video-call.svg';
 import { outgoingCallAction } from '@store/calls/actions';
 import { changeChatInfoOpenedAction } from '@store/chats/actions';
-import { getIsInfoOpenedSelector, getSelectedChatSelector } from '@store/chats/selectors';
+import {
+  getIsInfoOpenedSelector,
+  getSelectedChatSelector,
+  getTypingStringSelector,
+} from '@store/chats/selectors';
 import { getUserSelector } from '@store/users/selectors';
 import { getChatInterlocutor } from '@utils/user-utils';
 
@@ -31,6 +35,7 @@ export const ChatTopBar = () => {
   const selectedChat = useSelector(getSelectedChatSelector);
   const isInfoOpened = useSelector(getIsInfoOpenedSelector);
   const interlocutor = useSelector(getUserSelector(selectedChat?.interlocutorId));
+  const typingString = useSelector(getTypingStringSelector(t, selectedChat?.id || -1));
 
   const callInterlocutor = useActionWithDispatch(outgoingCallAction);
   const openCloseChatInfo = useActionWithDispatch(changeChatInfoOpenedAction);
@@ -112,8 +117,10 @@ export const ChatTopBar = () => {
                   {selectedChat.typingInterlocutors &&
                   selectedChat.typingInterlocutors?.length > 0 ? (
                     <div className={`${BLOCK_NAME}__chat-info__info__typing`}>
-                      <TypingSvg viewBox="0 0 12 12" />
-                      <span>{t('chatData.typing')}</span>
+                      <TypingSvg />
+                      <span>
+                        {selectedChat.interlocutorId ? t('chatData.typing') : typingString}
+                      </span>
                     </div>
                   ) : (
                     groupChatOrInterlocutorStatus

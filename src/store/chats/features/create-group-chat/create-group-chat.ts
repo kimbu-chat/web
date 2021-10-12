@@ -1,24 +1,23 @@
 import { AxiosResponse } from 'axios';
+import { ICreateGroupChatRequest, SystemMessageType, ICreateGroupChatResponse } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
+import {
+  INormalizedChat,
+  INormalizedMessage,
+  MessageState,
+  InterlocutorType,
+} from '@store/chats/models';
 import { Meta } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { createSystemMessage } from '@utils/message-utils';
 
 import { ChatId } from '../../chat-id';
-import {
-  INormalizedChat,
-  INormalizedMessage,
-  InterlocutorType,
-  MessageState,
-  SystemMessageType,
-} from '../../models';
 
 import { ICreateGroupChatActionPayload } from './action-payloads/create-group-chat-action-payload';
-import { ICerateGroupChatApiRequest } from './api-requests/create-group-chat-api-request';
 import { CreateGroupChatSuccess } from './create-group-chat-success';
 
 export class CreateGroupChat {
@@ -35,7 +34,7 @@ export class CreateGroupChat {
     ): SagaIterator {
       const { userIds, name, avatar, description, currentUserId } = action.payload;
 
-      const groupChatCreationRequest: ICerateGroupChatApiRequest = {
+      const groupChatCreationRequest: ICreateGroupChatRequest = {
         name,
         description,
         userIds,
@@ -46,7 +45,9 @@ export class CreateGroupChat {
         yield call(() => CreateGroupChat.httpRequest.generator(groupChatCreationRequest)),
       );
 
-      const chatId: number = ChatId.from(undefined, data).id;
+      const groupChatId = data.id;
+
+      const chatId = ChatId.from(undefined, groupChatId).id;
 
       const firstMessage: INormalizedMessage = {
         creationDateTime: new Date().toISOString(),
@@ -67,7 +68,7 @@ export class CreateGroupChat {
         isMuted: false,
         draftMessage: '',
         groupChat: {
-          id: data,
+          id: groupChatId,
           membersCount: userIds.length + 1,
           name,
           description,
@@ -124,7 +125,7 @@ export class CreateGroupChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<number>, ICerateGroupChatApiRequest>(
+    return httpRequestFactory<AxiosResponse<ICreateGroupChatResponse>, ICreateGroupChatRequest>(
       MAIN_API.GROUP_CHAT,
       HttpRequestMethod.Post,
     );

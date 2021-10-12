@@ -1,16 +1,14 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 
+import { IPictureAttachment } from 'kimbu-models';
 import { useSelector } from 'react-redux';
 
 import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getPhotoAttachmentsAction } from '@store/chats/actions';
-import { IPictureAttachment } from '@store/chats/models';
 import { getSelectedChatPhotosSelector } from '@store/chats/selectors';
-import { IPage } from '@store/common/models';
 import { separateGroupable } from '@utils/date-utils';
-import { PHOTO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 import { setSeparators } from '@utils/set-separators';
 
 import { Photo } from './photo/photo';
@@ -23,20 +21,16 @@ type PhotoListProps = {
   observeIntersection: ObserveFn;
 };
 
+const ATTACHMENTS_GROUP_PREFIX = 'photos';
+
 const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection }) => {
   const getPhotoAttachments = useActionWithDispatch(getPhotoAttachmentsAction);
   const photoForSelectedChat = useSelector(getSelectedChatPhotosSelector);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const loadMore = useCallback(() => {
-    const page: IPage = {
-      offset: photoForSelectedChat?.photos.length || 0,
-      limit: PHOTO_ATTACHMENTS_LIMIT,
-    };
-
-    getPhotoAttachments({
-      page,
-    });
-  }, [photoForSelectedChat?.photos.length, getPhotoAttachments]);
+    getPhotoAttachments();
+  }, [getPhotoAttachments]);
 
   const photosWithSeparators = setSeparators(
     photoForSelectedChat?.photos,
@@ -54,17 +48,21 @@ const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection }) => {
     ) : null;
 
   return (
-    <div className="chat-photo">
+    <div className="chat-photo" ref={containerRef}>
       <InfiniteScroll
+        containerRef={containerRef}
         className="chat-photo__photo-container"
         onReachBottom={loadMore}
         hasMore={photoForSelectedChat?.hasMore}
         isLoading={photoForSelectedChat?.loading}>
         {photosWithSeparators &&
-          separateGroupable(photosWithSeparators).map((photoArr) => (
+          separateGroupable({
+            groupableItems: photosWithSeparators,
+            prefix: ATTACHMENTS_GROUP_PREFIX,
+          }).map((pack) => (
             <ChatAttachment
-              key={`${photoArr[0]?.id}Arr`}
-              items={photoArr}
+              key={pack.id}
+              items={pack.attachments}
               AttachmentComponent={PhotoAttachmentComponent}
             />
           ))}

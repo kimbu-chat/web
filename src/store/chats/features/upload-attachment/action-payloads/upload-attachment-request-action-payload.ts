@@ -1,8 +1,9 @@
-import { FileType } from '../../../models';
+import { AttachmentType } from 'kimbu-models';
 
 export interface IUploadAttachmentRequestActionPayload {
-  type: FileType;
+  type: AttachmentType;
   attachmentId: number;
   file: File;
   waveFormJson?: string;
+  noStateChange?: boolean;
 }

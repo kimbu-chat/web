@@ -1,4 +1,4 @@
-import { CallStatus } from '../../../common/models/call-status';
+import { CallStatus } from 'kimbu-models';
 
 export interface ICallEndedIntegrationEvent {
   userInterlocutorId: number;

@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
 import dayjs from 'dayjs';
+import { ISession } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -8,7 +9,6 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { Button } from '@shared-components/button';
 import { deviceIdSelector } from '@store/auth/selectors';
 import { terminateSessionAction } from '@store/settings/actions';
-import { ISession } from '@store/settings/comon/models/session';
 import { MONTH_DAY_YEAR } from '@utils/constants';
 
 import './session.scss';
@@ -52,16 +52,12 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
 
         <div className="session__data__row">
           <div className="session__data__highlighted">{t('session.last-acessed')}</div>
-          <div className="session__data__ordinary">
-            {formatSessionTime(session.lastAccessedDateTime)}
-          </div>
+          <div className="session__data__ordinary">{formatSessionTime(session.lastAccessedAt)}</div>
         </div>
 
         <div className="session__data__row">
           <div className="session__data__highlighted">{t('session.signed-in')}</div>
-          <div className="session__data__ordinary">
-            {formatSessionTime(session.signedInDateTime)}
-          </div>
+          <div className="session__data__ordinary">{formatSessionTime(session.signedInAt)}</div>
         </div>
       </div>
 

@@ -1,14 +1,18 @@
 import produce from 'immer';
-import { createAction } from 'typesafe-actions';
-
-import { IChatsState } from '../../chats-state';
 import {
-  FileType,
+  AttachmentType,
   IAudioAttachment,
   IPictureAttachment,
   IVideoAttachment,
   IVoiceAttachment,
-} from '../../models';
+} from 'kimbu-models';
+import { SagaIterator } from 'redux-saga';
+import { call } from 'redux-saga/effects';
+import { createAction } from 'typesafe-actions';
+
+import { removeSendMessageRequest } from '@utils/cancel-send-message-request';
+
+import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
 import { ICreateMessageSuccessActionPayload } from './action-payloads/create-message-success-action-payload';
@@ -29,6 +33,7 @@ export class CreateMessageSuccess {
         const message = chatMessages?.messages[oldMessageId];
 
         if (message && chatMessages) {
+          message.clientId = message.id;
           message.id = newMessageId;
           message.state = messageState;
           chatMessages.messages[newMessageId] = message;
@@ -49,43 +54,43 @@ export class CreateMessageSuccess {
 
           attachments?.forEach((attachment) => {
             switch (attachment.type) {
-              case FileType.Audio:
+              case AttachmentType.Audio:
                 chat.audioAttachmentsCount = (chat.audioAttachmentsCount || 0) + 1;
                 chat.audios.audios.unshift({
                   ...(attachment as IAudioAttachment),
-                  creationDateTime: new Date(),
+                  creationDateTime: new Date().toISOString(),
                 });
 
                 break;
-              case FileType.Picture:
+              case AttachmentType.Picture:
                 chat.pictureAttachmentsCount = (chat.pictureAttachmentsCount || 0) + 1;
                 chat.photos.photos.unshift({
                   ...(attachment as IPictureAttachment),
-                  creationDateTime: new Date(),
+                  creationDateTime: new Date().toISOString(),
                 });
 
                 break;
-              case FileType.Raw:
+              case AttachmentType.Raw:
                 chat.rawAttachmentsCount = (chat.rawAttachmentsCount || 0) + 1;
                 chat.files.files.unshift({
                   ...attachment,
-                  creationDateTime: new Date(),
+                  creationDateTime: new Date().toISOString(),
                 });
 
                 break;
-              case FileType.Video:
+              case AttachmentType.Video:
                 chat.videoAttachmentsCount = (chat.videoAttachmentsCount || 0) + 1;
                 chat.videos.videos.unshift({
                   ...(attachment as IVideoAttachment),
-                  creationDateTime: new Date(),
+                  creationDateTime: new Date().toISOString(),
                 });
 
                 break;
-              case FileType.Voice:
+              case AttachmentType.Voice:
                 chat.voiceAttachmentsCount = (chat.voiceAttachmentsCount || 0) + 1;
                 chat.recordings.recordings.unshift({
                   ...(attachment as IVoiceAttachment),
-                  creationDateTime: new Date(),
+                  creationDateTime: new Date().toISOString(),
                 });
 
                 break;
@@ -98,5 +103,13 @@ export class CreateMessageSuccess {
         return draft;
       },
     );
+  }
+
+  static get saga() {
+    return function* createMessageSuccessSaga(
+      action: ReturnType<typeof CreateMessageSuccess.action>,
+    ): SagaIterator {
+      yield call(removeSendMessageRequest, action.payload.oldMessageId);
+    };
   }
 }

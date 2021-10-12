@@ -1,1 +1,1 @@
-export type { ICall, INormalizedCall } from './call';
+export type { INormalizedCall } from './call';

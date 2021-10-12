@@ -1,6 +1,4 @@
-import { ById } from '@store/chats/models/by-id';
-
-import { INormalizedCall } from './common/models/call';
+import { INormalizedCall } from './common/models';
 
 interface ICallList {
   callIds: number[];
@@ -33,7 +31,7 @@ export interface ICallsState {
   audioDevicesList: MediaDeviceInfo[];
   videoDevicesList: MediaDeviceInfo[];
 
-  calls: ById<INormalizedCall>;
+  calls: Record<number, INormalizedCall>;
   callList: ICallList;
   searchCallList: ICallList;
 }

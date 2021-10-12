@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 
+import { SystemMessageType, MessageLinkType, IAttachmentBase } from 'kimbu-models';
+import { size } from 'lodash';
 import throttle from 'lodash/throttle';
 import Mousetrap from 'mousetrap';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +14,7 @@ import { ReactComponent as AddSvg } from '@icons/add-attachment.svg';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { ReactComponent as SendSvg } from '@icons/send.svg';
 import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
+import { Button } from '@shared-components/button';
 import {
   messageTypingAction,
   createMessageAction,
@@ -20,13 +23,10 @@ import {
   removeAllAttachmentsAction,
 } from '@store/chats/actions';
 import {
-  SystemMessageType,
-  MessageState,
-  MessageLinkType,
   IAttachmentCreation,
-  IAttachmentToSend,
-  IBaseAttachment,
   INormalizedMessage,
+  MessageState,
+  IAttachmentToSend,
 } from '@store/chats/models';
 import {
   getMessageToReplySelector,
@@ -38,8 +38,9 @@ import { TypingStrategy } from '@store/settings/features/models';
 import { getTypingStrategySelector } from '@store/settings/selectors';
 import { MESSAGE_INPUT_ID } from '@utils/constants';
 import { focusEditableElement } from '@utils/focus-editable-element';
-import { getFileType } from '@utils/get-file-extension';
+import { getAttachmentType } from '@utils/get-file-extension';
 import { parseMessageInput } from '@utils/parse-message-input';
+import { setRecordAudioStream } from '@utils/record-audio-stream';
 import renderText from '@utils/render-text/render-text';
 import { isSelectionInsideInput } from '@utils/selection';
 
@@ -75,6 +76,7 @@ const CreateMessageInput = () => {
 
   const [text, setText] = useState('');
   const refferedText = useReferState(text);
+  const [requestMicrophoneLoading, setRequestMicrophoneLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
 
   const messageInputRef = useRef<HTMLDivElement>(null);
@@ -162,12 +164,14 @@ const CreateMessageInput = () => {
       ({ attachment }) => attachment,
     );
 
-    submitEditMessage({
-      text: parseMessageInput(refferedText.current),
-      removedAttachments: referredRemovedAttachments.current,
-      newAttachments,
-      messageId: editingMessage?.id as number,
-    });
+    if (editingMessage?.id) {
+      submitEditMessage({
+        text: parseMessageInput(refferedText.current),
+        removedAttachments: referredRemovedAttachments.current,
+        newAttachments,
+        messageId: editingMessage.id,
+      });
+    }
   }, [
     updatedSelectedChat,
     submitEditMessage,
@@ -187,8 +191,7 @@ const CreateMessageInput = () => {
     const messageText = parseMessageInput(refferedText.current);
 
     if (
-      (messageText.trim().length > 0 ||
-        (updatedSelectedChat.current?.attachmentsToSend?.length || 0) > 0) &&
+      (messageText.trim().length > 0 || size(updatedSelectedChat.current?.attachmentsToSend) > 0) &&
       updatedSelectedChat.current &&
       currentUserId
     ) {
@@ -306,8 +309,22 @@ const CreateMessageInput = () => {
   ]);
 
   const handleRegisterAudioBtnClick = useCallback(() => {
-    setIsRecording((oldState) => !oldState);
-  }, [setIsRecording]);
+    if (!isRecording) {
+      setRequestMicrophoneLoading(true);
+      navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then((stream) => {
+          setRecordAudioStream(stream);
+          setRequestMicrophoneLoading(false);
+          setIsRecording(true);
+        })
+        .catch(() => {
+          setRequestMicrophoneLoading(false);
+        });
+    }
+
+    setIsRecording(false);
+  }, [isRecording]);
 
   const openSelectFiles = useCallback(() => {
     fileInputRef.current?.click();
@@ -319,7 +336,7 @@ const CreateMessageInput = () => {
         for (let index = 0; index < event.target.files.length; index += 1) {
           const file = event.target.files.item(index) as File;
 
-          const fileType = getFileType(file.name);
+          const fileType = getAttachmentType(file.name);
 
           uploadAttachmentRequest({
             type: fileType,
@@ -345,7 +362,7 @@ const CreateMessageInput = () => {
           const file = event.clipboardData.files.item(index) as File;
 
           // extension test
-          const fileType = getFileType(file.name);
+          const fileType = getAttachmentType(file.name);
 
           uploadAttachmentRequest({
             type: fileType,
@@ -376,7 +393,7 @@ const CreateMessageInput = () => {
               <div className="message-input__attachments-box__container">
                 {editingMessageAttachments?.map((attachment) => (
                   <MessageInputAttachment
-                    attachment={{ attachment } as IAttachmentToSend<IBaseAttachment>}
+                    attachment={{ attachment } as IAttachmentToSend<IAttachmentBase>}
                     isFromEdit
                     removeSelectedAttachment={removeAttachment}
                     key={attachment.id}
@@ -390,7 +407,7 @@ const CreateMessageInput = () => {
                 onClick={removeAllAttachments}
                 type="button"
                 className="message-input__attachments-box__delete-all">
-                <CloseSvg viewBox="0 0 24 24" />
+                <CloseSvg />
               </button>
             </div>
           )}
@@ -424,12 +441,13 @@ const CreateMessageInput = () => {
                 <>
                   <MessageSmiles onSelectEmoji={insertTextAndUpdateCursor} />
 
-                  <button
+                  <Button
                     type="button"
                     onClick={handleRegisterAudioBtnClick}
+                    loading={requestMicrophoneLoading}
                     className="message-input__voice-btn">
-                    <VoiceSvg viewBox="0 0 20 24" />
-                  </button>
+                    <VoiceSvg />
+                  </Button>
 
                   <button
                     type="button"

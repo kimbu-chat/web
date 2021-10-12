@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IVerifySmsCodeResponse, IVerifySmsCodeRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -13,14 +14,12 @@ import { LoginSuccess } from '../login/login-success';
 import { Login } from '../login/login';
 
 import { IConfirmPhoneActionPayload } from './action-payloads/confirm-phone-action-payload';
-import { IConfirmProneApiRequest } from './api-requests/confirm-phone-api-request';
-import { IConfirmPhoneApiResponse } from './api-requests/confirm-phone-api-response';
 import { ConfirmPhoneFailure } from './confirm-phone-failure';
 import { ConfirmPhoneSuccess } from './confirm-phone-success';
 
 export class ConfirmPhone {
   static get action() {
-    return createAction('CONFIRM_PHONE')<IConfirmPhoneActionPayload, Meta | undefined>();
+    return createAction('CONFIRM_PHONE')<IConfirmPhoneActionPayload, Meta<boolean>>();
   }
 
   static get reducer() {
@@ -42,10 +41,10 @@ export class ConfirmPhone {
         const { phoneNumber, code } = action.payload;
         yield put(Login.action({ phoneNumber, code }));
         yield take(LoginSuccess.action);
-        action?.meta?.deferred?.resolve({ userRegistered: true });
+        action?.meta?.deferred?.resolve(true);
       } else if (data.isCodeCorrect && !data.userExists) {
         yield put(ConfirmPhoneSuccess.action({ confirmationCode: action.payload.code }));
-        action?.meta?.deferred.resolve({ userRegistered: false });
+        action?.meta?.deferred.resolve(false);
       } else {
         action?.meta?.deferred.reject();
         yield put(ConfirmPhoneFailure.action());
@@ -54,7 +53,7 @@ export class ConfirmPhone {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse<IConfirmPhoneApiResponse>, IConfirmProneApiRequest>(
+    return authRequestFactory<AxiosResponse<IVerifySmsCodeResponse>, IVerifySmsCodeRequest>(
       MAIN_API.VERIFY_SMS_CODE,
       HttpRequestMethod.Post,
     );

@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { CreateGroupChat } from '@components/create-group-chat-modal';
+import { CreateGroupChatModal } from '@components/create-group-chat-modal';
 import { GroupChatAddFriendModal } from '@components/group-chat-add-friend-modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useToggledState } from '@hooks/use-toggled-state';
@@ -221,7 +221,7 @@ export const ChatActions: React.FC = () => {
       {leaveGroupChatModalOpened && <LeaveChatModal hide={changeLeaveGroupChatModalOpenedState} />}
 
       {chat?.interlocutorId && createGroupChatModalOpened && (
-        <CreateGroupChat
+        <CreateGroupChatModal
           preSelectedUserIds={[chat?.interlocutorId]}
           onClose={hideCreateGroupChatModal}
         />

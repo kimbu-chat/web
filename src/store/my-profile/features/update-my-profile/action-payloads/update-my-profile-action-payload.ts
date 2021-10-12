@@ -1,4 +1,4 @@
-import { IAvatar } from '../../../../common/models';
+import { IAvatar } from 'kimbu-models';
 
 export interface IUpdateMyProfileActionPayload {
   firstName: string;

@@ -1,4 +1,6 @@
-import { IAudioAttachment, IGroupable } from '../../../models';
+import { IAudioAttachment } from 'kimbu-models';
+
+import { IGroupable } from '../../../models';
 
 export interface IGetAudioAttachmentsSuccessActionPayload {
   chatId: number;

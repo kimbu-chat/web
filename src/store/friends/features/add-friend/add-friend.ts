@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { IAddUserIntoContactsRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -8,7 +9,6 @@ import { Meta } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { AddFriendSuccess } from './add-friend-success';
-import { IAddFriendApiRequest } from './api-requests/add-friend-api-request';
 
 export class AddFriend {
   static get action() {
@@ -19,7 +19,7 @@ export class AddFriend {
     return function* addFriend(action: ReturnType<typeof AddFriend.action>): SagaIterator {
       const userId = action.payload;
 
-      const phoneToAdd: IAddFriendApiRequest = { userId };
+      const phoneToAdd: IAddUserIntoContactsRequest = { userId };
       yield call(() => AddFriend.httpRequest.generator(phoneToAdd));
 
       yield put(AddFriendSuccess.action(userId));
@@ -29,7 +29,7 @@ export class AddFriend {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IAddFriendApiRequest>(
+    return httpRequestFactory<AxiosResponse, IAddUserIntoContactsRequest>(
       MAIN_API.ADD_CONTACT,
       HttpRequestMethod.Post,
     );

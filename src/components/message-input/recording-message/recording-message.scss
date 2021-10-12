@@ -1,11 +1,34 @@
 .recording-message {
   display: flex;
   flex: 1 1;
-  margin-right: 10px;
   align-items: center;
+
+  &__voice-btn {
+    margin-left: 38px;
+    margin-right: 34px;
+    color: var(--dt-white-wt-kingBlue);
+  }
+
+  &__counter {
+    font-size: 16px;
+    line-height: 19px;
+    color: var(--dt-white-wt-kingBlue);
+    margin-right: 35px;
+    margin-left: 34px;
+  }
 
   &__vaweform {
     flex: 1 1;
     position: relative;
+  }
+
+  &__delete-btn {
+    color: var(--dt-white-wt-dark);
+    margin-right: 31px;
+  }
+
+  &__send-btn {
+    color: #3f8ae0;
+    margin-right: 24px;
   }
 }

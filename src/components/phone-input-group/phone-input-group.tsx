@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 import { CountrySelect } from '@components/country-select/country-select';
 import { PhoneInput } from '@components/phone-input/phone-input';
-import { getCountryByIp } from '@utils/get-country-by-ip';
+
+import { useCountry } from '../../hooks/use-country';
 
 import type { ICountry } from '@common/country';
 
@@ -27,32 +28,10 @@ const PhoneInputGroup: React.FC<IPhoneInputGroupProps> = ({
   errorText,
   disablePhoneInput,
 }) => {
-  const [countries, setCountries] = useState<ICountry[]>([
-    { code: 'AF', number: '+93', title: 'Afghanistan' },
-  ]);
-  const [country, setCountry] = useState<ICountry>({
-    code: 'AF',
-    number: '+93',
-    title: 'Afghanistan',
-  });
   const [countrySelectRef, setCountrySelectRef] =
     useState<React.RefObject<HTMLInputElement> | null>(null);
 
-  useEffect(() => {
-    (async () => {
-      const loadedCountriesResponse = await fetch(`/countries.json`);
-      const loadedCountries: ICountry[] = await loadedCountriesResponse.json();
-      setCountries(loadedCountries);
-      setCountry(loadedCountries[0]);
-      const countryCode = await getCountryByIp();
-      const countryOfResidence =
-        loadedCountries?.find(({ code }) => code === countryCode) || loadedCountries[0];
-
-      if (countryOfResidence) {
-        setCountry(countryOfResidence);
-      }
-    })();
-  }, []);
+  const { countries, country, setCountry } = useCountry();
 
   const phoneInputRef = useRef<HTMLInputElement>(null);
 

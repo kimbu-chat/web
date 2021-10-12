@@ -1,6 +1,6 @@
-import { ISecurityTokens } from '@store/auth/common/models';
+import { ISecurityTokens } from 'kimbu-models';
+
 import { BrowserStorage } from '@utils/browser-storage';
-import { getAccessTokenExpirationTime } from '@utils/get-access-token-expiration-time';
 
 export class AuthService {
   private readonly authentication = 'authentication';
@@ -10,17 +10,7 @@ export class AuthService {
   private browserStorage = new BrowserStorage(this.authentication);
 
   public get securityTokens(): ISecurityTokens {
-    const tokens = this.browserStorage.getObject<ISecurityTokens>(this.authentication);
-
-    if (tokens) {
-      const accessTokenExpirationTime = getAccessTokenExpirationTime(tokens.accessToken);
-      return {
-        ...tokens,
-        accessTokenExpirationTime,
-      };
-    }
-
-    return tokens;
+    return this.browserStorage.getObject<ISecurityTokens>(this.authentication);
   }
 
   public get deviceId(): string {

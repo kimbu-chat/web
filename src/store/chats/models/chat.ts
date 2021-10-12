@@ -1,32 +1,16 @@
-import { IMessage, INormalizedMessage } from '@store/chats/models/message';
-import { IUser } from '@store/common/models';
+import {
+  IGroupChat,
+  IAttachmentBase,
+  IAudioAttachment,
+  IPictureAttachment,
+  IVideoAttachment,
+  IVoiceAttachment,
+} from 'kimbu-models';
 
 import { IAttachmentToSend } from './attachment-to-send';
-import { IAudioAttachment } from './attachments/audio-attachment';
-import { IBaseAttachment } from './attachments/base-attachment';
-import { IPictureAttachment } from './attachments/picture-atachment';
-import { IVideoAttachment } from './attachments/video-attachment';
-import { IVoiceAttachment } from './attachments/voice-attachment';
-import { ById } from './by-id';
-import { IGroupChat } from './group-chat';
 import { IGroupable } from './groupable';
 import { InterlocutorType } from './interlocutor-type';
-
-export interface IChat {
-  id: number;
-
-  groupChat?: IGroupChat;
-  lastMessage?: IMessage;
-  interlocutor?: IUser;
-  unreadMessagesCount: number;
-  interlocutorLastReadMessageId?: number;
-  isMuted?: boolean;
-
-  isBlockedByInterlocutor: boolean;
-  isBlockedByUser: boolean;
-  isInContacts: boolean;
-  isDismissedAddToContacts: boolean;
-}
+import { INormalizedMessage } from './normalized-message';
 
 export interface INormalizedChat {
   id: number;
@@ -60,7 +44,7 @@ export interface INormalizedChat {
     hasMore: boolean;
   };
   files: {
-    files: (IBaseAttachment & IGroupable)[];
+    files: (IAttachmentBase & IGroupable)[];
     loading: boolean;
     hasMore: boolean;
   };
@@ -76,14 +60,14 @@ export interface INormalizedChat {
   };
 
   messages: {
-    messages: ById<INormalizedMessage>;
+    messages: Record<number, INormalizedMessage>;
     messageIds: number[];
     loading: boolean;
     hasMore: boolean;
     searchString?: string;
   };
 
-  attachmentsToSend?: IAttachmentToSend<IBaseAttachment>[];
+  attachmentsToSend?: IAttachmentToSend<IAttachmentBase>[];
 
   rawAttachmentsCount?: number;
   videoAttachmentsCount?: number;

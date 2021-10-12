@@ -1,24 +1,27 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IAudioAttachment, IGetAudioAttachmentsRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
+import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { AUDIO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IChatsState } from '../../chats-state';
-import { IAudioAttachment } from '../../models';
-import { getChatByIdDraftSelector, getInfoChatIdSelector } from '../../selectors';
+import {
+  getChatByIdDraftSelector,
+  getInfoChatIdSelector,
+  getSelectedChatAudiosLengthSelector,
+} from '../../selectors';
 
-import { IGetAudioAttachmentsActionPayload } from './action-payloads/get-audio-attachments-action-payload';
-import { IGetAudioAttachmentsApiRequest } from './api-requests/get-audio-attachments-api-request';
 import { GetAudioAttachmentsSuccess } from './get-audio-attachments-success';
 
 export class GetAudioAttachments {
   static get action() {
-    return createAction('GET_AUDIO_ATTACHMENTS')<IGetAudioAttachmentsActionPayload>();
+    return createEmptyAction('GET_AUDIO_ATTACHMENTS');
   }
 
   static get reducer() {
@@ -36,18 +39,20 @@ export class GetAudioAttachments {
   }
 
   static get saga() {
-    return function* getAudioAttachments(
-      action: ReturnType<typeof GetAudioAttachments.action>,
-    ): SagaIterator {
-      const { page } = action.payload;
-
+    return function* getAudioAttachments(): SagaIterator {
       const chatId = yield select(getInfoChatIdSelector);
+      const audioOffset = yield select(getSelectedChatAudiosLengthSelector);
 
       const { data, status } = GetAudioAttachments.httpRequest.call(
-        yield call(() => GetAudioAttachments.httpRequest.generator({ page, chatId })),
+        yield call(() =>
+          GetAudioAttachments.httpRequest.generator({
+            page: { limit: AUDIO_ATTACHMENTS_LIMIT, offset: audioOffset },
+            chatId,
+          }),
+        ),
       );
 
-      const hasMore = data.length >= page.limit;
+      const hasMore = data.length >= AUDIO_ATTACHMENTS_LIMIT;
 
       if (status === HTTPStatusCode.OK) {
         yield put(GetAudioAttachmentsSuccess.action({ audios: data, hasMore, chatId }));
@@ -56,7 +61,7 @@ export class GetAudioAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IAudioAttachment[]>, IGetAudioAttachmentsApiRequest>(
+    return httpRequestFactory<AxiosResponse<IAudioAttachment[]>, IGetAudioAttachmentsRequest>(
       MAIN_API.GET_AUDIO_ATTACHMENTS,
       HttpRequestMethod.Post,
     );

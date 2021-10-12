@@ -1,7 +1,5 @@
-import { IUser } from '@store/common/models';
-
-import { ById } from '../chats/models/by-id';
+import { IUser } from 'kimbu-models';
 
 export interface IUsersState {
-  users: ById<IUser>;
+  users: Record<number, IUser>;
 }

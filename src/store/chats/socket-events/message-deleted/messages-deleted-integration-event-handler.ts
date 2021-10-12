@@ -1,21 +1,19 @@
 import { AxiosResponse } from 'axios';
+import { IUser, IMessage } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { select, put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { ById } from '@store/chats/models/by-id';
+import { INormalizedMessage } from '@store/chats/models';
 import { messageNormalizationSchema } from '@store/chats/normalization';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { IUser } from '@store/common/models';
 import { replaceInUrl } from '@utils/replace-in-url';
 
 import { AddOrUpdateUsers } from '../../../users/features/add-or-update-users/add-or-update-users';
-import { INormalizedMessage, IMessage } from '../../models';
 import { getChatLastMessageIdSelector, getChatMessagesLengthSelector } from '../../selectors';
 
-import { IGetLastMessageByChatIdApiRequest } from './api-requests/get-last-message-by-chat-id-api-request';
 import { MessagesDeletedIntegrationEventHandlerSuccess } from './messages-deleted-integration-event-handler-success';
 import { IMessagesDeletedIntegrationEvent } from './messages-deleted-integration-event';
 
@@ -35,16 +33,14 @@ export class MessagesDeletedIntegrationEventHandler {
       if (lastMessageId && messageListIsEmpty) {
         const { data }: AxiosResponse<IMessage> =
           MessagesDeletedIntegrationEventHandler.httpRequest.call(
-            yield call(() =>
-              MessagesDeletedIntegrationEventHandler.httpRequest.generator({ chatId }),
-            ),
+            yield call(() => MessagesDeletedIntegrationEventHandler.httpRequest.generator(chatId)),
           );
 
         const {
           entities: { messages, users },
         } = normalize<
           IMessage[],
-          { messages: ById<INormalizedMessage>; users: ById<IUser> },
+          { messages: Record<number, INormalizedMessage>; users: Record<number, IUser> },
           number[]
         >(data, messageNormalizationSchema);
 
@@ -74,9 +70,8 @@ export class MessagesDeletedIntegrationEventHandler {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IMessage>, IGetLastMessageByChatIdApiRequest>(
-      ({ chatId }: IGetLastMessageByChatIdApiRequest) =>
-        replaceInUrl(MAIN_API.MESSAGE_DELETED_EVENT, ['chatId', chatId]),
+    return httpRequestFactory<AxiosResponse<IMessage>, number>(
+      (chatId: number) => replaceInUrl(MAIN_API.GET_CHAT_LATEST_MESSAGE, ['chatId', chatId]),
       HttpRequestMethod.Get,
     );
   }

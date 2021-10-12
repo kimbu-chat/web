@@ -88,6 +88,10 @@ export class ChangeScreenShareStatus {
       if (isScreenSharingOpened) {
         yield call(getUserDisplay);
 
+        if (!tracks.screenSharingTrack) {
+          return;
+        }
+
         stopVideoTracks();
         yield put(CloseVideoStatus.action());
 

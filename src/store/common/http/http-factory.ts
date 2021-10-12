@@ -1,21 +1,20 @@
 import axios, { AxiosError, CancelTokenSource } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, cancelled, put, select, take } from 'redux-saga/effects';
-import { RootState } from 'typesafe-actions';
 
 import { RefreshToken } from '@store/auth/features/refresh-token/refresh-token';
 import { securityTokensSelector } from '@store/auth/selectors';
 import { httpRequest } from '@store/common/http/http-request';
-import { REQUEST_TIMEOUT } from '@utils/constants';
 import { emitToast } from '@utils/emit-toast';
 
 import { isNetworkError } from '../../../utils/error-utils';
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
 
+import { checkTokensSaga } from './check-tokens';
 import { HttpRequestMethod } from './http-request-method';
 
 import type { IRequestGenerator, UrlGenerator, HttpHeaders } from './types';
-import type { ISecurityTokens } from '@store/auth/common/models/security-tokens';
+import type { ISecurityTokens } from 'kimbu-models';
 
 function* getAuthHeader(): SagaIterator {
   const securityTokens: ISecurityTokens = yield select(securityTokensSelector);
@@ -30,39 +29,27 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
   method: HttpRequestMethod,
   headers?: HttpHeaders,
 ): IRequestGenerator<TResponse, TBody> => {
-  function* generator(body?: TBody): SagaIterator {
+  function* generator(
+    body?: TBody,
+    assignCancelToken?: (token: CancelTokenSource) => void,
+  ): SagaIterator {
     let cancelTokenSource: CancelTokenSource | null = null;
 
     try {
-      const refreshTokenRequestLoading = yield select(
-        (rootState: RootState) => rootState.auth?.refreshTokenRequestLoading,
-      );
-
-      if (refreshTokenRequestLoading) {
-        yield take(RefreshTokenSuccess.action);
-      }
-
       let finalUrl = url as string;
 
       if (body && typeof url === 'function') {
         finalUrl = (url as UrlGenerator<TBody>)(body);
       }
 
-      const securityTokens: ISecurityTokens = yield select(securityTokensSelector);
-      const { accessTokenExpirationTime } = securityTokens;
-
-      if (!accessTokenExpirationTime) {
-        throw new Error(`accessTokenExpirationTime is undefined`);
-      }
-
-      if (accessTokenExpirationTime.getTime() < new Date().getTime() - REQUEST_TIMEOUT) {
-        yield put(RefreshToken.action());
-        yield take(RefreshTokenSuccess.action);
-      }
+      yield call(checkTokensSaga);
 
       try {
         const authHeader = yield call(getAuthHeader);
         cancelTokenSource = axios.CancelToken.source();
+        if (assignCancelToken) {
+          assignCancelToken(cancelTokenSource);
+        }
         return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, {
           ...headers,
           ...authHeader,
@@ -77,6 +64,9 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
           yield take(RefreshTokenSuccess.action);
 
           cancelTokenSource = axios.CancelToken.source();
+          if (assignCancelToken) {
+            assignCancelToken(cancelTokenSource);
+          }
           const authHeader = yield call(getAuthHeader);
           return yield call(httpRequest, finalUrl, method, body, cancelTokenSource.token, {
             ...headers,

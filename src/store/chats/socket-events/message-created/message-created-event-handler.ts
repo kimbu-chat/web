@@ -1,14 +1,21 @@
 import { AxiosResponse } from 'axios';
+import {
+  ILinkedMessage,
+  IUser,
+  IChat,
+  IMessage,
+  SystemMessageType,
+  MessageLinkType,
+  IMarkChatAsReadRequest,
+} from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { select, put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { IMarkMessagesAsReadApiRequest } from '@store/chats/features/mark-messages-as-read/api-requests/mark-messages-as-read-api-request';
 import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
-import { ById } from '@store/chats/models/by-id';
-import { ILinkedMessage, INormalizedLinkedMessage } from '@store/chats/models/linked-message';
+import { INormalizedLinkedMessage, INormalizedChat } from '@store/chats/models';
 import {
   chatNormalizationSchema,
   linkedMessageNormalizationSchema,
@@ -16,7 +23,6 @@ import {
 import { modelChatList } from '@store/chats/utils/model-chat-list';
 import { setUnreadMessageId } from '@store/chats/utils/unread-message';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { IUser } from '@store/common/models';
 import { areNotificationsEnabledSelector } from '@store/settings/selectors';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { playSoundSafely } from '@utils/current-music';
@@ -32,8 +38,6 @@ import messageCameUnselected from '../../../../assets/sounds/notifications/messs
 import { tabActiveSelector, myIdSelector } from '../../../my-profile/selectors';
 import { ChangeSelectedChat } from '../../features/change-selected-chat/change-selected-chat';
 import { UnshiftChat } from '../../features/unshift-chat/unshift-chat';
-import { IChat, INormalizedChat, IMessage, SystemMessageType } from '../../models';
-import { MessageLinkType } from '../../models/linked-message-type';
 import {
   getSelectedChatIdSelector,
   getChatByIdSelector,
@@ -41,7 +45,6 @@ import {
   getMessageSelector,
 } from '../../selectors';
 
-import { IGetMessageByIdApiRequest } from './api-requests/get-message-by-id-api-request';
 import { MessageCreatedEventHandlerSuccess } from './message-created-event-handler-success';
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 
@@ -72,7 +75,7 @@ export class MessageCreatedEventHandler {
         return;
       }
 
-      const myId: number = yield select(myIdSelector);
+      const myId = yield select(myIdSelector);
 
       if (systemMessageType === SystemMessageType.GroupChatMemberRemoved) {
         const systemMessage =
@@ -94,9 +97,7 @@ export class MessageCreatedEventHandler {
 
       if (linkedMessageId && !linkedMessage) {
         const { data }: AxiosResponse<IMessage> = MessageCreatedEventHandler.httpRequest.call(
-          yield call(() =>
-            MessageCreatedEventHandler.httpRequest.generator({ messageId: linkedMessageId }),
-          ),
+          yield call(() => MessageCreatedEventHandler.httpRequest.generator(linkedMessageId)),
         );
 
         if (data) {
@@ -104,7 +105,10 @@ export class MessageCreatedEventHandler {
             entities: { linkedMessages, users },
           } = normalize<
             ILinkedMessage[],
-            { linkedMessages: ById<INormalizedLinkedMessage>; users: ById<IUser> },
+            {
+              linkedMessages: Record<number, INormalizedLinkedMessage>;
+              users: Record<number, IUser>;
+            },
             number[]
           >(data, linkedMessageNormalizationSchema);
           const normalizedLinkedMessage = linkedMessages[data.id];
@@ -121,18 +125,19 @@ export class MessageCreatedEventHandler {
 
       if (!chatOfMessage) {
         const { data } = ChangeSelectedChat.httpRequest.call(
-          yield call(() => ChangeSelectedChat.httpRequest.generator({ chatId })),
+          yield call(() => ChangeSelectedChat.httpRequest.generator(chatId)),
         );
 
         if (data) {
           const {
             entities: { chats, users },
-          } = normalize<IChat[], { chats?: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
-            data,
-            chatNormalizationSchema,
-          );
+          } = normalize<
+            IChat[],
+            { chats?: Record<number, INormalizedChat>; users: Record<number, IUser> },
+            number[]
+          >(data, chatNormalizationSchema);
 
-          const modeledChat = modelChatList(chats)[data.id];
+          const modeledChat = modelChatList(chats)[data.id as number];
 
           if (modeledChat) {
             yield put(UnshiftChat.action({ chat: modeledChat, addToList: true }));
@@ -167,7 +172,7 @@ export class MessageCreatedEventHandler {
       if (selectedChatId === chatId) {
         if (myId !== userCreator?.id) {
           if (isTabActive) {
-            const httpRequestPayload: IMarkMessagesAsReadApiRequest = {
+            const httpRequestPayload: IMarkChatAsReadRequest = {
               chatId: selectedChatId,
               lastReadMessageId: id,
             };
@@ -182,9 +187,8 @@ export class MessageCreatedEventHandler {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IMessage>, IGetMessageByIdApiRequest>(
-      ({ messageId }: IGetMessageByIdApiRequest) =>
-        replaceInUrl(MAIN_API.MESSAGE_CREATED_EVENT, ['messageId', messageId]),
+    return httpRequestFactory<AxiosResponse<IMessage>, number>(
+      (messageId: number) => replaceInUrl(MAIN_API.GET_MESSAGE_BY_ID, ['messageId', messageId]),
       HttpRequestMethod.Get,
     );
   }

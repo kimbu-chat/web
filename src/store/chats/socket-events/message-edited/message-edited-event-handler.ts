@@ -1,9 +1,9 @@
 import produce from 'immer';
+import { IAttachmentBase } from 'kimbu-models';
 import xorBy from 'lodash/xorBy';
 import { createAction } from 'typesafe-actions';
 
 import { IChatsState } from '../../chats-state';
-import { IBaseAttachment } from '../../models';
 import { getChatByIdDraftSelector } from '../../selectors';
 
 import { IMessageEditedIntegrationEvent } from './message-edited-integration-event';
@@ -20,7 +20,7 @@ export class MessageEditedEventHandler {
 
         // messages update
 
-        const attachments: IBaseAttachment[] = JSON.parse(payload.attachments);
+        const attachments: IAttachmentBase[] = JSON.parse(payload.attachments);
         const chat = getChatByIdDraftSelector(chatId, draft);
         const message = draft.chats[chatId]?.messages.messages[messageId];
         const shouldApplyAttachments =

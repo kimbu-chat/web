@@ -49,7 +49,7 @@ export const InterlocutorInfo = () => {
               type="button"
               onClick={displayEditGroupChat}
               className={`${BLOCK_NAME}__rename-btn`}>
-              <EditSvg viewBox="0 0 16 16" />
+              <EditSvg />
             </button>
           )}
         </div>
@@ -58,7 +58,8 @@ export const InterlocutorInfo = () => {
           <div className={`${BLOCK_NAME}__info-block`}>
             <PhoneSvg className={`${BLOCK_NAME}__info-svg`} />
             <div className={`${BLOCK_NAME}__data-value`}>
-              {parsePhoneNumber(interlocutor?.phoneNumber).formatInternational()}
+              {interlocutor?.phoneNumber &&
+                parsePhoneNumber(interlocutor?.phoneNumber).formatInternational()}
             </div>
           </div>
         )}

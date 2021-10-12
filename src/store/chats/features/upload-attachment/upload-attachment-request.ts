@@ -1,27 +1,30 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import {
+  IAttachmentBase,
+  AttachmentType,
+  ICreateAudioAttachmentCommandResult,
+  ICreateRawAttachmentCommandResult,
+  ICreateVoiceAttachmentCommandResult,
+  ICreatePictureAttachmentCommandResult,
+  ICreateVideoAttachmentCommandResult,
+} from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select, apply } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { FILES_API } from '@common/paths';
+import { INamedAttachment } from '@store/chats/models/named-attachment';
 import { httpFilesRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAX_FILE_SIZE_MB } from '@utils/constants';
 import { emitToast } from '@utils/emit-toast';
 
 import { IChatsState } from '../../chats-state';
 import { IAttachmentToSend } from '../../models/attachment-to-send';
-import { IBaseAttachment } from '../../models/attachments';
-import { FileType } from '../../models/file-type';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
 import { addUploadingAttachment, removeUploadingAttachment } from '../../upload-qeue';
 
 import { IUploadAttachmentRequestActionPayload } from './action-payloads/upload-attachment-request-action-payload';
-import { IUploadAudioApiResponse } from './api-requests/upload-audio-api-response';
-import { IUploadFileApiResponse } from './api-requests/upload-file-api-response';
-import { IUploadPictureApiResponse } from './api-requests/upload-picture-api-response';
-import { IUploadVideoApiResponse } from './api-requests/upload-video-api-response';
-import { IUploadVoiceApiResponse } from './api-requests/upload-voice-api-response';
 import { UploadAttachmentFailure } from './upload-attachment-failure';
 import { UploadAttachmentProgress } from './upload-attachment-progress';
 import { UploadAttachmentSuccess } from './upload-attachment-success';
@@ -36,7 +39,11 @@ export class UploadAttachmentRequest {
   static get reducer() {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentRequest.action>) => {
-        const { type, attachmentId, file, waveFormJson } = payload;
+        const { type, attachmentId, file, waveFormJson, noStateChange } = payload;
+
+        if (noStateChange) {
+          return draft;
+        }
 
         if (file.size / 1048576 > MAX_FILE_SIZE_MB) {
           return draft;
@@ -50,11 +57,11 @@ export class UploadAttachmentRequest {
               chat.attachmentsToSend = [];
             }
 
-            const attachmentToAdd: IAttachmentToSend<IBaseAttachment> = {
+            const attachmentToAdd: IAttachmentToSend<INamedAttachment> = {
               attachment: {
                 id: attachmentId,
                 byteSize: file.size,
-                creationDateTime: new Date(),
+                creationDateTime: new Date().toISOString(),
                 url: '',
                 type,
                 fileName: file.name,
@@ -87,23 +94,23 @@ export class UploadAttachmentRequest {
       }
 
       switch (type) {
-        case FileType.Audio:
+        case AttachmentType.Audio:
           uploadRequest = UploadAttachmentRequest.httpRequest.uploadAudioAttachment;
 
           break;
-        case FileType.Raw:
+        case AttachmentType.Raw:
           uploadRequest = UploadAttachmentRequest.httpRequest.uploadFileAttachment;
 
           break;
-        case FileType.Picture:
+        case AttachmentType.Picture:
           uploadRequest = UploadAttachmentRequest.httpRequest.uploadPictureAttachment;
 
           break;
-        case FileType.Voice:
+        case AttachmentType.Voice:
           uploadRequest = UploadAttachmentRequest.httpRequest.uploadVoiceAttachment;
 
           break;
-        case FileType.Video:
+        case AttachmentType.Video:
           uploadRequest = UploadAttachmentRequest.httpRequest.uploadVideoAttachment;
 
           break;
@@ -133,13 +140,13 @@ export class UploadAttachmentRequest {
               UploadAttachmentProgress.action({ chatId, attachmentId, progress, uploadedBytes }),
             );
           },
-          *onSuccess(payload: AxiosResponse<IBaseAttachment>): SagaIterator {
+          *onSuccess(payload: AxiosResponse<IAttachmentBase>): SagaIterator {
             removeUploadingAttachment(attachmentId);
             yield put(
               UploadAttachmentSuccess.action({
                 chatId,
                 attachmentId,
-                attachment: { ...payload.data, waveFormJson } as IBaseAttachment,
+                attachment: { ...payload.data, waveFormJson } as IAttachmentBase,
               }),
             );
           },
@@ -155,23 +162,23 @@ export class UploadAttachmentRequest {
   static get httpRequest() {
     return {
       uploadAudioAttachment: httpFilesRequestFactory<
-        AxiosResponse<IUploadAudioApiResponse>,
+        AxiosResponse<ICreateAudioAttachmentCommandResult>,
         FormData
       >(FILES_API.UPLOAD_AUDIO_ATTACHMENTS, HttpRequestMethod.Post),
       uploadPictureAttachment: httpFilesRequestFactory<
-        AxiosResponse<IUploadPictureApiResponse>,
+        AxiosResponse<ICreatePictureAttachmentCommandResult>,
         FormData
       >(FILES_API.UPLOAD_PICTURE_ATTACHMENTS, HttpRequestMethod.Post),
       uploadFileAttachment: httpFilesRequestFactory<
-        AxiosResponse<IUploadFileApiResponse>,
+        AxiosResponse<ICreateRawAttachmentCommandResult>,
         FormData
       >(FILES_API.UPLOAD_RAW_ATTACHMENTS, HttpRequestMethod.Post),
       uploadVideoAttachment: httpFilesRequestFactory<
-        AxiosResponse<IUploadVideoApiResponse>,
+        AxiosResponse<ICreateVideoAttachmentCommandResult>,
         FormData
       >(FILES_API.UPLOAD_VIDEO_ATTACHMENTS, HttpRequestMethod.Post),
       uploadVoiceAttachment: httpFilesRequestFactory<
-        AxiosResponse<IUploadVoiceApiResponse>,
+        AxiosResponse<ICreateVoiceAttachmentCommandResult>,
         FormData
       >(FILES_API.UPLOAD_VOICE_ATTACHMENTS, HttpRequestMethod.Post),
     };

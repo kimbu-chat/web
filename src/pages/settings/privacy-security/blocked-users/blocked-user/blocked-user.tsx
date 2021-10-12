@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from 'react';
 
+import { IUser } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 
 import { Avatar } from '@components/avatar';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { Button } from '@shared-components/button';
-import { IUser } from '@store/common/models';
 import { unblockUserAction } from '@store/settings/actions';
 
 import './blocked-user.scss';

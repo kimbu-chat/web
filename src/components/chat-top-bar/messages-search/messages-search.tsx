@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useLayoutEffect } from 'react';
+import React, { useCallback, useState, useLayoutEffect } from 'react';
 
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
@@ -10,11 +10,7 @@ import { useAnimation } from '@hooks/use-animation';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { ReactComponent as SearchSvg } from '@icons/search.svg';
 import { getMessagesAction } from '@store/chats/actions';
-import {
-  getSelectedChatIdSelector,
-  getSelectedChatMessagesSearchStringSelector,
-} from '@store/chats/selectors';
-import { MESSAGES_LIMIT } from '@utils/pagination-limits';
+import { getSelectedChatMessagesSearchStringSelector } from '@store/chats/selectors';
 
 import './messages-search.scss';
 
@@ -22,7 +18,6 @@ const BLOCK_NAME = 'messages-search';
 
 const MessagesSearch = () => {
   const messagesSearchString = useSelector(getSelectedChatMessagesSearchStringSelector);
-  const selectedChatId = useSelector(getSelectedChatIdSelector);
 
   const getMessages = useActionWithDispatch(getMessagesAction);
 
@@ -32,39 +27,23 @@ const MessagesSearch = () => {
   }, [setIsSearching]);
 
   const closeSearchingState = useCallback(() => {
-    setIsSearching(false);
-    const pageData = {
-      limit: MESSAGES_LIMIT,
-      offset: 0,
-    };
-
-    getMessages({
-      page: pageData,
-      isFromScroll: false,
-    });
-  }, [setIsSearching, getMessages]);
+    if (isSearching) {
+      setIsSearching(false);
+      getMessages({
+        isFromScroll: false,
+      });
+    }
+  }, [isSearching, getMessages]);
 
   const resetSearch = useCallback(() => {
-    const pageData = {
-      limit: MESSAGES_LIMIT,
-      offset: 0,
-    };
-
     getMessages({
-      page: pageData,
       isFromScroll: false,
     });
   }, [getMessages]);
 
   const searchMessages = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const pageData = {
-        limit: MESSAGES_LIMIT,
-        offset: 0,
-      };
-
       getMessages({
-        page: pageData,
         isFromScroll: false,
         searchString: e.target.value,
       });
@@ -76,10 +55,6 @@ const MessagesSearch = () => {
     `${BLOCK_NAME}__search-box`,
     closeSearchingState,
   );
-
-  useEffect(() => {
-    animatedClose();
-  }, [animatedClose, selectedChatId]);
 
   const [animatedSearchOpened, setAnimatedSearchOpened] = useState(false);
 
@@ -121,13 +96,13 @@ const MessagesSearch = () => {
               <button
                 type="button"
                 className="className='messages-search__pointer-arrow messages-search__pointer-arrow--top">
-                <ArrowSvg viewBox="0 0 8 14" />
+                <ArrowSvg  />
               </button>
 
               <button
                 type="button"
                 className="className='messages-search__pointer-arrow messages-search__pointer-arrow--bottom">
-                <ArrowSvg viewBox="0 0 8 14" />
+                <ArrowSvg  />
               </button>
             </div>
           </div> */}

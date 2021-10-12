@@ -1,8 +1,11 @@
 import produce from 'immer';
+import { SystemMessageType } from 'kimbu-models';
 import { createReducer } from 'typesafe-actions';
 
 import { MyProfileService } from '@services/my-profile-service';
+import { MessageState, INormalizedChat } from '@store/chats/models';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
+import { UserContactAddedSuccessEventHandler } from '@store/friends/socket-events/user-contact-added/user-contact-added-success-event-handler';
 import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/user-contacts-removed/user-contacts-removed-event-handler';
 import { GetMyProfileSuccess } from '@store/my-profile/features/get-my-profile/get-my-profile-success';
 import { UserAddedToBlackListEventHandler } from '@store/settings/socket-events/user-added-to-black-list/user-added-to-black-list-event-handler';
@@ -68,7 +71,8 @@ import { UploadAttachmentFailure } from './features/upload-attachment/upload-att
 import { UploadAttachmentProgress } from './features/upload-attachment/upload-attachment-progress';
 import { UploadAttachmentRequest } from './features/upload-attachment/upload-attachment-request';
 import { UploadAttachmentSuccess } from './features/upload-attachment/upload-attachment-success';
-import { SystemMessageType, MessageState, INormalizedChat } from './models';
+import { UploadVoiceAttachmentSuccess } from './features/upload-voice-attachment/upload-voice-attachment-success';
+import { UploadVoiceAttachment } from './features/upload-voice-attachment/upload-voice-attachment';
 import { getChatByIdDraftSelector } from './selectors';
 import { ChatClearedEventHandler } from './socket-events/chat-cleared/chat-cleared-event-handler';
 import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';
@@ -95,7 +99,7 @@ const initialState: IChatsState = {
     chatIds: [],
     page: 0,
   },
-  selectedChatId: null,
+  selectedChatId: undefined,
   selectedMessageIds: [],
   chatInfo: { isInfoOpened: false },
 };
@@ -155,11 +159,13 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(DialogRemovedEventHandler.action, DialogRemovedEventHandler.reducer)
   .handleAction(ResetSearchChats.action, ResetSearchChats.reducer)
   .handleAction(RemoveChat.action, RemoveChat.reducer)
+  .handleAction(UploadVoiceAttachment.action, UploadVoiceAttachment.reducer)
+  .handleAction(UploadVoiceAttachmentSuccess.action, UploadVoiceAttachmentSuccess.reducer)
   .handleAction(
     BlockUserSuccess.action,
     produce((draft, { payload }: ReturnType<typeof BlockUserSuccess.action>) => {
       const userId = payload;
-      const chatId: number = ChatId.from(userId).id;
+      const chatId = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);
 
       if (!chat) {
@@ -175,7 +181,7 @@ const reducer = createReducer<IChatsState>(initialState)
     UnblockUserSuccess.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof UnblockUserSuccess.action>) => {
       const userId = payload;
-      const chatId: number = ChatId.from(userId).id;
+      const chatId = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);
 
       if (!chat) {
@@ -220,13 +226,13 @@ const reducer = createReducer<IChatsState>(initialState)
         const myId = new MyProfileService().myProfile.id;
 
         if (myId === unblockedUserId) {
-          const chatId: number = ChatId.from(userInitiatorId).id;
+          const chatId = ChatId.from(userInitiatorId).id;
           const chat = getChatByIdDraftSelector(chatId, draft);
           if (chat) {
             chat.isBlockedByInterlocutor = false;
           }
         } else {
-          const chatId: number = ChatId.from(unblockedUserId).id;
+          const chatId = ChatId.from(unblockedUserId).id;
           const chat = getChatByIdDraftSelector(chatId, draft);
           if (chat) {
             chat.isBlockedByUser = false;
@@ -241,7 +247,7 @@ const reducer = createReducer<IChatsState>(initialState)
     produce((draft: IChatsState, { payload }: ReturnType<typeof DeleteFriendSuccess.action>) => {
       const userId = payload;
 
-      const chatId: number = ChatId.from(userId).id;
+      const chatId = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);
 
       if (chat) {
@@ -258,10 +264,10 @@ const reducer = createReducer<IChatsState>(initialState)
         draft: IChatsState,
         { payload }: ReturnType<typeof UserContactsRemovedEventHandler.action>,
       ) => {
-        const { removedUserIds } = payload;
+        const { userIds } = payload;
 
-        removedUserIds.forEach((userId) => {
-          const chatId: number = ChatId.from(userId).id;
+        userIds.forEach((userId) => {
+          const chatId = ChatId.from(userId).id;
           const chat = getChatByIdDraftSelector(chatId, draft);
 
           if (chat) {
@@ -274,10 +280,30 @@ const reducer = createReducer<IChatsState>(initialState)
     ),
   )
   .handleAction(
+    UserContactAddedSuccessEventHandler.action,
+    produce(
+      (
+        draft: IChatsState,
+        { payload }: ReturnType<typeof UserContactAddedSuccessEventHandler.action>,
+      ) => {
+        const { userId } = payload;
+
+        const chatId = ChatId.from(userId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
+
+        if (chat) {
+          chat.isInContacts = true;
+        }
+
+        return draft;
+      },
+    ),
+  )
+  .handleAction(
     AddFriendSuccess.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
       const userId = payload;
-      const chatId: number = ChatId.from(userId).id;
+      const chatId = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);
 
       if (!chat) {

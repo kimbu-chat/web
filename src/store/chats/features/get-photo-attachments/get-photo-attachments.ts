@@ -1,24 +1,23 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IGetPictureAttachmentsRequest, IPictureAttachment } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
+import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { PHOTO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IChatsState } from '../../chats-state';
-import { IPictureAttachment } from '../../models';
-import { getInfoChatIdSelector } from '../../selectors';
+import { getInfoChatIdSelector, getSelectedChatPhotosLengthSelector } from '../../selectors';
 
-import { IGetPhotoAttachmentsActionPayload } from './action-payloads/get-photo-attachments-action-payload';
-import { IGetPhotoAttachmentsApiRequest } from './api-requests/get-photo-attachments-api-request';
 import { GetPhotoAttachmentsSuccess } from './get-photo-attachments-success';
 
 export class GetPhotoAttachments {
   static get action() {
-    return createAction('GET_PHOTO_ATTACHMENTS')<IGetPhotoAttachmentsActionPayload>();
+    return createEmptyAction('GET_PHOTO_ATTACHMENTS');
   }
 
   static get reducer() {
@@ -35,17 +34,20 @@ export class GetPhotoAttachments {
   }
 
   static get saga() {
-    return function* getPhotoAttachments(
-      action: ReturnType<typeof GetPhotoAttachments.action>,
-    ): SagaIterator {
-      const { page } = action.payload;
+    return function* getPhotoAttachments(): SagaIterator {
       const chatId = yield select(getInfoChatIdSelector);
+      const photoOffset = yield select(getSelectedChatPhotosLengthSelector);
 
       const { data, status } = GetPhotoAttachments.httpRequest.call(
-        yield call(() => GetPhotoAttachments.httpRequest.generator({ page, chatId })),
+        yield call(() =>
+          GetPhotoAttachments.httpRequest.generator({
+            page: { offset: photoOffset, limit: PHOTO_ATTACHMENTS_LIMIT },
+            chatId,
+          }),
+        ),
       );
 
-      const hasMore = data.length >= page.limit;
+      const hasMore = data.length >= PHOTO_ATTACHMENTS_LIMIT;
 
       if (status === HTTPStatusCode.OK) {
         yield put(GetPhotoAttachmentsSuccess.action({ photos: data, hasMore, chatId }));
@@ -54,7 +56,7 @@ export class GetPhotoAttachments {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IPictureAttachment[]>, IGetPhotoAttachmentsApiRequest>(
+    return httpRequestFactory<AxiosResponse<IPictureAttachment[]>, IGetPictureAttachmentsRequest>(
       MAIN_API.GET_PHOTO_ATTACHMENTS,
       HttpRequestMethod.Post,
     );

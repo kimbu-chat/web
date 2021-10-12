@@ -2,13 +2,13 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ReactComponent as DownloadSvg } from '@icons/download.svg';
 import { ReactComponent as ProgressSVG } from '@icons/ic-progress.svg';
-import { IBaseAttachment } from '@store/chats/models';
+import { INamedAttachment } from '@store/chats/models/named-attachment';
 import { fileDownload } from '@utils/file-download';
 import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';
 
 import './file-attachment.scss';
 
-const FileAttachment: React.FC<IBaseAttachment> = ({ ...attachment }) => {
+const FileAttachment: React.FC<INamedAttachment> = ({ ...attachment }) => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloaded, setDownloaded] = useState(0);
 
@@ -24,15 +24,17 @@ const FileAttachment: React.FC<IBaseAttachment> = ({ ...attachment }) => {
   }, [downloaded, progressSvgRef, attachment?.byteSize]);
 
   const download = useCallback(() => {
-    abortDownloadingRef.current = fileDownload(
-      attachment.url,
-      attachment.fileName,
-      setDownloaded,
-      () => {
-        setDownloaded(0);
-        setIsDownloading(false);
-      },
-    );
+    if (attachment.url) {
+      abortDownloadingRef.current = fileDownload(
+        attachment.url,
+        attachment.fileName || '',
+        setDownloaded,
+        () => {
+          setDownloaded(0);
+          setIsDownloading(false);
+        },
+      );
+    }
     setIsDownloading(true);
   }, [attachment.url, attachment.fileName]);
 
@@ -48,15 +50,11 @@ const FileAttachment: React.FC<IBaseAttachment> = ({ ...attachment }) => {
     <div className="file-attachment">
       {isDownloading ? (
         <div onClick={abortDownloading} className="file-attachment__cancel">
-          <ProgressSVG
-            ref={progressSvgRef}
-            viewBox="0 0 25 25"
-            className="file-attachment__progress-svg"
-          />
+          <ProgressSVG ref={progressSvgRef} className="file-attachment__progress-svg" />
         </div>
       ) : (
         <div onClick={download} className="file-attachment__download">
-          <DownloadSvg viewBox="0 0 22 24" />
+          <DownloadSvg />
         </div>
       )}
       <div className="file-attachment__data">

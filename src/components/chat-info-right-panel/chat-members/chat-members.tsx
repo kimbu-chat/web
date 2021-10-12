@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 
 import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -13,8 +13,7 @@ import {
   getMembersListForSelectedGroupChatSelector,
   getSelectedGroupChatCreatorIdSelector,
 } from '@store/chats/selectors';
-import { IPage } from '@store/common/models';
-import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
+import { myIdSelector } from '@store/my-profile/selectors';
 
 import { Member } from './chat-member/chat-member';
 
@@ -25,6 +24,8 @@ const BLOCK_NAME = 'chat-members';
 export const ChatMembers: React.FC = () => {
   const [searchStr, setSearchStr] = useState<string>('');
   const [membersDisplayed, setMembersDisplayed] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const myId = useSelector(myIdSelector);
 
   const { t } = useTranslation();
 
@@ -32,25 +33,19 @@ export const ChatMembers: React.FC = () => {
 
   const membersListForGroupChat = useSelector(getMembersListForSelectedGroupChatSelector);
   const userCreatorId = useSelector(getSelectedGroupChatCreatorIdSelector);
+  const isCurrentUserGroupChatOwner = userCreatorId === myId;
 
   const loadMore = useCallback(() => {
-    const page: IPage = {
-      offset: membersListForGroupChat?.memberIds?.length || 0,
-      limit: CHAT_MEMBERS_LIMIT,
-    };
-
     getGroupChatUsers({
-      page,
       name: searchStr,
       isFromSearch: searchStr.length > 0,
     });
-  }, [getGroupChatUsers, membersListForGroupChat?.memberIds?.length, searchStr]);
+  }, [getGroupChatUsers, searchStr]);
 
   const search = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchStr(e.target.value);
       getGroupChatUsers({
-        page: { offset: 0, limit: CHAT_MEMBERS_LIMIT },
         name: e.target.value,
         isFromSearch: true,
       });
@@ -64,18 +59,19 @@ export const ChatMembers: React.FC = () => {
   );
 
   return (
-    <div className={BLOCK_NAME}>
-      <div className={`${BLOCK_NAME}__heading-block`}>
+    <div className={BLOCK_NAME} ref={containerRef}>
+      <button
+        onClick={changeMembersDisplayedState}
+        type="button"
+        className={`${BLOCK_NAME}__heading-block`}>
         <h3 className={`${BLOCK_NAME}__heading`}>{t('chatMembers.title')}</h3>
-        <button
-          type="button"
-          onClick={changeMembersDisplayedState}
+        <div
           className={classnames(`${BLOCK_NAME}__open-arrow`, {
             [`${BLOCK_NAME}__open-arrow--rotated`]: membersDisplayed,
           })}>
           <OpenArrowSvg />
-        </button>
-      </div>
+        </div>
+      </button>
 
       {membersDisplayed && (
         <>
@@ -84,13 +80,14 @@ export const ChatMembers: React.FC = () => {
           </div>
 
           <InfiniteScroll
+            containerRef={containerRef}
             className={`${BLOCK_NAME}__members-list`}
             onReachBottom={loadMore}
             hasMore={membersListForGroupChat?.hasMore}
             isLoading={membersListForGroupChat?.loading}
             threshold={0.3}>
             {membersListForGroupChat?.memberIds?.map((memberId) => (
-              <Member isOwner={userCreatorId === memberId} memberId={memberId} key={memberId} />
+              <Member isOwner={isCurrentUserGroupChatOwner} memberId={memberId} key={memberId} />
             ))}
           </InfiniteScroll>
         </>

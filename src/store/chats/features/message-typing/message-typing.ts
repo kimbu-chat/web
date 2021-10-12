@@ -1,10 +1,11 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { INotifyAboutUserMessageTypingRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
-import { NOTIFICATIONS_API } from '@common/paths';
+import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { myFullNameSelector } from '../../../my-profile/selectors';
@@ -12,7 +13,6 @@ import { IChatsState } from '../../chats-state';
 import { getSelectedChatIdSelector, getChatByIdDraftSelector } from '../../selectors';
 
 import { IMessageTypingActionPayload } from './action-payloads/message-typing-action-payload';
-import { IMessageTypingApiRequest } from './api-requests/message-typing-api-request';
 
 export class MessageTyping {
   static get action() {
@@ -43,8 +43,8 @@ export class MessageTyping {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IMessageTypingApiRequest>(
-      NOTIFICATIONS_API.MESSAGE_TYPING,
+    return httpRequestFactory<AxiosResponse, INotifyAboutUserMessageTypingRequest>(
+      MAIN_API.MESSAGE_TYPING,
       HttpRequestMethod.Post,
     );
   }

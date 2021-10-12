@@ -1,13 +1,13 @@
-import React, { useCallback, useState, useMemo, useEffect } from 'react';
+import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react';
 
 import { useSelector } from 'react-redux';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
+import { CenteredLoader, LoaderSize } from '@components/loader';
 import { SearchBox } from '@components/search-box';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getCallsAction, resetSearchCallsAction } from '@store/calls/actions';
 import { getCallsListSelector, getSearchCallsListSelector } from '@store/calls/selectors';
-import { CALL_LIMIT } from '@utils/pagination-limits';
 
 import { CallItem } from './call-item/call-item';
 
@@ -18,18 +18,15 @@ const BLOCK_NAME = 'call-list';
 export const CallList = () => {
   const callsList = useSelector(getCallsListSelector);
   const searchCallsList = useSelector(getSearchCallsListSelector);
-
   const getCalls = useActionWithDispatch(getCallsAction);
   const resetSearchCalls = useActionWithDispatch(resetSearchCallsAction);
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const [searchString, setSearchString] = useState('');
   const changeSearchString = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       getCalls({
-        page: {
-          offset: 0,
-          limit: CALL_LIMIT,
-        },
         initializedByScroll: false,
         name: e.target.value,
       });
@@ -40,14 +37,10 @@ export const CallList = () => {
 
   const loadMore = useCallback(() => {
     getCalls({
-      page: {
-        offset: searchString.length ? searchCallsList.callIds.length : callsList.callIds.length,
-        limit: CALL_LIMIT,
-      },
       initializedByScroll: true,
       name: searchString,
     });
-  }, [callsList.callIds.length, getCalls, searchString, searchCallsList.callIds.length]);
+  }, [getCalls, searchString]);
 
   const renderCall = useCallback((callId: number) => <CallItem key={callId} callId={callId} />, []);
 
@@ -75,13 +68,18 @@ export const CallList = () => {
           onChange={changeSearchString}
         />
       </div>
-      <div className={BLOCK_NAME}>
-        <InfiniteScroll
-          onReachBottom={loadMore}
-          hasMore={searchString.length ? searchCallsList.hasMore : callsList.hasMore}
-          isLoading={searchString.length ? searchCallsList.loading : callsList.loading}>
-          {renderedCalls}
-        </InfiniteScroll>
+      <div className={BLOCK_NAME} ref={containerRef}>
+        {(searchCallsList.loading || callsList.loading) && !renderedCalls.length ? (
+          <CenteredLoader size={LoaderSize.LARGE} />
+        ) : (
+          <InfiniteScroll
+            containerRef={containerRef}
+            onReachBottom={loadMore}
+            hasMore={searchString.length ? searchCallsList.hasMore : callsList.hasMore}
+            isLoading={searchString.length ? searchCallsList.loading : callsList.loading}>
+            {renderedCalls}
+          </InfiniteScroll>
+        )}
       </div>
     </div>
   );

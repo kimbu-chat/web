@@ -1,19 +1,20 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IUser, IMessage, IGetMessagesRequest } from 'kimbu-models';
+import { size } from 'lodash';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { ById } from '@store/chats/models/by-id';
+import { MessageState } from '@store/chats/models';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 
-import { IUser } from '../../../common/models/user';
 import { IChatsState } from '../../chats-state';
-import { IMessage, MessageState } from '../../models';
-import { INormalizedMessage } from '../../models/message';
+import { INormalizedMessage } from '../../models/normalized-message';
 import { messageArrNormalizationSchema } from '../../normalization';
 import {
   getIsFirstChatsLoadSelector,
@@ -23,7 +24,6 @@ import {
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
 
 import { IGetMessagesActionPayload } from './action-payloads/get-messages-action-payload';
-import { IGetMessagesApiRequest } from './api-requests/get-messages-api-request';
 import { GetMessagesFailure } from './get-messages-failure';
 import { GetMessagesSuccess } from './get-messages-success';
 
@@ -35,7 +35,17 @@ export class GetMessages {
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetMessages.action>) => {
       if (draft.selectedChatId) {
-        const selectedChatMessages = draft.chats[draft.selectedChatId]?.messages;
+        const chat = draft.chats[draft.selectedChatId];
+
+        if (!chat) {
+          return draft;
+        }
+
+        const selectedChatMessages = chat.messages;
+
+        if (payload.isFromScroll && !chat.messages.hasMore) {
+          return draft;
+        }
 
         if (selectedChatMessages) {
           selectedChatMessages.loading = true;
@@ -49,7 +59,7 @@ export class GetMessages {
 
   static get saga() {
     return function* getMessages(action: ReturnType<typeof GetMessages.action>): SagaIterator {
-      const { page, isFromScroll } = action.payload;
+      const { isFromScroll } = action.payload;
 
       const isFirstChatsLoad = yield select(getIsFirstChatsLoadSelector);
 
@@ -59,11 +69,22 @@ export class GetMessages {
 
       const chat = yield select(getSelectedChatSelector);
 
+      if (!chat) {
+        return;
+      }
+
+      if (isFromScroll && !chat.messages.hasMore) {
+        return;
+      }
+
       const searchString = yield select(getSelectedChatMessagesSearchStringSelector);
 
       if (chat) {
-        const request: IGetMessagesApiRequest = {
-          page,
+        const request: IGetMessagesRequest = {
+          page: {
+            limit: MESSAGES_LIMIT,
+            offset: isFromScroll ? size(chat.messages.messageIds) : 0,
+          },
           chatId: chat.id,
           searchString,
         };
@@ -76,8 +97,7 @@ export class GetMessages {
           const newMessages = data.map((message) => ({
             ...message,
             state:
-              chat.interlocutorIdLastReadMessageId &&
-              chat.interlocutorIdLastReadMessageId >= message.id
+              chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= message.id
                 ? MessageState.READ
                 : MessageState.SENT,
           }));
@@ -87,7 +107,7 @@ export class GetMessages {
             result,
           } = normalize<
             IMessage[],
-            { messages: ById<INormalizedMessage>; users: ById<IUser> },
+            { messages: Record<number, INormalizedMessage>; users: Record<number, IUser> },
             number[]
           >(newMessages, messageArrNormalizationSchema);
 
@@ -95,7 +115,7 @@ export class GetMessages {
             chatId: chat.id,
             messages: messages || {},
             messageIds: result,
-            hasMoreMessages: newMessages.length >= page.limit,
+            hasMoreMessages: newMessages.length >= MESSAGES_LIMIT,
             searchString,
             isFromScroll,
           };
@@ -110,7 +130,7 @@ export class GetMessages {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IMessage[]>, IGetMessagesApiRequest>(
+    return httpRequestFactory<AxiosResponse<IMessage[]>, IGetMessagesRequest>(
       MAIN_API.GET_MESSAGES,
       HttpRequestMethod.Post,
     );

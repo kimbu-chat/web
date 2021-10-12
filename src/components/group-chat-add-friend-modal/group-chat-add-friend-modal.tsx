@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
-import { Modal } from '@components/modal';
+import { Modal, IModalChildrenProps } from '@components/modal';
 import { SearchBox } from '@components/search-box';
 import { SelectEntity } from '@components/select-entity';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -13,10 +13,8 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { Button } from '@shared-components/button';
 import { addUsersToGroupChatAction } from '@store/chats/actions';
-import { IPage } from '@store/common/models';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
-import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 
 import './group-chat-add-friend-modal.scss';
 
@@ -26,8 +24,12 @@ interface IGroupChatAddFriendModalProps {
 
 const BLOCK_NAME = 'group-chat-add-friend-modal';
 
-const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({ onClose }) => {
+const InitialGroupChatAddFriendModal: React.FC<
+  IGroupChatAddFriendModalProps & IModalChildrenProps
+> = ({ animatedClose }) => {
   const { t } = useTranslation();
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
@@ -75,24 +77,19 @@ const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({ onCl
         userIds: selectedUserIds,
       }).then(() => {
         setLoading(false);
-        onClose();
+        animatedClose();
       });
     }
-  }, [addUsersToGroupChat, selectedUserIds, onClose]);
+  }, [addUsersToGroupChat, selectedUserIds, animatedClose]);
 
   const loadMore = useCallback(() => {
-    const page: IPage = {
-      offset: name.length ? searchFriendIds?.length || 0 : friendIds.length,
-      limit: FRIENDS_LIMIT,
-    };
-    loadFriends({ page, name, initializedByScroll: true });
-  }, [searchFriendIds?.length, friendIds?.length, loadFriends, name]);
+    loadFriends({ name, initializedByScroll: true });
+  }, [loadFriends, name]);
 
   const queryFriends = useCallback(
     (searchName: string) => {
       setName(searchName);
       loadFriends({
-        page: { offset: 0, limit: FRIENDS_LIMIT },
         name: searchName,
         initializedByScroll: false,
       });
@@ -132,49 +129,59 @@ const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({ onCl
   }, [name.length, searchFriendIds, friendIds, renderSelectEntity]);
 
   return (
-    <Modal closeModal={onClose}>
-      <>
-        <Modal.Header>
-          <>
-            <GroupSvg viewBox="0 0 24 24" className={`${BLOCK_NAME}__icon`} />
-            <span>{t('groupChatAddFriendModal.add_members')}</span>
-          </>
-        </Modal.Header>
-        <div className={`${BLOCK_NAME}__select-friends`}>
-          <SearchBox
-            containerClassName={`${BLOCK_NAME}__select-friends__search`}
-            onChange={handleSearchInputChange}
-          />
-          <InfiniteScroll
-            className={`${BLOCK_NAME}__friends-block`}
-            onReachBottom={loadMore}
-            hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
-            isLoading={name.length ? searchFriendsLoading : friendsLoading}>
-            {selectEntities}
-          </InfiniteScroll>
+    <div ref={containerRef}>
+      <Modal.Header>
+        <>
+          <GroupSvg className={`${BLOCK_NAME}__icon`} />
+          <span>{t('groupChatAddFriendModal.add_members')}</span>
+        </>
+      </Modal.Header>
+      <div className={`${BLOCK_NAME}__select-friends`}>
+        <SearchBox
+          containerClassName={`${BLOCK_NAME}__select-friends__search`}
+          onChange={handleSearchInputChange}
+        />
+        <InfiniteScroll
+          containerRef={containerRef}
+          className={`${BLOCK_NAME}__friends-block`}
+          onReachBottom={loadMore}
+          hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
+          isLoading={name.length ? searchFriendsLoading : friendsLoading}>
+          {selectEntities}
+        </InfiniteScroll>
 
-          <div className={`${BLOCK_NAME}__btn-block`}>
-            <button
-              disabled={selectedUserIds.length === 0}
-              type="button"
-              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}
-              onClick={onClose}>
-              {t('groupChatAddFriendModal.cancel')}
-            </button>
-            <Button
-              disabled={selectedUserIds.length === 0}
-              loading={loading}
-              type="button"
-              onClick={addUsers}
-              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}>
-              {t('groupChatAddFriendModal.add_members')}
-            </Button>
-          </div>
+        <div className={`${BLOCK_NAME}__btn-block`}>
+          <button
+            type="button"
+            className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}
+            onClick={animatedClose}>
+            {t('groupChatAddFriendModal.cancel')}
+          </button>
+          <Button
+            disabled={selectedUserIds.length === 0}
+            loading={loading}
+            type="button"
+            onClick={addUsers}
+            className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}>
+            {t('groupChatAddFriendModal.add_members')}
+          </Button>
         </div>
-      </>
-    </Modal>
+      </div>
+    </div>
   );
 };
+
+const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({
+  onClose,
+  ...props
+}) => (
+  <Modal closeModal={onClose}>
+    {(animatedClose: () => void) => (
+      <InitialGroupChatAddFriendModal {...props} onClose={onClose} animatedClose={animatedClose} />
+    )}
+  </Modal>
+);
+
 GroupChatAddFriendModal.displayName = 'GroupChatAddFriendModal';
 
 export { GroupChatAddFriendModal };

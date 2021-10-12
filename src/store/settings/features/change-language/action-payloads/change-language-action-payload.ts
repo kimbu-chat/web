@@ -1,4 +1,4 @@
-import { Langs } from '@store/settings/features/models';
+import { Langs } from '../../models';
 
 export interface IChangeLanguageActionPayload {
   language: Langs;

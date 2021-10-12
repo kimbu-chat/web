@@ -1,23 +1,23 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IUser, ICall, IGetCallsRequest, IPaginationParams } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { ById } from '@store/chats/models/by-id';
+import { INormalizedCall } from '@store/calls/common/models';
+import { getCallsListSelector, getSearchCallsListSelector } from '@store/calls/selectors';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { IUser } from '@store/common/models';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
+import { CALL_LIMIT } from '../../../../utils/pagination-limits';
 import { ICallsState } from '../../calls-state';
-import { ICall, INormalizedCall } from '../../common/models';
 import { callArrNormalizationSchema } from '../../normalization';
 
 import { IGetCallsActionPayload } from './action-payloads/get-calls-action-payload';
-import { IGetCallsApiRequest } from './api-requests/get-calls-api-requests';
 import { GetCallsSuccess } from './get-calls-success';
 
 export class GetCalls {
@@ -45,16 +45,25 @@ export class GetCalls {
 
   static get saga() {
     return function* getCalls(action: ReturnType<typeof GetCalls.action>): SagaIterator {
-      const { page, name, initializedByScroll } = action.payload;
+      const { name, initializedByScroll } = action.payload;
 
       if (!name?.length && !initializedByScroll) {
         return;
       }
+      const callList = yield select(getCallsListSelector);
+      const searchCallList = yield select(getSearchCallsListSelector);
+
+      const page: IPaginationParams = {
+        offset: action.payload.name?.length
+          ? searchCallList.callIds.length
+          : callList.callIds.length,
+        limit: CALL_LIMIT,
+      };
+
+      const request: IGetCallsRequest = { name, page };
 
       const { httpRequest } = GetCalls;
-      const { data, status } = httpRequest.call(
-        yield call(() => httpRequest.generator(action.payload)),
-      );
+      const { data, status } = httpRequest.call(yield call(() => httpRequest.generator(request)));
 
       const hasMore = data.length >= page.limit;
 
@@ -62,10 +71,11 @@ export class GetCalls {
         const {
           entities: { calls, users },
           result,
-        } = normalize<ICall[], { calls: ById<INormalizedCall>; users: ById<IUser> }, number[]>(
-          data,
-          callArrNormalizationSchema,
-        );
+        } = normalize<
+          ICall[],
+          { calls: Record<number, INormalizedCall>; users: Record<number, IUser> },
+          number[]
+        >(data, callArrNormalizationSchema);
 
         yield put(
           GetCallsSuccess.action({ callIds: result, calls, hasMore, name, initializedByScroll }),
@@ -77,7 +87,7 @@ export class GetCalls {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<ICall[]>, IGetCallsApiRequest>(
+    return httpRequestFactory<AxiosResponse<ICall[]>, IGetCallsRequest>(
       MAIN_API.GET_CALLS,
       HttpRequestMethod.Post,
     );

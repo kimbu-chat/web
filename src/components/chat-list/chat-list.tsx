@@ -1,10 +1,11 @@
-import React, { useEffect, useCallback, useState, useMemo } from 'react';
+import React, { useEffect, useCallback, useState, useMemo, useRef } from 'react';
 
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { CreateGroupChat } from '@components/create-group-chat-modal';
+import { CreateGroupChatModal } from '@components/create-group-chat-modal';
 import { InfiniteScroll } from '@components/infinite-scroll';
+import { CenteredLoader, LoaderSize } from '@components/loader';
 import { NewMessageModal } from '@components/new-message-modal';
 import { SearchBox } from '@components/search-box';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -27,6 +28,8 @@ const ChatList = React.memo(() => {
   const chatsList = useSelector(getChatsListSelector);
   const searchChatsList = useSelector(getSearchChatsListSelector);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const getChatsRequest = useActionWithDispatch(getChatsAction);
   const changeSelectedChat = useActionWithDispatch(changeSelectedChatAction);
   const resetSearchChats = useActionWithDispatch(resetSearchChatsAction);
@@ -42,8 +45,7 @@ const ChatList = React.memo(() => {
 
   useEffect(() => {
     if (selectedChatId) {
-      const newChatId = Number(selectedChatId);
-      changeSelectedChat({ newChatId });
+      changeSelectedChat({ newChatId: +selectedChatId });
     }
   }, [changeSelectedChat, selectedChatId]);
 
@@ -72,15 +74,13 @@ const ChatList = React.memo(() => {
   );
 
   const loadMore = useCallback(() => {
-    if (!(searchString.length ? searchChatsList.loading : chatsList.loading)) {
-      getChatsRequest({
-        initializedByScroll: true,
-        name: searchString,
-        showOnlyHidden: false,
-        showAll: true,
-      });
-    }
-  }, [getChatsRequest, searchString, searchChatsList.loading, chatsList.loading]);
+    getChatsRequest({
+      initializedByScroll: true,
+      name: searchString,
+      showOnlyHidden: false,
+      showAll: true,
+    });
+  }, [getChatsRequest, searchString]);
 
   const renderChats = useCallback(
     (chatId: number) => <ChatFromList chatId={chatId} key={chatId} />,
@@ -111,13 +111,18 @@ const ChatList = React.memo(() => {
             <CreateChatSvg />
           </button>
         </div>
-        <div className={BLOCK_NAME}>
-          <InfiniteScroll
-            onReachBottom={loadMore}
-            hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}
-            isLoading={searchString.length ? searchChatsList.loading : chatsList.loading}>
-            {renderedChats}
-          </InfiniteScroll>
+        <div className={BLOCK_NAME} ref={containerRef}>
+          {searchChatsList.loading || (chatsList.loading && !chatsList.chatIds.length) ? (
+            <CenteredLoader size={LoaderSize.LARGE} />
+          ) : (
+            <InfiniteScroll
+              containerRef={containerRef}
+              onReachBottom={loadMore}
+              hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}
+              isLoading={searchString.length ? searchChatsList.loading : chatsList.loading}>
+              {renderedChats}
+            </InfiniteScroll>
+          )}
         </div>
       </div>
       {newChatDisplayed && (
@@ -128,7 +133,7 @@ const ChatList = React.memo(() => {
       )}
 
       {createGroupChatDisplayed && (
-        <CreateGroupChat
+        <CreateGroupChatModal
           animationMode={AnimationMode.CLOSE}
           onClose={changeCreateGroupChatDisplayedState}
         />

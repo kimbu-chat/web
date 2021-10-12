@@ -49,6 +49,7 @@ export function applyTheme(theme?: Theme) {
 
     '--dt-dark-transparent-white-wt-kingBlueLight-transparenter': 'rgba(214, 233, 255, 0.5)',
     '--dt-dark-wt-kingBlueLight-transparenter': 'rgba(214, 233, 255, 0.5)',
+    '--dt-dark-wt-kingBlueLight-hover': '#c0d1e5',
 
     '--dt-transparent-white-wt-kingBlueLight': 'rgba(63, 138, 224, 0.55)',
 
@@ -62,6 +63,13 @@ export function applyTheme(theme?: Theme) {
     '--box-shadow-1': 'rgba(69, 107, 140, 0.5)',
     '--box-shadow-2': 'rgba(180, 180, 180, 0.7)',
     '--box-shadow-3': 'rgba(69, 107, 140, 0.5)',
+    '--box-shadow-5': 'rgba(14, 22, 43, 0.62)',
+    '--box-shadow-6': 'rgba(50, 57, 74, 0.72)',
+    '--box-shadow-7': 'rgba(0, 0, 0, 0.06)',
+    '--box-shadow-8': 'rgba(0, 0, 0, 0.04)',
+    '--box-shadow-9': 'rgba(0, 0, 0, 0.08)',
+
+    '--dt-transparent-wt-black': '#000',
 
     '--input-empty': 'rgba(63, 138, 224, 0.12)',
     '--input-hover': '#E8F1FB',
@@ -95,6 +103,7 @@ export function applyTheme(theme?: Theme) {
     '--dt-dark-wt-whiter': '#262c38',
     '--dt-dark-wt-kingBlue-lighter': '#262c38',
     '--dt-dark-wt-kingBlueLight-transparenter': '#262c38',
+    '--dt-dark-wt-kingBlueLight-hover': '#222732',
     '--dt-dark-transparent-wt-kingBlueLight-transparent': 'rgba(38, 44, 56, 0.5)',
     '--dt-dark-transparent-wt-kingBlueLight': 'rgba(38, 44, 56, 0.5)',
     '--dt-gray-transparent-wt-kingBlueLight': 'rgba(55, 63, 81, 0.5)',
@@ -140,10 +149,17 @@ export function applyTheme(theme?: Theme) {
     '--dt-transparent-white-wt-kingBlueLight': 'rgba(214, 233, 255, 0.5)',
     '--dt-whiter-wt-bright-blue': 'rgba(255, 255, 255, 0.14)',
 
-    '--box-shadow-1': 'rgba(14, 22, 43, 0.88)',
-    '--box-shadow-2': 'rgba(14, 22, 43, 0.88)',
-    '--box-shadow-3': 'rgba(14, 22, 43, 0.62)',
-    '--box-shadow-4': 'rgba(14, 22, 43, 0.62)',
+    '--box-shadow-1': 'none',
+    '--box-shadow-2': 'none',
+    '--box-shadow-3': 'none',
+    '--box-shadow-4': 'none',
+    '--box-shadow-5': 'none',
+    '--box-shadow-6': 'none',
+    '--box-shadow-7': 'none',
+    '--box-shadow-8': 'none',
+    '--box-shadow-9': 'none',
+
+    '--dt-transparent-wt-black': 'transparent',
 
     '--dt-white-wt-dark': '#ffffff',
     '--dt-whiter-wt-dark-kingBlue-transparentest': 'rgba(255, 255, 255, 0.04)',

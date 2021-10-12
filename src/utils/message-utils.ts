@@ -1,15 +1,13 @@
 import { TFunction } from 'i18next';
+import { SystemMessageType, IMessage, CallStatus } from 'kimbu-models';
 
+import { INormalizedMessage } from '@store/chats/models';
 import { IMessageCreatedIntegrationEvent } from '@store/chats/socket-events/message-created/message-created-integration-event';
-
-import { SystemMessageType } from '../store/chats/models';
-import { INormalizedMessage, IMessage } from '../store/chats/models/message';
-import { CallStatus } from '../store/common/models/call-status';
 
 import { SECOND_DURATION } from './constants';
 import { getHourMinuteSecond, getShortTimeAmPm } from './date-utils';
 
-import type { IUser } from '../store/common/models';
+import type { IUser } from 'kimbu-models';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ISystemMessageBase {}
@@ -25,7 +23,7 @@ interface IGroupChatNameChangedSystemMessageContent extends ISystemMessageBase {
 }
 
 interface IGroupChatMemberAddedSystemMessageContent extends ISystemMessageBase {
-  addedUserId: number;
+  addeduserId: number;
   addedUserName: string;
   groupChatName: string;
   groupChatMembersNumber: number;
@@ -41,7 +39,7 @@ export interface ICallMessage {
 
 export const getSystemMessageData = <TSystemMessagePayload>(
   message: INormalizedMessage | IMessage | IMessageCreatedIntegrationEvent,
-): TSystemMessagePayload => JSON.parse(message.text);
+): TSystemMessagePayload => (message.text ? JSON.parse(message.text) : {});
 
 const getCallEndedMessage = (
   message: INormalizedMessage,

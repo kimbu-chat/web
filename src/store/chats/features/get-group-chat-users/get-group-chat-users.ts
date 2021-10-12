@@ -1,23 +1,25 @@
 import { AxiosResponse } from 'axios';
 import { produce } from 'immer';
+import { IGetGroupChatMembersRequest, IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { ById } from '@store/chats/models/by-id';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { userArrNormalizationSchema } from '@store/friends/normalization';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 
-import { IUser } from '../../../common/models';
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
-import { getInfoChatIdSelector } from '../../selectors';
+import {
+  getInfoChatIdSelector,
+  getMembersCountForSelectedGroupChatSelector,
+} from '../../selectors';
 
 import { IGetGroupChatUsersActionPayload } from './action-payloads/get-group-chat-users-action-payload';
-import { IGetGroupChatUsersApiRequest } from './api-requests/get-group-chat-users-api-request';
 import { GetGroupChatUsersSuccess } from './get-group-chat-users-success';
 
 export class GetGroupChatUsers {
@@ -41,27 +43,38 @@ export class GetGroupChatUsers {
     return function* getGroupChatUsersSaga(
       action: ReturnType<typeof GetGroupChatUsers.action>,
     ): SagaIterator {
-      const { isFromSearch, page, name } = action.payload;
+      const { isFromSearch, name } = action.payload;
 
       const chatId = yield select(getInfoChatIdSelector);
       const { groupChatId } = ChatId.fromId(chatId);
 
       if (groupChatId) {
+        const membersOffset = yield select(getMembersCountForSelectedGroupChatSelector);
+
+        const request: IGetGroupChatMembersRequest = {
+          name,
+          groupChatId,
+          page: { limit: CHAT_MEMBERS_LIMIT, offset: membersOffset },
+        };
+
         const { data } = GetGroupChatUsers.httpRequest.call(
-          yield call(() => GetGroupChatUsers.httpRequest.generator({ name, page, groupChatId })),
+          yield call(() => GetGroupChatUsers.httpRequest.generator(request)),
         );
 
         const {
           entities: { users },
           result,
-        } = normalize<IUser[], { users: ById<IUser> }, number[]>(data, userArrNormalizationSchema);
+        } = normalize<IUser[], { users: Record<number, IUser> }, number[]>(
+          data,
+          userArrNormalizationSchema,
+        );
 
         yield put(
           GetGroupChatUsersSuccess.action({
             userIds: result,
             chatId,
             isFromSearch,
-            hasMore: data.length >= page.limit,
+            hasMore: data.length >= CHAT_MEMBERS_LIMIT,
           }),
         );
 
@@ -71,7 +84,7 @@ export class GetGroupChatUsers {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IUser[]>, IGetGroupChatUsersApiRequest>(
+    return httpRequestFactory<AxiosResponse<IUser[]>, IGetGroupChatMembersRequest>(
       MAIN_API.GET_GROUP_CHAT_USERS,
       HttpRequestMethod.Post,
     );

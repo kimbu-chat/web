@@ -1,5 +1,4 @@
-import { ById } from './models/by-id';
-import { INormalizedChat } from './models/chat';
+import { INormalizedChat } from './models';
 
 interface IChatList {
   loading?: boolean;
@@ -9,12 +8,12 @@ interface IChatList {
 }
 
 export interface IChatsState {
-  chats: ById<INormalizedChat>;
+  chats: Record<number, INormalizedChat>;
 
   chatList: IChatList;
   searchChatList: IChatList;
 
-  selectedChatId: number | null;
+  selectedChatId?: number;
   selectedMessageIds: number[];
 
   chatInfo: {

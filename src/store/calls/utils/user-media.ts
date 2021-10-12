@@ -189,10 +189,6 @@ export function* getUserDisplay() {
     yield put(OpenScreenShareStatus.action());
   } catch {
     yield put(CloseScreenShareStatus.action());
-
-    if (videoSender) {
-      videoSender.replaceTrack(null);
-    }
   }
 
   stopScreenSharingTracks();

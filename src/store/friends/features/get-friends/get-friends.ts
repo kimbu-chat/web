@@ -1,21 +1,24 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IGetContactsRequest, IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { ById } from '@store/chats/models/by-id';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { userArrNormalizationSchema } from '@store/friends/normalization';
+import {
+  getLoadedFriendsCountSelector,
+  getLoadedSearchFriendsCountSelector,
+} from '@store/friends/selectors';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
-import { IUser } from '../../../common/models';
+import { FRIENDS_LIMIT } from '../../../../utils/pagination-limits';
 import { IFriendsState } from '../../friends-state';
 
 import { IGetFriendsActionPayload } from './action-payloads/get-friends-action-payload';
-import { IGetFriendsApiRequest } from './api-requests/get-friends-api-request';
 import { GetFriendsSuccess } from './get-friends-success';
 
 export class GetFriends {
@@ -43,21 +46,35 @@ export class GetFriends {
 
   static get saga() {
     return function* getFriends(action: ReturnType<typeof GetFriends.action>): SagaIterator {
-      const { name, initializedByScroll, page } = action.payload;
+      const { name, initializedByScroll } = action.payload;
 
       if (!name?.length && !initializedByScroll) {
         return;
       }
 
-      const request = GetFriends.httpRequest;
-      const { data } = request.call(yield call(() => request.generator(action.payload)));
+      const loadedFriendsCount = yield select(getLoadedFriendsCountSelector);
+      const loadedSearchFriendsCount = yield select(getLoadedSearchFriendsCountSelector);
 
-      const hasMore = data.length >= page.limit;
+      const request: IGetContactsRequest = {
+        name: action.payload.name,
+        page: {
+          limit: FRIENDS_LIMIT,
+          offset: action.payload.name?.length ? loadedSearchFriendsCount : loadedFriendsCount,
+        },
+      };
+
+      const { httpRequest } = GetFriends;
+      const { data } = httpRequest.call(yield call(() => httpRequest.generator(request)));
+
+      const hasMore = data.length >= FRIENDS_LIMIT;
 
       const {
         entities: { users },
         result,
-      } = normalize<IUser[], { users: ById<IUser> }, number[]>(data, userArrNormalizationSchema);
+      } = normalize<IUser[], { users: Record<number, IUser> }, number[]>(
+        data,
+        userArrNormalizationSchema,
+      );
 
       yield put(
         GetFriendsSuccess.action({
@@ -73,7 +90,7 @@ export class GetFriends {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IUser[]>, IGetFriendsApiRequest>(
+    return httpRequestFactory<AxiosResponse<IUser[]>, IGetContactsRequest>(
       MAIN_API.GET_CONTACTS,
       HttpRequestMethod.Post,
     );

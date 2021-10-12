@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
-import dayjs from 'dayjs';
+import { CallStatus } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -11,11 +11,14 @@ import { ReactComponent as IncomingCallSvg } from '@icons/incoming-call.svg';
 import { ReactComponent as MissedCallSvg } from '@icons/missed-call.svg';
 import { ReactComponent as OutgoingCallSvg } from '@icons/outgoing-call.svg';
 import { getCallSelector } from '@store/calls/selectors';
-import { CallStatus } from '@store/common/models/call-status';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
-import { FULL_DATE_TIME } from '@utils/constants';
-import { getHourMinuteSecond } from '@utils/date-utils';
+import {
+  checkIfDatesAreDifferentDate,
+  getHourMinuteSecond,
+  getShortTimeAmPm,
+  getDayMonthYear,
+} from '@utils/date-utils';
 import { getUserName } from '@utils/user-utils';
 
 import './call-item.scss';
@@ -36,11 +39,6 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
 
   const isOutgoing = myId === call?.userCallerId;
   const missedByMe = !isOutgoing && call?.status === CallStatus.NotAnswered;
-
-  const getCallCreationDateTime = useCallback(
-    (creationDateTime: string) => dayjs.utc(creationDateTime).local().format(FULL_DATE_TIME),
-    [],
-  );
 
   return (
     <div className={BLOCK_NAME}>
@@ -78,23 +76,21 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
       </div>
       <div className={`${BLOCK_NAME}__aside-data`}>
         <div className={`${BLOCK_NAME}__date`}>
-          {getCallCreationDateTime(call?.creationDateTime)}
+          {checkIfDatesAreDifferentDate(new Date(call?.creationDateTime), new Date())
+            ? getDayMonthYear(call?.creationDateTime)
+            : getShortTimeAmPm(call?.creationDateTime).toLowerCase()}
         </div>
         <div
           className={classnames(`${BLOCK_NAME}__type-icon`, {
             [`${BLOCK_NAME}__type-icon--missed`]: missedByMe,
           })}>
           {call?.status === CallStatus.Ended &&
-            (isOutgoing ? (
-              <OutgoingCallSvg viewBox="0 0 11 12" />
-            ) : (
-              <IncomingCallSvg viewBox="0 0 12 12" />
-            ))}
+            (isOutgoing ? <OutgoingCallSvg /> : <IncomingCallSvg />)}
           {(call?.status === CallStatus.Declined || call?.status === CallStatus.Cancelled) && (
-            <DeclinedCallSvg viewBox="0 0 13 14" />
+            <DeclinedCallSvg />
           )}
           {(call?.status === CallStatus.NotAnswered || call?.status === CallStatus.Interrupted) && (
-            <MissedCallSvg viewBox="0 0 12 12" />
+            <MissedCallSvg />
           )}
         </div>
       </div>

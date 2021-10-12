@@ -1,7 +1,5 @@
 import React, { useCallback, useRef, useState, lazy, Suspense } from 'react';
 
-import 'emoji-mart/css/emoji-mart.css';
-
 import './message-smiles.scss';
 import { CubeLoader } from '@components/cube-loader';
 import { ReactComponent as SmilesSvg } from '@icons/smiles.svg';

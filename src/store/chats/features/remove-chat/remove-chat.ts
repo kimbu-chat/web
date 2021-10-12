@@ -14,7 +14,7 @@ import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
 
 import { IRemoveChatActionPayload } from './action-payloads/remove-chat-action-payload';
-import { IRemoveChatApiRequest } from './api-requests/remove-chat-api-request';
+import { IRemoveChatRequest } from './api-requests/remove-chat-api-request';
 import { RemoveChatSuccess } from './remove-chat-success';
 
 export class RemoveChat {
@@ -53,8 +53,8 @@ export class RemoveChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IRemoveChatApiRequest>(
-      ({ userId, forEveryone }: IRemoveChatApiRequest) =>
+    return httpRequestFactory<AxiosResponse, IRemoveChatRequest>(
+      ({ userId, forEveryone }: IRemoveChatRequest) =>
         replaceInUrl(MAIN_API.REMOVE_CHAT, ['userId', userId], ['forEveryone', forEveryone]),
       HttpRequestMethod.Delete,
     );

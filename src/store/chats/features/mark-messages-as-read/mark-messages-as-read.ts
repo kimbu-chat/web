@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { IMarkChatAsReadRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
@@ -8,7 +9,6 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { getSelectedChatSelector } from '../../selectors';
 
-import { IMarkMessagesAsReadApiRequest } from './api-requests/mark-messages-as-read-api-request';
 import { MarkMessagesAsReadSuccess } from './mark-messages-as-read-success';
 
 export class MarkMessagesAsRead {
@@ -31,7 +31,7 @@ export class MarkMessagesAsRead {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IMarkMessagesAsReadApiRequest>(
+    return httpRequestFactory<AxiosResponse, IMarkChatAsReadRequest>(
       MAIN_API.MARK_AS_READ,
       HttpRequestMethod.Post,
     );

@@ -12,7 +12,9 @@ updates:
     labels:
       - 'dependencies'
     schedule:
-      interval: 'daily'
+      interval: 'weekly'
+      day: 'sunday'
+
     commit-message:
       # Prefix all commit messages with "chore: Packages updated"
       prefix: 'chore: Updated'
@@ -25,4 +27,5 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'daily'
+      interval: 'weekly'
+      day: 'sunday'

@@ -1,20 +1,19 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { IUser, IChat } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { ById } from '@store/chats/models/by-id';
+import { INormalizedChat } from '@store/chats/models';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { replaceInUrl } from '@utils/replace-in-url';
 
 import { MESSAGES_LIMIT } from '../../../../utils/pagination-limits';
-import { IUser } from '../../../common/models';
 import { IChatsState } from '../../chats-state';
-import { IChat, INormalizedChat } from '../../models';
 import { chatNormalizationSchema } from '../../normalization';
 import {
   getChatByIdSelector,
@@ -26,7 +25,6 @@ import { GetChatsSuccess } from '../get-chats/get-chats-success';
 import { UnshiftChat } from '../unshift-chat/unshift-chat';
 
 import { IChangeSelectedChatActionPayload } from './action-payloads/change-selected-chat-action-payload';
-import { IGetChatByIdApiRequest } from './api-requests/get-chat-by-id-api-request';
 
 export class ChangeSelectedChat {
   static get action() {
@@ -53,6 +51,7 @@ export class ChangeSelectedChat {
               oldChatMessages.searchString = '';
               oldChatMessages.messages = {};
               oldChatMessages.messageIds = [];
+              oldChatMessages.hasMore = true;
             } else if (chat && (oldChatMessages?.messageIds.length || 0) > MESSAGES_LIMIT) {
               const messageIdsToDelete = oldChatMessages.messageIds.slice(
                 30,
@@ -71,7 +70,7 @@ export class ChangeSelectedChat {
 
         draft.selectedChatId = newChatId;
 
-        // We have to check if chat exists in ById<IChat> reducer then we will not request it from server
+        // We have to check if chat exists in Record<number, IChat> reducer then we will not request it from server
         if (newChatId) {
           if (
             !draft.chatList.chatIds.includes(newChatId) &&
@@ -96,6 +95,10 @@ export class ChangeSelectedChat {
       if (action.payload.newChatId !== null && !Number.isNaN(action.payload.newChatId)) {
         const isFirstChatsLoad = yield select(getIsFirstChatsLoadSelector);
 
+        if (!action.payload.newChatId) {
+          return;
+        }
+
         if (isFirstChatsLoad) {
           yield take(GetChatsSuccess.action);
         }
@@ -104,21 +107,18 @@ export class ChangeSelectedChat {
         const chatExists = chat !== undefined && !chat.isGeneratedLocally;
         if (!chatExists) {
           const { data } = ChangeSelectedChat.httpRequest.call(
-            yield call(() =>
-              ChangeSelectedChat.httpRequest.generator({
-                chatId: action.payload.newChatId as number,
-              }),
-            ),
+            yield call(() => ChangeSelectedChat.httpRequest.generator(action.payload.newChatId)),
           );
 
           const {
             entities: { chats, users },
-          } = normalize<IChat[], { chats?: ById<INormalizedChat>; users: ById<IUser> }, number[]>(
-            data,
-            chatNormalizationSchema,
-          );
+          } = normalize<
+            IChat[],
+            { chats?: Record<number, INormalizedChat>; users: Record<number, IUser> },
+            number[]
+          >(data, chatNormalizationSchema);
 
-          const modeledChat = modelChatList(chats)[data.id];
+          const modeledChat = modelChatList(chats)[data.id as number];
 
           yield put(UnshiftChat.action({ chat: modeledChat as INormalizedChat, addToList: true }));
           yield put(AddOrUpdateUsers.action({ users }));
@@ -128,8 +128,8 @@ export class ChangeSelectedChat {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IChat>, IGetChatByIdApiRequest>(
-      ({ chatId }: IGetChatByIdApiRequest) => replaceInUrl(MAIN_API.GET_CHAT, ['chatId', chatId]),
+    return httpRequestFactory<AxiosResponse<IChat>, number>(
+      (chatId: number) => replaceInUrl(MAIN_API.GET_CHAT, ['chatId', chatId]),
       HttpRequestMethod.Get,
     );
   }

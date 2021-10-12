@@ -41,7 +41,7 @@
     }
 
     &--incoming {
-      color: var(--dt-kingBlue-wt-grayLight);
+      --msg-bg: var(--dt-kingBlue-wt-grayLight);
 
       #{$this}__forward-indicator {
         color: var(--dt-white-wt-kingBlue);
@@ -49,7 +49,7 @@
     }
 
     &--outgoing {
-      color: var(--msg-bg-dt-gray-lt-kingBlueLight);
+      --msg-bg: var(--msg-bg-dt-gray-lt-kingBlueLight);
 
       #{$this}__forward-indicator {
         color: white;
@@ -58,7 +58,7 @@
   }
 
   &__content {
-    background-color: currentColor;
+    background-color: var(--msg-bg);
 
     border-radius: 0 6px 6px;
     line-break: anywhere;
@@ -85,7 +85,6 @@
     }
 
     & > * {
-      display: inline-flex;
       margin-bottom: 10px;
 
       &:first-child {
@@ -93,7 +92,7 @@
       }
 
       &:last-child {
-        margin-bottom: 15px;
+        margin-bottom: 0;
       }
     }
   }
@@ -140,27 +139,6 @@
     line-height: 14px;
     margin-left: 4px;
     white-space: nowrap;
-  }
-
-  &__separator {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 14px;
-    margin-top: 14px;
-    position: sticky;
-    top: 20px;
-    text-transform: capitalize;
-
-    span {
-      background-color: rgba(63, 138, 224, 0.25);
-      border-radius: 6px;
-      color: var(--dt-white-wt-dark);
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 300;
-      line-height: 14px;
-      padding: 4px 16px;
-    }
   }
 
   &__system-message {
@@ -219,6 +197,11 @@
     max-width: 70%;
     position: relative;
 
+    &--animated {
+      opacity: 0;
+      animation: message 0.15s ease-in 0s forwards;
+    }
+
     &--upcoming {
       margin-left: 82px;
     }
@@ -230,11 +213,32 @@
 
     & > .message__attachments {
       margin-bottom: 0;
-
-      .media-grid {
-        margin-bottom: 0;
-        margin-top: 0;
-      }
     }
+  }
+}
+
+@-webkit-keyframes message {
+  from {
+    transform-origin: center;
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    transform-origin: center;
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes message {
+  from {
+    transform-origin: center;
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    transform-origin: center;
+    opacity: 1;
+    transform: scale(1);
   }
 }

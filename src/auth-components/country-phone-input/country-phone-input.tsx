@@ -1,12 +1,11 @@
 import React, { useState, useCallback, useRef, useEffect, ChangeEvent } from 'react';
 
 import { AsYouType } from 'libphonenumber-js';
-import find from 'lodash/find';
 import { useTranslation } from 'react-i18next';
 
+import { useCountry } from '@hooks/use-country';
 import { ReactComponent as ArrowDown } from '@icons/arrow-down.svg';
 import { ReactComponent as SearchSvg } from '@icons/search.svg';
-import { getCountryByIp } from '@utils/get-country-by-ip';
 import { removeCountryCodeFromPhoneNumber } from '@utils/phone-number-utils';
 
 import type { ICountry } from '@common/country';
@@ -20,31 +19,26 @@ type CountryPhoneInputProps = {
   value: string;
 };
 
-type Selection = {
-  country?: string;
-  code?: string;
-};
-
-let loadedCountries: ICountry[] = [];
-
 export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, value }) => {
-  const [selection, setSelection] = useState<Selection>({ code: '+375', country: 'BY' });
-  const [countries, setCountries] = useState<ICountry[]>([]);
   const { t } = useTranslation();
+  const [countries, setCountries] = useState<ICountry[]>([]);
 
   const [open, setOpen] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const { countries: loadedCountries, country, setCountry } = useCountry();
+
   const onPhoneChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange(`${selection.code}${e.target.value}`);
+      onChange(`${country.number}${e.target.value}`);
     },
-    [onChange, selection.code],
+    [onChange, country.number],
   );
 
   useEffect(() => {
+    setCountries(loadedCountries);
     const handleClickOutside = (evt: MouseEvent) => {
       if (!ref.current?.contains(evt.target as Node)) {
         setOpen(false);
@@ -56,42 +50,38 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [ref]);
-
-  useEffect(() => {
-    const getCountries = async () => {
-      const res = await fetch('/countries.json');
-      loadedCountries = await res.json();
-      const countryCode = await getCountryByIp();
-      setCountries(loadedCountries);
-      const currentCountry = find(loadedCountries, { code: countryCode });
-      setSelection({ code: currentCountry?.number, country: currentCountry?.code });
-    };
-    getCountries();
-  }, []);
+  }, [loadedCountries, ref]);
 
   const toggle = useCallback(() => {
     setOpen((opened) => !opened);
   }, []);
 
-  const onSelect = useCallback((e: React.SyntheticEvent<HTMLLIElement>) => {
-    setSelection({
-      code: (e.target as HTMLLIElement).dataset.code,
-      country: (e.target as HTMLLIElement).dataset.country,
-    });
-    setOpen(false);
-    setCountries(loadedCountries);
-    inputRef.current?.focus();
-  }, []);
+  const onSelect = useCallback(
+    (e: React.SyntheticEvent<HTMLLIElement>) => {
+      const newCountry = loadedCountries.find(
+        (currentCountry) => currentCountry.code === (e.target as HTMLLIElement).dataset.code,
+      );
+      if (newCountry) {
+        setCountry(newCountry);
+        setOpen(false);
+        setCountries(loadedCountries);
+        inputRef.current?.focus();
+      }
+    },
+    [loadedCountries, setCountry],
+  );
 
-  const searchCountries = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const searchValue = e.target.value;
-    setCountries(
-      loadedCountries.filter((country) =>
-        country.title.toLowerCase().includes(searchValue.toLowerCase()),
-      ),
-    );
-  }, []);
+  const searchCountries = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const searchValue = e.target.value;
+      setCountries(
+        loadedCountries.filter((currentCountry) =>
+          currentCountry.title.toLowerCase().includes(searchValue.toLowerCase()),
+        ),
+      );
+    },
+    [loadedCountries],
+  );
 
   return (
     <div className={BLOCK_NAME} ref={ref}>
@@ -100,15 +90,15 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
           <img
             loading="lazy"
             className={`${BLOCK_NAME}__flag-icon`}
-            src={`/assets/flags/${selection.country}.svg`}
-            alt={selection.country}
+            src={`/assets/flags/${country.code}.svg`}
+            alt={country.code}
           />
-          <span className={`${BLOCK_NAME}__country-code`}>{selection.code}</span>
+          <span className={`${BLOCK_NAME}__country-code`}>{country.number}</span>
           <ArrowDown />
         </button>
         <span className={`${BLOCK_NAME}__separator`} />
         <input
-          autoComplete="off"
+          autoComplete="new-password"
           autoFocus
           className={`${BLOCK_NAME}__input`}
           placeholder={t('loginPage.mobile_phone')}
@@ -116,7 +106,7 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
           pattern="(\+?\d[- .]*){7,13}"
           ref={inputRef}
           onChange={onPhoneChange}
-          value={removeCountryCodeFromPhoneNumber(selection.code, new AsYouType().input(value))}
+          value={removeCountryCodeFromPhoneNumber(country.number, new AsYouType().input(value))}
         />
       </div>
       {open && (
@@ -132,8 +122,7 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
           <ul className={`${BLOCK_NAME}__list__countries`}>
             {countries.map((item) => (
               <li
-                data-code={item.number}
-                data-country={item.code}
+                data-code={item.code}
                 onClick={onSelect}
                 key={item.code}
                 className={`${BLOCK_NAME}__list-item`}>

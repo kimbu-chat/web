@@ -1,5 +1,5 @@
 export interface IGroupable {
-  creationDateTime: Date;
+  creationDateTime: string;
   needToShowDateSeparator?: boolean;
   needToShowMonthSeparator?: boolean;
   needToShowYearSeparator?: boolean;

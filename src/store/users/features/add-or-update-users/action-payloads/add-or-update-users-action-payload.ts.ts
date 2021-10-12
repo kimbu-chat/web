@@ -1,6 +1,5 @@
-import { ById } from '../../../../chats/models/by-id';
-import { IUser } from '../../../../common/models/user';
+import { IUser } from 'kimbu-models';
 
 export interface IAddOrUpdateUsersActionPayload {
-  users: ById<IUser>;
+  users: Record<number, IUser>;
 }

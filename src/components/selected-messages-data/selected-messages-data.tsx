@@ -41,7 +41,7 @@ export const SelectedMessagesData = () => {
   return (
     <div className={BLOCK_NAME}>
       <button type="button" onClick={displayForwardMessagesModal} className={`${BLOCK_NAME}__btn`}>
-        <ForwardSvg viewBox="0 0 16 16" />
+        <ForwardSvg />
         <span>{t('selectedMessagesData.forward', { count: selectedMessagesCount })}</span>
       </button>
 
@@ -53,7 +53,7 @@ export const SelectedMessagesData = () => {
           `${BLOCK_NAME}__btn`,
           `${BLOCK_NAME}__btn--delete`,
         )}>
-        <DeleteSvg viewBox="0 0 15 16" />
+        <DeleteSvg />
         <span>{t('selectedMessagesData.delete', { count: selectedMessagesCount })}</span>
       </button>
 

@@ -28,17 +28,14 @@ export const SearchBox: React.FC<ISearchBoxProps> = ({
   return (
     <div className={classnames(`${BLOCK_NAME}__input-wrapper`, containerClassName)}>
       <input
-        autoComplete="off"
+        autoComplete="new-password"
         onChange={onChange}
         placeholder={t('chatActions.search')}
         type="text"
         className={classnames(`${BLOCK_NAME}__input`, inputClassName)}
         {...props}
       />
-      <SearchSvg
-        viewBox="0 0 24 24"
-        className={classnames(`${BLOCK_NAME}__input__svg`, iconClassName)}
-      />
+      <SearchSvg className={classnames(`${BLOCK_NAME}__input__svg`, iconClassName)} />
     </div>
   );
 };

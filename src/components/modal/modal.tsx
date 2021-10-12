@@ -10,8 +10,12 @@ import { stopPropagation } from '@utils/stop-propagation';
 
 import './modal.scss';
 
+export type IModalChildrenProps = {
+  animatedClose: () => void;
+};
+
 interface IModalProps {
-  children: string | JSX.Element;
+  children: React.ReactNode;
   closeModal: () => void;
   unclickableBackground?: boolean;
   animationMode?: AnimationMode;
@@ -19,12 +23,12 @@ interface IModalProps {
 
 const BLOCK_NAME = 'modal';
 
-const MainModal = ({
+function MainModal({
   children,
   closeModal,
   unclickableBackground,
   animationMode = AnimationMode.ENABLED,
-}: IModalProps) => {
+}: IModalProps) {
   const { rootClass, closeInitiated, animatedClose } = useAnimation(BLOCK_NAME, closeModal);
 
   const onBackgroundClick = useCallback(() => {
@@ -41,16 +45,14 @@ const MainModal = ({
         className={classNames(rootClass, {
           [`${BLOCK_NAME}--no-animated-open`]: animationMode === AnimationMode.CLOSE,
         })}>
-        <CloseSVG
-          onClick={animatedClose}
-          viewBox="0 0 25 25"
-          className={`${BLOCK_NAME}__close-btn`}
-        />
-        <div className={`${BLOCK_NAME}__content`}>{children}</div>
+        <CloseSVG onClick={animatedClose} className={`${BLOCK_NAME}__close-btn`} />
+        <div className={`${BLOCK_NAME}__content`}>
+          {typeof children === 'function' ? children(animatedClose) : children}
+        </div>
       </div>
     </BackgroundBlur>
   );
-};
+}
 
 const Header: React.FC = ({ children }) => (
   <header className={`${BLOCK_NAME}__header`}>

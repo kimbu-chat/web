@@ -1,5 +1,6 @@
-import React, { useCallback, useState, useRef, lazy, Suspense } from 'react';
+import React, { useCallback, useState, useRef, lazy, Suspense, useEffect } from 'react';
 
+import { AttachmentType } from 'kimbu-models';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -15,7 +16,6 @@ import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
 import { ReactComponent as UserSvg } from '@icons/user.svg';
 import { loadPhotoEditor } from '@routing/module-loader';
 import { Button } from '@shared-components/button';
-import { FileType } from '@store/chats/models';
 import { IAvatarSelectedData } from '@store/common/models';
 import {
   uploadAvatarRequestAction,
@@ -44,6 +44,10 @@ enum NicknameState {
 const EditProfile = () => {
   const { t } = useTranslation();
   const myProfile = useSelector(myProfileSelector);
+
+  useEffect(() => {
+    loadPhotoEditor();
+  }, []);
 
   const uploadAvatar = useActionWithDeferred(uploadAvatarRequestAction);
   const updateMyProfile = useActionWithDeferred(updateMyProfileAction);
@@ -143,7 +147,7 @@ const EditProfile = () => {
         setError(NicknameState.ALLOWED_NICKNAME);
 
         setIsLoading(true);
-        checkNicknameAvailability({ nickname: newNickName }).then(({ isAvailable }) => {
+        checkNicknameAvailability({ nickname: newNickName }).then((isAvailable) => {
           setError(isAvailable ? NicknameState.ALLOWED_NICKNAME : NicknameState.BUSY_NICKNAME);
           setIsLoading(false);
         });
@@ -194,13 +198,10 @@ const EditProfile = () => {
             {newAvatar?.previewUrl ? (
               <img src={newAvatar?.previewUrl} alt="" className="edit-profile__avatar" />
             ) : (
-              <UserSvg className="edit-profile__avatar-wrapper__alt" viewBox="0 0 68 78" />
+              <UserSvg className="edit-profile__avatar-wrapper__alt" />
             )}
-            <TopAvatarLine className="edit-profile__avatar-wrapper__top-line" viewBox="0 0 48 48" />
-            <BottomAvatarLine
-              className="edit-profile__avatar-wrapper__bottom-line"
-              viewBox="0 0 114 114"
-            />
+            <TopAvatarLine className="edit-profile__avatar-wrapper__top-line" />
+            <BottomAvatarLine className="edit-profile__avatar-wrapper__bottom-line" />
             {newAvatar && (
               <>
                 <button
@@ -320,7 +321,7 @@ const EditProfile = () => {
 
       {newAvatar?.url && bigPhotoDisplayed && (
         <MediaModal
-          attachmentsArr={[{ url: newAvatar.url, id: 1, type: FileType.Picture }]}
+          attachmentsArr={[{ url: newAvatar.url, id: 1, type: AttachmentType.Picture }]}
           attachmentId={1}
           onClose={hideBigPhoto}
         />

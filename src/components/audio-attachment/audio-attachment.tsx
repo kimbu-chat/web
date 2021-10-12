@@ -5,7 +5,7 @@ import { ReactComponent as PauseSvg } from '@icons/pause.svg';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
 import { getMinutesSeconds } from '@utils/date-utils';
 
-import type { IAudioAttachment } from '@store/chats/models';
+import type { IAudioAttachment } from 'kimbu-models';
 
 import './audio-attachment.scss';
 
@@ -27,11 +27,7 @@ export const MessageAudioAttachment: React.FC<IAudioAttachment> = ({ ...attachme
           }
           type="button"
           className={`${BLOCK_NAME}__download`}>
-          {isPlayingAudio && currentAudio?.audioId === attachment.id ? (
-            <PauseSvg viewBox="0 0 24 24" />
-          ) : (
-            <PlaySvg viewBox="0 0 24 24" />
-          )}
+          {isPlayingAudio && currentAudio?.audioId === attachment.id ? <PauseSvg /> : <PlaySvg />}
         </button>
         <div className={`${BLOCK_NAME}__play-data`}>
           <div className={`${BLOCK_NAME}__data`}>

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useRef } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -6,10 +6,8 @@ import { InfiniteScroll } from '@components/infinite-scroll';
 import { SearchBox } from '@components/search-box';
 import { SelectEntity } from '@components/select-entity';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { IPage } from '@store/common/models';
 import { getFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
-import { FRIENDS_LIMIT } from '@utils/pagination-limits';
 
 interface IUserSelectProps {
   changeSelectedState: (id: number) => void;
@@ -20,6 +18,8 @@ const UserSelect: React.FC<IUserSelectProps> = ({ changeSelectedState, isSelecte
   const loadFriends = useActionWithDeferred(getFriendsAction);
 
   const [name, setName] = useState('');
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const friendsList = useSelector(getMyFriendsListSelector);
   const searchFriendsList = useSelector(getMySearchFriendsListSelector);
@@ -35,7 +35,6 @@ const UserSelect: React.FC<IUserSelectProps> = ({ changeSelectedState, isSelecte
     (searchName: string) => {
       setName(searchName);
       loadFriends({
-        page: { offset: 0, limit: FRIENDS_LIMIT },
         name: searchName,
         initializedByScroll: false,
       });
@@ -61,12 +60,8 @@ const UserSelect: React.FC<IUserSelectProps> = ({ changeSelectedState, isSelecte
   );
 
   const loadMore = useCallback(() => {
-    const page: IPage = {
-      offset: name.length ? searchFriendIds?.length || 0 || 0 : friendIds.length,
-      limit: FRIENDS_LIMIT,
-    };
-    loadFriends({ page, name, initializedByScroll: true });
-  }, [searchFriendIds?.length, friendIds.length, loadFriends, name]);
+    loadFriends({ name, initializedByScroll: true });
+  }, [loadFriends, name]);
 
   const selectEntities = useMemo(() => {
     if (name.length) {
@@ -76,12 +71,13 @@ const UserSelect: React.FC<IUserSelectProps> = ({ changeSelectedState, isSelecte
   }, [name.length, searchFriendIds, friendIds, renderSelectEntity]);
 
   return (
-    <div className="create-group-chat__select-friends">
+    <div className="create-group-chat__select-friends" ref={containerRef}>
       <SearchBox
         containerClassName="create-group-chat__select-friends__search"
         onChange={handleSearchInputChange}
       />
       <InfiniteScroll
+        containerRef={containerRef}
         className="create-group-chat__friends-block"
         onReachBottom={loadMore}
         hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}

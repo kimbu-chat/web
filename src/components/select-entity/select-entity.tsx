@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 
+import { IUser } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -8,7 +9,6 @@ import { TimeUpdateable } from '@components/time-updateable';
 import { ReactComponent as SelectedSvg } from '@icons/checked.svg';
 import { INormalizedChat } from '@store/chats/models';
 import { getChatSelector } from '@store/chats/selectors';
-import { IUser } from '@store/common/models';
 import { getUserSelector } from '@store/users/selectors';
 import { getUserName } from '@utils/user-utils';
 
@@ -49,7 +49,7 @@ export const SelectEntity: React.FC<ISelectEntityProps> = ({
     }
 
     if (changeSelectedState) {
-      changeSelectedState((userId || chatId) as number);
+      changeSelectedState(userId || chatId || -1);
     }
   }, [onClick, changeSelectedState, chat, interlocutor, userId, chatId]);
 

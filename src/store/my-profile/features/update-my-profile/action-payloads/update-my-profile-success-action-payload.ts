@@ -1,4 +1,4 @@
-import { IAvatar } from '@store/common/models';
+import { IAvatar } from 'kimbu-models';
 
 export interface IUpdateMyProfileSuccessActionPayload {
   userId: number;

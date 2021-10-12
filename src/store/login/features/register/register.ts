@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
+import { ICreateUserRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -17,7 +18,6 @@ import {
 import { LoginSuccess } from '../login/login-success';
 
 import type { IRegisterActionPayload } from './action-payloads/register-action-payload';
-import type { IRegisterApiRequest } from './api-requests/register-api-request';
 import type { ILoginState } from '@store/login/login-state';
 
 export class Register {
@@ -60,7 +60,7 @@ export class Register {
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse, IRegisterApiRequest>(
+    return authRequestFactory<AxiosResponse, ICreateUserRequest>(
       MAIN_API.REGISTER,
       HttpRequestMethod.Post,
     );

@@ -1,14 +1,13 @@
-import { TFunction } from 'i18next';
+import { AttachmentType, IAttachmentBase } from 'kimbu-models';
 import unionBy from 'lodash/unionBy';
-import { RootState } from 'typesafe-actions';
 
-import { IChatsState } from './chats-state';
-import { FileType, InterlocutorType } from './models';
-import { IAttachmentToSend } from './models/attachment-to-send';
-import { IBaseAttachment } from './models/attachments/base-attachment';
-import { INormalizedChat } from './models/chat';
+import { INormalizedChat, INormalizedMessage, InterlocutorType } from './models';
 
-import type { IAudioAttachment } from './models';
+import type { IChatsState } from './chats-state';
+import type { IAttachmentToSend } from './models/attachment-to-send';
+import type { TFunction } from 'i18next';
+import type { IAudioAttachment } from 'kimbu-models';
+import type { RootState } from 'typesafe-actions';
 
 // RootState selectors
 export const getSelectedChatSelector = (state: RootState): INormalizedChat | undefined =>
@@ -56,7 +55,7 @@ export const getSelectedChatUnreadMessagesCountSelector = (state: RootState): nu
 
 export const getSelectedChatAttachmentsToSendSelector = (
   state: RootState,
-): IAttachmentToSend<IBaseAttachment>[] | undefined =>
+): IAttachmentToSend<IAttachmentBase>[] | undefined =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.attachmentsToSend;
 
 export const getIsFirstChatsLoadSelector = (state: RootState): boolean =>
@@ -75,17 +74,37 @@ export const getChatsSearchPageSelector = (state: RootState) => state.chats.sear
 export const getSelectedChatRecordingsSelector = (state: RootState) =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.recordings;
 
+export const getSelectedChatRecordingsLengthSelector = (state: RootState) =>
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.recordings
+    .recordings.length || 0;
+
 export const getSelectedChatAudiosSelector = (state: RootState) =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.audios;
+
+export const getSelectedChatAudiosLengthSelector = (state: RootState) =>
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.audios.audios
+    .length || 0;
 
 export const getSelectedChatFilesSelector = (state: RootState) =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.files;
 
+export const getSelectedChatFilesLengthSelector = (state: RootState) =>
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.files.files
+    .length || 0;
+
 export const getSelectedChatPhotosSelector = (state: RootState) =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.photos;
 
+export const getSelectedChatPhotosLengthSelector = (state: RootState) =>
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.photos.photos
+    .length || 0;
+
 export const getSelectedChatVideosSelector = (state: RootState) =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.videos;
+
+export const getSelectedChatVideosLengthSelector = (state: RootState) =>
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.videos.videos
+    .length || 0;
 
 // Attachments count selector
 
@@ -110,7 +129,7 @@ export const getAudioAttachmentsCountSelector = (state: RootState): number =>
     ?.audioAttachmentsCount || 0;
 // -----------
 
-export const getSelectedChatIdSelector = (state: RootState): number | null =>
+export const getSelectedChatIdSelector = (state: RootState): number | undefined =>
   state.chats.selectedChatId;
 
 export const getSelectedChatAudioAttachmentsSelector =
@@ -120,7 +139,7 @@ export const getSelectedChatAudioAttachmentsSelector =
 
     Object.values(state.chats.chats[chatId]?.messages.messages).forEach((message) => {
       message?.attachments?.forEach((attachment) => {
-        if (attachment.type === FileType.Audio) {
+        if (attachment.type === AttachmentType.Audio) {
           if (!audioAttachments.find(({ id }) => id === attachment.id)) {
             audioAttachments.push(attachment as IAudioAttachment);
           }
@@ -128,7 +147,7 @@ export const getSelectedChatAudioAttachmentsSelector =
       });
 
       message?.linkedMessage?.attachments?.forEach((attachment) => {
-        if (attachment.type === FileType.Audio) {
+        if (attachment.type === AttachmentType.Audio) {
           if (!audioAttachments.find(({ id }) => id === attachment.id)) {
             audioAttachments.push(attachment as IAudioAttachment);
           }
@@ -147,6 +166,9 @@ export const getChatsListSelector = (state: RootState) => state.chats.chatList;
 
 export const getMembersListForSelectedGroupChatSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.members;
+
+export const getMembersCountForSelectedGroupChatSelector = (state: RootState) =>
+  state.chats.chats[state?.chats?.selectedChatId || -1]?.members.memberIds.length || 0;
 
 export const getTypingStringSelector =
   (t: TFunction, chatId: number | null) => (state: RootState) => {
@@ -204,7 +226,9 @@ export const getHasMoreMessagesMessagesSelector = (state: RootState) =>
 export const getMessagesIdsByChatIdSelector = (state: RootState) =>
   state.chats.chats[state.chats.selectedChatId || -1]?.messages.messageIds;
 
-export const getSelectedChatMessagesSelector = (state: RootState) =>
+export const getSelectedChatMessagesSelector = (
+  state: RootState,
+): Record<number, INormalizedMessage> =>
   state.chats.chats[state.chats.selectedChatId || -1]?.messages.messages;
 
 export const getMessageSelector = (chatId: number, messageId: number) => (state: RootState) =>

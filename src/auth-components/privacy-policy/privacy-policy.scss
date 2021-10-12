@@ -60,7 +60,7 @@
     z-index: 505;
 
     &:hover {
-      box-shadow: 0 3px 6px rgba(14, 22, 43, 0.62);
+      box-shadow: 0 3px 6px var(--box-shadow-5);
     }
 
     @media (max-width: 400px) {

@@ -2,7 +2,7 @@ name: ESLint pull request
 on:
   pull_request:
     branches:
-      - development
+      - develop
 
 concurrency:
   group: ${{ github.head_ref }}

@@ -11,6 +11,7 @@ import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
 import { ReactComponent as BlockSvg } from '@icons/block.svg';
 import { ReactComponent as ClearSvg } from '@icons/clear.svg';
 import { ReactComponent as DeleteContactSvg } from '@icons/delete-contact.svg';
+import { ReactComponent as GroupSvg } from '@icons/ic-group-24.svg';
 import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
 import { ReactComponent as MuteSvg } from '@icons/mute.svg';
 import { ReactComponent as DeleteSvg } from '@icons/remove-chat.svg';
@@ -191,7 +192,7 @@ export const ChatActions: React.FC = () => {
           type="button"
           onClick={displayCreateGroupChatModal}
           className={`${BLOCK_NAME}__action`}>
-          <UnmuteSvg />
+          <GroupSvg />
           <span className={`${BLOCK_NAME}__action__name`}>{t('chatActions.create-group')}</span>
         </Button>
       )}

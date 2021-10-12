@@ -251,7 +251,8 @@
     "language": "Language",
     "appearance": "Appearance",
     "audio-video": "Audio & Video",
-    "privacy-security": "Privacy & Security"
+    "privacy-security": "Privacy & Security",
+    "app-version": "{{appName}} version {{version}}"
   },
 
   "keyBindings": {

@@ -1,5 +1,9 @@
+@import '../../common/styles/utils';
+
 .settings-router {
   &__navigation {
+    display: flex;
+    flex-direction: column;
     background-color: var(--dt-dark-wt-white);
     grid-row: 1/-1;
   }
@@ -9,5 +13,11 @@
     grid-row: 1/-1;
     height: 100vh;
     overflow: auto;
+  }
+
+  &__app-version {
+    margin-top: auto;
+    padding-left: pxToRem(20px);
+    padding-bottom: pxToRem(20px);
   }
 }

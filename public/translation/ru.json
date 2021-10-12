@@ -274,7 +274,8 @@
     "language": "Язык",
     "appearance": "Отображение",
     "audio-video": "Аудио и Видео",
-    "privacy-security": "Конфиденциальность и Безопасность"
+    "privacy-security": "Конфиденциальность и Безопасность",
+    "app-version": "{{appName}} версия {{version}}"
   },
   "keyBindings": {
     "title": "Сочетания клавиш",

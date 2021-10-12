@@ -115,7 +115,9 @@ const MessageList = () => {
     [messages, messagesIds, formatDateForSeparator],
   );
 
-  useEffect(loadMore, [loadMore, selectedChatId]);
+  console.log(separatedMessagesPacks);
+
+  // useEffect(loadMore, [loadMore, selectedChatId]);
 
   if (!selectedChatId) {
     return <Welcome />;
@@ -134,47 +136,42 @@ const MessageList = () => {
           )}
 
         {selectedMessageIds.length > 0 && <SelectedMessagesData />}
-        {!areMessagesLoading || messagesIds?.length
-          ? Boolean(messagesIds?.length) && (
-              <InfiniteScroll
-                containerRef={rootRef}
-                onReachBottom={loadMore}
-                hasMore={hasMoreMessages}
-                className={`${BLOCK_NAME}__messages-list__scroll`}
-                isLoading={areMessagesLoading}>
-                {separatedMessagesPacks.map((pack) => (
-                  <div key={pack.date} className={`${BLOCK_NAME}__messages-group`}>
-                    {pack.messages.map((messageId, index) => (
-                      <MessageItem
-                        observeIntersection={observeIntersectionForMedia}
-                        selectedChatId={selectedChatId}
-                        isSelected={selectedMessageIds.includes(messageId)}
-                        messageId={messageId}
-                        key={messageId}
-                        needToShowCreator={
-                          messages &&
-                          (messages[messageId]?.userCreatorId !==
-                            messages[pack.messages[index + 1]]?.userCreatorId ||
-                            messages[pack.messages[index + 1]]?.systemMessageType !==
-                              SystemMessageType.None)
-                        }
-                      />
-                    ))}
-                    {pack.messages.length > 0 && (
-                      <div className={`${BLOCK_NAME}__separator`}>
-                        <span className={`${BLOCK_NAME}__separator-date`}>{pack.date}</span>
-                      </div>
-                    )}
-                  </div>
+        {areMessagesLoading && !messagesIds?.length ? (
+          <CenteredLoader size={LoaderSize.LARGE} />
+        ) : (
+          <InfiniteScroll
+            containerRef={rootRef}
+            onReachBottom={loadMore}
+            hasMore={hasMoreMessages}
+            className={`${BLOCK_NAME}__messages-list__scroll`}
+            isLoading={areMessagesLoading}>
+            {separatedMessagesPacks?.map((pack) => (
+              <div key={pack.date} className={`${BLOCK_NAME}__messages-group`}>
+                {pack.messages.map((messageId, index) => (
+                  <MessageItem
+                    observeIntersection={observeIntersectionForMedia}
+                    selectedChatId={selectedChatId}
+                    isSelected={selectedMessageIds.includes(messageId)}
+                    messageId={messageId}
+                    key={messageId}
+                    needToShowCreator={
+                      messages &&
+                      (messages[messageId]?.userCreatorId !==
+                        messages[pack.messages[index + 1]]?.userCreatorId ||
+                        messages[pack.messages[index + 1]]?.systemMessageType !==
+                          SystemMessageType.None)
+                    }
+                  />
                 ))}
-              </InfiniteScroll>
-            )
-          : areMessagesLoading &&
-            hasMoreMessages && (
-              <>
-                <CenteredLoader size={LoaderSize.LARGE} />
-              </>
-            )}
+                {pack.messages.length > 0 && (
+                  <div className={`${BLOCK_NAME}__separator`}>
+                    <span className={`${BLOCK_NAME}__separator-date`}>{pack.date}</span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </InfiniteScroll>
+        )}
       </div>
     </div>
   );

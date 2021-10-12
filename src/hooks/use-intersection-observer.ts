@@ -1,13 +1,16 @@
 import { useEffect, RefObject, useState, useRef, useCallback } from 'react';
 
-import throttle from 'lodash/fp/throttle';
+import debounce from 'lodash/debounce';
 import noop from 'lodash/noop';
+import throttle from 'lodash/throttle';
 
 type IntersectionObserverHook = {
   rootRef: RefObject<HTMLElement>;
   threshold?: number | number[];
   margin?: number;
   throttleMs?: number;
+  skipFirst?: boolean;
+  debounceMs?: number;
 };
 
 type TargetCallback = (entry: IntersectionObserverEntry) => void;
@@ -20,11 +23,12 @@ type IntersectionController = {
 };
 
 export function useIntersectionObserver(
-  { rootRef, threshold, margin, throttleMs }: IntersectionObserverHook,
+  { rootRef, threshold, margin, throttleMs, skipFirst, debounceMs }: IntersectionObserverHook,
   rootCallback?: RootCallback,
 ) {
   const intersectionControllerRef = useRef<IntersectionController>();
   const rootCallbackRef = useRef<RootCallback>();
+
   rootCallbackRef.current = rootCallback;
 
   useEffect(
@@ -60,10 +64,10 @@ export function useIntersectionObserver(
       entriesAccumulator.clear();
     };
 
-    const scheduler = throttleMs ? throttle : undefined;
+    const scheduler = (throttleMs && throttle) || (debounceMs && debounce) || undefined;
 
     const observerCallback = scheduler
-      ? scheduler(throttleMs as number, observerCallbackSync)
+      ? scheduler(observerCallbackSync, throttleMs || debounceMs, { leading: !skipFirst })
       : observerCallbackSync;
 
     const observer = new IntersectionObserver(
@@ -71,6 +75,7 @@ export function useIntersectionObserver(
         entries.forEach((entry) => {
           entriesAccumulator.set(entry.target, entry);
         });
+
         observerCallback();
       },
       {

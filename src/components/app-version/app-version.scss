@@ -1,0 +1,6 @@
+@import '../../common/styles/utils';
+
+.app-version {
+  font-size: pxToRem(14px);
+  color: var(--dt-white-wt-darker);
+}

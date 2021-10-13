@@ -28,7 +28,7 @@ jobs:
         shell: bash
         run: |
           # set tag version
-          echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
+          echo ::set-output name=tag::${GITHUB_REF_SLUG}
 
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1

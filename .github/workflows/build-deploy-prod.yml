@@ -22,6 +22,13 @@ jobs:
 
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
+        
+      - name: Define vars
+        id: vars # Needed to reuse at 'with: steps.vars.outputs'
+        shell: bash
+        run: |
+          # set tag version
+          echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
 
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
@@ -30,7 +37,7 @@ jobs:
           envkey_REACT_APP_FILES_API: https://fs.dev.kimbu.io
           envkey_REACT_APP_WEBSOCKET_API: wss://ws.dev.kimbu.io/connection/websocket
           # set app version from tag
-          envkey_REACT_APP_VERSION: ${{ GITHUB_REF_NAME }}
+          envkey_REACT_APP_VERSION: ${{ steps.vars.outputs.tag }}
           file_name: .env
 
       - name: Build

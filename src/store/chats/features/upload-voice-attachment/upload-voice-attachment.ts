@@ -107,7 +107,7 @@ export class UploadVoiceAttachment {
 
       const messageCreationReq: ICreateMessageRequest = {
         chatId,
-        attachments: [{ type: AttachmentType.Voice, id: uploadResponse.attachment.id }],
+        attachmentIds: [uploadResponse.attachment.id],
         clientId: id,
       };
 

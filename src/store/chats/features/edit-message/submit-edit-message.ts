@@ -88,8 +88,8 @@ export class SubmitEditMessage {
       const editRequest: IEditMessageRequest = {
         text,
         messageId,
-        removedAttachments,
-        newAttachments,
+        removedAttachmentIds: removedAttachments?.map((x) => x.id),
+        newAttachmentIds: newAttachments?.map((x) => x.id),
       };
 
       const { status } = SubmitEditMessage.httpRequest.call(

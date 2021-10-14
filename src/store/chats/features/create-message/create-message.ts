@@ -55,12 +55,10 @@ export class CreateMessage {
       const { message } = action.payload;
       const { chatId } = message;
 
-      const attachmentsToSend = message.attachments?.map(({ id, type }) => ({ id, type })) || [];
-
       const messageCreationReq: ICreateMessageRequest = {
         text: message.text,
         chatId,
-        attachments: attachmentsToSend,
+        attachmentIds: message.attachments?.map((x) => x.id),
         clientId: message.id,
       };
 

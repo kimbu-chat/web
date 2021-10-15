@@ -2,8 +2,6 @@ import axios, { AxiosRequestConfig, CancelToken } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
-import { REQUEST_TIMEOUT } from '@utils/constants';
-
 import { retryOnNetworkConnectionError } from './decorators/retry-on-network-connection-error';
 import { HttpRequestMethod } from './http-request-method';
 
@@ -19,7 +17,6 @@ export function* httpRequest<TBody>(
   const requestConfig: AxiosRequestConfig = {
     url,
     method,
-    timeout: REQUEST_TIMEOUT,
     cancelToken: token,
     responseType: 'json',
   };

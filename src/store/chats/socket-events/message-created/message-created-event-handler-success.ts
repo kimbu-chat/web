@@ -19,7 +19,10 @@ import { IMessageCreatedIntegrationEvent } from './message-created-integration-e
 export class MessageCreatedEventHandlerSuccess {
   static get action() {
     return createAction('MessageCreated_SUCCESS')<
-      IMessageCreatedIntegrationEvent & { linkedMessage?: INormalizedLinkedMessage }
+      IMessageCreatedIntegrationEvent & {
+        linkedMessage?: INormalizedLinkedMessage;
+        isNewChat?: boolean;
+      }
     >();
   }
 
@@ -41,6 +44,7 @@ export class MessageCreatedEventHandlerSuccess {
           linkedMessage,
           linkedMessageType,
           clientId,
+          isNewChat,
         } = payload;
 
         const messageExists =
@@ -81,9 +85,10 @@ export class MessageCreatedEventHandlerSuccess {
           const isInterlocutorCurrentSelectedChat = draft.selectedChatId === message.chatId;
           const previousUnreadMessagesCount = chat.unreadMessagesCount;
           const newUnreadMessagesCount =
-            isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator
+            isInterlocutorCurrentSelectedChat || isCurrentUserMessageCreator || isNewChat
               ? previousUnreadMessagesCount
               : previousUnreadMessagesCount + 1;
+
           const chatMessages = draft.chats[chatId]?.messages;
 
           if (chatMessages) {

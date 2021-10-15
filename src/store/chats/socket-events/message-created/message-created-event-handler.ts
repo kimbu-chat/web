@@ -122,8 +122,10 @@ export class MessageCreatedEventHandler {
       // notifications play
       let chatOfMessage: IChat | undefined = yield select(getChatByIdSelector(chatId));
       const isAudioPlayAllowed = yield select(areNotificationsEnabledSelector);
+      let isNewChat = false;
 
       if (!chatOfMessage) {
+        isNewChat = true;
         const { data } = ChangeSelectedChat.httpRequest.call(
           yield call(() => ChangeSelectedChat.httpRequest.generator(chatId)),
         );
@@ -148,7 +150,7 @@ export class MessageCreatedEventHandler {
         }
       }
 
-      yield put(MessageCreatedEventHandlerSuccess.action({ linkedMessage, ...payload }));
+      yield put(MessageCreatedEventHandlerSuccess.action({ linkedMessage, isNewChat, ...payload }));
 
       if (userCreator?.id !== myId) {
         if (chatOfMessage && isAudioPlayAllowed && !chatOfMessage.isMuted) {

@@ -6,10 +6,9 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { getUserSelector } from '@store/users/selectors';
 import { replaceInUrl } from '@utils/replace-in-url';
-
-import { AddOrUpdateUsers } from '../../../users/features/add-or-update-users/add-or-update-users';
-import { getUserSelector } from '../../../users/selectors';
 
 import { IUserContactAddedIntegrationEvent } from './user-contact-added-integration-event';
 import { UserContactAddedSuccessEventHandler } from './user-contact-added-success-event-handler';

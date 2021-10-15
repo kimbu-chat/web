@@ -8621,9 +8621,9 @@ killable@^1.0.1:
   resolved "https://registry.yarnpkg.com/killable/-/killable-1.0.1.tgz#4c8ce441187a061c7474fb87ca08e2a638194892"
   integrity sha512-LzqtLKlUwirEUyl/nicirVmNiPvYs7l5n8wOPP7fyJVpUPkvCnW/vuiXGpylGUlnPDnB7311rARzAt3Mhswpjg==
 
-"kimbu-models@git://github.com/ravudi/frontend-types.git#299e5a9":
+"kimbu-models@git://github.com/ravudi/frontend-types.git#f53d399":
   version "1.0.0"
-  resolved "git://github.com/ravudi/frontend-types.git#299e5a930b33da4ae5b5f9f6f2118a5c0ca71835"
+  resolved "git://github.com/ravudi/frontend-types.git#f53d3992c6c6e5b941d653e30d0900b861a65e56"
 
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"

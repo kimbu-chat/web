@@ -8,6 +8,7 @@ import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
 import { createEmptyAction } from '@store/common/actions';
 import { authRequestFactory } from '@store/common/http/auth-request-factory';
+import { getAuthHeader } from '@store/common/http/common';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { getAccessTokenExpirationTime } from '@utils/get-access-token-expiration-time';
 
@@ -37,7 +38,14 @@ export class RefreshToken {
         return;
       }
 
-      const { httpRequest } = RefreshToken;
+      const authHeader = yield call(getAuthHeader);
+
+      const httpRequest = authRequestFactory<AxiosResponse<ISecurityTokens>, IRefreshTokenRequest>(
+        MAIN_API.REFRESH_TOKENS,
+        HttpRequestMethod.Post,
+        authHeader,
+      );
+
       const response = httpRequest.call(yield call(() => httpRequest.generator({ refreshToken })));
 
       if (response?.status !== HTTPStatusCode.OK) {

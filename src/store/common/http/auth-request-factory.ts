@@ -6,11 +6,12 @@ import { emitToast } from '@utils/emit-toast';
 import { HttpRequestMethod } from './http-request-method';
 import { httpRequest } from './http-request';
 
-import type { IRequestGenerator, UrlGenerator } from './types';
+import type { HttpHeaders, IRequestGenerator, UrlGenerator } from './types';
 
 export const authRequestFactory = <TResponse, TBody = unknown>(
   url: string | UrlGenerator<TBody>,
   method: HttpRequestMethod,
+  headers?: HttpHeaders,
 ): IRequestGenerator<TResponse, TBody> => {
   function* generator(body?: TBody): SagaIterator {
     let finalUrl = url as string;
@@ -20,8 +21,8 @@ export const authRequestFactory = <TResponse, TBody = unknown>(
     }
 
     try {
-      return yield call(() => httpRequest(finalUrl, method, body));
-    } catch (e) {
+      return yield call(() => httpRequest(finalUrl, method, body, undefined, headers));
+    } catch (e: any) {
       emitToast(e.message, { type: 'error' });
       return undefined;
     }

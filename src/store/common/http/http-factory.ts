@@ -1,9 +1,8 @@
 import axios, { AxiosError, CancelTokenSource } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { call, cancelled, put, select, take } from 'redux-saga/effects';
+import { call, cancelled, put, take } from 'redux-saga/effects';
 
 import { RefreshToken } from '@store/auth/features/refresh-token/refresh-token';
-import { securityTokensSelector } from '@store/auth/selectors';
 import { httpRequest } from '@store/common/http/http-request';
 import { emitToast } from '@utils/emit-toast';
 
@@ -11,18 +10,10 @@ import { isNetworkError } from '../../../utils/error-utils';
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
 
 import { checkTokensSaga } from './check-tokens';
+import { getAuthHeader } from './common';
 import { HttpRequestMethod } from './http-request-method';
 
 import type { IRequestGenerator, UrlGenerator, HttpHeaders } from './types';
-import type { ISecurityTokens } from 'kimbu-models';
-
-function* getAuthHeader(): SagaIterator {
-  const securityTokens: ISecurityTokens = yield select(securityTokensSelector);
-
-  return {
-    authorization: `Bearer ${securityTokens.accessToken}`,
-  };
-}
 
 export const httpRequestFactory = <TResponse, TBody = unknown>(
   url: string | UrlGenerator<TBody>,
@@ -54,7 +45,7 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
           ...headers,
           ...authHeader,
         });
-      } catch (e) {
+      } catch (e: any) {
         const error = e as AxiosError;
 
         emitToast(error.message, { type: 'error' });

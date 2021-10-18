@@ -1,5 +1,4 @@
 import { AxiosResponse } from 'axios';
-import { IUnsubscribeFromPushNotificationsRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
@@ -21,11 +20,7 @@ export class UnSubscribeFromPushNotifications {
       const pushNotificationToken = yield call(getPushNotificationToken);
 
       if (pushNotificationToken) {
-        yield call(() =>
-          UnSubscribeFromPushNotifications.httpRequest.generator({
-            token: pushNotificationToken,
-          }),
-        );
+        yield call(() => UnSubscribeFromPushNotifications.httpRequest.generator());
 
         yield call(async () => messaging?.deleteToken());
       }
@@ -35,7 +30,7 @@ export class UnSubscribeFromPushNotifications {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse, IUnsubscribeFromPushNotificationsRequest>(
+    return httpRequestFactory<AxiosResponse>(
       MAIN_API.UNSUBSCRIBE_FROM_PUSH_NOTIFICATIONS,
       HttpRequestMethod.Post,
     );

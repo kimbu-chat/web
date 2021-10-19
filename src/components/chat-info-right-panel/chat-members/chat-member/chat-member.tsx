@@ -21,12 +21,12 @@ import './chat-member.scss';
 
 interface IMemberProps {
   memberId: number;
-  isOwner: boolean;
+  ownerId: number;
 }
 
 const BLOCK_NAME = 'chat-member';
 
-export const Member: React.FC<IMemberProps> = ({ memberId, isOwner }) => {
+export const Member: React.FC<IMemberProps> = ({ memberId, ownerId }) => {
   const { t } = useTranslation();
 
   const member = useSelector(getUserSelector(memberId));
@@ -38,7 +38,8 @@ export const Member: React.FC<IMemberProps> = ({ memberId, isOwner }) => {
 
   const myId = useSelector(myIdSelector);
 
-  const itIsMe = member?.id === myId;
+  const itIsMe = memberId === myId;
+  const isOwner = memberId === ownerId;
 
   return (
     <>
@@ -80,7 +81,7 @@ export const Member: React.FC<IMemberProps> = ({ memberId, isOwner }) => {
             ))}
         </div>
 
-        {isOwner && !itIsMe && (
+        {!itIsMe && myId === ownerId && (
           <button
             onClick={changeRemoveChatMemberModalDisplayed}
             type="button"

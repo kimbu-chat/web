@@ -1,0 +1,31 @@
+name: send-message-to-telegram-on-push
+on: push
+
+jobs:
+
+  log-to-telegram:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Define vars
+        id: vars
+        shell: bash
+        run: |
+          # setting to ${{ steps.vars.outputs.BRANCH_NAME }}
+          echo "##[set-output name=BRANCH_NAME;]$(echo ${GITHUB_REF#refs/heads/})"
+          
+      - name: send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.actor }} created commit:
+
+            Commit message: ${{ github.event.commits[0].message }}
+            
+            Repository: ${{ github.repository }}
+
+            Branch: ${{ steps.vars.outputs.BRANCH_NAME }}
+            
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          

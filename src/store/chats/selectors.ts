@@ -45,7 +45,7 @@ export const getSelectedGroupChatNameSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.groupChat?.name;
 
 export const getSelectedGroupChatCreatorIdSelector = (state: RootState) =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.groupChat?.userCreatorId;
+  state.chats.chats[state?.chats?.selectedChatId || -1]?.groupChat?.userCreatorId || -1;
 
 export const getSelectedGroupChatIdSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.groupChat?.id;

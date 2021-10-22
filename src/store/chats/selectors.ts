@@ -214,8 +214,8 @@ export const getInfoChatIdSelector = (state: RootState) =>
 export const getMessageToEditSelector = (state: RootState) =>
   state.chats.chats[state.chats.selectedChatId || -1]?.messageToEdit;
 
-export const getMessageToReplySelector = (state: RootState) =>
-  state.chats.chats[state.chats.selectedChatId || -1]?.messageToReply;
+export const getMessageToReplySelector = (state: RootState): INormalizedMessage =>
+  state.chats.chats[state.chats.selectedChatId || -1]?.messageToReply as INormalizedMessage;
 
 export const getMessagesLoadingSelector = (state: RootState) =>
   state.chats.chats[state.chats.selectedChatId || -1]?.messages.loading;
@@ -231,7 +231,7 @@ export const getSelectedChatMessagesSelector = (
 ): Record<number, INormalizedMessage> =>
   state.chats.chats[state.chats.selectedChatId || -1]?.messages.messages;
 
-export const getMessageSelector = (chatId: number, messageId: number) => (state: RootState) =>
+export const getMessageSelector = (chatId: number, messageId: number) => (state: RootState): INormalizedMessage =>
   state.chats.chats[chatId]?.messages.messages[messageId];
 
 export const getChatHasMessageWithIdSelector =

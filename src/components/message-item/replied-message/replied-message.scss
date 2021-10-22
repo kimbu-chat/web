@@ -1,47 +1,32 @@
+@import '../../../common/styles/utils';
+
 .replied-message {
   display: flex;
-  margin-bottom: 16px;
+  margin-bottom: pxToRem(16px);
 
-  margin-left: -1px;
-  margin-right: 3px;
-  margin-top: 5px;
+  margin-left: pxToRem(-1px);
+  margin-right: pxToRem(3px);
+  margin-top: pxToRem(5px);
 
   &__contents {
     background: var(--chat-bg-dt-dark-wt-kingBlueLight);
-    border-radius: 0 6px 6px;
-    margin-left: 10px;
-    padding: 8px 16px;
+    border-radius: 0 pxToRem(6px) pxToRem(6px);
+    margin-left: pxToRem(10px);
+    padding: pxToRem(8px) pxToRem(16px);
   }
 
   &__text {
     color: #fff;
-    font-size: 0.625rem;
+    font-size: pxToRem(16px);
     font-weight: 300;
     line-break: anywhere;
-    line-height: 12px;
+    line-height: pxToRem(12px);
     white-space: break-spaces;
   }
 
   &__interlocutor {
     color: var(--dt-white-wt-dark);
-    margin-bottom: 5px;
-    margin-top: 2px;
-  }
-
-  &__attachments {
-    display: flex;
-    flex-direction: column;
-
-    & > * {
-      margin-top: 10px;
-
-      &:first-child {
-        margin-top: 10px;
-      }
-
-      &:last-child {
-        margin-bottom: 15px;
-      }
-    }
+    margin-bottom: pxToRem(5px);
+    margin-top: pxToRem(2px);
   }
 }

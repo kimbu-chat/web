@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 import { SystemMessageType, MessageLinkType, IAttachmentBase } from 'kimbu-models';
-import { size } from 'lodash';
+import map from 'lodash/map';
+import size from 'lodash/size';
 import throttle from 'lodash/throttle';
 import Mousetrap from 'mousetrap';
 import { useTranslation } from 'react-i18next';
@@ -39,12 +40,11 @@ import { getTypingStrategySelector } from '@store/settings/selectors';
 import { MESSAGE_INPUT_ID } from '@utils/constants';
 import { focusEditableElement } from '@utils/focus-editable-element';
 import { getAttachmentType } from '@utils/get-file-extension';
+import { insertHtmlInSelection } from '@utils/insert-html-in-selection';
 import { parseMessageInput } from '@utils/parse-message-input';
 import { setRecordAudioStream } from '@utils/record-audio-stream';
 import renderText from '@utils/render-text/render-text';
 import { isSelectionInsideInput } from '@utils/selection';
-
-import { insertHtmlInSelection } from '../../utils/insert-html-in-selection';
 
 import { EditingMessage } from './editing-message/editing-message';
 import { MessageError } from './message-error/message-error';
@@ -96,10 +96,7 @@ const CreateMessageInput = () => {
       return true;
     }
 
-    const res =
-      removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1;
-
-    return res;
+    return removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1;
   });
 
   const insertTextAndUpdateCursor = useCallback(
@@ -195,9 +192,7 @@ const CreateMessageInput = () => {
       updatedSelectedChat.current &&
       currentUserId
     ) {
-      const attachments = updatedSelectedChat.current?.attachmentsToSend?.map(
-        ({ attachment }) => attachment,
-      );
+      const attachments = map(updatedSelectedChat.current?.attachmentsToSend, 'attachment');
 
       if (chatId) {
         const message: INormalizedMessage = {
@@ -414,7 +409,10 @@ const CreateMessageInput = () => {
           {false && <MessageError />}
           <div className="message-input__send-message">
             {isRecording ? (
-              <RecordingMessage hide={handleRegisterAudioBtnClick} />
+              <RecordingMessage
+                referredMessage={refferedReplyingMessage.current}
+                hide={handleRegisterAudioBtnClick}
+              />
             ) : (
               <>
                 <input type="file" multiple hidden onChange={uploadFile} ref={fileInputRef} />

@@ -1,9 +1,12 @@
+const MEGABYTE = 1048576;
+const KILOBYTE = 1024;
+
 export const getRawAttachmentSizeUnit = (byteSize: number) => {
   let name = '';
-  if (byteSize > 1048576) {
-    name = `${(byteSize / 1048576).toFixed(2)} Mb`;
-  } else if (byteSize > 1024) {
-    name = `${(byteSize / 1024).toFixed(2)} Kb`;
+  if (byteSize > MEGABYTE) {
+    name = `${(byteSize / MEGABYTE).toFixed(2)} Mb`;
+  } else if (byteSize > KILOBYTE) {
+    name = `${(byteSize / KILOBYTE).toFixed(2)} Kb`;
   } else {
     name = `${byteSize.toFixed(2)} bytes`;
   }

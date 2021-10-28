@@ -25,9 +25,6 @@ interface IGroupChatNameChangedSystemMessageContent extends ISystemMessageBase {
 interface IGroupChatMemberAddedSystemMessageContent extends ISystemMessageBase {
   addeduserId: number;
   addedUserName: string;
-  groupChatName: string;
-  groupChatMembersNumber: number;
-  groupChatAvatarUrl: string;
 }
 
 export interface ICallMessage {

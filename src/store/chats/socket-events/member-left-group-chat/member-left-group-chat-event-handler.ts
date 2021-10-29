@@ -1,7 +1,8 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 
-import { MyProfileService } from '../../../../services/my-profile-service';
+import { MyProfileService } from '@services/my-profile-service';
+
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
@@ -42,6 +43,9 @@ export class MemberLeftGroupChatEventHandler {
 
           if (chat) {
             chat.members.memberIds = chat.members.memberIds.filter((id) => id !== userId);
+            if (chat.groupChat) {
+              chat.groupChat.membersCount -= 1;
+            }
           }
         }
 

@@ -22,7 +22,13 @@ export class ChatClearedEventHandler {
         if (!onlyForUserInitiator || myId === userInitiatorId) {
           const chat = getChatByIdDraftSelector(chatId, draft);
 
-          const chatMessages = draft.chats[chatId]?.messages;
+          if (!chat) {
+            return draft;
+          }
+
+          chat.unreadMessagesCount = 0;
+
+          const chatMessages = chat.messages;
 
           if (chatMessages && chatMessages.messageIds.length !== 0) {
             chatMessages.messages = {};

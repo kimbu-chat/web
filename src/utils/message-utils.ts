@@ -17,6 +17,10 @@ export interface IGroupChatMemberRemovedSystemMessageContent extends ISystemMess
   removedUserName: string;
 }
 
+export interface IGroupChatMemberLeftSystemMessageContent extends ISystemMessageBase {
+  userName: string;
+}
+
 interface IGroupChatNameChangedSystemMessageContent extends ISystemMessageBase {
   oldName: string;
   newName: string;
@@ -125,21 +129,19 @@ const getGroupChatCreatedMessage = (
         name: `${userCreator?.firstName} ${userCreator?.lastName}`,
       });
 
-const getGroupChatMemberRemovedMessage = (
-  message: INormalizedMessage,
-  t: TFunction,
-  myId: number,
-  userCreator?: IUser,
-) => {
+const getGroupChatMemberRemovedMessage = (message: INormalizedMessage, t: TFunction) => {
   const systemMessageContent =
     getSystemMessageData<IGroupChatMemberRemovedSystemMessageContent>(message);
-  if (systemMessageContent.removedUserId === userCreator?.id) {
-    return t('systemMessage.left_group', {
-      name: systemMessageContent.removedUserName,
-    });
-  }
   return t('systemMessage.removed_from_group', {
     name: systemMessageContent.removedUserName,
+  });
+};
+
+const getGroupChatMemberLeftMessage = (message: INormalizedMessage, t: TFunction) => {
+  const systemMessageContent =
+    getSystemMessageData<IGroupChatMemberLeftSystemMessageContent>(message);
+  return t('systemMessage.left_group', {
+    name: systemMessageContent.userName,
   });
 };
 
@@ -234,6 +236,10 @@ const systemMessageMap: {
 } = {
   [SystemMessageType.GroupChatCreated]: getGroupChatCreatedMessage,
   [SystemMessageType.GroupChatMemberRemoved]: getGroupChatMemberRemovedMessage,
+  // todo: update types
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  GroupChatMemberLeft: getGroupChatMemberLeftMessage,
   [SystemMessageType.GroupChatMemberAdded]: getGroupChatMemberAddedMessage,
   [SystemMessageType.GroupChatNameChanged]: getGroupChatNameChangedMessage,
   [SystemMessageType.GroupChatAvatarChanged]: getGroupChatAvatarChangedMessage,

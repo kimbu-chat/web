@@ -81,8 +81,8 @@ const getCallIntrerruptedMessage = (
   myId: number,
 ) =>
   callMessage.userCallerId === myId
-    ? t('systemMessage.outgoing_call_intrrerupted')
-    : t('systemMessage.incoming_call_intrrerupted');
+    ? t('systemMessage.outgoing_call_interrupted')
+    : t('systemMessage.incoming_call_interrupted');
 
 const getCallNotAnsweredMessage = (
   message: INormalizedMessage,

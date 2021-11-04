@@ -437,8 +437,8 @@
     "someone_missed_call": "Interlocutor missed call at {{time}}",
     "you_declined_call": "You declined incoming call",
     "someone_declined_call": "Interlocutor declined incoming call",
-    "outgoing_call_intrrerupted": "Outgoing call interrupted",
-    "incoming_call_intrrerupted": "Incoming call interrupted"
+    "outgoing_call_interrupted": "Outgoing call interrupted",
+    "incoming_call_interrupted": "Incoming call interrupted"
   },
   "deleted": "DELETED",
   "unread-messages": "Unread messages ({{count}})"

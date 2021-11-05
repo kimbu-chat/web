@@ -9,7 +9,7 @@ import { getChatByIdDraftSelector } from '../../selectors';
 
 import { IMemberRemovedFromGroupChatIntegrationEvent } from './member-removed-from-group-chat-integration-event';
 
-export class MemberLeftGroupChatEventHandler {
+export class MemberRemovedFromGroupChatEventHandler {
   static get action() {
     return createAction(
       'MemberRemovedFromGroupChat',
@@ -20,7 +20,7 @@ export class MemberLeftGroupChatEventHandler {
     return produce(
       (
         draft: IChatsState,
-        { payload }: ReturnType<typeof MemberLeftGroupChatEventHandler.action>,
+        { payload }: ReturnType<typeof MemberRemovedFromGroupChatEventHandler.action>,
       ) => {
         const { groupChatId, userId } = payload;
 

@@ -7,11 +7,13 @@ import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IMemberLeftGroupChatIntegrationEvent } from './member-left-group-chat-integration-event';
+import { IMemberRemovedFromGroupChatIntegrationEvent } from './member-removed-from-group-chat-integration-event';
 
 export class MemberLeftGroupChatEventHandler {
   static get action() {
-    return createAction('MemberLeftGroupChat')<IMemberLeftGroupChatIntegrationEvent>();
+    return createAction(
+      'MemberRemovedFromGroupChat',
+    )<IMemberRemovedFromGroupChatIntegrationEvent>();
   }
 
   static get reducer() {

@@ -34,9 +34,7 @@ export class MemberRemovedFromGroupChatEventHandler {
 
         const myId = new MyProfileService().myProfile.id;
 
-        const isCurrentUserEventCreator = myId === userId;
-
-        if (isCurrentUserEventCreator) {
+        if (myId === userId) {
           if (draft.selectedChatId === chatId) {
             draft.selectedChatId = undefined;
           }

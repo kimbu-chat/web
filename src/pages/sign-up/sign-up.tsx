@@ -81,11 +81,13 @@ const SignUpPage: React.FC = () => {
           label={t('loginPage.name')}
           className={`${BLOCK_NAME}__input`}
           onChange={setFirstName}
+          maxLength={30}
         />
         <Input
           label={t('loginPage.last_name')}
           className={`${BLOCK_NAME}__input`}
           onChange={setLastname}
+          maxLength={30}
         />
         <Input
           prefix="@"

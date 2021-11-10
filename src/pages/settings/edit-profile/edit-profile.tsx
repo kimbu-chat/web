@@ -243,12 +243,14 @@ const EditProfile = () => {
           value={firstName}
           onChange={changeFirstName}
           containerClassName="edit-profile__input"
+          maxLength={30}
         />
         <LabeledInput
           label={t('editProfile.last_name')}
           value={lastName}
           onChange={changeLastName}
           containerClassName="edit-profile__input"
+          maxLength={30}
         />
         <LabeledInput
           label={t('editProfile.username')}

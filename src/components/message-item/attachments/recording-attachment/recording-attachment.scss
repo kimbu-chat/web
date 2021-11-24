@@ -1,49 +1,12 @@
 .recording-attachment {
   cursor: pointer;
-  margin-bottom: 18px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
   position: relative;
-  background-color: var(--msg-bg-dt-gray-lt-kingBlueLight);
-
   background-color: var(--msg-bg);
-  border-radius: 0px 6px 6px 6px;
+
+  border-radius: 0 6px 6px 6px;
   padding: 8px 16px;
 
   & > * {
     width: 100%;
-  }
-
-  &__vaweform {
-    height: 24px;
-  }
-
-  &__vaweform-wrapper {
-    position: relative;
-    border-radius: 0px 6px 7px;
-    overflow: hidden;
-    width: 193px;
-    flex: 0 0 193px;
-    margin-right: 8px;
-  }
-
-  &__play-pause {
-    margin-right: 7px;
-
-    svg {
-      color: #fff;
-      height: 24px;
-      width: 24px;
-    }
-  }
-
-  &__duration {
-    font-weight: normal;
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 17px;
-    color: #fff;
-    white-space: nowrap;
   }
 }

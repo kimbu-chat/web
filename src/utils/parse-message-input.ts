@@ -40,7 +40,5 @@ export function parseMarkdown(html: string) {
 export function parseMessageInput(html: string) {
   const fragment = document.createElement('div');
   fragment.innerHTML = parseMarkdown(html);
-  const text = fragment.innerText.trim().replace(/\u200b+/g, '');
-
-  return text;
+  return fragment.innerText.trim().replace(/\u200b+/g, '');
 }

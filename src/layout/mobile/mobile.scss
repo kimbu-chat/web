@@ -1,0 +1,54 @@
+@import '../../common/styles/utils';
+
+.mobile-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+
+  &__logo {
+    padding-top: pxToRem(40px);
+    padding-bottom: pxToRem(34px);
+  }
+
+  &__title {
+    font-size: pxToRem(32px);
+    text-align: center;
+    color: #3f8ae0;
+    padding-bottom: pxToRem(48px);
+  }
+
+  &__footer-container {
+    display: flex;
+    flex-direction: column;
+    max-width: pxToRem(375px);
+    width: 100%;
+    position: relative;
+  }
+
+  &__plane-vector {
+    position: absolute;
+    right: 0;
+  }
+
+  &__plane {
+    align-self: normal;
+    padding-left: pxToRem(82px);
+  }
+
+  &__mobile-apps {
+    color: #32394A;
+    font-size: pxToRem(18px);
+    padding-bottom: pxToRem(40px);
+    font-weight: 300;
+    margin-top: auto;
+  }
+
+  &__copyright {
+    color: #32394A;
+    font-size: pxToRem(14px);
+    margin-bottom: pxToRem(9px);
+    font-weight: 300;
+  }
+}

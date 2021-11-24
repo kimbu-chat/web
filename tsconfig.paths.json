@@ -22,6 +22,7 @@
       "@containers/*": ["./containers/*"],
       "@icons/*": ["./assets/icons/*"],
       "@flags/*": ["./assets/flags/*"],
+      "@assets/*": ["./assets/*"],
       "@pages/*": ["./pages/*"]
     }
   }

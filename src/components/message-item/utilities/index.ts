@@ -23,7 +23,7 @@ export function normalizeAttachments(
 ): NormalizeAccumulator {
   return (
     attachments as Array<IAttachmentBase | IAttachmentWithClient>
-  ).reduce<NormalizeAccumulator>(
+  )?.reduce<NormalizeAccumulator>(
     (accum, currentAttachment) => {
       switch (currentAttachment.type) {
         case AttachmentType.Raw:

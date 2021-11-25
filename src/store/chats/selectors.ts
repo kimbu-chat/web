@@ -21,6 +21,11 @@ export const getChatLastMessageIdSelector =
   (state: RootState): number | undefined =>
     state.chats.chats[chatId]?.lastMessage?.id;
 
+export const getChatHasLastMessageSelector =
+  (chatId: number) =>
+  (state: RootState): boolean =>
+    Boolean(state.chats.chats[chatId]?.lastMessage?.id);
+
 export const getChatMessagesLengthSelector =
   (chatId: number) =>
   (state: RootState): number | undefined =>
@@ -231,8 +236,10 @@ export const getSelectedChatMessagesSelector = (
 ): Record<number, INormalizedMessage> =>
   state.chats.chats[state.chats.selectedChatId || -1]?.messages.messages;
 
-export const getMessageSelector = (chatId: number, messageId: number) => (state: RootState): INormalizedMessage =>
-  state.chats.chats[chatId]?.messages.messages[messageId];
+export const getMessageSelector =
+  (chatId: number, messageId: number) =>
+  (state: RootState): INormalizedMessage =>
+    state.chats.chats[chatId]?.messages.messages[messageId];
 
 export const getChatHasMessageWithIdSelector =
   (messageId: number, chatId: number) => (state: RootState) =>

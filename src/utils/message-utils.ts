@@ -261,6 +261,3 @@ export const constructSystemMessageText = (
 
   return message.toString() || '';
 };
-
-export const createSystemMessage = (systemMessage: ISystemMessageBase): string =>
-  JSON.stringify(systemMessage);

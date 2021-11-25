@@ -1,15 +1,8 @@
 import produce from 'immer';
-import { SystemMessageType } from 'kimbu-models';
 import { createAction } from 'typesafe-actions';
 
 import { MyProfileService } from '@services/my-profile-service';
-import {
-  MessageState,
-  INormalizedChat,
-  InterlocutorType,
-  INormalizedMessage,
-} from '@store/chats/models';
-import { createSystemMessage } from '@utils/message-utils';
+import { INormalizedChat, InterlocutorType } from '@store/chats/models';
 
 import messageCameUnselected from '../../../../assets/sounds/notifications/messsage-came-unselected.ogg';
 import { playSoundSafely } from '../../../../utils/current-music';
@@ -32,7 +25,6 @@ export class GroupChatCreatedEventHandler {
           id,
           memberIds,
           name,
-          systemMessageId,
           userCreator,
           userCreatorId,
           avatarId,
@@ -51,23 +43,10 @@ export class GroupChatCreatedEventHandler {
         const audioUnselected = new Audio(messageCameUnselected);
         playSoundSafely(audioUnselected);
 
-        const messageOfCreation: INormalizedMessage = {
-          systemMessageType: SystemMessageType.GroupChatCreated,
-          text: createSystemMessage({}),
-          creationDateTime: new Date().toISOString(),
-          userCreatorId: userCreator.id,
-          state: MessageState.READ,
-          chatId,
-          id: systemMessageId,
-          isDeleted: false,
-          isEdited: false,
-        };
-
         const newChat: INormalizedChat = {
           id: chatId,
           interlocutorType: InterlocutorType.GroupChat,
           unreadMessagesCount: myId === userCreator.id ? 0 : 1,
-          lastMessage: messageOfCreation,
           groupChat: {
             id,
             name,

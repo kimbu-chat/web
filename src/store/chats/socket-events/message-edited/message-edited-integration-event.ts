@@ -3,5 +3,4 @@ export interface IMessageEditedIntegrationEvent {
   chatId: number;
   messageId: number;
   text: string;
-  userEditorId: number;
 }

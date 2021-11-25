@@ -15,7 +15,7 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
-import { INormalizedLinkedMessage, INormalizedChat } from '@store/chats/models';
+import { INormalizedLinkedMessage, INormalizedChat, INormalizedMessage } from '@store/chats/models';
 import {
   chatNormalizationSchema,
   linkedMessageNormalizationSchema,
@@ -43,6 +43,7 @@ import {
   getChatByIdSelector,
   getChatHasMessageWithIdSelector,
   getMessageSelector,
+  getChatHasLastMessageSelector,
 } from '../../selectors';
 
 import { MessageCreatedEventHandlerSuccess } from './message-created-event-handler-success';
@@ -72,6 +73,18 @@ export class MessageCreatedEventHandler {
         (yield select(getChatHasMessageWithIdSelector(clientId, chatId)));
 
       if (messageExists) {
+        const chatHasLastMessage = yield select(getChatHasLastMessageSelector(chatId));
+
+        if (!chatHasLastMessage && systemMessageType === SystemMessageType.GroupChatCreated) {
+          const chat: INormalizedChat = yield select(getChatByIdSelector(chatId));
+
+          const message: INormalizedMessage = yield select(getMessageSelector(chatId, id));
+
+          const updatedChat = { ...chat, lastMessage: message };
+
+          yield put(UnshiftChat.action({ chat: updatedChat, addToList: false }));
+        }
+
         return;
       }
 

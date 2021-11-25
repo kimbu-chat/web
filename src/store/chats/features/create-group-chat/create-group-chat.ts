@@ -1,19 +1,13 @@
 import { AxiosResponse } from 'axios';
-import { ICreateGroupChatRequest, SystemMessageType, ICreateGroupChatResponse } from 'kimbu-models';
+import { ICreateGroupChatRequest, ICreateGroupChatResponse } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import {
-  INormalizedChat,
-  INormalizedMessage,
-  MessageState,
-  InterlocutorType,
-} from '@store/chats/models';
+import { INormalizedChat, InterlocutorType } from '@store/chats/models';
 import { Meta } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { createSystemMessage } from '@utils/message-utils';
 
 import { ChatId } from '../../chat-id';
 
@@ -49,18 +43,6 @@ export class CreateGroupChat {
 
       const chatId = ChatId.from(undefined, groupChatId).id;
 
-      const firstMessage: INormalizedMessage = {
-        creationDateTime: new Date().toISOString(),
-        id: new Date().getTime(),
-        systemMessageType: SystemMessageType.GroupChatCreated,
-        text: createSystemMessage({}),
-        chatId,
-        state: MessageState.LOCALMESSAGE,
-        userCreatorId: currentUserId,
-        isDeleted: false,
-        isEdited: false,
-      };
-
       const chat: INormalizedChat = {
         interlocutorType: InterlocutorType.GroupChat,
         unreadMessagesCount: 0,
@@ -76,7 +58,6 @@ export class CreateGroupChat {
           userCreatorId: currentUserId,
         },
         typingInterlocutors: [],
-        lastMessage: firstMessage,
         photos: {
           hasMore: true,
           loading: false,

@@ -7,6 +7,7 @@ import {
   SystemMessageType,
   MessageLinkType,
   IMarkChatAsReadRequest,
+  IGroupChatMemberRemovedSystemMessage,
 } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
@@ -26,10 +27,7 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { areNotificationsEnabledSelector } from '@store/settings/selectors';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { playSoundSafely } from '@utils/current-music';
-import {
-  IGroupChatMemberRemovedSystemMessageContent,
-  getSystemMessageData,
-} from '@utils/message-utils';
+import { getSystemMessageData } from '@utils/message-utils';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { setNewTitleNotificationInterval, incrementNotifications } from '@utils/set-favicon';
 
@@ -91,8 +89,7 @@ export class MessageCreatedEventHandler {
       const myId = yield select(myIdSelector);
 
       if (systemMessageType === SystemMessageType.GroupChatMemberRemoved) {
-        const systemMessage =
-          getSystemMessageData<IGroupChatMemberRemovedSystemMessageContent>(payload);
+        const systemMessage = getSystemMessageData<IGroupChatMemberRemovedSystemMessage>(payload);
 
         if (userCreator.id === myId && systemMessage.removedUserId === myId) {
           return;

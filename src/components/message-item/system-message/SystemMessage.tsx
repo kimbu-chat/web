@@ -1,7 +1,7 @@
 import React from 'react';
 
 import classNames from 'classnames';
-import { CallStatus, IUser, SystemMessageType } from 'kimbu-models';
+import { CallStatus, ICallEndedSystemMessage, IUser, SystemMessageType } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -15,11 +15,7 @@ import { ReactComponent as MissedCallSvg } from '@icons/missed-call.svg';
 import { ReactComponent as OutgoingCallSvg } from '@icons/outgoing-call.svg';
 import { ReactComponent as PictureSvg } from '@icons/picture.svg';
 import { myIdSelector } from '@store/my-profile/selectors';
-import {
-  constructSystemMessageText,
-  getSystemMessageData,
-  ICallMessage,
-} from '@utils/message-utils';
+import { constructSystemMessageText, getSystemMessageData } from '@utils/message-utils';
 import { NoopComponent } from '@utils/noop-component';
 
 import type { INormalizedMessage } from '@store/chats/models';
@@ -45,6 +41,7 @@ type SystemMessageCallTypes = CallStatus | CallEndedTypes;
 
 const SYSTEM_MESSAGE_ICON: Record<SystemMessageIcon, typeof AddUsersSvg> = {
   [SystemMessageType.GroupChatMemberAdded]: AddUsersSvg,
+  [SystemMessageType.GroupChatMemberLeft]: LeaveSvg,
   [SystemMessageType.GroupChatMemberRemoved]: LeaveSvg,
   [SystemMessageType.GroupChatCreated]: CreateChatSvg,
   [SystemMessageType.GroupChatNameChanged]: CrayonSvg,
@@ -79,7 +76,7 @@ function getSystemMessageCallType(
 }
 
 export const SystemMessage: React.FC<ISystemMessageProps> = ({ message, userCreator }) => {
-  const systemCallMessage = getSystemMessageData<ICallMessage>(message);
+  const systemCallMessage = getSystemMessageData<ICallEndedSystemMessage>(message);
   const myId = useSelector(myIdSelector) as number;
   const { t } = useTranslation();
 

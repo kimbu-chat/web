@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IPictureAttachment, IVideoAttachment, IAttachmentBase } from 'kimbu-models';
+import { INamedAttachment } from '@store/chats/models/named-attachment';
 
 import { MessageMediaAttachment } from '../media-attachment/media-attachment';
 
@@ -9,7 +9,7 @@ import type { ObserveFn } from '@hooks/use-intersection-observer';
 import './media-grid.scss';
 
 interface IMediaGridProps {
-  media: (IPictureAttachment | IVideoAttachment | IAttachmentBase)[];
+  media: INamedAttachment[];
   observeIntersection: ObserveFn;
 }
 

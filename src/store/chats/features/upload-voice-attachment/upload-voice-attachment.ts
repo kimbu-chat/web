@@ -2,8 +2,8 @@ import produce from 'immer';
 import {
   AttachmentType,
   IAttachmentBase,
-  IAudioAttachment,
   ICreateMessageRequest,
+  IVoiceAttachment,
   MessageLinkType,
   SystemMessageType,
 } from 'kimbu-models';
@@ -63,7 +63,7 @@ export class UploadVoiceAttachment {
               type: AttachmentType.Voice,
               waveFormJson,
               duration,
-            } as IAudioAttachment as IAttachmentBase,
+            } as IVoiceAttachment as IAttachmentBase,
           ],
           isDeleted: false,
           isEdited: false,

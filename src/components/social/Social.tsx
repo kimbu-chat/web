@@ -28,13 +28,12 @@ export const Social: React.FC<SocialProps> = ({
 }) => (
   <div className={className}>
     <SocialSvg className={`${BLOCK_NAME}__social--${size}`} />
-    <div className={`${BLOCK_NAME}__planes`}>
+    <div className={classnames(`${BLOCK_NAME}__planes`, planesClassName)}>
       <Plane className={classnames(`${BLOCK_NAME}__plane`, `${BLOCK_NAME}__plane--${size}`)} />
       <PlaneVector
         className={classnames(
           `${BLOCK_NAME}__plane-vector`,
           `${BLOCK_NAME}__plane-vector--${size}`,
-          planesClassName,
         )}
       />
     </div>

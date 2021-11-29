@@ -53,6 +53,11 @@ export class ChangeChatInfoOpened {
                 loading: false,
                 hasMore: true,
               },
+              possibleMembers: {
+                data: [],
+                loading: false,
+                hasMore: true,
+              },
               recordings: {
                 recordings: [],
                 loading: false,

@@ -1,0 +1,35 @@
+@import '../../../common/styles/utils';
+
+.system-message {
+  display: flex;
+  justify-content: center;
+  margin-bottom: pxToRem(12px);
+  margin-top: pxToRem(12px);
+
+  &__icon {
+    color: #fff;
+    height: pxToRem(12px);
+    margin-right: pxToRem(8px);
+
+    width: pxToRem(12px);
+  }
+
+  &__content {
+    background: var(--dt-dark-wt-kingBlueLight);
+    border-radius: pxToRem(6px);
+    color: #fff;
+    display: inline-flex;
+    font-size: 0.75rem;
+    font-weight: 300;
+    line-height: pxToRem(14px);
+    padding: pxToRem(4px) pxToRem(16px);
+
+    &--success-call {
+      background: var(--dt-blue-wt-grayLight);
+    }
+
+    &--failure-call {
+      background: var(--error-bg-themed);
+    }
+  }
+}

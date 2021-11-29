@@ -84,7 +84,7 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
                 const message = messagesForChat?.messages[linkedMsgIndex];
 
                 if (message?.linkedMessage) {
-                  message.linkedMessage = null;
+                  message.linkedMessage = undefined;
                 }
 
                 return message;
@@ -98,7 +98,7 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
 
           if (chat.lastMessage?.linkedMessage) {
             if (messageIds.includes(chat.lastMessage?.linkedMessage?.id)) {
-              chat.lastMessage.linkedMessage = null;
+              chat.lastMessage.linkedMessage = undefined;
             }
           }
         }

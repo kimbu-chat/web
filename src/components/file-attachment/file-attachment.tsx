@@ -1,14 +1,20 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import classnames from 'classnames';
+import { IAttachmentBase } from 'kimbu-models';
+
 import { ReactComponent as DownloadSvg } from '@icons/download.svg';
 import { ReactComponent as ProgressSVG } from '@icons/ic-progress.svg';
-import { INamedAttachment } from '@store/chats/models/named-attachment';
 import { fileDownload } from '@utils/file-download';
 import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';
 
 import './file-attachment.scss';
 
-const FileAttachment: React.FC<INamedAttachment> = ({ ...attachment }) => {
+const BLOCK_NAME = 'file-attachment';
+
+type FileAttachmentProps = IAttachmentBase & { fileName?: string; className?: string };
+
+function FileAttachment<T extends FileAttachmentProps>({ fileName, byteSize, url, className }: T) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloaded, setDownloaded] = useState(0);
 
@@ -18,25 +24,20 @@ const FileAttachment: React.FC<INamedAttachment> = ({ ...attachment }) => {
   useEffect(() => {
     if (progressSvgRef.current) {
       progressSvgRef.current.querySelectorAll('circle')[1].style.strokeDashoffset = String(
-        76 - (downloaded / attachment.byteSize) * 63,
+        76 - (downloaded / byteSize) * 63,
       );
     }
-  }, [downloaded, progressSvgRef, attachment?.byteSize]);
+  }, [downloaded, progressSvgRef, byteSize]);
 
   const download = useCallback(() => {
-    if (attachment.url) {
-      abortDownloadingRef.current = fileDownload(
-        attachment.url,
-        attachment.fileName || '',
-        setDownloaded,
-        () => {
-          setDownloaded(0);
-          setIsDownloading(false);
-        },
-      );
+    if (url) {
+      abortDownloadingRef.current = fileDownload(url, fileName || '', setDownloaded, () => {
+        setDownloaded(0);
+        setIsDownloading(false);
+      });
     }
     setIsDownloading(true);
-  }, [attachment.url, attachment.fileName]);
+  }, [url, fileName]);
 
   const abortDownloading = useCallback(() => {
     if (abortDownloadingRef.current) {
@@ -47,29 +48,27 @@ const FileAttachment: React.FC<INamedAttachment> = ({ ...attachment }) => {
   }, [setIsDownloading, setDownloaded, abortDownloadingRef]);
 
   return (
-    <div className="file-attachment">
+    <div className={classnames(BLOCK_NAME, className)}>
       {isDownloading ? (
-        <div onClick={abortDownloading} className="file-attachment__cancel">
-          <ProgressSVG ref={progressSvgRef} className="file-attachment__progress-svg" />
+        <div onClick={abortDownloading} className={`${BLOCK_NAME}__cancel`}>
+          <ProgressSVG ref={progressSvgRef} className={`${BLOCK_NAME}__progress-svg`} />
         </div>
       ) : (
-        <div onClick={download} className="file-attachment__download">
+        <div onClick={download} className={`${BLOCK_NAME}__download`}>
           <DownloadSvg />
         </div>
       )}
-      <div className="file-attachment__data">
-        <h4 className="file-attachment__file-name">{attachment.fileName}</h4>
-        <div className="file-attachment__file-size">
+      <div className={`${BLOCK_NAME}__data`}>
+        <h4 className={`${BLOCK_NAME}__file-name`}>{fileName}</h4>
+        <div className={`${BLOCK_NAME}__file-size`}>
           {isDownloading
-            ? `${getRawAttachmentSizeUnit(downloaded)}/${getRawAttachmentSizeUnit(
-                attachment.byteSize,
-              )}`
-            : getRawAttachmentSizeUnit(attachment.byteSize)}
+            ? `${getRawAttachmentSizeUnit(downloaded)}/${getRawAttachmentSizeUnit(byteSize)}`
+            : getRawAttachmentSizeUnit(byteSize)}
         </div>
       </div>
     </div>
   );
-};
+}
 
 FileAttachment.displayName = 'FileAttachment';
 

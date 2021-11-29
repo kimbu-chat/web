@@ -80,6 +80,7 @@ import { DialogRemovedEventHandler } from './socket-events/dialog-removed/dialog
 import { GroupChatCreatedEventHandler } from './socket-events/group-chat-created/group-chat-created-event-handler';
 import { GroupChatEditedEventHandler } from './socket-events/group-chat-edited/group-chat-edited-integration-event-handler';
 import { MemberLeftGroupChatEventHandler } from './socket-events/member-left-group-chat/member-left-group-chat-event-handler';
+import { MemberRemovedFromGroupChatEventHandler } from './socket-events/member-removed-from-group-chat/member-removed-from-group-chat-event-handler';
 import { MessageCreatedEventHandlerSuccess } from './socket-events/message-created/message-created-event-handler-success';
 import { MessagesDeletedIntegrationEventHandlerSuccess } from './socket-events/message-deleted/messages-deleted-integration-event-handler-success';
 import { MessageEditedEventHandler } from './socket-events/message-edited/message-edited-event-handler';
@@ -434,6 +435,10 @@ const reducer = createReducer<IChatsState>(initialState)
   // socket-events
   .handleAction(UserMessageTypingEventHandler.action, UserMessageTypingEventHandler.reducer)
   .handleAction(MemberLeftGroupChatEventHandler.action, MemberLeftGroupChatEventHandler.reducer)
+  .handleAction(
+    MemberRemovedFromGroupChatEventHandler.action,
+    MemberRemovedFromGroupChatEventHandler.reducer,
+  )
   .handleAction(GroupChatEditedEventHandler.action, GroupChatEditedEventHandler.reducer)
   .handleAction(GroupChatCreatedEventHandler.action, GroupChatCreatedEventHandler.reducer)
   .handleAction(

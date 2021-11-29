@@ -243,12 +243,14 @@ const EditProfile = () => {
           value={firstName}
           onChange={changeFirstName}
           containerClassName="edit-profile__input"
+          maxLength={30}
         />
         <LabeledInput
           label={t('editProfile.last_name')}
           value={lastName}
           onChange={changeLastName}
           containerClassName="edit-profile__input"
+          maxLength={30}
         />
         <LabeledInput
           label={t('editProfile.username')}
@@ -262,12 +264,7 @@ const EditProfile = () => {
           onClick={sumbmitChanges}
           className="edit-profile__btn"
           loading={submitLoading}
-          disabled={
-            error !== NicknameState.ALLOWED_NICKNAME ||
-            isLoading ||
-            !firstName.length ||
-            !lastName.length
-          }>
+          disabled={error !== NicknameState.ALLOWED_NICKNAME || isLoading || !firstName.length}>
           {t('editProfile.save-changes')}
         </Button>
         <HorizontalSeparator />

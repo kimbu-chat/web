@@ -7,6 +7,7 @@ import {
   SystemMessageType,
   MessageLinkType,
   IMarkChatAsReadRequest,
+  IGroupChatMemberRemovedSystemMessage,
 } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
@@ -15,7 +16,7 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
-import { INormalizedLinkedMessage, INormalizedChat } from '@store/chats/models';
+import { INormalizedLinkedMessage, INormalizedChat, INormalizedMessage } from '@store/chats/models';
 import {
   chatNormalizationSchema,
   linkedMessageNormalizationSchema,
@@ -26,10 +27,7 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { areNotificationsEnabledSelector } from '@store/settings/selectors';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { playSoundSafely } from '@utils/current-music';
-import {
-  IGroupChatMemberRemovedSystemMessageContent,
-  getSystemMessageData,
-} from '@utils/message-utils';
+import { getSystemMessageData } from '@utils/message-utils';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { setNewTitleNotificationInterval, incrementNotifications } from '@utils/set-favicon';
 
@@ -43,6 +41,7 @@ import {
   getChatByIdSelector,
   getChatHasMessageWithIdSelector,
   getMessageSelector,
+  getChatHasLastMessageSelector,
 } from '../../selectors';
 
 import { MessageCreatedEventHandlerSuccess } from './message-created-event-handler-success';
@@ -72,14 +71,25 @@ export class MessageCreatedEventHandler {
         (yield select(getChatHasMessageWithIdSelector(clientId, chatId)));
 
       if (messageExists) {
+        const chatHasLastMessage = yield select(getChatHasLastMessageSelector(chatId));
+
+        if (!chatHasLastMessage && systemMessageType === SystemMessageType.GroupChatCreated) {
+          const chat: INormalizedChat = yield select(getChatByIdSelector(chatId));
+
+          const message: INormalizedMessage = yield select(getMessageSelector(chatId, id));
+
+          const updatedChat = { ...chat, lastMessage: message };
+
+          yield put(UnshiftChat.action({ chat: updatedChat, addToList: false }));
+        }
+
         return;
       }
 
       const myId = yield select(myIdSelector);
 
       if (systemMessageType === SystemMessageType.GroupChatMemberRemoved) {
-        const systemMessage =
-          getSystemMessageData<IGroupChatMemberRemovedSystemMessageContent>(payload);
+        const systemMessage = getSystemMessageData<IGroupChatMemberRemovedSystemMessage>(payload);
 
         if (userCreator.id === myId && systemMessage.removedUserId === myId) {
           return;

@@ -1,5 +1,14 @@
 import { TFunction } from 'i18next';
-import { SystemMessageType, IMessage, CallStatus } from 'kimbu-models';
+import {
+  SystemMessageType,
+  IMessage,
+  CallStatus,
+  IGroupChatMemberRemovedSystemMessage,
+  IGroupChatMemberLeftSystemMessage,
+  IGroupChatMemberAddedSystemMessage,
+  IGroupChatNameChangedSystemMessage,
+  ICallEndedSystemMessage,
+} from 'kimbu-models';
 
 import { INormalizedMessage } from '@store/chats/models';
 import { IMessageCreatedIntegrationEvent } from '@store/chats/socket-events/message-created/message-created-integration-event';
@@ -9,54 +18,29 @@ import { getHourMinuteSecond, getShortTimeAmPm } from './date-utils';
 
 import type { IUser } from 'kimbu-models';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface ISystemMessageBase {}
-
-export interface IGroupChatMemberRemovedSystemMessageContent extends ISystemMessageBase {
-  removedUserId: number;
-  removedUserName: string;
-}
-
-interface IGroupChatNameChangedSystemMessageContent extends ISystemMessageBase {
-  oldName: string;
-  newName: string;
-}
-
-interface IGroupChatMemberAddedSystemMessageContent extends ISystemMessageBase {
-  addeduserId: number;
-  addedUserName: string;
-}
-
-export interface ICallMessage {
-  userCallerId: number;
-  userCalleeId: number;
-  duration: number;
-  status: CallStatus;
-}
-
 export const getSystemMessageData = <TSystemMessagePayload>(
   message: INormalizedMessage | IMessage | IMessageCreatedIntegrationEvent,
 ): TSystemMessagePayload => (message.text ? JSON.parse(message.text) : {});
 
 const getCallEndedMessage = (
   message: INormalizedMessage,
-  callMessage: ICallMessage,
+  callMessage: ICallEndedSystemMessage,
   t: TFunction,
   myId: number,
 ) => {
   if (callMessage.userCallerId === myId) {
     return t('systemMessage.outgoing_call_success_ended', {
-      duration: getHourMinuteSecond(callMessage.duration * SECOND_DURATION),
+      duration: getHourMinuteSecond(callMessage.duration || 0 * SECOND_DURATION),
     });
   }
   return t('systemMessage.incoming_call_success_ended', {
-    duration: getHourMinuteSecond(callMessage.duration * SECOND_DURATION),
+    duration: getHourMinuteSecond(callMessage.duration || 0 * SECOND_DURATION),
   });
 };
 
 const getCallCanceledMessage = (
   message: INormalizedMessage,
-  callMessage: ICallMessage,
+  callMessage: ICallEndedSystemMessage,
   t: TFunction,
   myId: number,
 ) =>
@@ -66,7 +50,7 @@ const getCallCanceledMessage = (
 
 const getCallDeclinedMessage = (
   message: INormalizedMessage,
-  callMessage: ICallMessage,
+  callMessage: ICallEndedSystemMessage,
   t: TFunction,
   myId: number,
 ) =>
@@ -76,17 +60,17 @@ const getCallDeclinedMessage = (
 
 const getCallIntrerruptedMessage = (
   message: INormalizedMessage,
-  callMessage: ICallMessage,
+  callMessage: ICallEndedSystemMessage,
   t: TFunction,
   myId: number,
 ) =>
   callMessage.userCallerId === myId
-    ? t('systemMessage.outgoing_call_intrrerupted')
-    : t('systemMessage.incoming_call_intrrerupted');
+    ? t('systemMessage.outgoing_call_interrupted')
+    : t('systemMessage.incoming_call_interrupted');
 
 const getCallNotAnsweredMessage = (
   message: INormalizedMessage,
-  callMessage: ICallMessage,
+  callMessage: ICallEndedSystemMessage,
   t: TFunction,
   myId: number,
 ) =>
@@ -101,7 +85,7 @@ const getCallNotAnsweredMessage = (
 const callMessageMap: {
   [key in Partial<CallStatus>]?: (
     message: INormalizedMessage,
-    callMessage: ICallMessage,
+    callMessage: ICallEndedSystemMessage,
     t: TFunction,
     myId: number,
   ) => string;
@@ -125,21 +109,17 @@ const getGroupChatCreatedMessage = (
         name: `${userCreator?.firstName} ${userCreator?.lastName}`,
       });
 
-const getGroupChatMemberRemovedMessage = (
-  message: INormalizedMessage,
-  t: TFunction,
-  myId: number,
-  userCreator?: IUser,
-) => {
-  const systemMessageContent =
-    getSystemMessageData<IGroupChatMemberRemovedSystemMessageContent>(message);
-  if (systemMessageContent.removedUserId === userCreator?.id) {
-    return t('systemMessage.left_group', {
-      name: systemMessageContent.removedUserName,
-    });
-  }
+const getGroupChatMemberRemovedMessage = (message: INormalizedMessage, t: TFunction) => {
+  const systemMessageContent = getSystemMessageData<IGroupChatMemberRemovedSystemMessage>(message);
   return t('systemMessage.removed_from_group', {
     name: systemMessageContent.removedUserName,
+  });
+};
+
+const getGroupChatMemberLeftMessage = (message: INormalizedMessage, t: TFunction) => {
+  const systemMessageContent = getSystemMessageData<IGroupChatMemberLeftSystemMessage>(message);
+  return t('systemMessage.left_group', {
+    name: systemMessageContent.userName,
   });
 };
 
@@ -149,8 +129,7 @@ const getGroupChatMemberAddedMessage = (
   myId: number,
   userCreator?: IUser,
 ) => {
-  const systemMessageContent =
-    getSystemMessageData<IGroupChatMemberAddedSystemMessageContent>(message);
+  const systemMessageContent = getSystemMessageData<IGroupChatMemberAddedSystemMessage>(message);
 
   if (userCreator?.id === myId) {
     return t('systemMessage.you_added', {
@@ -169,8 +148,7 @@ const getGroupChatNameChangedMessage = (
   myId: number,
   userCreator?: IUser,
 ) => {
-  const systemMessageContent =
-    getSystemMessageData<IGroupChatNameChangedSystemMessageContent>(message);
+  const systemMessageContent = getSystemMessageData<IGroupChatNameChangedSystemMessage>(message);
 
   if (userCreator?.id === myId) {
     return t('systemMessage.you_changed_name', {
@@ -214,8 +192,8 @@ const getGroupChatAvatarRemovedMessage = (
 };
 
 const getCallMessage = (message: INormalizedMessage, t: TFunction, myId: number) => {
-  const callMessage = getSystemMessageData<ICallMessage>(message);
-  const processingFunction = callMessageMap[callMessage.status];
+  const callMessage = getSystemMessageData<ICallEndedSystemMessage>(message);
+  const processingFunction = callMessageMap[callMessage.status as CallStatus];
 
   if (processingFunction) {
     return processingFunction(message, callMessage, t, myId);
@@ -234,6 +212,7 @@ const systemMessageMap: {
 } = {
   [SystemMessageType.GroupChatCreated]: getGroupChatCreatedMessage,
   [SystemMessageType.GroupChatMemberRemoved]: getGroupChatMemberRemovedMessage,
+  [SystemMessageType.GroupChatMemberLeft]: getGroupChatMemberLeftMessage,
   [SystemMessageType.GroupChatMemberAdded]: getGroupChatMemberAddedMessage,
   [SystemMessageType.GroupChatNameChanged]: getGroupChatNameChangedMessage,
   [SystemMessageType.GroupChatAvatarChanged]: getGroupChatAvatarChangedMessage,
@@ -255,6 +234,3 @@ export const constructSystemMessageText = (
 
   return message.toString() || '';
 };
-
-export const createSystemMessage = (systemMessage: ISystemMessageBase): string =>
-  JSON.stringify(systemMessage);

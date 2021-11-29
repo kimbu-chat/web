@@ -27,11 +27,9 @@ export class RemoveUserFromGroupChatSuccess {
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (chat?.groupChat) {
-          chat.groupChat.membersCount -= 1;
+          // chat.groupChat.membersCount is decremented in event handler
           chat.members.memberIds = chat.members.memberIds.filter((id) => id !== userId);
         }
-
-        // TODO: handle user deletion
 
         return draft;
       },

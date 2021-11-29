@@ -100,6 +100,7 @@ module.exports = function ({ env }) {
         '@containers': path.resolve(__dirname, 'src/containers'),
         '@pages': path.resolve(__dirname, 'src/pages'),
         '@flags': path.resolve(__dirname, 'src/assets/flags'),
+        '@assets': path.resolve(__dirname, 'src/assets'),
       },
     },
   };

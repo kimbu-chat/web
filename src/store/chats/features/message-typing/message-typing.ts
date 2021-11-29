@@ -38,7 +38,7 @@ export class MessageTyping {
     return function* messageTypingSaga(): SagaIterator {
       const chatId = yield select(getSelectedChatIdSelector);
       const interlocutorName = yield select(myFullNameSelector);
-      yield call(() => MessageTyping.httpRequest.generator({ interlocutorName, chatId }));
+      yield call(() => MessageTyping.httpRequest.generator({ interlocutorName, chatId, text: '' }));
     };
   }
 

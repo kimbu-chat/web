@@ -1,0 +1,36 @@
+.recording {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  &__waveform {
+    height: 24px;
+  }
+
+  &__waveform-wrapper {
+    position: relative;
+    border-radius: 0 6px 7px;
+    overflow: hidden;
+    width: 193px;
+    flex: 0 0 193px;
+    margin-right: 8px;
+  }
+
+  &__play-pause {
+    margin-right: 7px;
+
+    svg {
+      color: #fff;
+      height: 24px;
+      width: 24px;
+    }
+  }
+
+  &__duration {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 17px;
+    color: #fff;
+    white-space: nowrap;
+  }
+}

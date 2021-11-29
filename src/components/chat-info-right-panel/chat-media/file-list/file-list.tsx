@@ -1,6 +1,5 @@
 import React, { useCallback, useRef } from 'react';
 
-import { IAttachmentBase } from 'kimbu-models';
 import { useSelector } from 'react-redux';
 
 import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
@@ -15,12 +14,6 @@ import { setSeparators } from '@utils/set-separators';
 import './file-list.scss';
 
 const ATTACHMENTS_GROUP_PREFIX = 'files';
-
-const FileAttachmentComponent: React.FC<IAttachmentBase> = ({ ...file }) => (
-  <div>
-    <FileAttachment {...file} />
-  </div>
-);
 
 export const FileList = () => {
   const getRawAttachments = useActionWithDispatch(getRawAttachmentsAction);
@@ -51,10 +44,7 @@ export const FileList = () => {
             prefix: ATTACHMENTS_GROUP_PREFIX,
           }).map((pack) => (
             <div key={pack.id}>
-              <ChatAttachment
-                items={pack.attachments}
-                AttachmentComponent={FileAttachmentComponent}
-              />
+              <ChatAttachment items={pack.attachments} AttachmentComponent={FileAttachment} />
             </div>
           ))}
       </InfiniteScroll>

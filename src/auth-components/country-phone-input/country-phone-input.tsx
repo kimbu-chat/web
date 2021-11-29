@@ -117,6 +117,7 @@ export const CountryPhoneInput: React.FC<CountryPhoneInputProps> = ({ onChange, 
               placeholder={t('loginPage.search_country')}
               onChange={searchCountries}
               className={`${BLOCK_NAME}__search__input`}
+              autoFocus
             />
           </div>
           <ul className={`${BLOCK_NAME}__list__countries`}>

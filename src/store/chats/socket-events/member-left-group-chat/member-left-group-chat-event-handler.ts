@@ -1,7 +1,8 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 
-import { MyProfileService } from '../../../../services/my-profile-service';
+import { MyProfileService } from '@services/my-profile-service';
+
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
@@ -23,25 +24,28 @@ export class MemberLeftGroupChatEventHandler {
 
         const chatId = ChatId.from(undefined, groupChatId).id;
 
+        const chat = getChatByIdDraftSelector(chatId, draft);
+
+        if (!chat) {
+          return draft;
+        }
+
         const myId = new MyProfileService().myProfile.id;
 
         const isCurrentUserEventCreator = myId === userId;
 
-        const chatExists = Boolean(draft.chats[chatId]);
-
-        if (isCurrentUserEventCreator && chatExists) {
-          draft.chatList.chatIds = draft.chatList.chatIds.filter((id) => id !== chatId);
-
-          delete draft.chats[chatId];
-
+        if (isCurrentUserEventCreator) {
           if (draft.selectedChatId === chatId) {
             draft.selectedChatId = undefined;
           }
-        } else {
-          const chat = getChatByIdDraftSelector(chatId, draft);
 
-          if (chat) {
-            chat.members.memberIds = chat.members.memberIds.filter((id) => id !== userId);
+          draft.chatList.chatIds = draft.chatList.chatIds.filter((id) => id !== chatId);
+
+          delete draft.chats[chatId];
+        } else {
+          chat.members.memberIds = chat.members.memberIds.filter((id) => id !== userId);
+          if (chat.groupChat) {
+            chat.groupChat.membersCount -= 1;
           }
         }
 

@@ -1,60 +1,34 @@
-import React, { useCallback, useMemo, ReactElement, useState, useEffect } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import classNames from 'classnames';
-import {
-  IAttachmentBase,
-  IPictureAttachment,
-  IVoiceAttachment,
-  IVideoAttachment,
-  IAudioAttachment,
-  AttachmentType,
-  SystemMessageType,
-  MessageLinkType,
-  CallStatus,
-} from 'kimbu-models';
-import { size } from 'lodash';
+import { AttachmentType, IUser, MessageLinkType, SystemMessageType } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { MessageAudioAttachment } from '@components/audio-attachment';
 import { Avatar } from '@components/avatar';
-import { FileAttachment } from '@components/file-attachment';
+import { SystemMessage } from '@components/message-item/system-message';
+import { normalizeAttachments } from '@components/message-item/utilities';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
 import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
-import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
-import { ReactComponent as DeclinedCallSvg } from '@icons/declined-call.svg';
-import { ReactComponent as IncomingCallSvg } from '@icons/incoming-call.svg';
-import { ReactComponent as LeaveSvg } from '@icons/leave.svg';
 import { ReactComponent as MessageQeuedSvg } from '@icons/message-queued.svg';
 import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
 import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
-import { ReactComponent as MissedCallSvg } from '@icons/missed-call.svg';
-import { ReactComponent as OutgoingCallSvg } from '@icons/outgoing-call.svg';
-import { ReactComponent as PictureSvg } from '@icons/picture.svg';
 import { ReactComponent as SelectSvg } from '@icons/select.svg';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { changeChatInfoOpenedAction, selectMessageAction } from '@store/chats/actions';
 import { ChatId } from '@store/chats/chat-id';
-import { MessageState } from '@store/chats/models';
-import { INamedAttachment } from '@store/chats/models/named-attachment';
-import { getMessageSelector, getIsSelectMessagesStateSelector } from '@store/chats/selectors';
+import { INormalizedLinkedMessage, MessageState } from '@store/chats/models';
+import { getIsSelectMessagesStateSelector, getMessageSelector } from '@store/chats/selectors';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
 import { getShortTimeAmPm } from '@utils/date-utils';
-import {
-  constructSystemMessageText,
-  getSystemMessageData,
-  ICallMessage,
-} from '@utils/message-utils';
 import { replaceInUrl } from '@utils/replace-in-url';
 import { getUserName } from '@utils/user-utils';
 
 import renderText from '../../utils/render-text/render-text';
 
-import { MediaGrid } from './attachments/media-grid/media-grid';
-import { RecordingAttachment } from './attachments/recording-attachment/recording-attachment';
+import { AttachmentsMap } from './attachments/attachments-map';
 import { MessageItemActions } from './message-item-actions/message-item-actions';
 import { RepliedMessage } from './replied-message/replied-message';
 
@@ -72,6 +46,8 @@ interface IMessageItemProps {
 }
 
 const BLOCK_NAME = 'message';
+
+const linkedMessageTypes = [MessageLinkType.Forward, MessageLinkType.Reply];
 
 const MessageItem: React.FC<IMessageItemProps> = React.memo(
   ({ messageId, selectedChatId, needToShowCreator, isSelected, observeIntersection, animated }) => {
@@ -91,8 +67,11 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
       }
     }, [message.state]);
 
-    const messageToProcess =
-      message?.linkedMessageType === MessageLinkType.Forward ? message?.linkedMessage : message;
+    const isLinkedMessage = linkedMessageTypes.some((type) => type === message?.linkedMessageType);
+
+    const messageToProcess = isLinkedMessage
+      ? (message?.linkedMessage as INormalizedLinkedMessage)
+      : message;
 
     const isCurrentUserMessageCreator = message?.userCreatorId === myId;
 
@@ -132,116 +111,57 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
       return icon;
     };
 
-    const structuredAttachments = useMemo(
-      () =>
-        messageToProcess?.attachments?.reduce(
-          (
-            accum: {
-              files: IAttachmentBase[];
-              media: (IVideoAttachment | IPictureAttachment)[];
-              audios: IAudioAttachment[];
-              recordings: (IVoiceAttachment & { clientId?: number })[];
-            },
-            currentAttachment,
-          ) => {
-            switch (currentAttachment.type) {
-              case AttachmentType.Raw:
-                if ((currentAttachment as INamedAttachment).fileName?.endsWith('.gif')) {
-                  accum.media.push(currentAttachment as IPictureAttachment);
-                } else {
-                  accum.files.push(currentAttachment);
-                }
-
-                break;
-              case AttachmentType.Picture:
-                accum.media.push(currentAttachment as IPictureAttachment);
-
-                break;
-              case AttachmentType.Video:
-                accum.media.push(currentAttachment as IVideoAttachment);
-
-                break;
-              case AttachmentType.Audio:
-                accum.audios.push(currentAttachment as IAudioAttachment);
-
-                break;
-              case AttachmentType.Voice:
-                accum.recordings.push(currentAttachment as IVoiceAttachment);
-
-                break;
-              default:
-                break;
-            }
-
-            return accum;
-          },
-          {
-            files: [],
-            media: [],
-            audios: [],
-            recordings: [],
-          },
-        ),
-      [messageToProcess?.attachments],
-    );
+    const linkedAttachments = normalizeAttachments(message.linkedMessage?.attachments);
+    const rootAttachments = normalizeAttachments(message.attachments);
 
     if (!myId) {
       return null;
     }
 
     if (message && message.systemMessageType !== SystemMessageType.None) {
-      const additionalData = getSystemMessageData<ICallMessage>(message);
-      const callStatus = additionalData?.status;
-      const isOutgoing = myId === additionalData?.userCallerId;
-
-      return (
-        <>
-          <div className={`${BLOCK_NAME}__system-message`}>
-            <div
-              className={classNames(`${BLOCK_NAME}__system-message__content`, {
-                [`${BLOCK_NAME}__system-message__content--success-call`]:
-                  callStatus === CallStatus.Ended,
-                [`${BLOCK_NAME}__content--failure-call`]:
-                  callStatus === CallStatus.Declined ||
-                  callStatus === CallStatus.NotAnswered ||
-                  callStatus === CallStatus.Interrupted,
-              })}>
-              {message?.systemMessageType === SystemMessageType.GroupChatMemberAdded && (
-                <AddUsersSvg className={`${BLOCK_NAME}__system-message__icon`} />
-              )}
-              {message?.systemMessageType === SystemMessageType.GroupChatMemberRemoved && (
-                <LeaveSvg className={`${BLOCK_NAME}__system-message__icon`} />
-              )}
-              {message?.systemMessageType === SystemMessageType.GroupChatCreated && (
-                <CreateChatSvg className={`${BLOCK_NAME}__system-message__icon`} />
-              )}
-              {message?.systemMessageType === SystemMessageType.GroupChatNameChanged && (
-                <CrayonSvg className={`${BLOCK_NAME}__system-message__icon`} />
-              )}
-              {message?.systemMessageType === SystemMessageType.GroupChatAvatarChanged && (
-                <PictureSvg className={`${BLOCK_NAME}__system-message__icon`} />
-              )}
-
-              {(message?.systemMessageType === SystemMessageType.CallEnded &&
-                callStatus === CallStatus.Ended &&
-                (isOutgoing ? (
-                  <OutgoingCallSvg className={`${BLOCK_NAME}__system-message__icon`} />
-                ) : (
-                  <IncomingCallSvg className={`${BLOCK_NAME}__system-message__icon`} />
-                ))) ||
-                (callStatus === CallStatus.NotAnswered && (
-                  <MissedCallSvg className={`${BLOCK_NAME}__system-message__icon`} />
-                )) ||
-                ((callStatus === CallStatus.Declined || callStatus === CallStatus.Interrupted) && (
-                  <DeclinedCallSvg className={`${BLOCK_NAME}__system-message__icon`} />
-                ))}
-
-              <span>{constructSystemMessageText(message, t, myId, userCreator)}</span>
-            </div>
-          </div>
-        </>
-      );
+      return <SystemMessage message={message} userCreator={userCreator as IUser} />;
     }
+
+    const renderReply = () => (
+      <>
+        <RepliedMessage
+          observeIntersection={observeIntersection}
+          linkedMessage={messageToProcess}
+          isCurrentUserMessageCreator={isCurrentUserMessageCreator}
+        />
+        <AttachmentsMap
+          structuredAttachments={rootAttachments}
+          isCurrentUserMessageCreator={isCurrentUserMessageCreator}
+          observeIntersection={observeIntersection}
+        />
+      </>
+    );
+
+    const renderForward = () => (
+      <>
+        <div className={`${BLOCK_NAME}__forward-indicator`}>
+          {t('messageItem.forward-indicator')}
+          <Link
+            to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, [
+              'id?',
+              ChatId.from(linkedMessageUserCreator?.id).id,
+            ])}
+            className={`${BLOCK_NAME}__forward-indicator__name`}>
+            {linkedMessageUserCreator && getUserName(linkedMessageUserCreator, t)}
+          </Link>
+        </div>
+        <AttachmentsMap
+          structuredAttachments={linkedAttachments}
+          isCurrentUserMessageCreator={isCurrentUserMessageCreator}
+          observeIntersection={observeIntersection}
+        />
+      </>
+    );
+
+    const linkedMessageByType = {
+      [MessageLinkType.Reply]: renderReply,
+      [MessageLinkType.Forward]: renderForward,
+    };
 
     return (
       <>
@@ -301,97 +221,24 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
               {messageToProcess?.isEdited && <CrayonSvg className={`${BLOCK_NAME}__edited`} />}
 
-              {!(
-                (size(message?.attachments) > 0 && message?.text) ||
-                message?.linkedMessageType === MessageLinkType.Forward ||
-                message?.text
-              ) && (
-                <div className={`${BLOCK_NAME}__attachments`}>
-                  {structuredAttachments?.files.map((file) => (
-                    <FileAttachment key={file.id} {...file} />
-                  ))}
-
-                  {structuredAttachments?.recordings.map((recording) => (
-                    <RecordingAttachment
-                      createdByInterlocutor={!isCurrentUserMessageCreator}
-                      key={recording.clientId || recording.id}
-                      {...recording}
-                    />
-                  ))}
-
-                  {structuredAttachments?.audios.map((audio) => (
-                    <MessageAudioAttachment key={audio.id} {...audio} />
-                  ))}
-
-                  {structuredAttachments && structuredAttachments.media.length > 0 && (
-                    <MediaGrid
-                      observeIntersection={observeIntersection}
-                      media={structuredAttachments.media}
-                    />
-                  )}
-                </div>
+              {!isLinkedMessage && (
+                <AttachmentsMap
+                  className={`${BLOCK_NAME}__attachments`}
+                  structuredAttachments={rootAttachments}
+                  isCurrentUserMessageCreator={isCurrentUserMessageCreator}
+                  observeIntersection={observeIntersection}
+                />
               )}
 
-              {((size(messageToProcess?.attachments) > 0 && message?.text) ||
-                message?.linkedMessageType === MessageLinkType.Forward ||
-                message?.text) && (
+              {(isLinkedMessage || message?.text) && (
                 <div className={`${BLOCK_NAME}__content`}>
-                  {message &&
-                    message.linkedMessage &&
-                    message.linkedMessageType === MessageLinkType.Reply && (
-                      <RepliedMessage
-                        observeIntersection={observeIntersection}
-                        linkedMessage={message.linkedMessage}
-                        isCurrentUserMessageCreator={isCurrentUserMessageCreator}
-                      />
-                    )}
-
-                  {message &&
-                    message.linkedMessage &&
-                    message.linkedMessageType === MessageLinkType.Forward && (
-                      <div className={`${BLOCK_NAME}__forward-indicator`}>
-                        {t('messageItem.forward-indicator')}
-                        <Link
-                          to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, [
-                            'id?',
-                            ChatId.from(linkedMessageUserCreator?.id).id,
-                          ])}
-                          className={`${BLOCK_NAME}__forward-indicator__name`}>
-                          {linkedMessageUserCreator && getUserName(linkedMessageUserCreator, t)}
-                        </Link>
-                      </div>
-                    )}
-
-                  {size(messageToProcess?.attachments) > 0 && (
-                    <div className={`${BLOCK_NAME}__attachments`}>
-                      {structuredAttachments?.files.map((file) => (
-                        <FileAttachment key={file.id} {...file} />
-                      ))}
-
-                      {structuredAttachments?.recordings.map((recording) => (
-                        <RecordingAttachment
-                          createdByInterlocutor={!isCurrentUserMessageCreator}
-                          key={recording.clientId || recording.id}
-                          {...recording}
-                        />
-                      ))}
-
-                      {structuredAttachments?.audios.map((audio) => (
-                        <MessageAudioAttachment key={audio.id} {...audio} />
-                      ))}
-
-                      {structuredAttachments?.media && (
-                        <MediaGrid
-                          observeIntersection={observeIntersection}
-                          media={structuredAttachments.media}
-                        />
-                      )}
-                    </div>
+                  {isLinkedMessage &&
+                    linkedMessageByType[message.linkedMessageType as MessageLinkType]()}
+                  {message?.text && (
+                    <span className={`${BLOCK_NAME}__content__text`}>
+                      {renderText(message?.text)}
+                    </span>
                   )}
-
-                  <span className={`${BLOCK_NAME}__content__text`}>
-                    {messageToProcess?.text && renderText(messageToProcess?.text)}
-                  </span>
                 </div>
               )}
             </div>

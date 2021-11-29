@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 
+import { MessageLinkType } from 'kimbu-models';
 import useInterval from 'use-interval';
 import { Peaks } from 'wavesurfer.js/types/backend';
 
@@ -12,10 +13,11 @@ import { uploadVoiceAttachmentAction } from '@store/chats/actions';
 import { getMinutesSeconds } from '@utils/date-utils';
 import { generateLiveWaveform, stopGenerating } from '@utils/generate-live-waveform';
 import { getWaveform } from '@utils/get-waveform';
+import { getRecordAudioStream } from '@utils/record-audio-stream';
+
+import type { INormalizedMessage } from '@store/chats/models';
 
 import './recording-message.scss';
-
-import { getRecordAudioStream } from '../../../utils/record-audio-stream';
 
 let mediaRecorder: MediaRecorder | null = null;
 let tracks: MediaStreamTrack[] = [];
@@ -23,9 +25,10 @@ let canceled = false;
 
 interface IRecordingMessageProps {
   hide: () => void;
+  referredMessage?: INormalizedMessage;
 }
 
-export const RecordingMessage: React.FC<IRecordingMessageProps> = ({ hide }) => {
+export const RecordingMessage: React.FC<IRecordingMessageProps> = ({ hide, referredMessage }) => {
   const uploadVoiceAttachment = useActionWithDispatch(uploadVoiceAttachmentAction);
 
   const [recordedSeconds, setRecordedSeconds] = useState(0);
@@ -85,6 +88,8 @@ export const RecordingMessage: React.FC<IRecordingMessageProps> = ({ hide }) => 
             waveFormJson: JSON.stringify(waveForm),
             duration: referedRecordedSeconds.current,
             url: recordingUrl,
+            linkedMessage: referredMessage,
+            linkedMessageType: MessageLinkType.Reply,
           });
 
           hide();
@@ -94,7 +99,7 @@ export const RecordingMessage: React.FC<IRecordingMessageProps> = ({ hide }) => 
         getWaveform(recordingUrl, referedRecordedSeconds.current).then(onReady);
       }
     });
-  }, [hide, uploadVoiceAttachment, referedRecordedSeconds]);
+  }, [hide, uploadVoiceAttachment, referedRecordedSeconds, referredMessage]);
 
   const stopRecording = useCallback(() => {
     mediaRecorder?.stop();

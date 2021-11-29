@@ -2,8 +2,9 @@ import produce from 'immer';
 import {
   AttachmentType,
   IAttachmentBase,
-  IAudioAttachment,
   ICreateMessageRequest,
+  IVoiceAttachment,
+  MessageLinkType,
   SystemMessageType,
 } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
@@ -22,9 +23,14 @@ import { UploadAttachmentSuccess } from '../upload-attachment/upload-attachment-
 import { IUploadVoiceAttachmentActionPayload } from './action-payloads/upload-voice-attachment-action-payload';
 import { UploadVoiceAttachmentSuccess } from './upload-voice-attachment-success';
 
+interface IUploadVoiceReferred extends IUploadVoiceAttachmentActionPayload {
+  linkedMessage?: INormalizedMessage;
+  linkedMessageType: MessageLinkType;
+}
+
 export class UploadVoiceAttachment {
   static get action() {
-    return createAction('UPLOAD_VOICE_ATTACHMENT')<IUploadVoiceAttachmentActionPayload>();
+    return createAction('UPLOAD_VOICE_ATTACHMENT')<IUploadVoiceReferred>();
   }
 
   static get reducer() {
@@ -57,10 +63,12 @@ export class UploadVoiceAttachment {
               type: AttachmentType.Voice,
               waveFormJson,
               duration,
-            } as IAudioAttachment as IAttachmentBase,
+            } as IVoiceAttachment as IAttachmentBase,
           ],
           isDeleted: false,
           isEdited: false,
+          linkedMessage: payload.linkedMessage,
+          linkedMessageType: payload.linkedMessageType,
         };
 
         if (chat) {
@@ -90,7 +98,7 @@ export class UploadVoiceAttachment {
       action: ReturnType<typeof UploadVoiceAttachment.action>,
     ): SagaIterator {
       const chatId = yield select(getSelectedChatIdSelector);
-      const { file, waveFormJson, id, url } = action.payload;
+      const { file, waveFormJson, id, url, linkedMessageType, linkedMessage } = action.payload;
 
       yield put(
         UploadAttachmentRequest.action({
@@ -110,6 +118,13 @@ export class UploadVoiceAttachment {
         attachmentIds: [uploadResponse.attachment.id],
         clientId: id,
       };
+
+      if (linkedMessageType && linkedMessage) {
+        messageCreationReq.link = {
+          type: linkedMessageType,
+          originalMessageId: linkedMessage?.id,
+        };
+      }
 
       const { data } = CreateMessage.httpRequest.call(
         yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)),

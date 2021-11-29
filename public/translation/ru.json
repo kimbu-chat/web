@@ -419,10 +419,10 @@
     "success": "Контакт добавлен успешно"
   },
   "systemMessage": {
-    "you_created_group": "Вы создали группу",
-    "created_group": "{{name}} создал группу",
-    "left_group": "{{name}} покинул группу",
-    "removed_from_group": "Пользователь {{name}} был удалён из группы",
+    "you_created_group": "Вы создали чат",
+    "created_group": "{{name}} создал чат",
+    "left_group": "{{name}} покинул чат",
+    "removed_from_group": "Пользователь {{name}} был удалён из чата",
     "you_added": "Вы добавили {{name}}",
     "someone_added": "{{someonesName}} добавил {{addedName}}",
     "you_changed_name": "Вы изменили название с {{oldName}} на {{newName}}",
@@ -439,8 +439,8 @@
     "someone_missed_call": "Собеседник пропустил звонок {{time}}",
     "you_declined_call": "Вы отклонили входящий вызов",
     "someone_declined_call": "Собеседник отменил входящий вызов",
-    "outgoing_call_intrrerupted": "Исходящий вызов был прерван",
-    "incoming_call_intrrerupted": "Входящий вызов был прерван"
+    "outgoing_call_interrupted": "Исходящий вызов был прерван",
+    "incoming_call_interrupted": "Входящий вызов был прерван"
   },
   "deleted": "УДАЛЁН",
   "unread-messages": "Непрочитанные сообщения ({{count}})"

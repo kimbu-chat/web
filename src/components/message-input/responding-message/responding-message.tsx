@@ -1,8 +1,11 @@
 import React from 'react';
 
+import classnames from 'classnames';
+import { IVoiceAttachment } from 'kimbu-models';
 import { useSelector } from 'react-redux';
 
 import { Avatar } from '@components/avatar';
+import { VoiceMessageRespond } from '@components/message-input/responding-message/voice-message';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { ReactComponent as ReplySvg } from '@icons/reply.svg';
@@ -14,9 +17,11 @@ import renderText from '@utils/render-text/render-text';
 
 import './responding-message.scss';
 
+const BLOCK_NAME = 'responding-message';
+
 export const RespondingMessage = () => {
   const replyingMessage = useSelector(getMessageToReplySelector);
-  const myId = useSelector(myIdSelector) as number;
+  const myId = useSelector(myIdSelector);
   const userCreator = useSelector(getUserSelector(replyingMessage?.userCreatorId));
 
   const isCurrentUserMessageCreator = replyingMessage?.userCreatorId === myId;
@@ -24,21 +29,53 @@ export const RespondingMessage = () => {
   const resetReplyToMessage = useActionWithDispatch(resetReplyToMessageAction);
 
   return (
-    <div className="responding-message">
-      <ReplySvg className="responding-message__icon" />
-      <div className="responding-message__line" />
+    <div className={BLOCK_NAME}>
+      <ReplySvg className={`${BLOCK_NAME}__icon`} />
+      <div className={`${BLOCK_NAME}__line`} />
 
       <Avatar size={32} user={userCreator} />
 
-      <div
-        className={`responding-message__message-contents ${
-          isCurrentUserMessageCreator
-            ? 'responding-message__message-contents--outgoing'
-            : 'responding-message__message-contents--incoming'
-        }`}>
-        {replyingMessage?.text && renderText(replyingMessage?.text)}
-      </div>
-      <button type="button" onClick={resetReplyToMessage} className="responding-message__close">
+      {replyingMessage?.text && (
+        <div
+          className={classnames(
+            `${BLOCK_NAME}__message-contents`,
+            isCurrentUserMessageCreator
+              ? `${BLOCK_NAME}__message-contents--outgoing`
+              : `${BLOCK_NAME}__message-contents--incoming`,
+          )}>
+          {renderText(replyingMessage?.text)}
+        </div>
+      )}
+      {replyingMessage?.attachments?.some((attachment) => attachment.type === 'Voice') && (
+        <div
+          className={classnames(
+            `${BLOCK_NAME}__message-contents`,
+            isCurrentUserMessageCreator
+              ? `${BLOCK_NAME}__message-contents--outgoing`
+              : `${BLOCK_NAME}__message-contents--incoming`,
+          )}>
+          <VoiceMessageRespond
+            {...(replyingMessage?.attachments[0] as IVoiceAttachment)}
+            createdByInterlocutor={!isCurrentUserMessageCreator}
+          />
+        </div>
+      )}
+
+      {replyingMessage?.attachments?.some((attachment) => attachment.type === 'Picture') && (
+        <div
+          className={classnames(
+            `${BLOCK_NAME}__message-contents`,
+            isCurrentUserMessageCreator
+              ? `${BLOCK_NAME}__message-contents--outgoing`
+              : `${BLOCK_NAME}__message-contents--incoming`,
+          )}>
+          <VoiceMessageRespond
+            {...(replyingMessage?.attachments[0] as IVoiceAttachment)}
+            createdByInterlocutor={!isCurrentUserMessageCreator}
+          />
+        </div>
+      )}
+      <button type="button" onClick={resetReplyToMessage} className={`${BLOCK_NAME}__close`}>
         <CloseSvg />
       </button>
     </div>

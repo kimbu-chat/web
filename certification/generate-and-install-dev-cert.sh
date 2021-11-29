@@ -19,7 +19,7 @@ else
     printf '🆕 Generating certificate \n'
     openssl req -x509 -newkey rsa:4096 -sha256 -keyout $CERT_KEY -out $CERT_FILE -days 365 -config $CERT_CONF -new -nodes
     printf '🆕 Installing certificate \n'
-    sh ../certification/install-cert.sh
+    sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain cert.crt
 fi
 
 printf 'Done ✅ \n'

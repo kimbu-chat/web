@@ -70,6 +70,7 @@ import { DialogRemovedEventHandler } from './socket-events/dialog-removed/dialog
 import { GroupChatCreatedEventHandler } from './socket-events/group-chat-created/group-chat-created-event-handler';
 import { GroupChatEditedEventHandler } from './socket-events/group-chat-edited/group-chat-edited-integration-event-handler';
 import { MemberLeftGroupChatEventHandler } from './socket-events/member-left-group-chat/member-left-group-chat-event-handler';
+import { MemberRemovedFromGroupChatEventHandler } from './socket-events/member-removed-from-group-chat/member-removed-from-group-chat-event-handler';
 import { MessageCreatedEventHandlerSuccess } from './socket-events/message-created/message-created-event-handler-success';
 import { MessageCreatedEventHandler } from './socket-events/message-created/message-created-event-handler';
 import { MessagesDeletedIntegrationEventHandlerSuccess } from './socket-events/message-deleted/messages-deleted-integration-event-handler-success';
@@ -147,6 +148,8 @@ export const uploadVoiceAttachmentSuccess = UploadVoiceAttachmentSuccess.action;
 
 export const userMessageTypingEventHandlerAction = UserMessageTypingEventHandler.action;
 export const memberLeftGroupChatEventHandlerAction = MemberLeftGroupChatEventHandler.action;
+export const memberRemovedFromGroupChatEventHandlerAction =
+  MemberRemovedFromGroupChatEventHandler.action;
 export const groupChatEditedEventHandlerAction = GroupChatEditedEventHandler.action;
 export const groupChatCreatedEventHandlerAction = GroupChatCreatedEventHandler.action;
 export const chatMutedStatusChangedEventHandlerAction = ChatMutedStatusChangedEventHandler.action;
@@ -234,6 +237,7 @@ export const ChatActions = {
 
   userMessageTypingEventHandlerAction,
   memberLeftGroupChatEventHandlerAction,
+  memberRemovedFromGroupChatEventHandlerAction,
   groupChatEditedEventHandlerAction,
   groupChatCreatedEventHandlerAction,
   chatMutedStatusChangedEventHandlerAction,

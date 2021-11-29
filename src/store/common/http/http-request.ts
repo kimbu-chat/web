@@ -35,7 +35,6 @@ export function* httpRequest<TBody>(
       requestConfig.data = body;
       break;
     case HttpRequestMethod.Delete:
-      requestConfig.params = body;
       break;
     default:
       throw new Error('Unknown method.');

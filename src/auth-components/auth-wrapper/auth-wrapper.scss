@@ -1,3 +1,5 @@
+@import "../../common/styles/utils";
+
 .auth-wrapper {
   min-height: 100vh;
   position: relative;
@@ -8,7 +10,7 @@
     top: 0;
     bottom: 0;
     height: 100%;
-    width: 66%;
+    width: 60vw;
   }
 
   &__vector1 {
@@ -33,30 +35,30 @@
     height: 100%;
   }
 
-  &__frame {
+  &__social {
     right: 70px;
     position: fixed;
     height: 70vh;
-    top: 120px;
+    top: 20vh;
   }
 
   &__text-logo {
     position: fixed;
-    left: 101px;
-    top: 20px;
+    left: pxToRem(101px);
+    top: pxToRem(20px);
   }
 
   &__slogan-block {
     position: absolute;
     top: 50%;
     transform: translate(0, -50%);
-    left: 107px;
+    left: pxToRem(107px);
   }
 
   &__slogan {
     font-weight: 500;
     font-size: 4.5rem;
-    line-height: 85px;
+    line-height: pxToRem(85px);
     font-feature-settings: 'pnum' on, 'lnum' on;
     color: #32394a;
   }

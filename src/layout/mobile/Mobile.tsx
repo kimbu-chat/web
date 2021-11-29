@@ -1,9 +1,7 @@
 import React from 'react';
 
 import { ReactComponent as KimbuText } from '@assets/kimbu.svg';
-import { ReactComponent as PlaneVector } from '@assets/plane-vector.svg';
-import { ReactComponent as Plane } from '@assets/plane.svg';
-import { ReactComponent as Social } from '@assets/social.svg';
+import { Social } from '@components/social';
 
 import './mobile.scss';
 
@@ -13,12 +11,10 @@ export const Mobile: React.FC = () => (
   <div className={BLOCK_NAME}>
     <KimbuText className={`${BLOCK_NAME}__logo`} />
     <p className={`${BLOCK_NAME}__title`}>Get ready for the new social experience</p>
-    <Social />
+    <Social planesClassName={`${BLOCK_NAME}__social-planes`} />
     <div className={`${BLOCK_NAME}__footer-container`}>
-      <Plane className={`${BLOCK_NAME}__plane`} />
-      <PlaneVector className={`${BLOCK_NAME}__plane-vector`} />
+      <span className={`${BLOCK_NAME}__mobile-apps`}>Mobile apps coming soon</span>
+      <span className={`${BLOCK_NAME}__copyright`}>{`© ${new Date().getFullYear()} Kimbu`}</span>
     </div>
-    <span className={`${BLOCK_NAME}__mobile-apps`}>Mobile apps coming soon</span>
-    <span className={`${BLOCK_NAME}__copyright`}>{`© ${new Date().getFullYear()} Kimbu`}</span>
   </div>
 );

@@ -1,0 +1,29 @@
+@import '../../common/styles/utils';
+
+.social {
+  &__planes {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  &__plane-vector {
+    position: absolute;
+    right: 0;
+  }
+
+  &__plane {
+    align-self: normal;
+    padding-left: pxToRem(82px);
+
+    &--big {
+      width: pxToRem(105px);
+      height: pxToRem(68px);
+    }
+  }
+
+  &__social--big {
+    width: 45vw;
+    height: 50vh;
+  }
+}

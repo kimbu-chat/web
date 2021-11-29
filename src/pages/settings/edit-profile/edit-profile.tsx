@@ -264,12 +264,7 @@ const EditProfile = () => {
           onClick={sumbmitChanges}
           className="edit-profile__btn"
           loading={submitLoading}
-          disabled={
-            error !== NicknameState.ALLOWED_NICKNAME ||
-            isLoading ||
-            !firstName.length ||
-            !lastName.length
-          }>
+          disabled={error !== NicknameState.ALLOWED_NICKNAME || isLoading || !firstName.length}>
           {t('editProfile.save-changes')}
         </Button>
         <HorizontalSeparator />

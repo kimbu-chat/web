@@ -417,10 +417,10 @@
     "success": "Contact has been added"
   },
   "systemMessage": {
-    "you_created_group": "You created group",
-    "created_group": "{{name}} created group",
-    "left_group": "{{name}} left group",
-    "removed_from_group": "{{name}} was removed from group",
+    "you_created_group": "You created chat",
+    "created_group": "{{name}} created chat",
+    "left_group": "{{name}} left chat",
+    "removed_from_group": "{{name}} was removed from chat",
     "you_added": "You invited {{name}} to chat",
     "someone_added": "{{someonesName}} invited {{addedName}} to chat",
     "you_changed_name": "You changed name from {{oldName}} to {{newName}}",

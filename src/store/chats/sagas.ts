@@ -1,5 +1,7 @@
 import { all, takeEvery, takeLatest, takeLeading } from 'redux-saga/effects';
 
+import { GetPossibleMembers } from '@store/chats/features/get-possible-members/get-possible-members';
+
 import { AddUsersToGroupChat } from './features/add-users-to-group-chat/add-users-to-group-chat';
 import { ChangeChatMutedStatus } from './features/change-chat-muted-status/change-chat-muted-status';
 import { ChangeSelectedChat } from './features/change-selected-chat/change-selected-chat';
@@ -39,6 +41,7 @@ export function* chatSaga() {
     takeLatest(GetChats.action, GetChats.saga),
     takeLatest(LeaveGroupChat.action, LeaveGroupChat.saga),
     takeLatest(GetGroupChatUsers.action, GetGroupChatUsers.saga),
+    takeLatest(GetPossibleMembers.action, GetPossibleMembers.saga),
     takeLatest(CreateGroupChat.action, CreateGroupChat.saga),
     takeLatest(AddUsersToGroupChat.action, AddUsersToGroupChat.saga),
     takeLatest(ChangeChatMutedStatus.action, ChangeChatMutedStatus.saga),

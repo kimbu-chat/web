@@ -7,6 +7,8 @@ import {
   IVoiceAttachment,
 } from 'kimbu-models';
 
+import { IPossibleMembers } from '@store/chats/models/possible-members';
+
 import { IAttachmentToSend } from './attachment-to-send';
 import { IGroupable } from './groupable';
 import { InterlocutorType } from './interlocutor-type';
@@ -79,4 +81,5 @@ export interface INormalizedChat {
   isBlockedByUser: boolean;
   isInContacts: boolean;
   isDismissedAddToContacts: boolean;
+  possibleMembers: IPossibleMembers;
 }

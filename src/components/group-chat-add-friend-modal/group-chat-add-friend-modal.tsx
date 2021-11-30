@@ -1,6 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
+import React, { useCallback, useMemo, useState, useRef, memo } from 'react';
 
 import classNames from 'classnames';
+import { IUser } from 'kimbu-models';
+import { property } from 'lodash';
+import debounce from 'lodash/debounce';
+import flow from 'lodash/flow';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -9,12 +13,13 @@ import { Modal, IModalChildrenProps } from '@components/modal';
 import { SearchBox } from '@components/search-box';
 import { SelectEntity } from '@components/select-entity';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useInfinityDeferred } from '@hooks/use-infinity-deferred';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { Button } from '@shared-components/button';
-import { addUsersToGroupChatAction } from '@store/chats/actions';
-import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
-import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
+import { addUsersToGroupChatAction, getPossibleChatMembersAction } from '@store/chats/actions';
+import { IPossibleChatMembersActionPayload } from '@store/chats/features/get-possible-members/action-payloads/get-possible-members-action-payload';
+import { getInfoChatSelector } from '@store/chats/selectors';
+import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 
 import './group-chat-add-friend-modal.scss';
 
@@ -24,6 +29,8 @@ interface IGroupChatAddFriendModalProps {
 
 const BLOCK_NAME = 'group-chat-add-friend-modal';
 
+const DEBOUNCE_TO_SEARCH = 1000;
+
 const InitialGroupChatAddFriendModal: React.FC<
   IGroupChatAddFriendModalProps & IModalChildrenProps
 > = ({ animatedClose }) => {
@@ -31,42 +38,37 @@ const InitialGroupChatAddFriendModal: React.FC<
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [selectedUserIds, setselectedUserIds] = useState<number[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
+  const [loadingAddUsers, setLoading] = useState(false);
   const [name, setName] = useState('');
 
-  const friendsList = useSelector(getMyFriendsListSelector);
-  const searchFriendsList = useSelector(getMySearchFriendsListSelector);
-
-  const { hasMore: hasMoreFriends, friendIds, loading: friendsLoading } = friendsList;
-  const {
-    hasMore: hasMoreSearchFriends,
-    friendIds: searchFriendIds,
-    loading: searchFriendsLoading,
-  } = searchFriendsList;
+  const chat = useSelector(
+    getInfoChatSelector,
+    (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
+  );
 
   const addUsersToGroupChat = useActionWithDeferred(addUsersToGroupChatAction);
-  const loadFriends = useActionWithDispatch(getFriendsAction);
-  const resetSearchFriends = useActionWithDispatch(resetSearchFriendsAction);
-
-  useEffect(
-    () => () => {
-      resetSearchFriends();
-    },
-    [resetSearchFriends],
-  );
+  const {
+    executeRequest: getPossibleMembers,
+    hasMore,
+    data,
+    loading,
+  } = useInfinityDeferred<IPossibleChatMembersActionPayload, IUser>({
+    action: getPossibleChatMembersAction,
+    limit: CHAT_MEMBERS_LIMIT,
+  });
 
   const isSelected = useCallback((id: number) => selectedUserIds.includes(id), [selectedUserIds]);
 
   const changeSelectedState = useCallback(
     (id: number) => {
       if (isSelected(id)) {
-        setselectedUserIds((oldChatIds) => oldChatIds.filter((idToCheck) => idToCheck !== id));
+        setSelectedUserIds((oldChatIds) => oldChatIds.filter((idToCheck) => idToCheck !== id));
       } else {
-        setselectedUserIds((oldChatIds) => [...oldChatIds, id]);
+        setSelectedUserIds((oldChatIds) => [...oldChatIds, id]);
       }
     },
-    [setselectedUserIds, isSelected],
+    [setSelectedUserIds, isSelected],
   );
 
   const addUsers = useCallback((): void => {
@@ -82,51 +84,45 @@ const InitialGroupChatAddFriendModal: React.FC<
     }
   }, [addUsersToGroupChat, selectedUserIds, animatedClose]);
 
-  const loadMore = useCallback(() => {
-    loadFriends({ name, initializedByScroll: true });
-  }, [loadFriends, name]);
+  const loadMore = useCallback(async () => {
+    await getPossibleMembers({
+      name,
+      groupChatId: chat?.groupChat?.id as number,
+      offset: data.length,
+    });
+  }, [getPossibleMembers, name, chat?.groupChat?.id, data.length]);
 
-  const queryFriends = useCallback(
-    (searchName: string) => {
+  const queryPossibleMembers = useCallback(
+    async (searchName: string) => {
       setName(searchName);
-      loadFriends({
+      await getPossibleMembers({
+        offset: data.length,
         name: searchName,
-        initializedByScroll: false,
+        groupChatId: chat?.groupChat?.id as number,
       });
     },
-    [loadFriends, setName],
-  );
-
-  useEffect(
-    () => () => {
-      queryFriends('');
-    },
-    [queryFriends],
+    [chat?.groupChat?.id, data.length, getPossibleMembers],
   );
 
   const handleSearchInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => queryFriends(e.target.value),
-    [queryFriends],
+    (e: React.ChangeEvent<HTMLInputElement>) =>
+      flow([property('target.value'), debounce(queryPossibleMembers, DEBOUNCE_TO_SEARCH)])(e),
+    [queryPossibleMembers],
   );
 
   const renderSelectEntity = useCallback(
-    (friendId: number) => (
+    ({ id }) => (
       <SelectEntity
-        key={friendId}
-        userId={friendId}
-        isSelected={isSelected(friendId)}
+        key={id}
+        userId={id}
+        isSelected={isSelected(id)}
         changeSelectedState={changeSelectedState}
       />
     ),
     [changeSelectedState, isSelected],
   );
 
-  const selectEntities = useMemo(() => {
-    if (name.length) {
-      return searchFriendIds?.map(renderSelectEntity);
-    }
-    return friendIds.map(renderSelectEntity);
-  }, [name.length, searchFriendIds, friendIds, renderSelectEntity]);
+  const selectEntities = useMemo(() => data.map(renderSelectEntity), [data, renderSelectEntity]);
 
   return (
     <div ref={containerRef}>
@@ -145,8 +141,8 @@ const InitialGroupChatAddFriendModal: React.FC<
           containerRef={containerRef}
           className={`${BLOCK_NAME}__friends-block`}
           onReachBottom={loadMore}
-          hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
-          isLoading={name.length ? searchFriendsLoading : friendsLoading}>
+          hasMore={hasMore}
+          isLoading={loading}>
           {selectEntities}
         </InfiniteScroll>
 
@@ -159,7 +155,7 @@ const InitialGroupChatAddFriendModal: React.FC<
           </button>
           <Button
             disabled={selectedUserIds.length === 0}
-            loading={loading}
+            loading={loadingAddUsers}
             type="button"
             onClick={addUsers}
             className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}>
@@ -171,16 +167,13 @@ const InitialGroupChatAddFriendModal: React.FC<
   );
 };
 
-const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = ({
-  onClose,
-  ...props
-}) => (
+const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = memo(({ onClose }) => (
   <Modal closeModal={onClose}>
     {(animatedClose: () => void) => (
-      <InitialGroupChatAddFriendModal {...props} onClose={onClose} animatedClose={animatedClose} />
+      <InitialGroupChatAddFriendModal onClose={onClose} animatedClose={animatedClose} />
     )}
   </Modal>
-);
+));
 
 GroupChatAddFriendModal.displayName = 'GroupChatAddFriendModal';
 

@@ -3,6 +3,8 @@ import { SystemMessageType } from 'kimbu-models';
 import { createReducer } from 'typesafe-actions';
 
 import { MyProfileService } from '@services/my-profile-service';
+import { GetPossibleMembersSuccess } from '@store/chats/features/get-possible-members/get-possible-members-success';
+import { ResetSearchPossibleMembers } from '@store/chats/features/get-possible-members/reset-search-possible-members';
 import { MessageState, INormalizedChat } from '@store/chats/models';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactAddedSuccessEventHandler } from '@store/friends/socket-events/user-contact-added/user-contact-added-success-event-handler';
@@ -131,6 +133,8 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(EditGroupChatSuccess.action, EditGroupChatSuccess.reducer)
   .handleAction(GetGroupChatUsers.action, GetGroupChatUsers.reducer)
   .handleAction(GetGroupChatUsersSuccess.action, GetGroupChatUsersSuccess.reducer)
+  .handleAction(GetPossibleMembersSuccess.action, GetPossibleMembersSuccess.reducer)
+  .handleAction(ResetSearchPossibleMembers.action, ResetSearchPossibleMembers.reducer)
   .handleAction(GetVoiceAttachments.action, GetVoiceAttachments.reducer)
   .handleAction(GetVideoAttachments.action, GetVideoAttachments.reducer)
   .handleAction(GetVideoAttachmentsSuccess.action, GetVideoAttachmentsSuccess.reducer)

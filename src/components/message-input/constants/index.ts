@@ -1,4 +1,4 @@
-export const INPUT_MAX_LENGTH = 10;
+export const INPUT_MAX_LENGTH = 4096;
 export const KEY_NAME = {
   BACKSPACE: 'Backspace',
   SHIFT: 'Shift',

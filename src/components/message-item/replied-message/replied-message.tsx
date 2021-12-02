@@ -7,6 +7,7 @@ import {
   LinkedMessage,
   ILinkedMessage,
 } from '@components/message-item/linked-message/linked-message';
+import { MessageHandler } from '@components/message-item/message-handler';
 import { getUserSelector } from '@store/users/selectors';
 
 import './replied-message.scss';
@@ -21,15 +22,17 @@ const RepliedMessage: React.FC<ILinkedMessage> = ({
   const userCreator = useSelector(getUserSelector(linkedMessage?.userCreatorId));
 
   return (
-    <div className={BLOCK_NAME}>
-      <Avatar size={32} user={userCreator} className={`${BLOCK_NAME}__avatar`} />
+    <MessageHandler linkedMessage={linkedMessage}>
+      <div className={BLOCK_NAME}>
+        <Avatar size={32} user={userCreator} className={`${BLOCK_NAME}__avatar`} />
 
-      <LinkedMessage
-        linkedMessage={linkedMessage}
-        observeIntersection={observeIntersection}
-        isCurrentUserMessageCreator={isCurrentUserMessageCreator}
-      />
-    </div>
+        <LinkedMessage
+          linkedMessage={linkedMessage}
+          observeIntersection={observeIntersection}
+          isCurrentUserMessageCreator={isCurrentUserMessageCreator}
+        />
+      </div>
+    </MessageHandler>
   );
 };
 

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import { LinkedMessage, ILinkedMessage } from '@components/message-item/linked-message';
+import { withMessageHandler } from '@components/message-item/message-handler';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { ChatId } from '@store/chats/chat-id';
 import { replaceInUrl } from '@utils/replace-in-url';
@@ -19,8 +20,9 @@ interface IForwardedMessage extends ILinkedMessage {
   linkedMessageUserCreator?: IUser;
 }
 
-export const ForwardedMessage: React.FC<IForwardedMessage> = ({
+const ForwardedMessage: React.FC<IForwardedMessage> = ({
   linkedMessageUserCreator,
+  linkedMessage,
   ...props
 }) => {
   const { t } = useTranslation();
@@ -38,7 +40,9 @@ export const ForwardedMessage: React.FC<IForwardedMessage> = ({
           {linkedMessageUserCreator && getUserName(linkedMessageUserCreator, t)}
         </Link>
       </div>
-      <LinkedMessage {...props} />
+      <LinkedMessage {...props} linkedMessage={linkedMessage} />
     </>
   );
 };
+
+export const ForwardMessageWithHandler = withMessageHandler(ForwardedMessage);

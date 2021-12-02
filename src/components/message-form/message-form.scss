@@ -1,0 +1,7 @@
+@import '../../common/styles/utils';
+
+.message-form {
+  background: var(--chat-bg-dt-dark-wt-kingBlueLight);
+  border-radius: 0 pxToRem(6px) pxToRem(6px);
+  padding: pxToRem(8px) pxToRem(16px);
+}

@@ -1,1 +1,1 @@
-export { ForwardedMessage } from './forwarded-message';
+export { ForwardMessageWithHandler as ForwardedMessage } from './forwarded-message';

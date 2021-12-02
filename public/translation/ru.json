@@ -397,7 +397,7 @@
     "title": "Очистить чат",
     "clear-confirmation": "Очистить для всех"
   },
-  "repliedMessage": {
+  "linkedMessage": {
     "message-deleted": "Сообщение удалено"
   },
   "addFriend": {

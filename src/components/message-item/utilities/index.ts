@@ -20,7 +20,10 @@ export type NormalizeAccumulator = {
 
 export function normalizeAttachments(
   attachments: IAttachmentBase[] | IAttachmentWithClient[] = [],
-): NormalizeAccumulator {
+): NormalizeAccumulator | null {
+  if (!attachments.length) {
+    return null;
+  }
   return (
     attachments as Array<IAttachmentBase | IAttachmentWithClient>
   )?.reduce<NormalizeAccumulator>(

@@ -395,7 +395,7 @@
     "title": "Clear chat",
     "clear-confirmation": "Clear for everybody"
   },
-  "repliedMessage": {
+  "linkedMessage": {
     "message-deleted": "Message deleted"
   },
   "addFriend": {

@@ -1,0 +1,18 @@
+@import '../../../common/styles/utils';
+
+.forwarded-message {
+  margin-left: pxToRem(-2px);
+  font-weight: 300;
+  font-size: pxToRem(12px);
+  line-height: pxToRem(12px);
+  margin-bottom: pxToRem(10px);
+  color: #fff;
+
+  &__name {
+    font-size: pxToRem(12px);
+    line-height: pxToRem(12px);
+    color: #fff;
+    font-weight: 400;
+    display: inline;
+  }
+}

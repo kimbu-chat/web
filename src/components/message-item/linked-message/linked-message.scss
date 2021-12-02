@@ -12,6 +12,10 @@
     line-break: anywhere;
     line-height: pxToRem(12px);
     white-space: break-spaces;
+
+    &--deleted {
+      color: var(--msg-bg-dt-gray-lt-red);
+    }
   }
 
   &__attachments {

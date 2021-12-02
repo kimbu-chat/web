@@ -1,0 +1,14 @@
+@import '../../common/styles/utils';
+
+.message-text {
+    color: #fff;
+    font-size: pxToRem(16px);
+    font-weight: 300;
+    line-break: anywhere;
+    line-height: pxToRem(12px);
+    white-space: break-spaces;
+
+    &__deleted {
+      color: var(--msg-bg-dt-gray-lt-red);
+    }
+}

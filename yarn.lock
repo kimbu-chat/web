@@ -2726,10 +2726,10 @@
   resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.3.tgz#9c088679876f374eb5983f150d4787aa6fb32d7e"
   integrity sha512-FvUupuM3rlRsRtCN+fDudtmytGO6iHJuuRKS1Ss0pG5z8oX0diNEw94UEL7hgDbpN94rgaK5R7sWm6RrSkZuAQ==
 
-"@types/wavesurfer.js@5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@types/wavesurfer.js/-/wavesurfer.js-5.2.0.tgz#b1ed9928ba7759ad1ff1bd8566b61303a77ae33b"
-  integrity sha512-K9wnw6D9yDRdazRbYdQnWZ1W6z+1eHiinW2vFO/UWKX86TuOwAbNmmt+S79jbzKizA24ufI9NuqJcav6cKE4XA==
+"@types/wavesurfer.js@5.2.2":
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/@types/wavesurfer.js/-/wavesurfer.js-5.2.2.tgz#ccf5c30b50b918d53a08582ef19f895b09a49f3a"
+  integrity sha512-/vjpf81co0SK3z4F5V79fZrFPQ8pw9/fEpgkzcgNVkBa9sY0gAaYzKuaQyCX/yjVf6kc73uPtWABQuVgvpguDQ==
   dependencies:
     "@types/debounce" "*"
 

@@ -4,25 +4,25 @@ import classnames from 'classnames';
 
 import './message-text.scss';
 
-export enum MessageState {
+export enum MessageTextState {
   DELETED = 'DELETED',
-  EXISTS = 'EXISTS',
+  BASIC = 'BASIC',
 }
 
 interface IMessageTextProps {
-  state?: MessageState;
+  state?: MessageTextState;
   className?: string;
 }
 
 const BLOCK_NAME = 'message-text';
 
 const classes = {
-  [MessageState.DELETED]: `${BLOCK_NAME}__deleted`,
-  [MessageState.EXISTS]: undefined,
+  [MessageTextState.DELETED]: `${BLOCK_NAME}__deleted`,
+  [MessageTextState.BASIC]: undefined,
 };
 
 export const MessageText: React.FC<IMessageTextProps> = ({
   children,
-  state = MessageState.EXISTS,
+  state = MessageTextState.BASIC,
   className,
 }) => <span className={classnames(BLOCK_NAME, classes[state], className)}>{children}</span>;

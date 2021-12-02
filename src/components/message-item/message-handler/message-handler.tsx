@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { MessageForm } from '@components/message-form/message-form';
-import { MessageState, MessageText } from '@components/message-text';
+import { MessageTextState, MessageText } from '@components/message-text';
 import { INormalizedLinkedMessage } from '@store/chats/models';
 
 interface IMessageHandler {
@@ -15,7 +15,9 @@ export const MessageHandler: React.FC<IMessageHandler> = ({ children, linkedMess
   if (!linkedMessage) {
     return (
       <MessageForm>
-        <MessageText state={MessageState.DELETED}>{t('linkedMessage.message-deleted')}</MessageText>
+        <MessageText state={MessageTextState.DELETED}>
+          {t('linkedMessage.message-deleted')}
+        </MessageText>
       </MessageForm>
     );
   }
@@ -33,7 +35,7 @@ export function withMessageHandler<P extends { linkedMessage: INormalizedLinkedM
     if (!linkedMessage) {
       return (
         <MessageForm>
-          <MessageText state={MessageState.DELETED}>
+          <MessageText state={MessageTextState.DELETED}>
             {t('linkedMessage.message-deleted')}
           </MessageText>
         </MessageForm>

@@ -2,31 +2,15 @@
 
 .replied-message {
   display: flex;
-  margin-bottom: pxToRem(16px);
-
-  margin-left: pxToRem(-1px);
-  margin-right: pxToRem(3px);
-  margin-top: pxToRem(5px);
-
-  &__contents {
-    background: var(--chat-bg-dt-dark-wt-kingBlueLight);
-    border-radius: 0 pxToRem(6px) pxToRem(6px);
-    margin-left: pxToRem(10px);
-    padding: pxToRem(8px) pxToRem(16px);
-  }
-
-  &__text {
-    color: #fff;
-    font-size: pxToRem(16px);
-    font-weight: 300;
-    line-break: anywhere;
-    line-height: pxToRem(12px);
-    white-space: break-spaces;
-  }
+  margin: pxToRem(5px) pxToRem(3px) pxToRem(16px) pxToRem(-1px);
 
   &__interlocutor {
     color: var(--dt-white-wt-dark);
     margin-bottom: pxToRem(5px);
     margin-top: pxToRem(2px);
+  }
+
+  &__avatar {
+    margin-right: pxToRem(10px);
   }
 }

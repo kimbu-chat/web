@@ -13,7 +13,7 @@ import type { NormalizeAccumulator } from '@components/message-item/utilities';
 import './attachments-map.scss';
 
 interface IAttachmentsMapProps {
-  structuredAttachments: NormalizeAccumulator;
+  structuredAttachments: NormalizeAccumulator | null;
   isCurrentUserMessageCreator: boolean;
   observeIntersection: ObserveFn;
   className?: string;
@@ -26,23 +26,29 @@ export const AttachmentsMap: React.FC<IAttachmentsMapProps> = ({
   isCurrentUserMessageCreator,
   observeIntersection,
   className,
-}) => (
-  <div className={classnames(BLOCK_NAME, className)}>
-    {structuredAttachments?.files.map((file) => (
-      <FileAttachment key={file.id} {...file} />
-    ))}
-    {structuredAttachments?.recordings.map((recording) => (
-      <RecordingAttachment
-        createdByInterlocutor={!isCurrentUserMessageCreator}
-        key={recording.clientId || recording.id}
-        {...recording}
-      />
-    ))}
-    {structuredAttachments?.audios.map((audio) => (
-      <MessageAudioAttachment key={audio.id} {...audio} />
-    ))}
-    {structuredAttachments.media.length > 0 && (
-      <MediaGrid observeIntersection={observeIntersection} media={structuredAttachments.media} />
-    )}
-  </div>
-);
+}) => {
+  if (!structuredAttachments) {
+    return null;
+  }
+
+  return (
+    <div className={classnames(BLOCK_NAME, className)}>
+      {structuredAttachments.files.map((file) => (
+        <FileAttachment key={file.id} {...file} />
+      ))}
+      {structuredAttachments.recordings.map((recording) => (
+        <RecordingAttachment
+          createdByInterlocutor={!isCurrentUserMessageCreator}
+          key={recording.clientId || recording.id}
+          {...recording}
+        />
+      ))}
+      {structuredAttachments.audios.map((audio) => (
+        <MessageAudioAttachment key={audio.id} {...audio} />
+      ))}
+      {structuredAttachments.media.length > 0 && (
+        <MediaGrid observeIntersection={observeIntersection} media={structuredAttachments.media} />
+      )}
+    </div>
+  );
+};

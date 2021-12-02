@@ -1,0 +1,20 @@
+@import '../../../common/styles/utils';
+
+.linked-message {
+  background: var(--chat-bg-dt-dark-wt-kingBlueLight);
+  border-radius: 0 pxToRem(6px) pxToRem(6px);
+  padding: pxToRem(8px) pxToRem(16px);
+
+  &__text {
+    color: #fff;
+    font-size: pxToRem(16px);
+    font-weight: 300;
+    line-break: anywhere;
+    line-height: pxToRem(12px);
+    white-space: break-spaces;
+  }
+
+  &__attachments {
+    padding-top: pxToRem(10px);
+  }
+}

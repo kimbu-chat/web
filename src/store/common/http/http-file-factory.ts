@@ -116,21 +116,13 @@ function* httpRequest<T>(
     method,
     cancelToken: cancelTokenSource?.token,
     responseType: 'json',
+    headers,
   };
 
   const auth: ISecurityTokens = yield select(securityTokensSelector);
 
-  if (auth && auth.accessToken) {
-    requestConfig.headers = {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      Authorization: `Bearer ${auth.accessToken}`,
-    };
-  }
-
-  if (headers != null) {
-    Object.keys(headers).forEach((prop) => {
-      requestConfig.headers[prop] = headers[prop];
-    });
+  if (auth && auth.accessToken && requestConfig.headers) {
+    requestConfig.headers.Authorization = `Bearer ${auth.accessToken}`
   }
 
   switch (method) {

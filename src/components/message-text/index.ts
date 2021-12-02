@@ -1,1 +1,1 @@
-export { MessageText, MessageState } from './message-text';
+export { MessageText, MessageTextState } from './message-text';

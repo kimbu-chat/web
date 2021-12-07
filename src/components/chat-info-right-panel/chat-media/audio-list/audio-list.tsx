@@ -31,7 +31,7 @@ export const AudioList = () => {
     getAudios();
   }, [getAudios]);
 
-  const audiosWithSeparators = setSeparators(
+  const audiosWithSeparators = setSeparators<IAudioAttachment>(
     audiosForSelectedChat?.audios,
     { separateByMonth: true, separateByYear: true },
     { separateByMonth: true, separateByYear: true },
@@ -47,7 +47,7 @@ export const AudioList = () => {
           isLoading={audiosForSelectedChat?.loading}
           threshold={0.3}>
           {audiosWithSeparators &&
-            separateGroupable({
+            separateGroupable<IAudioAttachment>({
               groupableItems: audiosWithSeparators,
               prefix: ATTACHMENTS_GROUP_PREFIX,
             }).map((pack) => (

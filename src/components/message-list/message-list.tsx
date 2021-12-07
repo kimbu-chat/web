@@ -86,37 +86,40 @@ const MessageList = () => {
     [],
   );
 
-  const separatedMessagesPacks = useMemo(
+  const separatedMessagesPacks = useMemo<ISeparatedMessagesPack[]>(
     () =>
-      messagesIds?.reduce((accumulator: ISeparatedMessagesPack[], currentMessageId, index) => {
-        if (!accumulator.length) {
-          return [
-            ...accumulator,
-            {
-              date: formatDateForSeparator(messages[currentMessageId]?.creationDateTime),
-              messages: [currentMessageId],
-            },
-          ];
-        }
-        if (
-          checkIfDatesAreDifferentDate(
-            messages[messagesIds[index - 1]]?.creationDateTime,
-            messages[currentMessageId]?.creationDateTime,
-          )
-        ) {
-          return [
-            ...accumulator,
-            {
-              date: formatDateForSeparator(messages[currentMessageId]?.creationDateTime),
-              messages: [currentMessageId],
-            },
-          ];
-        }
+      messagesIds?.reduce(
+        (accumulator: ISeparatedMessagesPack[], currentMessageId: number, index: number) => {
+          if (!accumulator.length) {
+            return [
+              ...accumulator,
+              {
+                date: formatDateForSeparator(messages[currentMessageId]?.creationDateTime),
+                messages: [currentMessageId],
+              },
+            ];
+          }
+          if (
+            checkIfDatesAreDifferentDate(
+              messages[messagesIds[index - 1]]?.creationDateTime,
+              messages[currentMessageId]?.creationDateTime,
+            )
+          ) {
+            return [
+              ...accumulator,
+              {
+                date: formatDateForSeparator(messages[currentMessageId]?.creationDateTime),
+                messages: [currentMessageId],
+              },
+            ];
+          }
 
-        accumulator[accumulator.length - 1]?.messages.push(currentMessageId);
+          accumulator[accumulator.length - 1]?.messages.push(currentMessageId);
 
-        return accumulator;
-      }, []),
+          return accumulator;
+        },
+        [],
+      ),
     [messages, messagesIds, formatDateForSeparator],
   );
 

@@ -1,5 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 
+import { IVoiceAttachment } from 'kimbu-models';
 import { useSelector } from 'react-redux';
 
 import { ChatAttachment } from '@components/chat-attachment/chat-attachment';
@@ -24,7 +25,7 @@ export const RecordingsList = () => {
     getRecordings();
   }, [getRecordings]);
 
-  const recordingsWithSeparators = setSeparators(
+  const recordingsWithSeparators = setSeparators<IVoiceAttachment>(
     recordingsForSelectedChat?.recordings,
     { separateByMonth: true, separateByYear: true },
     { separateByMonth: true, separateByYear: true },
@@ -39,7 +40,7 @@ export const RecordingsList = () => {
           hasMore={recordingsForSelectedChat?.hasMore}
           isLoading={recordingsForSelectedChat?.loading}>
           {recordingsWithSeparators &&
-            separateGroupable({
+            separateGroupable<IVoiceAttachment>({
               groupableItems: recordingsWithSeparators,
               prefix: ATTACHMENTS_GROUP_PREFIX,
             }).map((pack) => (

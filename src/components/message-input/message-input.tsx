@@ -93,13 +93,17 @@ const CreateMessageInput = () => {
   );
   const referredRemovedAttachments = useReferState(removedAttachments);
 
-  const editingMessageAttachments = editingMessage?.attachments?.filter(({ id }) => {
-    if (!removedAttachments) {
-      return true;
-    }
+  const editingMessageAttachments = editingMessage?.attachments?.filter(
+    ({ id }: { id: number }) => {
+      if (!removedAttachments) {
+        return true;
+      }
 
-    return removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1;
-  });
+      return (
+        removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1
+      );
+    },
+  );
 
   const insertTextAndUpdateCursor = useCallback(
     (textToInsert: string) => {
@@ -322,7 +326,8 @@ const CreateMessageInput = () => {
     }
 
     setRemovedAttachments(
-      () => editingMessage?.attachments?.map(({ id, type }) => ({ id, type })) || [],
+      () =>
+        editingMessage?.attachments?.map(({ id, type }: IAttachmentBase) => ({ id, type })) || [],
     );
   }, [
     setRemovedAttachments,
@@ -429,7 +434,7 @@ const CreateMessageInput = () => {
             (selectedChat?.attachmentsToSend && selectedChat?.attachmentsToSend?.length > 0)) && (
             <div className="message-input__attachments-box">
               <div className="message-input__attachments-box__container">
-                {editingMessageAttachments?.map((attachment) => (
+                {editingMessageAttachments?.map((attachment: IAttachmentBase) => (
                   <MessageInputAttachment
                     attachment={{ attachment } as IAttachmentToSend<IAttachmentBase>}
                     isFromEdit

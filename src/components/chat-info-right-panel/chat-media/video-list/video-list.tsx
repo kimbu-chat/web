@@ -27,7 +27,7 @@ export const VideoList = () => {
     getVideoAttachmentss();
   }, [getVideoAttachmentss]);
 
-  const videosWithSeparators = setSeparators(
+  const videosWithSeparators = setSeparators<IVideoAttachment>(
     videosForSelectedChat?.videos,
     { separateByMonth: true, separateByYear: true },
     { separateByMonth: true, separateByYear: true },
@@ -47,7 +47,7 @@ export const VideoList = () => {
         hasMore={videosForSelectedChat?.hasMore}
         isLoading={videosForSelectedChat?.loading}>
         {videosWithSeparators &&
-          separateGroupable({
+          separateGroupable<IVideoAttachment>({
             groupableItems: videosWithSeparators,
             prefix: ATTACHMENTS_GROUP_PREFIX,
           }).map((pack) => (

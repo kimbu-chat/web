@@ -32,7 +32,7 @@ const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection }) => {
     getPhotoAttachments();
   }, [getPhotoAttachments]);
 
-  const photosWithSeparators = setSeparators(
+  const photosWithSeparators = setSeparators<IPictureAttachment>(
     photoForSelectedChat?.photos,
     { separateByMonth: true, separateByYear: true },
     { separateByMonth: true, separateByYear: true },
@@ -56,7 +56,7 @@ const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection }) => {
         hasMore={photoForSelectedChat?.hasMore}
         isLoading={photoForSelectedChat?.loading}>
         {photosWithSeparators &&
-          separateGroupable({
+          separateGroupable<IPictureAttachment>({
             groupableItems: photosWithSeparators,
             prefix: ATTACHMENTS_GROUP_PREFIX,
           }).map((pack) => (

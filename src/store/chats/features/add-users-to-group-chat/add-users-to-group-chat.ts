@@ -4,11 +4,11 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
+import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
 import { Meta } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
-import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { ChatId } from '../../chat-id';
 import { getSelectedChatIdSelector } from '../../selectors';
 

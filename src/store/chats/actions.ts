@@ -1,6 +1,4 @@
-import { GetPossibleMembersSuccess } from '@store/chats/features/get-possible-members/get-possible-members-success';
 import { GetPossibleMembers } from '@store/chats/features/get-possible-members/get-possible-members';
-import { ResetSearchPossibleMembers } from '@store/chats/features/get-possible-members/reset-search-possible-members';
 
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { AddUsersToGroupChat } from './features/add-users-to-group-chat/add-users-to-group-chat';
@@ -109,8 +107,6 @@ export const editGroupChatSuccessAction = EditGroupChatSuccess.action;
 export const getGroupChatUsersAction = GetGroupChatUsers.action;
 export const getGroupChatUsersSuccessAction = GetGroupChatUsersSuccess.action;
 export const getPossibleChatMembersAction = GetPossibleMembers.action;
-export const getPossibleChatMembersSuccessAction = GetPossibleMembersSuccess.action;
-export const resetSearchPossibleMembers = ResetSearchPossibleMembers.action;
 export const leaveGroupChatAction = LeaveGroupChat.action;
 export const leaveGroupChatSuccessAction = LeaveGroupChatSuccess.action;
 export const addUsersToGroupChatAction = AddUsersToGroupChat.action;
@@ -240,8 +236,6 @@ export const ChatActions = {
   uploadVoiceAttachmentAction,
   uploadVoiceAttachmentSuccess,
   getPossibleChatMembersAction,
-  getPossibleChatMembersSuccessAction,
-  resetSearchPossibleMembers,
 
   // socket-events
 

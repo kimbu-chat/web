@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 import './input.scss';
 
-interface InputProps extends Omit<React.HTMLProps<HTMLInputElement>, 'onChange'> {
+export interface InputProps extends Omit<React.HTMLProps<HTMLInputElement>, 'onChange'> {
   error?: string;
   label?: string;
   prefix?: string;

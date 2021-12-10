@@ -1,13 +1,12 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import AuthWrapper from '@auth-components/auth-wrapper';
-import { Portal } from '@auth-components/portal';
-import { TooltipPopover } from '@auth-components/tooltip-popover';
 import { Input } from '@components/input';
+import { InputWithError } from '@components/input-with-error';
 import { Loader } from '@components/loader';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { INSTANT_MESSAGING_PATH } from '@routing/routing.constants';
@@ -28,8 +27,7 @@ const SignUpPage: React.FC = () => {
   const [lastName, setLastname] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
   const [error, setError] = useState<string>();
-
-  const usernameRef = useRef<HTMLDivElement>(null);
+  const [firstNameError, setFirstNameError] = useState<string>();
 
   const register = useActionWithDeferred(registerAction);
   const checkNicknameAvailability = useActionWithDeferred(checkNicknameAvailabilityAction);
@@ -38,6 +36,11 @@ const SignUpPage: React.FC = () => {
   const registerUser = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
+
+      if (!firstName) {
+        setFirstNameError(t('register.first_name_required'));
+        return;
+      }
 
       const isNicknameValid = validateNickname(nickname);
       if (!isNicknameValid) {
@@ -67,6 +70,11 @@ const SignUpPage: React.FC = () => {
     setError('');
   }, []);
 
+  const onFirstNameChange = useCallback((val: string) => {
+    setFirstName(val);
+    setFirstNameError('');
+  }, []);
+
   return (
     <AuthWrapper>
       <form onSubmit={registerUser}>
@@ -76,12 +84,13 @@ const SignUpPage: React.FC = () => {
           {t('loginPage.confirm_code_phone_number')}
           <b>{phoneNumber}</b>
         </div>
-        <Input
+        <InputWithError
           autoFocus
           label={t('loginPage.name')}
           className={`${BLOCK_NAME}__input`}
-          onChange={setFirstName}
+          onChange={onFirstNameChange}
           maxLength={30}
+          error={firstNameError}
         />
         <Input
           label={t('loginPage.last_name')}
@@ -89,28 +98,20 @@ const SignUpPage: React.FC = () => {
           onChange={setLastname}
           maxLength={30}
         />
-        <Input
+        <InputWithError
           prefix="@"
           label={t('loginPage.nick_name')}
           className={`${BLOCK_NAME}__input`}
           onChange={onNicknameChange}
           error={error}
-          ref={usernameRef}
         />
         <button
           type="submit"
           disabled={!firstName && !nickname}
+          aria-label={t('loginPage.next')}
           className={`${BLOCK_NAME}__login-button`}>
           {isLoading ? <Loader /> : t('loginPage.next')}
         </button>
-
-        {error && (
-          <Portal>
-            <TooltipPopover className={`${BLOCK_NAME}__error-tooltip`} tooltipRef={usernameRef}>
-              {error}
-            </TooltipPopover>
-          </Portal>
-        )}
       </form>
     </AuthWrapper>
   );

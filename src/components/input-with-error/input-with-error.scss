@@ -1,0 +1,13 @@
+.input-with-error {
+  &__error-tooltip {
+    padding: 6px 16px;
+    background: #c74848;
+    border-radius: 10px;
+    font-weight: 300;
+    font-size: 0.75rem;
+    line-height: 14px;
+    text-align: center;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #ffffff;
+  }
+}

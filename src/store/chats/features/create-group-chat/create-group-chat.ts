@@ -68,6 +68,11 @@ export class CreateGroupChat {
           loading: false,
           memberIds: [],
         },
+        possibleMembers: {
+          data: [],
+          loading: false,
+          hasMore: true,
+        },
         videos: {
           hasMore: true,
           loading: false,

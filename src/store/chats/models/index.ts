@@ -6,3 +6,4 @@ export { InterlocutorType } from './interlocutor-type';
 export type { INormalizedMessage, IAttachmentWithClient } from './normalized-message';
 export { MessageState } from './message-state';
 export type { INormalizedLinkedMessage } from './normalized-linked-message';
+export type { IPossibleMembers } from './possible-members';

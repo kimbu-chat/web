@@ -8,6 +8,8 @@ import Mousetrap from 'mousetrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import { INPUT_MAX_LENGTH } from '@components/message-input/constants';
+import { inputUtils } from '@components/message-input/utilities/input-utilities';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import usePrevious from '@hooks/use-previous';
 import { useReferState } from '@hooks/use-referred-state';
@@ -91,13 +93,17 @@ const CreateMessageInput = () => {
   );
   const referredRemovedAttachments = useReferState(removedAttachments);
 
-  const editingMessageAttachments = editingMessage?.attachments?.filter(({ id }) => {
-    if (!removedAttachments) {
-      return true;
-    }
+  const editingMessageAttachments = editingMessage?.attachments?.filter(
+    ({ id }: { id: number }) => {
+      if (!removedAttachments) {
+        return true;
+      }
 
-    return removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1;
-  });
+      return (
+        removedAttachments?.findIndex((removedAttachment) => removedAttachment.id === id) === -1
+      );
+    },
+  );
 
   const insertTextAndUpdateCursor = useCallback(
     (textToInsert: string) => {
@@ -254,6 +260,32 @@ const CreateMessageInput = () => {
     [setText, throttledNotifyAboutTyping],
   );
 
+  const onKeyDown = useCallback((event) => {
+    const isSpecial = inputUtils.isSpecial(event);
+    const isNavigational = inputUtils.isNavigational(event);
+    let hasSelection = false;
+    const selection = window.getSelection();
+
+    if (selection) {
+      hasSelection = !!selection.toString();
+    }
+
+    if (isSpecial || isNavigational) {
+      return true;
+    }
+
+    if (inputUtils.isShortCut(event)) {
+      return true;
+    }
+
+    if (event.target.innerHTML.length >= INPUT_MAX_LENGTH && !hasSelection) {
+      event.preventDefault();
+      return false;
+    }
+
+    return true;
+  }, []);
+
   const handleFocus = useCallback(() => {
     if (myTypingStrategy === TypingStrategy.Nle) {
       Mousetrap.bind(['command+enter', 'ctrl+enter', 'alt+enter', 'shift+enter'], () => {
@@ -294,7 +326,8 @@ const CreateMessageInput = () => {
     }
 
     setRemovedAttachments(
-      () => editingMessage?.attachments?.map(({ id, type }) => ({ id, type })) || [],
+      () =>
+        editingMessage?.attachments?.map(({ id, type }: IAttachmentBase) => ({ id, type })) || [],
     );
   }, [
     setRemovedAttachments,
@@ -348,32 +381,47 @@ const CreateMessageInput = () => {
     [uploadAttachmentRequest, fileInputRef],
   );
 
+  const onPasteText = useCallback(
+    (event: React.ClipboardEvent<HTMLDivElement>) => {
+      const pastedText = event.clipboardData.getData('text');
+      const allowedTextLength = INPUT_MAX_LENGTH - event.currentTarget.innerText.length;
+
+      if (pastedText) {
+        insertTextAndUpdateCursor(pastedText.substring(0, allowedTextLength));
+      }
+    },
+    [insertTextAndUpdateCursor],
+  );
+
+  const onPasteFiles = useCallback(
+    (event: React.ClipboardEvent<HTMLDivElement>) => {
+      for (let index = 0; index < event.clipboardData.files.length; index += 1) {
+        const file = event.clipboardData.files.item(index) as File;
+
+        // extension test
+        const fileType = getAttachmentType(file.name);
+
+        uploadAttachmentRequest({
+          type: fileType,
+          file,
+          attachmentId: Number(`${new Date().getTime()}${index}`),
+        });
+      }
+    },
+    [uploadAttachmentRequest],
+  );
+
   const onPaste = useCallback(
     (event: React.ClipboardEvent<HTMLDivElement>) => {
       event.preventDefault();
 
-      if (event.clipboardData.files.length > 0) {
-        for (let index = 0; index < event.clipboardData.files.length; index += 1) {
-          const file = event.clipboardData.files.item(index) as File;
-
-          // extension test
-          const fileType = getAttachmentType(file.name);
-
-          uploadAttachmentRequest({
-            type: fileType,
-            file,
-            attachmentId: Number(`${new Date().getTime()}${index}`),
-          });
-        }
-      }
-
-      const pastedText = event.clipboardData.getData('text');
-
-      if (pastedText) {
-        insertTextAndUpdateCursor(pastedText);
+      if (event.clipboardData.files.length) {
+        onPasteFiles(event);
+      } else {
+        onPasteText(event);
       }
     },
-    [insertTextAndUpdateCursor, uploadAttachmentRequest],
+    [onPasteFiles, onPasteText],
   );
 
   return (
@@ -386,7 +434,7 @@ const CreateMessageInput = () => {
             (selectedChat?.attachmentsToSend && selectedChat?.attachmentsToSend?.length > 0)) && (
             <div className="message-input__attachments-box">
               <div className="message-input__attachments-box__container">
-                {editingMessageAttachments?.map((attachment) => (
+                {editingMessageAttachments?.map((attachment: IAttachmentBase) => (
                   <MessageInputAttachment
                     attachment={{ attachment } as IAttachmentToSend<IAttachmentBase>}
                     isFromEdit
@@ -427,6 +475,7 @@ const CreateMessageInput = () => {
                   ref={messageInputRef}
                   onInput={onType}
                   onPaste={onPaste}
+                  onKeyDown={onKeyDown}
                   className="mousetrap message-input__input-message"
                   onFocus={handleFocus}
                   onBlur={handleBlur}

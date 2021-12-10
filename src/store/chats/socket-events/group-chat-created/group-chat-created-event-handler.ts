@@ -85,6 +85,11 @@ export class GroupChatCreatedEventHandler {
             loading: false,
             memberIds: [],
           },
+          possibleMembers: {
+            data: [],
+            loading: false,
+            hasMore: true,
+          },
           messages: {
             messages: {},
             messageIds: [],

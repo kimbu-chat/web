@@ -42,16 +42,14 @@ export class Register {
 
       const confirmationCode = yield select(confirmationCodeSelector);
 
-      yield call(() =>
-        Register.httpRequest.generator({
-          firstName,
-          lastName,
-          nickname,
-          phoneNumber,
-          twoLetterCountryCode,
-          avatarId,
-        }),
-      );
+      yield call(Register.httpRequest.generator, {
+        firstName,
+        lastName,
+        nickname,
+        phoneNumber,
+        twoLetterCountryCode,
+        avatarId,
+      });
 
       yield put(Login.action({ phoneNumber, code: confirmationCode }));
       yield take(LoginSuccess.action);

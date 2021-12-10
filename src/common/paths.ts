@@ -59,6 +59,7 @@ export const MAIN_API = {
   SUBSCRIBE_TO_PUSH_NOTIFICATIONS: `${REACT_APP_MAIN_API}/api/push-notifications/subscribe`,
   UNSUBSCRIBE_FROM_PUSH_NOTIFICATIONS: `${REACT_APP_MAIN_API}/api/push-notifications/unsubscribe`,
   MESSAGE_TYPING: `${REACT_APP_MAIN_API}/api/message-typing`,
+  GROUP_CHAT_ALLOWED_MEMBERS: `${REACT_APP_MAIN_API}/api/group-chats/search-allowed-users`,
 };
 
 export const FILES_API = {

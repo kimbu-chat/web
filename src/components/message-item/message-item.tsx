@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import { AttachmentType, IUser, MessageLinkType, SystemMessageType } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { Avatar } from '@components/avatar';
+import { ForwardedMessage } from '@components/message-item/forwarded-message';
 import { SystemMessage } from '@components/message-item/system-message';
 import { normalizeAttachments } from '@components/message-item/utilities';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -15,7 +15,6 @@ import { ReactComponent as MessageQeuedSvg } from '@icons/message-queued.svg';
 import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
 import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
 import { ReactComponent as SelectSvg } from '@icons/select.svg';
-import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { changeChatInfoOpenedAction, selectMessageAction } from '@store/chats/actions';
 import { ChatId } from '@store/chats/chat-id';
 import { INormalizedLinkedMessage, MessageState } from '@store/chats/models';
@@ -23,7 +22,6 @@ import { getIsSelectMessagesStateSelector, getMessageSelector } from '@store/cha
 import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
 import { getShortTimeAmPm } from '@utils/date-utils';
-import { replaceInUrl } from '@utils/replace-in-url';
 import { getUserName } from '@utils/user-utils';
 
 import renderText from '../../utils/render-text/render-text';
@@ -111,7 +109,6 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
       return icon;
     };
 
-    const linkedAttachments = normalizeAttachments(message.linkedMessage?.attachments);
     const rootAttachments = normalizeAttachments(message.attachments);
 
     if (!myId) {
@@ -138,24 +135,12 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
     );
 
     const renderForward = () => (
-      <>
-        <div className={`${BLOCK_NAME}__forward-indicator`}>
-          {t('messageItem.forward-indicator')}
-          <Link
-            to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, [
-              'id?',
-              ChatId.from(linkedMessageUserCreator?.id).id,
-            ])}
-            className={`${BLOCK_NAME}__forward-indicator__name`}>
-            {linkedMessageUserCreator && getUserName(linkedMessageUserCreator, t)}
-          </Link>
-        </div>
-        <AttachmentsMap
-          structuredAttachments={linkedAttachments}
-          isCurrentUserMessageCreator={isCurrentUserMessageCreator}
-          observeIntersection={observeIntersection}
-        />
-      </>
+      <ForwardedMessage
+        linkedMessageUserCreator={linkedMessageUserCreator}
+        linkedMessage={messageToProcess}
+        observeIntersection={observeIntersection}
+        isCurrentUserMessageCreator={isCurrentUserMessageCreator}
+      />
     );
 
     const linkedMessageByType = {

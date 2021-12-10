@@ -56,6 +56,7 @@
   "register": {
     "photo-requirements": "At least 256*256px PNG or JPG",
     "register": "Register",
+    "first_name_required": "Please fill your name.",
     "already_in_use": "User name already used",
     "nickname_invalid": "Nickname should be at least 5 symbols and can contain _ special symbol."
   },
@@ -395,7 +396,7 @@
     "title": "Clear chat",
     "clear-confirmation": "Clear for everybody"
   },
-  "repliedMessage": {
+  "linkedMessage": {
     "message-deleted": "Message deleted"
   },
   "addFriend": {

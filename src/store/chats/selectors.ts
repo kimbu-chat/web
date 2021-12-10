@@ -175,6 +175,12 @@ export const getMembersListForSelectedGroupChatSelector = (state: RootState) =>
 export const getMembersCountForSelectedGroupChatSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.members.memberIds.length || 0;
 
+export const getPossibleMembersCountForSelectedGroupChatSelector = (state: RootState) =>
+  state.chats.chats[state?.chats?.selectedChatId || -1]?.possibleMembers.data.length || 0;
+
+export const getPossibleMembersListForSelectedGroupChatSelector = (state: RootState) =>
+  state.chats.chats[state?.chats?.selectedChatId || -1]?.possibleMembers;
+
 export const getTypingStringSelector =
   (t: TFunction, chatId: number | null) => (state: RootState) => {
     const typingUsers = state.chats.chats[chatId || -1]?.typingInterlocutors;

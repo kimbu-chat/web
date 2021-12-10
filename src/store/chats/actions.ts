@@ -1,3 +1,5 @@
+import { GetPossibleMembers } from '@store/chats/features/get-possible-members/get-possible-members';
+
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { AddUsersToGroupChat } from './features/add-users-to-group-chat/add-users-to-group-chat';
 import { ChangeChatInfoOpened } from './features/change-chat-info-opened/change-chat-info-opened';
@@ -104,6 +106,7 @@ export const editGroupChatAction = EditGroupChat.action;
 export const editGroupChatSuccessAction = EditGroupChatSuccess.action;
 export const getGroupChatUsersAction = GetGroupChatUsers.action;
 export const getGroupChatUsersSuccessAction = GetGroupChatUsersSuccess.action;
+export const getPossibleChatMembersAction = GetPossibleMembers.action;
 export const leaveGroupChatAction = LeaveGroupChat.action;
 export const leaveGroupChatSuccessAction = LeaveGroupChatSuccess.action;
 export const addUsersToGroupChatAction = AddUsersToGroupChat.action;
@@ -232,6 +235,7 @@ export const ChatActions = {
   removeChatSuccess,
   uploadVoiceAttachmentAction,
   uploadVoiceAttachmentSuccess,
+  getPossibleChatMembersAction,
 
   // socket-events
 

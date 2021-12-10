@@ -30,6 +30,7 @@ export const modelChatList = (chats?: Record<number, INormalizedChat>) => {
         };
         if (chat.interlocutorType === InterlocutorType.GroupChat) {
           chat.members = { memberIds: [], loading: false, hasMore: true };
+          chat.possibleMembers = { data: [], loading: false, hasMore: true };
         }
         chat.messages = {
           messages: {},

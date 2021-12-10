@@ -81,7 +81,7 @@ export const ChatMembers: React.FC = () => {
             hasMore={membersListForGroupChat?.hasMore}
             isLoading={membersListForGroupChat?.loading}
             threshold={0.3}>
-            {membersListForGroupChat?.memberIds?.map((memberId) => (
+            {membersListForGroupChat?.memberIds?.map((memberId: number) => (
               <Member key={memberId} memberId={memberId} ownerId={userCreatorId} />
             ))}
           </InfiniteScroll>

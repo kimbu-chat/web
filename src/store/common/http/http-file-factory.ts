@@ -1,17 +1,16 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, CancelTokenSource } from 'axios';
-import { ISecurityTokens } from 'kimbu-models';
 import noop from 'lodash/noop';
 import { END, eventChannel, SagaIterator, buffers } from 'redux-saga';
-import { call, cancelled, put, select, take, takeEvery } from 'redux-saga/effects';
+import { call, cancelled, put, take, takeEvery } from 'redux-saga/effects';
 
 import { emitToast } from '@utils/emit-toast';
 
 import { isNetworkError } from '../../../utils/error-utils';
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
 import { RefreshToken } from '../../auth/features/refresh-token/refresh-token';
-import { securityTokensSelector } from '../../auth/selectors';
 
 import { checkTokensSaga } from './check-tokens';
+import { getAuthHeader } from './common';
 import { HttpRequestMethod } from './http-request-method';
 
 import type {
@@ -116,14 +115,14 @@ function* httpRequest<T>(
     method,
     cancelToken: cancelTokenSource?.token,
     responseType: 'json',
-    headers,
   };
 
-  const auth: ISecurityTokens = yield select(securityTokensSelector);
+  const authHeader: HttpHeaders = yield call(getAuthHeader);
 
-  if (auth && auth.accessToken && requestConfig.headers) {
-    requestConfig.headers.Authorization = `Bearer ${auth.accessToken}`
-  }
+  requestConfig.headers = {
+    ...headers,
+    ...authHeader,
+  };
 
   switch (method) {
     case HttpRequestMethod.Get:
@@ -172,7 +171,7 @@ export const httpFilesRequestFactory = <TResponse, TBody>(
       } catch (e) {
         const error = e as AxiosError;
 
-        if (!isNetworkError(e) && error?.response?.status === 401) {
+        if (!isNetworkError(error) && error?.response?.status === 401) {
           yield put(RefreshToken.action());
           yield take(RefreshTokenSuccess.action);
 

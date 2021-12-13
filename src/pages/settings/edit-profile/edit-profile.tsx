@@ -10,6 +10,7 @@ import { HorizontalSeparator } from '@components/horizontal-separator';
 import { MediaModal } from '@components/image-modal';
 import { LabeledInput } from '@components/labeled-input';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
 import { ReactComponent as ColoredClose } from '@icons/colored-close.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
@@ -24,8 +25,6 @@ import {
 } from '@store/my-profile/actions';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import { validateNickname } from '@utils/validate-nick-name';
-
-import { useToggledState } from '../../../hooks/use-toggled-state';
 
 import { ChangePhoneModal } from './change-phone-modal/change-phone-modal';
 import { DeactivateAccountModal } from './deactivate-account-modal/deactivate-account-modal';

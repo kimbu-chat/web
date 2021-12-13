@@ -51,20 +51,16 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
         ? chat?.lastMessage?.linkedMessage
         : chat?.lastMessage;
 
-    if (
-      (size(chat?.lastMessage?.text) === 0 && size(chat?.lastMessage?.attachments) > 0) ||
-      (size(chat?.lastMessage?.linkedMessage?.text) === 0 &&
-        size(chat?.lastMessage?.linkedMessage?.attachments) > 0)
-    ) {
+    if (messageToProcess && !messageToProcess.text) {
       return t('chatFromList.media');
     }
 
     if (
-      chat?.lastMessage?.text?.length === 0 &&
-      size(chat?.lastMessage.attachments) === 0 &&
-      chat?.lastMessage?.linkedMessage === null
+      !chat?.lastMessage?.text &&
+      !size(chat?.lastMessage?.attachments) &&
+      !chat?.lastMessage?.linkedMessage
     ) {
-      return t('message-link.message-deleted');
+      return t('linkedMessage.message-deleted');
     }
 
     if (messageToProcess) {

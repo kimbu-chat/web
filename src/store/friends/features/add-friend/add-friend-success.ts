@@ -11,7 +11,10 @@ export class AddFriendSuccess {
   static get reducer() {
     return produce(
       (draft: IFriendsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
-        draft.friends.friendIds.push(payload);
+        const { friendIds } = draft.friends;
+        if (!friendIds.some((id) => id === payload)) {
+          friendIds.push(payload);
+        }
         return draft;
       },
     );

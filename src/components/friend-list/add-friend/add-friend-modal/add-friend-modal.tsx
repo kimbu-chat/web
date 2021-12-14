@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
 import classNames from 'classnames';
-import { IUser } from 'kimbu-models';
+import { IGetUserByPhoneNumberQueryResult } from 'kimbu-models';
 import parsePhoneNumberFromString, { parsePhoneNumber } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -18,9 +18,7 @@ import { Button } from '@shared-components/button';
 import { ChatId } from '@store/chats/chat-id';
 import { addFriendAction, getUserByPhoneAction } from '@store/friends/actions';
 import { isFriend } from '@store/friends/selectors';
-import { addOrUpdateUsers } from '@store/users/actions';
 import { replaceInUrl } from '@utils/replace-in-url';
-
 import './add-friend-modal.scss';
 
 interface IAddFriendModalProps {
@@ -35,44 +33,39 @@ const InitialAddFriendModal: React.FC<IAddFriendModalProps & IModalChildrenProps
   const { t } = useTranslation();
   const getUserByPhone = useActionWithDeferred(getUserByPhoneAction);
   const addFriend = useActionWithDeferred(addFriendAction);
-  const addUsers = useActionWithDeferred(addOrUpdateUsers);
 
   const [phone, setPhone] = useState('');
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [success, setSucess] = useState(false);
-  const [user, setUser] = useState<IUser | null>(null);
+  const [foundResult, setFoundResult] = useState<IGetUserByPhoneNumberQueryResult | null>(null);
+  const [success, setSuccess] = useState(false);
 
-  const added = useSelector(isFriend(user?.id));
+  const isUserWasAdded = useSelector(isFriend(foundResult?.user?.id));
 
   const getRequiredUser = useCallback(() => {
     setLoading(true);
     getUserByPhone({ phone })
-      .then((result) => {
+      .then((result: IGetUserByPhoneNumberQueryResult) => {
         setLoading(false);
         if (result) {
-          setUser(result);
+          setFoundResult(result);
         } else {
           setError(true);
         }
       })
       .catch(() => setError(true));
-  }, [phone, setUser, getUserByPhone]);
+  }, [phone, setFoundResult, getUserByPhone]);
 
   const addRequiredUser = useCallback(() => {
-    if (user?.id) {
+    if (foundResult) {
+      const { user } = foundResult;
       setLoading(true);
-      addUsers({
-        users: {
-          [user.id]: user,
-        },
-      });
-      addFriend(user?.id).then(() => {
-        // setLoading(false);
-        setSucess(true);
+      addFriend(user).then(() => {
+        setLoading(false);
+        setSuccess(true);
       });
     }
-  }, [user, addUsers, addFriend]);
+  }, [foundResult, addFriend]);
 
   const closeError = useCallback(() => {
     setError(false);
@@ -86,13 +79,15 @@ const InitialAddFriendModal: React.FC<IAddFriendModalProps & IModalChildrenProps
           <span> {t('addFriendModal.title')} </span>
         </>
       </Modal.Header>
-      {user ? (
+      {foundResult ? (
         <div className={`${BLOCK_NAME}__user`}>
-          <Avatar className={`${BLOCK_NAME}__user__avatar`} size={80} user={user} />
+          <Avatar className={`${BLOCK_NAME}__user__avatar`} size={80} user={foundResult.user} />
 
-          <h2 className={`${BLOCK_NAME}__user__name`}>{`${user.firstName} ${user.lastName}`}</h2>
+          <h2
+            className={`${BLOCK_NAME}__user__name`}>{`${foundResult.user.firstName} ${foundResult.user.lastName}`}</h2>
           <h4 className={`${BLOCK_NAME}__user__phone`}>
-            {user?.phoneNumber && parsePhoneNumber(user?.phoneNumber).formatInternational()}
+            {foundResult.user?.phoneNumber &&
+              parsePhoneNumber(foundResult.user?.phoneNumber).formatInternational()}
           </h4>
 
           {success && (
@@ -104,13 +99,16 @@ const InitialAddFriendModal: React.FC<IAddFriendModalProps & IModalChildrenProps
           <div className={`${BLOCK_NAME}__btn-block`}>
             <Link
               className={classNames(`${BLOCK_NAME}__btn`, {
-                [`${BLOCK_NAME}__btn--confirm`]: added,
-                [`${BLOCK_NAME}__btn--cancel`]: !added,
+                [`${BLOCK_NAME}__btn--confirm`]: foundResult?.inContacts || isUserWasAdded,
+                [`${BLOCK_NAME}__btn--cancel`]: !(foundResult?.inContacts || isUserWasAdded),
               })}
-              to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', ChatId.from(user.id).id])}>
+              to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, [
+                'id?',
+                ChatId.from(foundResult.user.id).id,
+              ])}>
               {t('addFriendModal.chat')}
             </Link>
-            {!added && (
+            {!(foundResult?.inContacts || isUserWasAdded) && (
               <Button
                 type="button"
                 loading={loading}

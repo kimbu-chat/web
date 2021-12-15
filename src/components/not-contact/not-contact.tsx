@@ -32,11 +32,11 @@ export const NotContact = () => {
     setAddLoading(true);
     if (interlocutor?.id) {
       dismissUser(interlocutor?.id);
-      addFriend(interlocutor?.id).then(() => {
+      addFriend(interlocutor).then(() => {
         setAddLoading(false);
       });
     }
-  }, [addFriend, interlocutor?.id, dismissUser]);
+  }, [addFriend, interlocutor, dismissUser]);
 
   const addSelectedUserToBlackList = useCallback(() => {
     setBlockLoading(true);

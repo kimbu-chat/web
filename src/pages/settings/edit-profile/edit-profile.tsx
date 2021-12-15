@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useRef, lazy, Suspense, useEffect } from 'react';
 
-import { AttachmentType } from 'kimbu-models';
+import { AttachmentType, IAvatar } from 'kimbu-models';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -55,13 +55,20 @@ const EditProfile = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [imageUrl, setImageUrl] = useState<string>('');
-  const [newAvatar, setNewAvatar] = useState(myProfile?.avatar);
-  const [firstName, setFirstName] = useState(myProfile?.firstName || '');
-  const [lastName, setLastName] = useState(myProfile?.lastName || '');
+  const [newAvatar, setNewAvatar] = useState<IAvatar>();
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
   const [error, setError] = useState<NicknameState>(NicknameState.ALLOWED_NICKNAME);
   const [isLoading, setIsLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [nickname, setNickname] = useState(myProfile?.nickname || '');
+  const [nickname, setNickname] = useState<string>('');
+
+  useEffect(() => {
+    setNewAvatar(myProfile?.avatar);
+    setFirstName(myProfile?.firstName || '');
+    setLastName(myProfile?.lastName || '');
+    setNickname(myProfile?.nickname || '');
+  }, [myProfile]);
 
   const [bigPhotoDisplayed, displayBigPhoto, hideBigPhoto] = useToggledState(false);
   const [changePhotoDisplayed, displayChangePhoto, hideChangePhoto] = useToggledState(false);
@@ -243,6 +250,7 @@ const EditProfile = () => {
           onChange={changeFirstName}
           containerClassName="edit-profile__input"
           maxLength={30}
+          defaultValue={myProfile?.firstName}
         />
         <LabeledInput
           label={t('editProfile.last_name')}

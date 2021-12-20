@@ -69,7 +69,7 @@ const MessageList = () => {
   }, [messagesIds]);
 
   useEffect(() => {
-    if (selectedChatId && (unreadMessagesCount || 0) > 0) {
+    if (selectedChatId && unreadMessagesCount) {
       markMessagesAsRead();
     }
   }, [unreadMessagesCount, selectedChatId, markMessagesAsRead]);

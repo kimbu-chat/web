@@ -1,10 +1,10 @@
-import { AttachmentType, IAttachmentBase } from 'kimbu-models';
+import { AttachmentType, IAttachmentBase, IUser } from 'kimbu-models';
 import unionBy from 'lodash/unionBy';
 
 import { INormalizedChat, INormalizedMessage, InterlocutorType } from './models';
 
 import type { IChatsState } from './chats-state';
-import type { IAttachmentToSend } from './models/attachment-to-send';
+import type { IAttachmentToSend } from '@store/chats/models';
 import type { TFunction } from 'i18next';
 import type { IAudioAttachment } from 'kimbu-models';
 import type { RootState } from 'typesafe-actions';
@@ -14,17 +14,49 @@ export const getSelectedChatSelector = (state: RootState): INormalizedChat | und
   state.chats.chats[state?.chats?.selectedChatId || -1];
 
 export const getSelectedChatLastMessageIdSelector = (state: RootState): number | undefined =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.lastMessage?.id;
+  state.chats.chats[state?.chats?.selectedChatId || -1]?.lastMessageId;
+
+export const getChatByIdSelector = (chatId: number) => (state: RootState) =>
+  state.chats.chats[chatId];
 
 export const getChatLastMessageIdSelector =
   (chatId: number) =>
   (state: RootState): number | undefined =>
-    state.chats.chats[chatId]?.lastMessage?.id;
+    state.chats.chats[chatId]?.lastMessageId;
+
+export function getChatLastMessageSelector(chatId: number) {
+  return (state: RootState): INormalizedMessage | undefined => {
+    const lastMessageId = getChatLastMessageIdSelector(chatId)(state);
+
+    if (!lastMessageId) {
+      return undefined;
+    }
+
+    return getMessageSelector(chatId, lastMessageId)(state);
+  };
+}
+
+export function getChatLastMessageDraftSelector(chatId: number, state: IChatsState) {
+  const lastMessageId = state.chats[chatId]?.lastMessageId;
+
+  if (!lastMessageId) {
+    return undefined;
+  }
+
+  return state.chats[chatId]?.messages.messages[lastMessageId];
+}
+
+export const getChatLastMessageUser =
+  (chatId: number) =>
+  (state: RootState): IUser | undefined => {
+    const lastMessage = getChatLastMessageSelector(chatId)(state);
+    return lastMessage?.userCreatorId ? state.users.users[lastMessage.userCreatorId] : undefined;
+  };
 
 export const getChatHasLastMessageSelector =
   (chatId: number) =>
   (state: RootState): boolean =>
-    Boolean(state.chats.chats[chatId]?.lastMessage?.id);
+    Boolean(state.chats.chats[chatId]?.lastMessageId);
 
 export const getChatMessagesLengthSelector =
   (chatId: number) =>
@@ -162,9 +194,6 @@ export const getSelectedChatAudioAttachmentsSelector =
 
     return unionBy(audioAttachments, state.chats.chats[chatId]?.audios.audios, 'id');
   };
-
-export const getChatByIdSelector = (chatId: number) => (state: RootState) =>
-  state.chats.chats[chatId];
 
 export const getSearchChatsListSelector = (state: RootState) => state.chats.searchChatList;
 export const getChatsListSelector = (state: RootState) => state.chats.chatList;

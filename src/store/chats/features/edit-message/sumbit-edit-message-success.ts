@@ -2,7 +2,6 @@ import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 
 import { MessageState } from '@store/chats/models';
-import { getChatByIdDraftSelector } from '@store/chats/selectors';
 
 import { IChatsState } from '../../chats-state';
 
@@ -18,17 +17,10 @@ export class SubmitEditMessageSuccess {
       (draft: IChatsState, { payload }: ReturnType<typeof SubmitEditMessageSuccess.action>) => {
         const { chatId, messageId } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
         const message = draft.chats[chatId]?.messages.messages[messageId];
 
         if (message) {
           message.state = MessageState.SENT;
-        }
-
-        if (chat?.lastMessage) {
-          if (chat?.lastMessage.id === messageId) {
-            chat.lastMessage.state = MessageState.SENT;
-          }
         }
 
         return draft;

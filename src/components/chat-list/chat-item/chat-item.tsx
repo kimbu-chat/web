@@ -16,7 +16,12 @@ import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import Ripple from '@shared-components/ripple';
 import { INormalizedMessage, MessageState } from '@store/chats/models';
-import { getTypingStringSelector, getChatSelector } from '@store/chats/selectors';
+import {
+  getTypingStringSelector,
+  getChatSelector,
+  getChatLastMessageUser,
+  getChatLastMessageSelector,
+} from '@store/chats/selectors';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
 import { checkIfDatesAreDifferentDate, getDayMonthYear, getShortTimeAmPm } from '@utils/date-utils';
@@ -36,29 +41,32 @@ const BLOCK_NAME = 'chat-item';
 const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const { t } = useTranslation();
   const chat = useSelector(getChatSelector(chatId));
-  const lastMessageUserCreator = useSelector(getUserSelector(chat?.lastMessage?.userCreatorId));
+  const chatLastMessage = useSelector(getChatLastMessageSelector(chatId));
+  const lastMessageUserCreator = useSelector(getChatLastMessageUser(chatId));
   const interlocutor = useSelector(getUserSelector(chat?.interlocutorId));
+
 
   const currentUserId = useSelector(myIdSelector);
   const typingString = useSelector(getTypingStringSelector(t, chatId));
 
-  const isMessageCreatorCurrentUser: boolean = chat?.lastMessage?.userCreatorId === currentUserId;
+  const isMessageCreatorCurrentUser: boolean = lastMessageUserCreator?.id === currentUserId;
 
   const messageText = useMemo((): string => {
     const messageToProcess =
-      chat?.lastMessage?.linkedMessageType === MessageLinkType.Forward &&
-      chat?.lastMessage?.linkedMessage !== null
-        ? chat?.lastMessage?.linkedMessage
-        : chat?.lastMessage;
+      chatLastMessage?.linkedMessageType === MessageLinkType.Forward &&
+      chatLastMessage?.linkedMessage !== null
+        ? chatLastMessage?.linkedMessage
+        : chatLastMessage;
 
     if (messageToProcess && !messageToProcess.text) {
       return t('chatFromList.media');
     }
 
     if (
-      !chat?.lastMessage?.text &&
-      !size(chat?.lastMessage?.attachments) &&
-      !chat?.lastMessage?.linkedMessage
+      chatLastMessage?.linkedMessageType &&
+      !chatLastMessage?.linkedMessage &&
+      !chatLastMessage?.text &&
+      !size(chatLastMessage?.attachments)
     ) {
       return t('linkedMessage.message-deleted');
     }
@@ -106,7 +114,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     return '';
   }, [
     chat?.groupChat,
-    chat?.lastMessage,
+    chatLastMessage,
     currentUserId,
     isMessageCreatorCurrentUser,
     lastMessageUserCreator,
@@ -139,18 +147,18 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
           <div className={`${BLOCK_NAME}__name`}>{getChatInterlocutor(interlocutor, chat, t)}</div>
           <div className={`${BLOCK_NAME}__status`}>
             {!(
-              chat?.lastMessage?.systemMessageType !== SystemMessageType.None ||
+              chatLastMessage?.systemMessageType !== SystemMessageType.None ||
               !isMessageCreatorCurrentUser
             ) &&
-              chat?.lastMessage.state &&
-              messageStatIconMap[chat?.lastMessage.state]}
+              chatLastMessage.state &&
+              messageStatIconMap[chatLastMessage.state]}
           </div>
           <div className={`${BLOCK_NAME}__time`}>
-            {chat?.lastMessage &&
-              chat.lastMessage.creationDateTime &&
-              (checkIfDatesAreDifferentDate(new Date(chat.lastMessage.creationDateTime), new Date())
-                ? getDayMonthYear(chat.lastMessage.creationDateTime)
-                : getShortTimeAmPm(chat.lastMessage.creationDateTime).toLowerCase())}
+            {chatLastMessage &&
+              chatLastMessage.creationDateTime &&
+              (checkIfDatesAreDifferentDate(new Date(chatLastMessage.creationDateTime), new Date())
+                ? getDayMonthYear(chatLastMessage.creationDateTime)
+                : getShortTimeAmPm(chatLastMessage.creationDateTime).toLowerCase())}
           </div>
         </div>
         <div className={`${BLOCK_NAME}__last-message`}>

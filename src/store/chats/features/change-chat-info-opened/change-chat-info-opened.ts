@@ -23,7 +23,7 @@ export class ChangeChatInfoOpened {
             const chat: INormalizedChat = {
               id: chatId,
               interlocutorType,
-              lastMessage: null,
+              lastMessageId: undefined,
               interlocutorId,
               unreadMessagesCount: 0,
               isGeneratedLocally: true,

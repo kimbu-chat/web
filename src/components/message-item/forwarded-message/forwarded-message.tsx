@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { LinkedMessage, ILinkedMessage } from '@components/message-item/linked-message';
+import { LinkedMessage, ILinkedMessageProps } from '@components/message-item/linked-message';
 import { withMessageHandler } from '@components/message-item/message-handler';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { ChatId } from '@store/chats/chat-id';
@@ -16,11 +16,11 @@ import './forwarded-message.scss';
 
 const BLOCK_NAME = 'forwarded-message';
 
-interface IForwardedMessage extends ILinkedMessage {
+interface IForwardedMessageProps extends ILinkedMessageProps {
   linkedMessageUserCreator?: IUser;
 }
 
-const ForwardedMessage: React.FC<IForwardedMessage> = ({
+const ForwardedMessage: React.FC<IForwardedMessageProps> = ({
   linkedMessageUserCreator,
   linkedMessage,
   ...props

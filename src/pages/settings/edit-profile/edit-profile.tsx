@@ -54,14 +54,14 @@ const EditProfile = () => {
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [imageUrl, setImageUrl] = useState<string>('');
+  const [imageUrl, setImageUrl] = useState(myProfile?.avatar?.previewUrl || '');
   const [newAvatar, setNewAvatar] = useState<IAvatar>();
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
+  const [firstName, setFirstName] = useState(myProfile?.firstName || '');
+  const [lastName, setLastName] = useState(myProfile?.lastName || '');
   const [error, setError] = useState<NicknameState>(NicknameState.ALLOWED_NICKNAME);
   const [isLoading, setIsLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [nickname, setNickname] = useState<string>('');
+  const [nickname, setNickname] = useState(myProfile?.nickname || '');
 
   useEffect(() => {
     setNewAvatar(myProfile?.avatar);

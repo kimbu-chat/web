@@ -1,7 +1,7 @@
 import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import {createAction} from 'typesafe-actions';
 
-import { IChatsState } from '../../chats-state';
+import {IChatsState} from '../../chats-state';
 
 export class GetMessagesFailure {
   static get action() {
@@ -11,9 +11,7 @@ export class GetMessagesFailure {
   static get reducer() {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof GetMessagesFailure.action>) => {
-        const chatId = payload;
-
-        const chatMessages = draft.chats[chatId]?.messages;
+        const chatMessages = draft.chats[payload]?.messages;
 
         if (chatMessages) {
           chatMessages.loading = false;

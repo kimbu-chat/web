@@ -28,7 +28,7 @@ export class CreateMessage {
 
       if (chat) {
         delete chat.attachmentsToSend;
-        chat.lastMessage = message;
+        chat.lastMessageId = message.id;
         chat.draftMessage = '';
         delete chat.messageToReply;
 

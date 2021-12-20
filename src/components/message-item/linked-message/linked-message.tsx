@@ -10,7 +10,7 @@ import type { INormalizedLinkedMessage } from '@store/chats/models';
 
 import './linked-message.scss';
 
-export interface ILinkedMessage {
+export interface ILinkedMessageProps {
   linkedMessage: INormalizedLinkedMessage;
   observeIntersection: ObserveFn;
   isCurrentUserMessageCreator: boolean;
@@ -18,7 +18,7 @@ export interface ILinkedMessage {
 
 const BLOCK_NAME = 'linked-message';
 
-export const LinkedMessage: React.FC<ILinkedMessage> = ({
+export const LinkedMessage: React.FC<ILinkedMessageProps> = ({
   linkedMessage,
   observeIntersection,
   isCurrentUserMessageCreator,

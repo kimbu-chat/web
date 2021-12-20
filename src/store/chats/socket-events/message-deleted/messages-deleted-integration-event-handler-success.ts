@@ -4,7 +4,10 @@ import { createAction } from 'typesafe-actions';
 
 import { IChatsState } from '@store/chats/chats-state';
 
-import { getChatByIdDraftSelector } from '../../selectors';
+import {
+  getChatByIdDraftSelector,
+  getChatLastMessageDraftSelector
+} from '../../selectors';
 
 import { IMessagesDeletedIntegrationEventHandlerSuccessActionPayload } from './action-payloads/messages-deleted-integration-event-handler-success-action-payload';
 
@@ -24,6 +27,7 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
         const { chatId, messageIds, chatNewLastMessage } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
+        const lastMessage = getChatLastMessageDraftSelector(chatId, draft);
         const messagesForChat = draft.chats[chatId]?.messages;
 
         if (chat) {
@@ -92,13 +96,13 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
 
             delete messagesForChat?.messages[msgIdToDelete || -1];
           });
-          if (messageIds.includes(draft.chats[chatId]?.lastMessage?.id || -1)) {
-            chat.lastMessage = chatNewLastMessage;
+          if (messageIds.includes(draft.chats[chatId]?.lastMessageId || -1)) {
+            chat.lastMessageId = chatNewLastMessage?.id;
           }
 
-          if (chat.lastMessage?.linkedMessage) {
-            if (messageIds.includes(chat.lastMessage?.linkedMessage?.id)) {
-              chat.lastMessage.linkedMessage = undefined;
+          if (lastMessage?.linkedMessage) {
+            if (messageIds.includes(lastMessage?.linkedMessage?.id)) {
+              lastMessage.linkedMessage = undefined;
             }
           }
         }

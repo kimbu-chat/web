@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { ChatId } from '../chat-id';
-import { INormalizedChat, MessageState, InterlocutorType } from '../models';
+import { INormalizedChat, InterlocutorType } from '../models';
 
 export const modelChatList = (chats?: Record<number, INormalizedChat>) => {
   const modeledChats: Record<number, INormalizedChat> = {};
@@ -9,13 +9,6 @@ export const modelChatList = (chats?: Record<number, INormalizedChat>) => {
       const chat = initialChat;
 
       if (chat) {
-        if (chat.lastMessage) {
-          chat.lastMessage.state =
-            chat.interlocutorLastReadMessageId &&
-            chat.interlocutorLastReadMessageId >= chat?.lastMessage?.id
-              ? (MessageState.READ as MessageState)
-              : (MessageState.SENT as MessageState);
-        }
         chat.interlocutorType = ChatId.fromId(chat.id).interlocutorType;
         chat.typingInterlocutors = [];
         chat.photos = { photos: [], loading: false, hasMore: true };
@@ -33,8 +26,8 @@ export const modelChatList = (chats?: Record<number, INormalizedChat>) => {
           chat.possibleMembers = { data: [], loading: false, hasMore: true };
         }
         chat.messages = {
-          messages: {},
-          messageIds: [],
+          messages: chat?.messages?.messages || {},
+          messageIds: chat?.messages?.messageIds || [],
           hasMore: true,
           loading: false,
         };

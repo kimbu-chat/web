@@ -4,6 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
+import {INormalizedChat} from "@store/chats/models";
 import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
@@ -18,9 +19,9 @@ export class MarkMessagesAsRead {
 
   static get saga() {
     return function* markMessagesAsRead(): SagaIterator {
-      const chat = yield select(getSelectedChatSelector);
+      const chat: INormalizedChat = yield select(getSelectedChatSelector);
       const chatId = chat?.id;
-      const lastReadMessageId = chat?.lastMessage?.id;
+      const lastReadMessageId = chat?.lastMessageId;
 
       if (lastReadMessageId && chatId) {
         yield call(() => MarkMessagesAsRead.httpRequest.generator({ chatId, lastReadMessageId }));

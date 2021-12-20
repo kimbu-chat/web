@@ -25,10 +25,6 @@ export class MessageReadEventHandler {
         if (chat) {
           chat.interlocutorLastReadMessageId = lastReadMessageId;
 
-          if (chat.lastMessage && chat.lastMessage?.id <= lastReadMessageId) {
-            chat.lastMessage.state = MessageState.READ;
-          }
-
           const profileService = new MyProfileService();
           const currentUserId = profileService.myProfile.id;
 

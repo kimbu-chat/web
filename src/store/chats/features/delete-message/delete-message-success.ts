@@ -80,8 +80,8 @@ export class DeleteMessageSuccess {
 
           const newLastMessage = messagesForChat?.messages[messagesForChat?.messageIds[0] || -1];
 
-          if (messageIds.includes(draft.chats[chatId]?.lastMessage?.id || -1) && newLastMessage) {
-            chat.lastMessage = newLastMessage;
+          if (messageIds.includes(draft.chats[chatId]?.lastMessageId || -1) && newLastMessage) {
+            chat.lastMessageId = newLastMessage.id;
           }
         }
 

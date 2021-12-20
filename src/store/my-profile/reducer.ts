@@ -7,6 +7,7 @@ import { GetMyProfileSuccess } from './features/get-my-profile/get-my-profile-su
 import { IMyProfileState } from './my-profile-state';
 
 const authService = new MyProfileService();
+// const myPro
 const initialState: IMyProfileState = {
   userId: authService.myProfile?.id,
   isTabActive: true,

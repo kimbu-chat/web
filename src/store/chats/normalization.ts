@@ -1,80 +1,55 @@
 import { IChat, IMessage, ILinkedMessage, IUser } from 'kimbu-models';
 import { schema } from 'normalizr';
 
+import { INormalizedLinkedMessage } from '@store/chats/models';
+import { INormalizedRawChat } from '@store/chats/models/chat';
+
 const userSchema = new schema.Entity<IUser>('users');
 
 export const linkedMessageNormalizationSchema = new schema.Entity<ILinkedMessage>(
   'linkedMessages',
   {
-    userCreatorId: userSchema,
-  },
-  {
-    processStrategy: (linkedMessage) => ({
-      ...linkedMessage,
-      userCreatorId: linkedMessage.userCreatorId || linkedMessage.userCreator.id,
-      userCreator: undefined,
-    }),
-  },
+    userCreator: userSchema,
+  }
 );
 
-export const messageNormalizationSchema = new schema.Entity<IMessage>(
+export const messageNormalizationSchema = new schema.Entity<INormalizedLinkedMessage>(
   'messages',
   {
-    userCreatorId: userSchema,
+    userCreator: userSchema,
     linkedMessage: {
-      userCreatorId: userSchema,
+      userCreator: userSchema,
     },
   },
   {
-    processStrategy: (message) => ({
+    processStrategy: (message: IMessage) => ({
       ...message,
-      linkedMessage: message?.linkedMessage
-        ? {
-            ...message?.linkedMessage,
-            userCreator: undefined,
-            userCreatorId:
-              message?.linkedMessage.userCreatorId || message?.linkedMessage.userCreator.id,
-          }
-        : undefined,
-      userCreatorId: message.userCreator?.id || message.userCreatorId,
-      userCreator: undefined,
+      userCreatorId: message.userCreator?.id  || message.userCreatorId,
     }),
   },
 );
 
-export const chatNormalizationSchema = new schema.Entity<IChat>(
+
+export const chatNormalizationSchema = new schema.Entity<INormalizedRawChat>(
   'chats',
   {
-    lastMessage: {
-      userCreatorId: userSchema,
-      linkedMessage: {
-        userCreatorId: userSchema,
-      },
-    },
-    interlocutorId: userSchema,
+    lastMessage: messageNormalizationSchema,
+    interlocutor: userSchema,
   },
   {
-    processStrategy: (chat) => ({
-      ...chat,
-      interlocutorId: chat.interlocutor,
-      interlocutor: undefined,
-      lastMessage: chat.lastMessage
-        ? {
-            ...chat.lastMessage,
-            linkedMessage: chat.lastMessage?.linkedMessage
-              ? {
-                  ...chat.lastMessage?.linkedMessage,
-                  userCreator: undefined,
-                  userCreatorId:
-                    chat.lastMessage?.linkedMessage?.userCreatorId ||
-                    chat.lastMessage?.linkedMessage?.userCreator,
-                }
-              : undefined,
-            userCreator: undefined,
-            userCreatorId: chat.lastMessage?.userCreatorId || chat.lastMessage?.userCreator,
-          }
-        : undefined,
-    }),
+    processStrategy: (chat: IChat) => {
+      const messages = chat.lastMessage ? {
+        messages: {[chat?.lastMessage?.id]: chat?.lastMessage},
+        messageIds: [chat?.lastMessage.id]
+      } : {};
+
+      return ({
+        ...chat,
+        interlocutorId: chat?.interlocutor?.id,
+        lastMessageId: chat?.lastMessage?.id,
+        messages,
+      });
+    }
   },
 );
 

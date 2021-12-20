@@ -10,8 +10,8 @@ import { MAIN_API } from '@common/paths';
 import { INormalizedChat } from '@store/chats/models';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { CHATS_LIMIT } from '@utils/pagination-limits';
 
-import { CHATS_LIMIT } from '../../../../utils/pagination-limits';
 import { IChatsState } from '../../chats-state';
 import { chatArrNormalizationSchema } from '../../normalization';
 import { getChatsPageSelector, getChatsSearchPageSelector } from '../../selectors';
@@ -84,7 +84,10 @@ export class GetChats {
         result,
       } = normalize<
         IChat[],
-        { chats?: Record<number, INormalizedChat>; users: Record<number, IUser> },
+        {
+          chats?: Record<number, INormalizedChat>;
+          users: Record<number, IUser>;
+        },
         number[]
       >(data, chatArrNormalizationSchema);
 

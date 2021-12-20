@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { IUser } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 
 import { MessageForm } from '@components/message-form/message-form';
@@ -25,14 +26,14 @@ export const MessageHandler: React.FC<IMessageHandler> = ({ children, linkedMess
   return <>{children}</>;
 };
 
-export function withMessageHandler<P extends { linkedMessage: INormalizedLinkedMessage }>(
-  Component: React.FC<P>,
-) {
+export function withMessageHandler<
+  P extends { linkedMessage: INormalizedLinkedMessage; linkedMessageUserCreator?: IUser },
+>(Component: React.FC<P>) {
   return (props: P) => {
     const { t } = useTranslation();
-    const { linkedMessage } = props;
+    const { linkedMessage, linkedMessageUserCreator } = props;
 
-    if (!linkedMessage) {
+    if (!linkedMessage && !linkedMessageUserCreator) {
       return (
         <MessageForm>
           <MessageText state={MessageTextState.DELETED}>

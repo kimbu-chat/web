@@ -36,7 +36,7 @@ export class ChatClearedEventHandler {
             chatMessages.hasMore = false;
 
             if (chat) {
-              chat.lastMessage = null;
+              chat.lastMessageId = undefined;
             }
           }
         }

@@ -10,13 +10,13 @@
     position: relative;
 
     &__empty {
-      background-color: var(--chat-bg-dt-dark-wt-bright-blue);
+      background-color: var(--dt-dark-wt-white);
       border-radius: 6px;
       box-shadow: 0 7px 12px var(--box-shadow-1);
       color: var(--dt-white-wt-dark);
       margin: auto;
       max-width: 415px;
-      padding: 16px 0;
+      padding: 16px 18px;
 
       p {
         font-size: 1.5rem;

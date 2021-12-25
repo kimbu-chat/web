@@ -1,28 +1,15 @@
 .message-item-actions {
-  background-color: var(--msg-bg-dt-gray-lt-kingBlue-lighter);
-  border-radius: 6px;
-  box-shadow: 4px 4px 4px var(--box-shadow-6);
   display: flex;
   flex-direction: row;
-  opacity: 0;
-  padding: 6px 0;
-  position: absolute;
-  right: 0;
-
-  top: 0;
-  transform: translate(-4%, -63%);
-  transition: all var(--ANIMATION-DURATION);
   visibility: hidden;
-  z-index: 22;
 
-  &:hover {
-    opacity: 1;
+  &__visible {
+    visibility: visible;
   }
 
   &__action {
-    color: var(--dt-white-wt-kingBlueLight);
+    color: var(--dt-transparent-white-wt-kingBlueLight);
     margin-right: 22px;
-    transition: all var(--ANIMATION-DURATION) ease-in-out;
 
     &:hover {
       color: #3f8ae0;

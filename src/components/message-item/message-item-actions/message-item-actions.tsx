@@ -1,5 +1,7 @@
 import React, { useCallback } from 'react';
 
+import classnames from 'classnames';
+
 import { ForwardModal } from '@components/forward-modal';
 import { DeleteMessageModal } from '@components/selected-messages-data/delete-message-modal/delete-message-modal';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -15,9 +17,16 @@ import './message-item-actions.scss';
 interface IMessageItemActionsProps {
   messageId: number;
   isEditAllowed: boolean;
+  visible?: boolean;
 }
 
-const MessageItemActions: React.FC<IMessageItemActionsProps> = ({ messageId, isEditAllowed }) => {
+const BLOCK_NAME = 'message-item-actions';
+
+const MessageItemActions: React.FC<IMessageItemActionsProps> = ({
+  messageId,
+  isEditAllowed,
+  visible,
+}) => {
   const replyToMessage = useActionWithDispatch(replyToMessageAction);
   const editMessage = useActionWithDispatch(editMessageAction);
 
@@ -37,12 +46,9 @@ const MessageItemActions: React.FC<IMessageItemActionsProps> = ({ messageId, isE
 
   return (
     <>
-      <div className="message-item-actions">
+      <div className={classnames(BLOCK_NAME, { [`${BLOCK_NAME}__visible`]: visible })}>
         {isEditAllowed && (
-          <button
-            type="button"
-            onClick={editSelectedMessage}
-            className="message-item-actions__action">
+          <button type="button" onClick={editSelectedMessage} className={`${BLOCK_NAME}__action`}>
             <EditSVG />
           </button>
         )}
@@ -50,21 +56,18 @@ const MessageItemActions: React.FC<IMessageItemActionsProps> = ({ messageId, isE
         <button
           type="button"
           onClick={displayForwardMessagesModal}
-          className="message-item-actions__action">
+          className={`${BLOCK_NAME}__action`}>
           <ForwardSvg />
         </button>
 
-        <button
-          type="button"
-          onClick={replyToSelectedMessage}
-          className="message-item-actions__action">
+        <button type="button" onClick={replyToSelectedMessage} className={`${BLOCK_NAME}__action`}>
           <ReplySVG />
         </button>
 
         <button
           type="button"
           onClick={displayDeleteMessagesModal}
-          className="message-item-actions__action">
+          className={`${BLOCK_NAME}__action`}>
           <DeleteSVG />
         </button>
       </div>

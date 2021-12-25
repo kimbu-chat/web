@@ -49,6 +49,7 @@ const linkedMessageTypes = [MessageLinkType.Forward, MessageLinkType.Reply];
 
 const MessageItem: React.FC<IMessageItemProps> = React.memo(
   ({ messageId, selectedChatId, needToShowCreator, isSelected, observeIntersection, animated }) => {
+    const [isMenuVisible, setMenuVisible] = useState(false);
     const isSelectState = useSelector(getIsSelectMessagesStateSelector);
     const myId = useSelector(myIdSelector);
     const message = useSelector(getMessageSelector(selectedChatId, messageId));
@@ -64,6 +65,9 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
         setJustCreated(true);
       }
     }, [message.state]);
+
+    const showMenu = useCallback(() => setMenuVisible(true), []);
+    const hideMenu = useCallback(() => setMenuVisible(false), []);
 
     const isLinkedMessage = linkedMessageTypes.some((type) => type === message?.linkedMessageType);
 
@@ -168,6 +172,8 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
           )}
 
           <div
+            onMouseEnter={showMenu}
+            onMouseLeave={hideMenu}
             className={classNames(`${BLOCK_NAME}__item`, {
               [`${BLOCK_NAME}__item--selected`]: isSelected,
             })}>
@@ -195,15 +201,6 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 [`${BLOCK_NAME}__contents-wrapper--upcoming`]: !needToShowCreator,
                 [`${BLOCK_NAME}__contents-wrapper--animated`]: animated || justCreated,
               })}>
-              <MessageItemActions
-                messageId={messageId}
-                isEditAllowed={
-                  isCurrentUserMessageCreator &&
-                  !(message?.linkedMessageType === MessageLinkType.Forward) &&
-                  !message.attachments?.some(({ type }) => type === AttachmentType.Voice)
-                }
-              />
-
               {messageToProcess?.isEdited && <CrayonSvg className={`${BLOCK_NAME}__edited`} />}
 
               {!isLinkedMessage && (
@@ -231,6 +228,15 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
             <div className={`${BLOCK_NAME}__time`}>
               {getShortTimeAmPm(message?.creationDateTime)}
             </div>
+              <MessageItemActions
+                visible={isMenuVisible}
+                messageId={messageId}
+                isEditAllowed={
+                  isCurrentUserMessageCreator &&
+                  !(message?.linkedMessageType === MessageLinkType.Forward) &&
+                  !message.attachments?.some(({ type }) => type === AttachmentType.Voice)
+                }
+              />
           </div>
         </div>
       </>

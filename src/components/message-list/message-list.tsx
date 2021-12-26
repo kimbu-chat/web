@@ -123,8 +123,6 @@ const MessageList = () => {
     [messages, messagesIds, formatDateForSeparator],
   );
 
-  useEffect(loadMore, [loadMore, selectedChatId]);
-
   if (!selectedChatId) {
     return <Welcome />;
   }
@@ -145,6 +143,8 @@ const MessageList = () => {
         {!areMessagesLoading || messagesIds?.length
           ? Boolean(messagesIds?.length) && (
               <InfiniteScroll
+                triggerMargin={200}
+                debounceTime={100}
                 containerRef={rootRef}
                 onReachBottom={loadMore}
                 hasMore={hasMoreMessages}

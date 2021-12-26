@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { RefObject, useCallback } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -15,9 +15,12 @@ import './file-list.scss';
 
 const ATTACHMENTS_GROUP_PREFIX = 'files';
 
-export const FileList = () => {
+interface IFileListProps {
+  rootRef: RefObject<HTMLDivElement>;
+}
+
+export const FileList: React.FC<IFileListProps> = ({ rootRef }) => {
   const getRawAttachments = useActionWithDispatch(getRawAttachmentsAction);
-  const containerRef = useRef<HTMLDivElement>(null);
   const filesForSelectedChat = useSelector(getSelectedChatFilesSelector);
 
   const loadMore = useCallback(() => {
@@ -31,9 +34,11 @@ export const FileList = () => {
   );
 
   return (
-    <div className="chat-files" ref={containerRef}>
+    <div className="chat-files">
       <InfiniteScroll
-        containerRef={containerRef}
+        debounceTime={500}
+        triggerMargin={200}
+        containerRef={rootRef}
         onReachBottom={loadMore}
         hasMore={filesForSelectedChat?.hasMore}
         isLoading={filesForSelectedChat?.loading}

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, {useState, useCallback, RefObject} from 'react';
 
 import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -20,10 +20,13 @@ import './chat-members.scss';
 
 const BLOCK_NAME = 'chat-members';
 
-export const ChatMembers: React.FC = () => {
+interface IChatMembersProps {
+  rootRef: RefObject<HTMLDivElement>
+}
+
+export const ChatMembers: React.FC<IChatMembersProps> = ({ rootRef}) => {
   const [searchStr, setSearchStr] = useState<string>('');
   const [membersDisplayed, setMembersDisplayed] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
 
   const getGroupChatUsers = useActionWithDispatch(getGroupChatUsersAction);
@@ -55,7 +58,7 @@ export const ChatMembers: React.FC = () => {
   );
 
   return (
-    <div className={BLOCK_NAME} ref={containerRef}>
+    <div className={BLOCK_NAME}>
       <button
         onClick={changeMembersDisplayedState}
         type="button"
@@ -75,7 +78,9 @@ export const ChatMembers: React.FC = () => {
             <SearchBox containerClassName={`${BLOCK_NAME}__search-container`} onChange={search} />
           </div>
           <InfiniteScroll
-            containerRef={containerRef}
+            debounceTime={500}
+            triggerMargin={200}
+            containerRef={rootRef}
             className={`${BLOCK_NAME}__members-list`}
             onReachBottom={loadMore}
             hasMore={membersListForGroupChat?.hasMore}

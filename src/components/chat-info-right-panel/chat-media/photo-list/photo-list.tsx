@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { RefObject, useCallback } from 'react';
 
 import { IPictureAttachment } from 'kimbu-models';
 import { useSelector } from 'react-redux';
@@ -19,14 +19,14 @@ import './photo-list.scss';
 
 type PhotoListProps = {
   observeIntersection: ObserveFn;
+  rootRef: RefObject<HTMLDivElement>;
 };
 
 const ATTACHMENTS_GROUP_PREFIX = 'photos';
 
-const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection }) => {
+const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection, rootRef }) => {
   const getPhotoAttachments = useActionWithDispatch(getPhotoAttachmentsAction);
   const photoForSelectedChat = useSelector(getSelectedChatPhotosSelector);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const loadMore = useCallback(() => {
     getPhotoAttachments();
@@ -48,12 +48,15 @@ const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection }) => {
     ) : null;
 
   return (
-    <div className="chat-photo" ref={containerRef}>
+    <div className="chat-photo">
       <InfiniteScroll
-        containerRef={containerRef}
+        debounceTime={500}
+        triggerMargin={200}
+        containerRef={rootRef}
         className="chat-photo__photo-container"
         onReachBottom={loadMore}
         hasMore={photoForSelectedChat?.hasMore}
+        threshold={0.3}
         isLoading={photoForSelectedChat?.loading}>
         {photosWithSeparators &&
           separateGroupable<IPictureAttachment>({

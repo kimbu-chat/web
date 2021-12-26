@@ -1,7 +1,7 @@
 import React from 'react';
 
 import classnames from 'classnames';
-import { IVoiceAttachment } from 'kimbu-models';
+import { IVoiceAttachment, MessageLinkType } from 'kimbu-models';
 import { useSelector } from 'react-redux';
 
 import { Avatar } from '@components/avatar';
@@ -28,6 +28,11 @@ export const RespondingMessage = () => {
 
   const resetReplyToMessage = useActionWithDispatch(resetReplyToMessageAction);
 
+  const messageToReply =
+    replyingMessage.linkedMessageType === MessageLinkType.Forward
+      ? replyingMessage.linkedMessage
+      : replyingMessage;
+
   return (
     <div className={BLOCK_NAME}>
       <ReplySvg className={`${BLOCK_NAME}__icon`} />
@@ -35,7 +40,7 @@ export const RespondingMessage = () => {
 
       <Avatar size={32} user={userCreator} />
 
-      {replyingMessage?.text && (
+      {messageToReply?.text && (
         <div
           className={classnames(
             `${BLOCK_NAME}__message-contents`,
@@ -43,10 +48,10 @@ export const RespondingMessage = () => {
               ? `${BLOCK_NAME}__message-contents--outgoing`
               : `${BLOCK_NAME}__message-contents--incoming`,
           )}>
-          {renderText(replyingMessage?.text)}
+          {renderText(messageToReply?.text)}
         </div>
       )}
-      {replyingMessage?.attachments?.some((attachment) => attachment.type === 'Voice') && (
+      {messageToReply?.attachments?.some((attachment) => attachment.type === 'Voice') && (
         <div
           className={classnames(
             `${BLOCK_NAME}__message-contents`,
@@ -55,13 +60,13 @@ export const RespondingMessage = () => {
               : `${BLOCK_NAME}__message-contents--incoming`,
           )}>
           <VoiceMessageRespond
-            {...(replyingMessage?.attachments[0] as IVoiceAttachment)}
+            {...(messageToReply?.attachments[0] as IVoiceAttachment)}
             createdByInterlocutor={!isCurrentUserMessageCreator}
           />
         </div>
       )}
 
-      {replyingMessage?.attachments?.some((attachment) => attachment.type === 'Picture') && (
+      {messageToReply?.attachments?.some((attachment) => attachment.type === 'Picture') && (
         <div
           className={classnames(
             `${BLOCK_NAME}__message-contents`,
@@ -70,7 +75,7 @@ export const RespondingMessage = () => {
               : `${BLOCK_NAME}__message-contents--incoming`,
           )}>
           <VoiceMessageRespond
-            {...(replyingMessage?.attachments[0] as IVoiceAttachment)}
+            {...(messageToReply?.attachments[0] as IVoiceAttachment)}
             createdByInterlocutor={!isCurrentUserMessageCreator}
           />
         </div>

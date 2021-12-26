@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { RefObject, useCallback } from 'react';
 
 import { IVideoAttachment } from 'kimbu-models';
 import { useSelector } from 'react-redux';
@@ -18,9 +18,12 @@ import './video-list.scss';
 
 const ATTACHMENTS_GROUP_PREFIX = 'videos';
 
-export const VideoList = () => {
+interface IVideoListProps {
+  rootRef: RefObject<HTMLDivElement>;
+}
+
+export const VideoList: React.FC<IVideoListProps> = ({ rootRef }) => {
   const getVideoAttachmentss = useActionWithDispatch(getVideoAttachmentsAction);
-  const containerRef = useRef<HTMLDivElement>(null);
   const videosForSelectedChat = useSelector(getSelectedChatVideosSelector);
 
   const loadMore = useCallback(() => {
@@ -39,9 +42,11 @@ export const VideoList = () => {
     ) : null;
 
   return (
-    <div className="chat-video" ref={containerRef}>
+    <div className="chat-video">
       <InfiniteScroll
-        containerRef={containerRef}
+        debounceTime={500}
+        triggerMargin={200}
+        containerRef={rootRef}
         className="chat-video__scroll"
         onReachBottom={loadMore}
         hasMore={videosForSelectedChat?.hasMore}

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { RefObject, useCallback } from 'react';
 
 import { IAudioAttachment } from 'kimbu-models';
 import { useSelector } from 'react-redux';
@@ -22,9 +22,12 @@ const AudioAttachmentComponent: React.FC<IAudioAttachment> = ({ ...audio }) => (
   </div>
 );
 
-export const AudioList = () => {
+interface IAudioListProps {
+  rootRef: RefObject<HTMLDivElement>;
+}
+
+export const AudioList: React.FC<IAudioListProps> = ({ rootRef }) => {
   const audiosForSelectedChat = useSelector(getSelectedChatAudiosSelector);
-  const containerRef = useRef<HTMLDivElement>(null);
   const getAudios = useActionWithDispatch(getAudioAttachmentsAction);
 
   const loadMore = useCallback(() => {
@@ -38,10 +41,12 @@ export const AudioList = () => {
   );
 
   return (
-    <div className="chat-audios" ref={containerRef}>
+    <div className="chat-audios">
       <div className="chat-audios__audios">
         <InfiniteScroll
-          containerRef={containerRef}
+          debounceTime={500}
+          triggerMargin={200}
+          containerRef={rootRef}
           onReachBottom={loadMore}
           hasMore={audiosForSelectedChat?.hasMore}
           isLoading={audiosForSelectedChat?.loading}

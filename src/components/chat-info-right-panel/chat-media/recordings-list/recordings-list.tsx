@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { RefObject, useCallback } from 'react';
 
 import { IVoiceAttachment } from 'kimbu-models';
 import { useSelector } from 'react-redux';
@@ -16,9 +16,12 @@ import './chat-recordings.scss';
 
 const ATTACHMENTS_GROUP_PREFIX = 'recordings';
 
-export const RecordingsList = () => {
+interface IRecordingsListProps {
+  rootRef: RefObject<HTMLDivElement>;
+}
+
+export const RecordingsList: React.FC<IRecordingsListProps> = ({ rootRef }) => {
   const recordingsForSelectedChat = useSelector(getSelectedChatRecordingsSelector);
-  const containerRef = useRef<HTMLDivElement>(null);
   const getRecordings = useActionWithDispatch(getVoiceAttachmentsAction);
 
   const loadMore = useCallback(() => {
@@ -32,10 +35,12 @@ export const RecordingsList = () => {
   );
 
   return (
-    <div className="chat-recordings" ref={containerRef}>
+    <div className="chat-recordings">
       <div className="chat-recordings__recordings">
         <InfiniteScroll
-          containerRef={containerRef}
+          debounceTime={500}
+          triggerMargin={200}
+          containerRef={rootRef}
           onReachBottom={loadMore}
           hasMore={recordingsForSelectedChat?.hasMore}
           isLoading={recordingsForSelectedChat?.loading}>

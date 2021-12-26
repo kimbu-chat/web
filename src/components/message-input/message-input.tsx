@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { SystemMessageType, MessageLinkType, IAttachmentBase } from 'kimbu-models';
+import { IAttachmentBase, MessageLinkType, SystemMessageType } from 'kimbu-models';
 import map from 'lodash/map';
 import size from 'lodash/size';
 import throttle from 'lodash/throttle';
@@ -19,22 +19,22 @@ import { ReactComponent as SendSvg } from '@icons/send.svg';
 import { ReactComponent as VoiceSvg } from '@icons/voice.svg';
 import { Button } from '@shared-components/button';
 import {
-  messageTypingAction,
   createMessageAction,
-  uploadAttachmentRequestAction,
-  submitEditMessageAction,
+  messageTypingAction,
   removeAllAttachmentsAction,
+  submitEditMessageAction,
+  uploadAttachmentRequestAction,
 } from '@store/chats/actions';
 import {
   IAttachmentCreation,
+  IAttachmentToSend,
   INormalizedMessage,
   MessageState,
-  IAttachmentToSend,
 } from '@store/chats/models';
 import {
+  getMessageToEditSelector,
   getMessageToReplySelector,
   getSelectedChatSelector,
-  getMessageToEditSelector,
 } from '@store/chats/selectors';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { TypingStrategy } from '@store/settings/features/models';
@@ -215,7 +215,12 @@ const CreateMessageInput = () => {
         };
 
         if (refferedReplyingMessage.current) {
-          message.linkedMessage = refferedReplyingMessage.current;
+          const {
+            current: referMessage,
+            current: { linkedMessageType, linkedMessage },
+          } = refferedReplyingMessage;
+          message.linkedMessage =
+            linkedMessageType === MessageLinkType.Forward ? linkedMessage : referMessage;
 
           message.linkedMessageType = MessageLinkType.Reply;
         }

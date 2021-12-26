@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, {RefObject, useCallback, useState} from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -29,9 +29,10 @@ import './chat-media.scss';
 
 type ChatMediaProps = {
   observeIntersection: ObserveFn;
+  rootRef: RefObject<HTMLDivElement>;
 };
 
-export const ChatMedia: React.FC<ChatMediaProps> = ({ observeIntersection }) => {
+export const ChatMedia: React.FC<ChatMediaProps> = ({ observeIntersection, rootRef }) => {
   const { t } = useTranslation();
 
   const [pictureDisplayed, setPictureDisplayed] = useState(false);
@@ -96,7 +97,7 @@ export const ChatMedia: React.FC<ChatMediaProps> = ({ observeIntersection }) => 
                   <OpenArrowSvg />
                 </div>
               </button>
-              {pictureDisplayed && <PhotoList observeIntersection={observeIntersection} />}
+              {pictureDisplayed && <PhotoList observeIntersection={observeIntersection} rootRef={rootRef} />}
             </div>
           )}
           {videoAttachmentsCount > 0 && (
@@ -116,7 +117,7 @@ export const ChatMedia: React.FC<ChatMediaProps> = ({ observeIntersection }) => 
                   <OpenArrowSvg />
                 </div>
               </button>
-              {videoDisplayed && <VideoList />}
+              {videoDisplayed && <VideoList rootRef={rootRef} />}
             </div>
           )}
           {audioAttachmentsCount > 0 && (
@@ -136,7 +137,7 @@ export const ChatMedia: React.FC<ChatMediaProps> = ({ observeIntersection }) => 
                   <OpenArrowSvg />
                 </div>
               </button>
-              {audioDisplayed && <AudioList />}
+              {audioDisplayed && <AudioList rootRef={rootRef} />}
             </div>
           )}
           {voiceAttachmentsCount > 0 && (
@@ -156,7 +157,7 @@ export const ChatMedia: React.FC<ChatMediaProps> = ({ observeIntersection }) => 
                   <OpenArrowSvg />
                 </div>
               </button>
-              {voiceDisplayed && <RecordingsList />}
+              {voiceDisplayed && <RecordingsList rootRef={rootRef} />}
             </div>
           )}
           {filesAttachmentsCount > 0 && (
@@ -176,7 +177,7 @@ export const ChatMedia: React.FC<ChatMediaProps> = ({ observeIntersection }) => 
                   <OpenArrowSvg />
                 </div>
               </button>
-              {filesDisplayed && <FileList />}
+              {filesDisplayed && <FileList rootRef={rootRef} />}
             </div>
           )}
         </div>

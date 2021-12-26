@@ -18,6 +18,8 @@ type InfiniteScrollProps = {
   onReachBottom?: () => void;
   threshold?: number | Array<number>;
   containerRef: RefObject<HTMLDivElement>;
+  triggerMargin?: number;
+  debounceTime?: number;
 };
 
 const TRIGGER_MARGIN = 500;
@@ -34,22 +36,24 @@ export const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
   onReachBottom = noop,
   threshold = 0.0,
   containerRef,
+  triggerMargin= TRIGGER_MARGIN,
+  debounceTime = LOAD_MORE_DEBOUNCE
 }) => {
   const backwardsTriggerRef = React.useRef<HTMLDivElement>(null);
   const forwardsTriggerRef = React.useRef<HTMLDivElement>(null);
 
   const [loadMoreTop, loadMoreBottom] = useMemo(
     () => [
-      debounce(onReachTop, LOAD_MORE_DEBOUNCE, { leading: true, trailing: false }),
-      debounce(onReachBottom, LOAD_MORE_DEBOUNCE, { leading: true, trailing: false }),
+      debounce(onReachTop, debounceTime, { leading: true, trailing: false }),
+      debounce(onReachBottom, debounceTime, { leading: true, trailing: false }),
     ],
-    [onReachTop, onReachBottom],
+    [debounceTime, onReachTop, onReachBottom],
   );
 
   const { observe: observeIntersection } = useIntersectionObserver(
     {
       rootRef: containerRef,
-      margin: TRIGGER_MARGIN,
+      margin: triggerMargin,
       threshold,
     },
     (entries) => {

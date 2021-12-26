@@ -72,9 +72,9 @@ const ChatInfoRightPanel: React.FC = React.memo(() => {
 
           <ChatInfoActions />
 
-          {chat?.groupChat && <ChatMembers />}
+          {chat?.groupChat && <ChatMembers rootRef={rootRef} />}
 
-          <ChatMedia observeIntersection={observeIntersectionForMedia} />
+          <ChatMedia observeIntersection={observeIntersectionForMedia} rootRef={rootRef} />
         </div>
 
         {isAvatarMaximized && chatFullSizeAvatar && (

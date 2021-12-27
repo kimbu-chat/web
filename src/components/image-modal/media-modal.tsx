@@ -88,7 +88,7 @@ export const MediaModal: React.FC<IImageModalProps> = ({
           <div className={`${BLOCK_NAME}__media-wrapper`}>
             {(currentAttachment.type === AttachmentType.Picture ||
               (currentAttachment as INamedAttachment)?.fileName?.endsWith('.gif')) && (
-              <img onClick={stopPropagation} src={currentAttachment.url} alt="" />
+              <img onClick={stopPropagation} src={currentAttachment.url} alt="" className={`${BLOCK_NAME}__image`} />
             )}
             {currentAttachment.type === AttachmentType.Video && (
               <video

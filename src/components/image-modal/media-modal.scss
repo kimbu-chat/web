@@ -28,6 +28,14 @@
     flex-direction: column;
   }
 
+  &__image {
+    display: block;
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+  }
+
   &__player {
     max-height: 60vh;
     max-width: 80vw;

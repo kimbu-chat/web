@@ -59,6 +59,7 @@ import './message-input.scss';
 
 const CreateMessageInput = () => {
   const { t } = useTranslation();
+  const draftMessageId = useRef(new Date().getTime());
 
   const sendMessage = useActionWithDispatch(createMessageAction);
   const notifyAboutTyping = useActionWithDispatch(messageTypingAction);
@@ -77,7 +78,7 @@ const CreateMessageInput = () => {
   const updatedSelectedChat = useReferState(selectedChat);
 
   const [text, setText] = useState('');
-  const refferedText = useReferState(text);
+  const referredText = useReferState(text);
   const [requestMicrophoneLoading, setRequestMicrophoneLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
 
@@ -124,7 +125,7 @@ const CreateMessageInput = () => {
           }
         }
 
-        setText(`${refferedText.current}${newHtml}`);
+        setText(`${referredText.current}${newHtml}`);
 
         // If selection is outside of input, set cursor at the end of input
         requestAnimationFrame(() => {
@@ -132,7 +133,7 @@ const CreateMessageInput = () => {
         });
       }
     },
-    [refferedText],
+    [referredText],
   );
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -140,7 +141,9 @@ const CreateMessageInput = () => {
   useEffect(() => {
     setText((oldText) => {
       const newText =
-        typeof selectedChat?.draftMessage === 'string' ? selectedChat?.draftMessage : oldText;
+        typeof selectedChat?.draftMessages[draftMessageId.current]?.text === 'string'
+          ? selectedChat?.draftMessages[draftMessageId.current].text
+          : oldText;
 
       if (previousChatId !== selectedChat?.id && messageInputRef.current) {
         messageInputRef.current.innerHTML = '';
@@ -149,7 +152,12 @@ const CreateMessageInput = () => {
 
       return newText;
     });
-  }, [previousChatId, selectedChat?.draftMessage, selectedChat?.id, setText]);
+  }, [
+    previousChatId,
+    selectedChat?.draftMessages[draftMessageId.current],
+    selectedChat?.id,
+    setText,
+  ]);
 
   useEffect(() => {
     const newText = editingMessage?.text || '';
@@ -163,13 +171,13 @@ const CreateMessageInput = () => {
   }, [editingMessage?.text, insertTextAndUpdateCursor]);
 
   const submitEditedMessage = useCallback(() => {
-    const newAttachments = updatedSelectedChat.current?.attachmentsToSend?.map(
-      ({ attachment }) => attachment,
-    );
+    const newAttachments = updatedSelectedChat.current?.draftMessages[
+      draftMessageId.current
+    ]?.attachmentsToSend?.map(({ attachment }) => attachment);
 
     if (editingMessage?.id) {
       submitEditMessage({
-        text: parseMessageInput(refferedText.current),
+        text: parseMessageInput(referredText.current),
         removedAttachments: referredRemovedAttachments.current,
         newAttachments,
         messageId: editingMessage.id,
@@ -178,7 +186,7 @@ const CreateMessageInput = () => {
   }, [
     updatedSelectedChat,
     submitEditMessage,
-    refferedText,
+    referredText,
     referredRemovedAttachments,
     editingMessage,
   ]);
@@ -191,14 +199,17 @@ const CreateMessageInput = () => {
 
     const chatId = updatedSelectedChat.current?.id;
 
-    const messageText = parseMessageInput(refferedText.current);
+    const messageText = parseMessageInput(referredText.current);
 
     if (
       (messageText.trim().length > 0 || size(updatedSelectedChat.current?.attachmentsToSend) > 0) &&
       updatedSelectedChat.current &&
       currentUserId
     ) {
-      const attachments = map(updatedSelectedChat.current?.attachmentsToSend, 'attachment');
+      const attachments = map(
+        updatedSelectedChat.current?.draftMessages[draftMessageId.current]?.attachmentsToSend,
+        'attachment',
+      );
 
       if (chatId) {
         const message: INormalizedMessage = {
@@ -207,7 +218,7 @@ const CreateMessageInput = () => {
           userCreatorId: currentUserId,
           creationDateTime: new Date().toISOString(),
           state: MessageState.QUEUED,
-          id: new Date().getTime(),
+          id: draftMessageId.current,
           chatId,
           attachments,
           isDeleted: false,
@@ -238,7 +249,7 @@ const CreateMessageInput = () => {
     currentUserId,
     editingMessage,
     refferedReplyingMessage,
-    refferedText,
+    referredText,
     sendMessage,
     submitEditedMessage,
     updatedSelectedChat,
@@ -248,6 +259,7 @@ const CreateMessageInput = () => {
     throttle(
       (notificationText: string) => {
         notifyAboutTyping({
+          id: draftMessageId.current,
           text: notificationText,
         });
       },
@@ -324,9 +336,11 @@ const CreateMessageInput = () => {
   );
 
   const removeAllAttachments = useCallback(() => {
-    if (selectedChat?.attachmentsToSend && selectedChat?.attachmentsToSend?.length > 0) {
+    const attachments = selectedChat?.draftMessages[draftMessageId.current].attachmentsToSend;
+    if (attachments && size(attachments) > 0) {
       removeAllAttachmentsToSend({
-        ids: selectedChat?.attachmentsToSend?.map(({ attachment }) => attachment.id),
+        draftId: draftMessageId.current,
+        ids: attachments?.map(({ attachment}) => attachment.id),
       });
     }
 
@@ -338,7 +352,7 @@ const CreateMessageInput = () => {
     setRemovedAttachments,
     editingMessage,
     removeAllAttachmentsToSend,
-    selectedChat?.attachmentsToSend,
+    selectedChat?.draftMessages[draftMessageId.current]?.attachmentsToSend,
   ]);
 
   const handleRegisterAudioBtnClick = useCallback(() => {
@@ -372,6 +386,7 @@ const CreateMessageInput = () => {
           const fileType = getAttachmentType(file.name);
 
           uploadAttachmentRequest({
+            draftId: draftMessageId.current,
             type: fileType,
             file,
             attachmentId: Number(`${new Date().getTime()}${index}`),
@@ -407,6 +422,7 @@ const CreateMessageInput = () => {
         const fileType = getAttachmentType(file.name);
 
         uploadAttachmentRequest({
+          draftId: draftMessageId.current,
           type: fileType,
           file,
           attachmentId: Number(`${new Date().getTime()}${index}`),
@@ -429,6 +445,8 @@ const CreateMessageInput = () => {
     [onPasteFiles, onPasteText],
   );
 
+  console.log('SELECTED CHAT', selectedChat);
+
   return (
     <div className="message-input">
       {selectedChat && (
@@ -436,7 +454,8 @@ const CreateMessageInput = () => {
           {replyingMessage && <RespondingMessage />}
           {editingMessage && <EditingMessage />}
           {((editingMessageAttachments && editingMessageAttachments?.length > 0) ||
-            (selectedChat?.attachmentsToSend && selectedChat?.attachmentsToSend?.length > 0)) && (
+            (selectedChat?.draftMessages[draftMessageId.current]?.attachmentsToSend &&
+              size(selectedChat?.draftMessages[draftMessageId.current]?.attachmentsToSend))) && (
             <div className="message-input__attachments-box">
               <div className="message-input__attachments-box__container">
                 {editingMessageAttachments?.map((attachment: IAttachmentBase) => (
@@ -447,9 +466,14 @@ const CreateMessageInput = () => {
                     key={attachment.id}
                   />
                 ))}
-                {selectedChat?.attachmentsToSend?.map((attachment) => (
-                  <MessageInputAttachment attachment={attachment} key={attachment.attachment.id} />
-                ))}
+                {selectedChat?.draftMessages[draftMessageId.current].attachmentsToSend?.map(
+                  (attachment) => (
+                    <MessageInputAttachment
+                      attachment={attachment}
+                      key={attachment.attachment.id}
+                    />
+                  ),
+                )}
               </div>
               <button
                 onClick={removeAllAttachments}

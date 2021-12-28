@@ -3,4 +3,5 @@ export interface IUploadAttachmentProgressActionPayload {
   attachmentId: number;
   progress: number;
   uploadedBytes: number;
+  draftId: number;
 }

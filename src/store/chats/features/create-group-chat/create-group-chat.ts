@@ -48,7 +48,6 @@ export class CreateGroupChat {
         unreadMessagesCount: 0,
         id: chatId,
         isMuted: false,
-        draftMessage: '',
         groupChat: {
           id: groupChatId,
           membersCount: userIds.length + 1,
@@ -103,6 +102,7 @@ export class CreateGroupChat {
         isBlockedByUser: false,
         isInContacts: false,
         isDismissedAddToContacts: false,
+        draftMessages: {},
       };
 
       yield put(CreateGroupChatSuccess.action(chat));

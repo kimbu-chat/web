@@ -70,6 +70,7 @@ export const useDragDrop = () => {
             const fileType = getAttachmentType(file.name);
 
             uploadAttachmentRequest({
+              draftId: 812748179874981,
               type: fileType,
               file,
               attachmentId: Number(`${new Date().getTime()}${index}`),

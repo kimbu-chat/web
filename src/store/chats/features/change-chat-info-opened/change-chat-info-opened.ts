@@ -75,6 +75,7 @@ export class ChangeChatInfoOpened {
               isBlockedByUser: false,
               isInContacts: false,
               isDismissedAddToContacts: false,
+              draftMessages: {},
             };
 
             draft.chats[chatId] = chat;

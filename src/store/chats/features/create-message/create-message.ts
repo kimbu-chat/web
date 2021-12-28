@@ -2,11 +2,14 @@ import { AxiosResponse, CancelTokenSource } from 'axios';
 import produce from 'immer';
 import { ICreateMessageRequest, ICreateMessageResponse } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
-import { put, call } from 'redux-saga/effects';
+import { call, put, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
+import { DraftMessageStatus } from '@common/constants/chats';
 import { MAIN_API } from '@common/paths';
-import { MessageState } from '@store/chats/models';
+import { UploadAttachmentSuccess } from '@store/chats/features/upload-attachment/upload-attachment-success';
+import { INormalizedChat, MessageState } from '@store/chats/models';
+import { getChatByIdSelector } from '@store/chats/selectors';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { addMessageSendingRequest } from '@utils/cancel-send-message-request';
 
@@ -27,9 +30,14 @@ export class CreateMessage {
       const chat = draft.chats[message.chatId];
 
       if (chat) {
-        delete chat.attachmentsToSend;
         chat.lastMessageId = message.id;
-        chat.draftMessage = '';
+        chat.draftMessages = {
+          ...chat.draftMessages,
+          [message.id]: {
+            ...chat.draftMessages[message.id],
+            status: DraftMessageStatus.SENDING,
+          }
+        };
         delete chat.messageToReply;
 
         const chatIndex = draft.chatList.chatIds.indexOf(chat.id);
@@ -46,6 +54,8 @@ export class CreateMessage {
         chatMessages.messages[message.id] = message;
         chatMessages.messageIds.unshift(message.id);
       }
+
+      console.log('CHAT MESSAGES', chatMessages.messages[message.id]);
       return draft;
     });
   }
@@ -55,10 +65,16 @@ export class CreateMessage {
       const { message } = action.payload;
       const { chatId } = message;
 
+      const chat: INormalizedChat = yield select(getChatByIdSelector(chatId));
+
+      yield take(UploadAttachmentSuccess.action);
+
       const messageCreationReq: ICreateMessageRequest = {
         text: message.text,
         chatId,
-        attachmentIds: message.attachments?.map((x) => x.id),
+        attachmentIds: chat?.draftMessages[message.id]?.attachmentsToSend
+          ? chat?.draftMessages[message.id]?.attachmentsToSend?.map((item) => item.attachment.id)
+          : [],
         clientId: message.id,
       };
 

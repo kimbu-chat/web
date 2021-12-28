@@ -7,12 +7,20 @@ import {
   IVoiceAttachment,
 } from 'kimbu-models';
 
+import {DraftMessageStatus} from '@common/constants/chats';
 import { IPossibleMembers } from '@store/chats/models/possible-members';
 
 import { IAttachmentToSend } from './attachment-to-send';
 import { IGroupable } from './groupable';
 import { InterlocutorType } from './interlocutor-type';
 import { INormalizedMessage } from './normalized-message';
+
+interface IDraftMessage {
+  id: number;
+  text: string;
+  status: DraftMessageStatus,
+  attachmentsToSend?: IAttachmentToSend<IAttachmentBase>[];
+}
 
 export interface INormalizedRawChat {
   interlocutorType?: InterlocutorType;
@@ -21,7 +29,7 @@ export interface INormalizedRawChat {
   interlocutorId?: number;
   unreadMessagesCount: number;
   interlocutorLastReadMessageId?: number;
-  draftMessage?: string;
+  draftMessages: Record<number, IDraftMessage>;
   typingInterlocutors?: string[];
   isMuted?: boolean;
   isGeneratedLocally?: boolean;

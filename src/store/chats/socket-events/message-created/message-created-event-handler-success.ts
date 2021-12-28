@@ -146,7 +146,7 @@ export class MessageCreatedEventHandlerSuccess {
 
           chat.lastMessageId = message.id;
           chat.unreadMessagesCount = newUnreadMessagesCount;
-          chat.draftMessage = '';
+          // delete chat.draftMessage;
 
           draft.chatList.chatIds = draft.chatList.chatIds.filter(
             (currentId) => currentId !== chatId,

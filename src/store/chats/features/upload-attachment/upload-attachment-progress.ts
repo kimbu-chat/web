@@ -14,16 +14,16 @@ export class UploadAttachmentProgress {
   static get reducer() {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentProgress.action>) => {
-        const { progress, chatId, attachmentId, uploadedBytes } = payload;
+        const { progress, chatId, attachmentId, uploadedBytes, draftId } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (chat) {
-          if (!chat.attachmentsToSend) {
+          if (!chat.draftMessages[draftId]?.attachmentsToSend) {
             return draft;
           }
 
-          const currentAttachment = chat.attachmentsToSend?.find(
+          const currentAttachment = chat.draftMessages[draftId]?.attachmentsToSend?.find(
             ({ attachment }) => attachment.id === attachmentId,
           );
 

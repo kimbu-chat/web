@@ -1,26 +1,27 @@
 import { AxiosResponse } from 'axios';
 import produce from 'immer';
 import {
-  IAttachmentBase,
   AttachmentType,
+  IAttachmentBase,
   ICreateAudioAttachmentCommandResult,
-  ICreateRawAttachmentCommandResult,
-  ICreateVoiceAttachmentCommandResult,
   ICreatePictureAttachmentCommandResult,
+  ICreateRawAttachmentCommandResult,
   ICreateVideoAttachmentCommandResult,
+  ICreateVoiceAttachmentCommandResult,
 } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
-import { put, call, select, apply } from 'redux-saga/effects';
+import { apply, call, put, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
+import { DraftMessageStatus } from '@common/constants/chats';
 import { FILES_API } from '@common/paths';
+import { IAttachmentToSend } from '@store/chats/models';
 import { INamedAttachment } from '@store/chats/models/named-attachment';
 import { httpFilesRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { MAX_FILE_SIZE_MB } from '@utils/constants';
 import { emitToast } from '@utils/emit-toast';
 
 import { IChatsState } from '../../chats-state';
-import { IAttachmentToSend } from '../../models/attachment-to-send';
 import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
 import { addUploadingAttachment, removeUploadingAttachment } from '../../upload-qeue';
 
@@ -39,7 +40,7 @@ export class UploadAttachmentRequest {
   static get reducer() {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentRequest.action>) => {
-        const { type, attachmentId, file, waveFormJson, noStateChange } = payload;
+        const { type, attachmentId, file, waveFormJson, noStateChange, draftId } = payload;
 
         if (noStateChange) {
           return draft;
@@ -53,8 +54,17 @@ export class UploadAttachmentRequest {
           const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
           if (chat) {
-            if (!chat.attachmentsToSend) {
-              chat.attachmentsToSend = [];
+            if (!chat.draftMessages[draftId]) {
+              chat.draftMessages[draftId] = {
+                id: draftId,
+                text: '',
+                status: DraftMessageStatus.CREATING,
+                attachmentsToSend: [],
+              };
+            }
+
+            if (!chat.draftMessages[draftId].attachmentsToSend) {
+              chat.draftMessages[draftId].attachmentsToSend = [];
             }
 
             const attachmentToAdd: IAttachmentToSend<INamedAttachment> = {
@@ -71,7 +81,7 @@ export class UploadAttachmentRequest {
               waveFormJson,
             };
 
-            chat.attachmentsToSend?.push(attachmentToAdd);
+            chat.draftMessages[draftId]?.attachmentsToSend?.push(attachmentToAdd);
           }
         }
         return draft;
@@ -84,7 +94,7 @@ export class UploadAttachmentRequest {
       action: ReturnType<typeof UploadAttachmentRequest.action>,
     ): SagaIterator {
       const chatId = yield select(getSelectedChatIdSelector);
-      const { file, type, attachmentId, waveFormJson } = action.payload;
+      const { file, type, attachmentId, waveFormJson, draftId } = action.payload;
       let uploadRequest: IFilesRequestGenerator<AxiosResponse, FormData>;
 
       if (file.size / 1048576 > MAX_FILE_SIZE_MB) {
@@ -137,13 +147,14 @@ export class UploadAttachmentRequest {
           },
           *onProgress({ progress, uploadedBytes }): SagaIterator {
             yield put(
-              UploadAttachmentProgress.action({ chatId, attachmentId, progress, uploadedBytes }),
+              UploadAttachmentProgress.action({ draftId, chatId, attachmentId, progress, uploadedBytes }),
             );
           },
           *onSuccess(payload: AxiosResponse<IAttachmentBase>): SagaIterator {
             removeUploadingAttachment(attachmentId);
             yield put(
               UploadAttachmentSuccess.action({
+                draftId,
                 chatId,
                 attachmentId,
                 attachment: { ...payload.data, waveFormJson } as IAttachmentBase,

@@ -47,6 +47,7 @@ export const chatNormalizationSchema = new schema.Entity<INormalizedRawChat>(
         ...chat,
         interlocutorId: chat?.interlocutor?.id,
         lastMessageId: chat?.lastMessage?.id,
+        draftMessages: {},
         messages,
       });
     }

@@ -102,6 +102,7 @@ export class UploadVoiceAttachment {
 
       yield put(
         UploadAttachmentRequest.action({
+          draftId: -1,
           type: AttachmentType.Voice,
           attachmentId: id,
           file,

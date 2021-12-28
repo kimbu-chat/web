@@ -16,12 +16,12 @@ export class RemoveAllAttachments {
   }
 
   static get reducer() {
-    return produce((draft: IChatsState) => {
+    return produce((draft: IChatsState, { payload }: ReturnType<typeof RemoveAllAttachments.action>) => {
       if (draft.selectedChatId) {
         const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
         if (chat) {
-          delete chat.attachmentsToSend;
+          delete chat.draftMessages[payload.draftId]?.attachmentsToSend;
         }
       }
 

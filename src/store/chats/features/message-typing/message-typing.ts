@@ -5,12 +5,13 @@ import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
+import { DraftMessageStatus } from '@common/constants/chats';
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { myFullNameSelector } from '@store/my-profile/selectors';
 
-import { myFullNameSelector } from '../../../my-profile/selectors';
 import { IChatsState } from '../../chats-state';
-import { getSelectedChatIdSelector, getChatByIdDraftSelector } from '../../selectors';
+import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
 
 import { IMessageTypingActionPayload } from './action-payloads/message-typing-action-payload';
 
@@ -21,12 +22,17 @@ export class MessageTyping {
 
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof MessageTyping.action>) => {
-      const { text } = payload;
+      const { text, id } = payload;
       if (draft.selectedChatId) {
         const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
         if (chat) {
-          chat.draftMessage = text;
+          chat.draftMessages[id] = {
+            ...chat.draftMessages[id],
+            id,
+            text,
+            status: DraftMessageStatus.CREATING,
+          };
         }
       }
 

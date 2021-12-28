@@ -16,7 +16,6 @@ export const modelChatList = (
         audios: { audios: [], loading: false, hasMore: true },
         members: { memberIds: [], loading: false, hasMore: true },
         possibleMembers: { data: [], loading: false, hasMore: true },
-        draftMessage: '',
         recordings: {
           hasMore: true,
           loading: false,

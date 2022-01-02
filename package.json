@@ -62,7 +62,7 @@
     "@types/jest": "27.0.1",
     "@types/lodash": "4.14.172",
     "@types/mousetrap": "1.6.8",
-    "@types/node": "16.6.2",
+    "@types/node": "17.0.6",
     "@types/react": "17.0.19",
     "@types/react-dom": "17.0.9",
     "@types/react-image-crop": "8.1.3",

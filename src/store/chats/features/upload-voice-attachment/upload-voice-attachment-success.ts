@@ -41,12 +41,8 @@ export class UploadVoiceAttachmentSuccess {
         }
 
         if (chat) {
-          if (chat.lastMessage?.id === oldId) {
-            const lastMessage = chat.lastMessage || { id: 0, state: MessageState.SENT };
-
-            lastMessage.id = messageId;
-
-            lastMessage.state = MessageState.SENT;
+          if (chat.lastMessageId === oldId) {
+            chat.lastMessageId = messageId;
           }
         }
 

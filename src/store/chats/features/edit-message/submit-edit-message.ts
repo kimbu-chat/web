@@ -56,16 +56,6 @@ export class SubmitEditMessage {
             message.attachments = newAttachmentsToAssign;
           }
 
-          if (chat?.lastMessage) {
-            if (chat?.lastMessage.id === messageId) {
-              chat.lastMessage.state = MessageState.QUEUED;
-              chat.lastMessage.text = text;
-              chat.lastMessage.isEdited = true;
-
-              chat.lastMessage.attachments = newAttachmentsToAssign;
-            }
-          }
-
           if (chat?.messageToEdit) {
             delete chat.attachmentsToSend;
 

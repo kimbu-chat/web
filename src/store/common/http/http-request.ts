@@ -19,11 +19,8 @@ export function* httpRequest<TBody>(
     method,
     cancelToken: token,
     responseType: 'json',
+    headers,
   };
-
-  if (headers != null) {
-    requestConfig.headers = headers;
-  }
 
   switch (method) {
     case HttpRequestMethod.Get:

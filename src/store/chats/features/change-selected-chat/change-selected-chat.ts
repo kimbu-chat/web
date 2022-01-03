@@ -10,9 +10,9 @@ import { MAIN_API } from '@common/paths';
 import { INormalizedChat } from '@store/chats/models';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
+import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 import { replaceInUrl } from '@utils/replace-in-url';
 
-import { MESSAGES_LIMIT } from '../../../../utils/pagination-limits';
 import { IChatsState } from '../../chats-state';
 import { chatNormalizationSchema } from '../../normalization';
 import {
@@ -120,8 +120,8 @@ export class ChangeSelectedChat {
 
           const modeledChat = modelChatList(chats)[data.id as number];
 
-          yield put(UnshiftChat.action({ chat: modeledChat as INormalizedChat, addToList: true }));
           yield put(AddOrUpdateUsers.action({ users }));
+          yield put(UnshiftChat.action({ chat: modeledChat as INormalizedChat, addToList: true }));
         }
       }
     };

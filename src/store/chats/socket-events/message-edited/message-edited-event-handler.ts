@@ -53,26 +53,6 @@ export class MessageEditedEventHandler {
           return msg;
         });
 
-        if (chat.lastMessage) {
-          if (chat.lastMessage.id === messageId) {
-            chat.lastMessage.text = text;
-            chat.lastMessage.isEdited = true;
-
-            if (shouldApplyAttachments) {
-              chat.lastMessage.attachments = attachments;
-            }
-          }
-
-          if (chat.lastMessage.linkedMessage && chat.lastMessage.linkedMessage.id === messageId) {
-            chat.lastMessage.linkedMessage.text = text;
-            chat.lastMessage.linkedMessage.isEdited = true;
-
-            if (shouldApplyAttachments) {
-              chat.lastMessage.linkedMessage.attachments = attachments;
-            }
-          }
-        }
-
         return draft;
       },
     );

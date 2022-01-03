@@ -6,6 +6,7 @@ import {
   IVideoAttachment,
   IVoiceAttachment,
 } from 'kimbu-models';
+import size from 'lodash/size';
 
 import { INamedAttachment } from '@store/chats/models/named-attachment';
 
@@ -21,7 +22,7 @@ export type NormalizeAccumulator = {
 export function normalizeAttachments(
   attachments: IAttachmentBase[] | IAttachmentWithClient[] = [],
 ): NormalizeAccumulator | null {
-  if (!attachments.length) {
+  if (!size(attachments)) {
     return null;
   }
   return (

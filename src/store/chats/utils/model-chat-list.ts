@@ -1,46 +1,39 @@
-/* eslint-disable no-param-reassign */
 import { ChatId } from '../chat-id';
-import { INormalizedChat, MessageState, InterlocutorType } from '../models';
+import { INormalizedChat } from '../models';
 
-export const modelChatList = (chats?: Record<number, INormalizedChat>) => {
-  const modeledChats: Record<number, INormalizedChat> = {};
-  if (chats) {
-    Object.values(chats).forEach((initialChat: INormalizedChat | undefined) => {
-      const chat = initialChat;
-
-      if (chat) {
-        if (chat.lastMessage) {
-          chat.lastMessage.state =
-            chat.interlocutorLastReadMessageId &&
-            chat.interlocutorLastReadMessageId >= chat?.lastMessage?.id
-              ? (MessageState.READ as MessageState)
-              : (MessageState.SENT as MessageState);
-        }
-        chat.interlocutorType = ChatId.fromId(chat.id).interlocutorType;
-        chat.typingInterlocutors = [];
-        chat.photos = { photos: [], loading: false, hasMore: true };
-        chat.videos = { videos: [], loading: false, hasMore: true };
-        chat.files = { files: [], loading: false, hasMore: true };
-        chat.audios = { audios: [], loading: false, hasMore: true };
-        chat.draftMessage = '';
-        chat.recordings = {
+export const modelChatList = (
+  chats: Record<number, INormalizedChat> = {},
+): Record<number, INormalizedChat> =>
+  Object.values(chats).reduce<Record<number, INormalizedChat>>(
+    (curr, initialChat: INormalizedChat) => {
+      const newChat = {
+        ...initialChat,
+        interlocutorType: ChatId.fromId(initialChat.id).interlocutorType,
+        typingInterlocutors: [],
+        photos: { photos: [], loading: false, hasMore: true },
+        videos: { videos: [], loading: false, hasMore: true },
+        files: { files: [], loading: false, hasMore: true },
+        audios: { audios: [], loading: false, hasMore: true },
+        members: { memberIds: [], loading: false, hasMore: true },
+        possibleMembers: { data: [], loading: false, hasMore: true },
+        draftMessage: '',
+        recordings: {
           hasMore: true,
           loading: false,
           recordings: [],
-        };
-        if (chat.interlocutorType === InterlocutorType.GroupChat) {
-          chat.members = { memberIds: [], loading: false, hasMore: true };
-          chat.possibleMembers = { data: [], loading: false, hasMore: true };
-        }
-        chat.messages = {
-          messages: {},
-          messageIds: [],
+        },
+        messages: {
+          messages: initialChat.messages?.messages || {},
+          messageIds: initialChat.messages?.messageIds || [],
           hasMore: true,
           loading: false,
-        };
-        modeledChats[chat.id] = chat;
-      }
-    });
-  }
-  return modeledChats;
-};
+        },
+      };
+
+      return {
+        ...curr,
+        [initialChat.id]: newChat,
+      };
+    },
+    {},
+  );

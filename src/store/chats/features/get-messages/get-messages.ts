@@ -8,13 +8,12 @@ import { put, call, select, take } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { MessageState } from '@store/chats/models';
+import { MessageState, INormalizedMessage } from '@store/chats/models';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 
 import { IChatsState } from '../../chats-state';
-import { INormalizedMessage } from '../../models/normalized-message';
 import { messageArrNormalizationSchema } from '../../normalization';
 import {
   getIsFirstChatsLoadSelector,
@@ -120,8 +119,8 @@ export class GetMessages {
             isFromScroll,
           };
 
-          yield put(GetMessagesSuccess.action({ messageList }));
           yield put(AddOrUpdateUsers.action({ users }));
+          yield put(GetMessagesSuccess.action({ messageList }));
         } catch {
           yield put(GetMessagesFailure.action(chat.id));
         }

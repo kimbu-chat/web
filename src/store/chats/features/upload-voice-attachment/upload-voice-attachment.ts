@@ -72,7 +72,7 @@ export class UploadVoiceAttachment {
         };
 
         if (chat) {
-          chat.lastMessage = message;
+          chat.lastMessageId = message.id;
 
           const chatIndex = draft.chatList.chatIds.indexOf(chat.id);
           if (chatIndex !== 0) {

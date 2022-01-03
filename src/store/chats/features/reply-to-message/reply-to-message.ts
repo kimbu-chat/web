@@ -17,7 +17,6 @@ export class ReplyToMessage {
 
       if (draft.selectedChatId) {
         const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
-
         const message = draft.chats[draft.selectedChatId]?.messages.messages[messageId];
 
         if (chat) {

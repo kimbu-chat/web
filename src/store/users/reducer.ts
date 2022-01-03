@@ -1,5 +1,6 @@
 import { createReducer } from 'typesafe-actions';
 
+import { MyProfileService } from '@services/my-profile-service';
 import { UserDeactivatedEventHandler } from '@store/users/socket-events/user-deactivated/user-deactivated-event-handler';
 import { UserDeletedEventHandler } from '@store/users/socket-events/user-deleted/user-deleted';
 import { UserPhoneNumberChangedEventHandler } from '@store/users/socket-events/user-phone-number-changed/user-phone-number-changed';
@@ -10,9 +11,21 @@ import { UserEditedEventHandler } from './socket-events/user-edited/user-edited-
 import { UserStatusChangedEventHandler } from './socket-events/user-status-changed/user-status-changed-event-handler';
 import { IUsersState } from './users-state';
 
-const initialState: IUsersState = {
-  users: {},
-};
+function initializeUsers() {
+  const { myProfile } = new MyProfileService();
+
+  if (myProfile) {
+    return {
+      users: {
+        [myProfile.id]: myProfile,
+      },
+    };
+  }
+
+  return { users: {} };
+}
+
+const initialState: IUsersState = initializeUsers();
 
 const reducer = createReducer<IUsersState>(initialState)
   .handleAction(AddOrUpdateUsers.action, AddOrUpdateUsers.reducer)

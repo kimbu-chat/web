@@ -44,12 +44,8 @@ export class CreateMessageSuccess {
         }
 
         if (chat) {
-          if (chat.lastMessage?.id === oldMessageId) {
-            const lastMessage = chat.lastMessage || { id: 0, state: '' };
-
-            lastMessage.id = newMessageId;
-
-            lastMessage.state = messageState;
+          if (chat.lastMessageId === oldMessageId) {
+            chat.lastMessageId = newMessageId;
           }
 
           attachments?.forEach((attachment) => {

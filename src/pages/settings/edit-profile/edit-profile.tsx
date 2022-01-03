@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useRef, lazy, Suspense, useEffect } from 'react';
 
-import { AttachmentType } from 'kimbu-models';
+import { AttachmentType, IAvatar } from 'kimbu-models';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -10,6 +10,7 @@ import { HorizontalSeparator } from '@components/horizontal-separator';
 import { MediaModal } from '@components/image-modal';
 import { LabeledInput } from '@components/labeled-input';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as BottomAvatarLine } from '@icons/bottom-avatar-line.svg';
 import { ReactComponent as ColoredClose } from '@icons/colored-close.svg';
 import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
@@ -24,8 +25,6 @@ import {
 } from '@store/my-profile/actions';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import { validateNickname } from '@utils/validate-nick-name';
-
-import { useToggledState } from '../../../hooks/use-toggled-state';
 
 import { ChangePhoneModal } from './change-phone-modal/change-phone-modal';
 import { DeactivateAccountModal } from './deactivate-account-modal/deactivate-account-modal';
@@ -55,14 +54,21 @@ const EditProfile = () => {
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [imageUrl, setImageUrl] = useState<string>('');
-  const [newAvatar, setNewAvatar] = useState(myProfile?.avatar);
+  const [imageUrl, setImageUrl] = useState(myProfile?.avatar?.previewUrl || '');
+  const [newAvatar, setNewAvatar] = useState<IAvatar>();
   const [firstName, setFirstName] = useState(myProfile?.firstName || '');
   const [lastName, setLastName] = useState(myProfile?.lastName || '');
   const [error, setError] = useState<NicknameState>(NicknameState.ALLOWED_NICKNAME);
   const [isLoading, setIsLoading] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [nickname, setNickname] = useState(myProfile?.nickname || '');
+
+  useEffect(() => {
+    setNewAvatar(myProfile?.avatar);
+    setFirstName(myProfile?.firstName || '');
+    setLastName(myProfile?.lastName || '');
+    setNickname(myProfile?.nickname || '');
+  }, [myProfile]);
 
   const [bigPhotoDisplayed, displayBigPhoto, hideBigPhoto] = useToggledState(false);
   const [changePhotoDisplayed, displayChangePhoto, hideChangePhoto] = useToggledState(false);
@@ -244,6 +250,7 @@ const EditProfile = () => {
           onChange={changeFirstName}
           containerClassName="edit-profile__input"
           maxLength={30}
+          defaultValue={myProfile?.firstName}
         />
         <LabeledInput
           label={t('editProfile.last_name')}

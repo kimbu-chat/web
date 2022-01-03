@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Avatar } from '@components/avatar';
 import {
   LinkedMessage,
-  ILinkedMessage,
+  ILinkedMessageProps,
 } from '@components/message-item/linked-message/linked-message';
 import { MessageHandler } from '@components/message-item/message-handler';
 import { getUserSelector } from '@store/users/selectors';
@@ -14,7 +14,7 @@ import './replied-message.scss';
 
 const BLOCK_NAME = 'replied-message';
 
-const RepliedMessage: React.FC<ILinkedMessage> = ({
+const RepliedMessage: React.FC<ILinkedMessageProps> = ({
   linkedMessage,
   observeIntersection,
   isCurrentUserMessageCreator,

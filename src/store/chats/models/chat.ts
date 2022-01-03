@@ -14,11 +14,10 @@ import { IGroupable } from './groupable';
 import { InterlocutorType } from './interlocutor-type';
 import { INormalizedMessage } from './normalized-message';
 
-export interface INormalizedChat {
-  id: number;
+export interface INormalizedRawChat {
   interlocutorType?: InterlocutorType;
   groupChat?: IGroupChat;
-  lastMessage?: INormalizedMessage | null;
+  lastMessageId?: number;
   interlocutorId?: number;
   unreadMessagesCount: number;
   interlocutorLastReadMessageId?: number;
@@ -26,7 +25,10 @@ export interface INormalizedChat {
   typingInterlocutors?: string[];
   isMuted?: boolean;
   isGeneratedLocally?: boolean;
+}
 
+export interface INormalizedChat extends INormalizedRawChat{
+  id: number;
   messageToEdit?: INormalizedMessage;
   messageToReply?: INormalizedMessage;
 

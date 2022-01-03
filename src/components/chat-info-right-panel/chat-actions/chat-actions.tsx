@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { CreateGroupChatModal } from '@components/create-group-chat-modal';
 import { GroupChatAddFriendModal } from '@components/group-chat-add-friend-modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useIsMe } from '@hooks/use-is-me';
 import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as AddUsersSvg } from '@icons/add-users.svg';
 import { ReactComponent as BlockSvg } from '@icons/block.svg';
@@ -19,7 +20,7 @@ import { ReactComponent as UnBlockSvg } from '@icons/unblock.svg';
 import { ReactComponent as UnmuteSvg } from '@icons/unmute.svg';
 import { Button } from '@shared-components/button';
 import { changeChatMutedStatusAction } from '@store/chats/actions';
-import { getInfoChatSelector } from '@store/chats/selectors';
+import { getInfoChatSelector, getSelectedInterlocutorSelector } from '@store/chats/selectors';
 import { deleteFriendAction, addFriendAction } from '@store/friends/actions';
 import { blockUserAction, unblockUserAction } from '@store/settings/actions';
 
@@ -53,11 +54,14 @@ export const ChatActions: React.FC = () => {
   const addFriend = useActionWithDeferred(addFriendAction);
   const blockUser = useActionWithDeferred(blockUserAction);
   const unBlockUser = useActionWithDeferred(unblockUserAction);
+  const interlocutor = useSelector(getSelectedInterlocutorSelector);
 
   const chat = useSelector(
     getInfoChatSelector,
     (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
   );
+
+  const isMe = useIsMe(chat.interlocutorId);
 
   const [isMuting, setIsMuting] = useState(false);
   const muteUnmute = useCallback(() => {
@@ -81,11 +85,11 @@ export const ChatActions: React.FC = () => {
   const addContact = useCallback(() => {
     if (chat?.interlocutorId) {
       setIsAddingContact(true);
-      addFriend(chat?.interlocutorId).then(() => {
+      addFriend(interlocutor).then(() => {
         setIsAddingContact(false);
       });
     }
-  }, [addFriend, chat?.interlocutorId]);
+  }, [addFriend, chat?.interlocutorId, interlocutor]);
   const [isBlocking, setIsBlocking] = useState(false);
   const blockSelectedUser = useCallback(() => {
     if (chat?.interlocutorId) {
@@ -109,17 +113,19 @@ export const ChatActions: React.FC = () => {
     <div className={BLOCK_NAME}>
       <h3 className={`${BLOCK_NAME}__title`}>{t('chatActions.actions')}</h3>
 
-      <Button
-        themed
-        loading={isMuting}
-        type="button"
-        onClick={muteUnmute}
-        className={`${BLOCK_NAME}__action`}>
-        {chat?.isMuted ? <UnmuteSvg /> : <MuteSvg />}
-        <span className={`${BLOCK_NAME}__action__name`}>
-          {chat?.isMuted ? t('chatActions.unmute') : t('chatActions.mute')}
-        </span>
-      </Button>
+      {!isMe && (
+        <Button
+          themed
+          loading={isMuting}
+          type="button"
+          onClick={muteUnmute}
+          className={`${BLOCK_NAME}__action`}>
+          {chat?.isMuted ? <UnmuteSvg /> : <MuteSvg />}
+          <span className={`${BLOCK_NAME}__action__name`}>
+            {chat?.isMuted ? t('chatActions.unmute') : t('chatActions.mute')}
+          </span>
+        </Button>
+      )}
       <Button
         themed
         onClick={displayClearChatModal}
@@ -141,6 +147,7 @@ export const ChatActions: React.FC = () => {
       )}
 
       {chat?.interlocutorId &&
+        !isMe &&
         (chat?.isInContacts ? (
           <Button
             themed
@@ -164,6 +171,7 @@ export const ChatActions: React.FC = () => {
         ))}
 
       {chat?.interlocutorId &&
+        !isMe &&
         (chat?.isBlockedByUser ? (
           <Button
             themed
@@ -186,7 +194,7 @@ export const ChatActions: React.FC = () => {
           </Button>
         ))}
 
-      {chat?.interlocutorId && chat?.isInContacts && (
+      {!isMe && chat?.interlocutorId && chat?.isInContacts && (
         <Button
           themed
           type="button"

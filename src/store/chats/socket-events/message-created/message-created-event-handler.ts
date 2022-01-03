@@ -66,6 +66,8 @@ export class MessageCreatedEventHandler {
         systemMessageType,
       } = payload;
 
+      yield put(AddOrUpdateUsers.action({ users: { [userCreator.id]: userCreator } }));
+
       const messageExists =
         (yield select(getChatHasMessageWithIdSelector(id, chatId))) ||
         (yield select(getChatHasMessageWithIdSelector(clientId, chatId)));
@@ -152,8 +154,8 @@ export class MessageCreatedEventHandler {
           const modeledChat = modelChatList(chats)[data.id as number];
 
           if (modeledChat) {
-            yield put(UnshiftChat.action({ chat: modeledChat, addToList: true }));
             yield put(AddOrUpdateUsers.action({ users }));
+            yield put(UnshiftChat.action({ chat: modeledChat, addToList: true }));
           }
 
           chatOfMessage = data;

@@ -17,8 +17,10 @@ export class UserContactAddedSuccessEventHandler {
         { payload }: ReturnType<typeof UserContactAddedSuccessEventHandler.action>,
       ) => {
         const { userId } = payload;
-
-        draft.friends.friendIds.unshift(userId);
+        const { friendIds } = draft.friends;
+        if (!friendIds.some((id) => id === userId)) {
+          friendIds.push(userId);
+        }
 
         return draft;
       },

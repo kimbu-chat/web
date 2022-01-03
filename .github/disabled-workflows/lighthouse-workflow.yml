@@ -1,4 +1,4 @@
-name: Audit live site
+name: Audit site
 on:
   pull_request:
     branches:

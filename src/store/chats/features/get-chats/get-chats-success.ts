@@ -1,4 +1,5 @@
 import produce from 'immer';
+import merge from 'lodash/merge';
 import { createAction } from 'typesafe-actions';
 
 import { IChatsState } from '../../chats-state';
@@ -14,7 +15,7 @@ export class GetChatsSuccess {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChatsSuccess.action>) => {
       const { chats, hasMore, initializedByScroll, searchString, chatIds } = payload;
 
-      draft.chats = { ...draft.chats, ...chats };
+      draft.chats = merge(draft.chats, chats);
 
       if (searchString?.length) {
         draft.searchChatList.hasMore = hasMore;

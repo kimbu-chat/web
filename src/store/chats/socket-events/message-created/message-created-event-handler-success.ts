@@ -144,7 +144,7 @@ export class MessageCreatedEventHandlerSuccess {
             }
           });
 
-          chat.lastMessage = message;
+          chat.lastMessageId = message.id;
           chat.unreadMessagesCount = newUnreadMessagesCount;
           chat.draftMessage = '';
 

@@ -26,7 +26,7 @@ export class ClearChatHistorySuccess {
           chatMessages.loading = false;
 
           if (chat) {
-            chat.lastMessage = null;
+            chat.lastMessageId = undefined;
           }
         }
 

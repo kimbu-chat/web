@@ -52,8 +52,6 @@ export class GetChats {
 
   static get saga() {
     return function* getChats(action: ReturnType<typeof GetChats.action>): SagaIterator {
-      const chatsRequestData = action.payload;
-
       const { name, showOnlyHidden, showAll, initializedByScroll } = action.payload;
 
       if (!name?.length && !initializedByScroll) {
@@ -97,7 +95,7 @@ export class GetChats {
         chats: modeledChats,
         chatIds: result,
         hasMore: result.length >= CHATS_LIMIT,
-        initializedByScroll: chatsRequestData.initializedByScroll,
+        initializedByScroll,
         searchString: name,
       };
 

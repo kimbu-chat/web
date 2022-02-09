@@ -21,7 +21,7 @@ export class GetVideoAttachmentsSuccess {
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (chat) {
-          chat.videos.videos.push(...videos);
+          chat.videos.data.push(...videos);
           chat.videos.hasMore = hasMore;
           chat.videos.loading = false;
         }

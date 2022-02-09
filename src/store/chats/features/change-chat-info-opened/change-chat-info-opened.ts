@@ -29,22 +29,22 @@ export class ChangeChatInfoOpened {
               isGeneratedLocally: true,
 
               photos: {
-                photos: [],
+                data: [],
                 loading: false,
                 hasMore: true,
               },
               videos: {
-                videos: [],
+                data: [],
                 loading: false,
                 hasMore: true,
               },
               audios: {
-                audios: [],
+                data: [],
                 loading: false,
                 hasMore: true,
               },
               files: {
-                files: [],
+                data: [],
                 loading: false,
                 hasMore: true,
               },
@@ -59,7 +59,7 @@ export class ChangeChatInfoOpened {
                 hasMore: true,
               },
               recordings: {
-                recordings: [],
+                data: [],
                 loading: false,
                 hasMore: true,
               },

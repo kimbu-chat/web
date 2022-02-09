@@ -29,7 +29,7 @@ export const RecordingsList: React.FC<IRecordingsListProps> = ({ rootRef }) => {
   }, [getRecordings]);
 
   const recordingsWithSeparators = setSeparators<IVoiceAttachment>(
-    recordingsForSelectedChat?.recordings,
+    recordingsForSelectedChat?.data,
     { separateByMonth: true, separateByYear: true },
     { separateByMonth: true, separateByYear: true },
   );

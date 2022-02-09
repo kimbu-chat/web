@@ -55,27 +55,27 @@ export class GroupChatCreatedEventHandler {
           photos: {
             hasMore: true,
             loading: false,
-            photos: [],
+            data: [],
           },
           videos: {
             hasMore: true,
             loading: false,
-            videos: [],
+            data: [],
           },
           audios: {
             hasMore: true,
             loading: false,
-            audios: [],
+            data: [],
           },
           files: {
             hasMore: true,
             loading: false,
-            files: [],
+            data: [],
           },
           recordings: {
             hasMore: true,
             loading: false,
-            recordings: [],
+            data: [],
           },
           members: {
             hasMore: true,

@@ -21,7 +21,7 @@ export class GetVoiceAttachmentsSuccess {
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (chat) {
-          chat.recordings.recordings.push(...recordings);
+          chat.recordings.data.push(...recordings);
           chat.recordings.hasMore = hasMore;
           chat.recordings.loading = false;
         }

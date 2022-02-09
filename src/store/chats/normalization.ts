@@ -44,17 +44,17 @@ export const chatNormalizationSchema = new schema.Entity<INormalizedChat>(
         lastMessageId: chat?.lastMessage?.id,
         interlocutorType: ChatId.fromId(chat.id).interlocutorType,
         typingInterlocutors: [],
-        photos: { photos: [], loading: false, hasMore: true },
-        videos: { videos: [], loading: false, hasMore: true },
-        files: { files: [], loading: false, hasMore: true },
-        audios: { audios: [], loading: false, hasMore: true },
+        photos: { data: [], loading: false, hasMore: true },
+        videos: { data: [], loading: false, hasMore: true },
+        files: { data: [], loading: false, hasMore: true },
+        audios: { data: [], loading: false, hasMore: true },
         members: { memberIds: [], loading: false, hasMore: true },
         possibleMembers: { memberIds: [], loading: false, hasMore: true },
         draftMessage: '',
         recordings: {
           hasMore: true,
           loading: false,
-          recordings: [],
+          data: [],
         },
         messages: chat.lastMessage
           ? {

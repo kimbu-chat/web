@@ -21,7 +21,7 @@ export class GetAudioAttachmentsSuccess {
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (chat) {
-          chat.audios.audios.push(...audios);
+          chat.audios.data.push(...audios);
           chat.audios.hasMore = hasMore;
           chat.audios.loading = false;
         }

@@ -97,11 +97,12 @@ export class MessageCreatedEventHandlerSuccess {
             chatMessages.messages[message.id] = message;
           }
 
+          // todo: unify
           attachments?.forEach((attachment) => {
             switch (attachment.type) {
               case AttachmentType.Audio:
                 chat.audioAttachmentsCount = (chat.audioAttachmentsCount || 0) + 1;
-                chat.audios.audios.unshift({
+                chat.audios.data.unshift({
                   ...(attachment as IAudioAttachment),
                   creationDateTime: new Date().toISOString(),
                 });
@@ -109,7 +110,7 @@ export class MessageCreatedEventHandlerSuccess {
                 break;
               case AttachmentType.Picture:
                 chat.pictureAttachmentsCount = (chat.pictureAttachmentsCount || 0) + 1;
-                chat.photos.photos.unshift({
+                chat.photos.data.unshift({
                   ...(attachment as IPictureAttachment),
                   creationDateTime: new Date().toISOString(),
                 });
@@ -117,7 +118,7 @@ export class MessageCreatedEventHandlerSuccess {
                 break;
               case AttachmentType.Raw:
                 chat.rawAttachmentsCount = (chat.rawAttachmentsCount || 0) + 1;
-                chat.files.files.unshift({
+                chat.files.data.unshift({
                   ...attachment,
                   creationDateTime: new Date().toISOString(),
                 });
@@ -125,7 +126,7 @@ export class MessageCreatedEventHandlerSuccess {
                 break;
               case AttachmentType.Video:
                 chat.videoAttachmentsCount = (chat.videoAttachmentsCount || 0) + 1;
-                chat.videos.videos.unshift({
+                chat.videos.data.unshift({
                   ...(attachment as IVideoAttachment),
                   creationDateTime: new Date().toISOString(),
                 });
@@ -133,7 +134,7 @@ export class MessageCreatedEventHandlerSuccess {
                 break;
               case AttachmentType.Voice:
                 chat.voiceAttachmentsCount = (chat.voiceAttachmentsCount || 0) + 1;
-                chat.recordings.recordings.unshift({
+                chat.recordings.data.unshift({
                   ...(attachment as IVoiceAttachment),
                   creationDateTime: new Date().toISOString(),
                 });

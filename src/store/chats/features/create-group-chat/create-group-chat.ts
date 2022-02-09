@@ -69,7 +69,7 @@ export class CreateGroupChat {
           memberIds: [],
         },
         possibleMembers: {
-          data: [],
+          memberIds: [],
           loading: false,
           hasMore: true,
         },

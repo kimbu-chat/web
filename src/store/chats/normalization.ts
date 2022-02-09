@@ -1,8 +1,9 @@
 import { IChat, IMessage, ILinkedMessage, IUser } from 'kimbu-models';
 import { schema } from 'normalizr';
 
-import { INormalizedLinkedMessage } from '@store/chats/models';
-import { INormalizedRawChat } from '@store/chats/models/chat';
+import { INormalizedChat, INormalizedLinkedMessage, INormalizedMessage } from '@store/chats/models';
+
+import { ChatId } from './chat-id';
 
 const userSchema = new schema.Entity<IUser>('users');
 
@@ -10,7 +11,7 @@ export const linkedMessageNormalizationSchema = new schema.Entity<ILinkedMessage
   'linkedMessages',
   {
     userCreator: userSchema,
-  }
+  },
 );
 
 export const messageNormalizationSchema = new schema.Entity<INormalizedLinkedMessage>(
@@ -24,13 +25,12 @@ export const messageNormalizationSchema = new schema.Entity<INormalizedLinkedMes
   {
     processStrategy: (message: IMessage) => ({
       ...message,
-      userCreatorId: message.userCreator?.id  || message.userCreatorId,
+      userCreatorId: message.userCreator?.id || message.userCreatorId,
     }),
   },
 );
 
-
-export const chatNormalizationSchema = new schema.Entity<INormalizedRawChat>(
+export const chatNormalizationSchema = new schema.Entity<INormalizedChat>(
   'chats',
   {
     lastMessage: messageNormalizationSchema,
@@ -38,18 +38,43 @@ export const chatNormalizationSchema = new schema.Entity<INormalizedRawChat>(
   },
   {
     processStrategy: (chat: IChat) => {
-      const messages = chat.lastMessage ? {
-        messages: {[chat?.lastMessage?.id]: chat?.lastMessage},
-        messageIds: [chat?.lastMessage.id]
-      } : {};
-
-      return ({
+      const normalizedChat: INormalizedChat = {
         ...chat,
         interlocutorId: chat?.interlocutor?.id,
         lastMessageId: chat?.lastMessage?.id,
-        messages,
-      });
-    }
+        interlocutorType: ChatId.fromId(chat.id).interlocutorType,
+        typingInterlocutors: [],
+        photos: { photos: [], loading: false, hasMore: true },
+        videos: { videos: [], loading: false, hasMore: true },
+        files: { files: [], loading: false, hasMore: true },
+        audios: { audios: [], loading: false, hasMore: true },
+        members: { memberIds: [], loading: false, hasMore: true },
+        possibleMembers: { memberIds: [], loading: false, hasMore: true },
+        draftMessage: '',
+        recordings: {
+          hasMore: true,
+          loading: false,
+          recordings: [],
+        },
+        messages: chat.lastMessage
+          ? {
+              messages: {
+                [chat?.lastMessage?.id]: chat?.lastMessage as unknown as INormalizedMessage,
+              },
+              messageIds: [chat?.lastMessage.id],
+              loading: false,
+              hasMore: true,
+            }
+          : {
+              messages: {},
+              messageIds: [],
+              loading: false,
+              hasMore: false,
+            },
+      };
+
+      return normalizedChat;
+    },
   },
 );
 

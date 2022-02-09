@@ -54,7 +54,7 @@ export class ChangeChatInfoOpened {
                 hasMore: true,
               },
               possibleMembers: {
-                data: [],
+                memberIds: [],
                 loading: false,
                 hasMore: true,
               },

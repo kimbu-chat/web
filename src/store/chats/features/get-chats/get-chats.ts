@@ -15,7 +15,6 @@ import { CHATS_LIMIT } from '@utils/pagination-limits';
 import { IChatsState } from '../../chats-state';
 import { chatArrNormalizationSchema } from '../../normalization';
 import { getChatsPageSelector, getChatsSearchPageSelector } from '../../selectors';
-import { modelChatList } from '../../utils/model-chat-list';
 
 import { IGetChatsActionPayload } from './action-payloads/get-chats-action-payload';
 import { IGetChatsSuccessActionPayload } from './action-payloads/get-chats-success-action-payload';
@@ -89,10 +88,8 @@ export class GetChats {
         number[]
       >(data, chatArrNormalizationSchema);
 
-      const modeledChats = modelChatList(normalizedChats);
-
       const chatList: IGetChatsSuccessActionPayload = {
-        chats: modeledChats,
+        chats: normalizedChats || {},
         chatIds: result,
         hasMore: result.length >= CHATS_LIMIT,
         initializedByScroll,

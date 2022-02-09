@@ -1,5 +1,5 @@
 export interface IPossibleMembers {
-  data: number[];
+  memberIds: number[];
   loading: boolean;
   hasMore: boolean;
 }

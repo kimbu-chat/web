@@ -224,9 +224,7 @@ const CreateMessageInput = () => {
 
           message.linkedMessageType = MessageLinkType.Reply;
         }
-        sendMessage({
-          message,
-        });
+        sendMessage(message);
       }
     }
 

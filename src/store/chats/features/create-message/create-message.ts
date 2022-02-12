@@ -53,19 +53,19 @@ export class CreateMessage {
     return function* createMessage({
       payload: message,
     }: ReturnType<typeof CreateMessage.action>): SagaIterator {
-      const { chatId } = message;
+      const { chatId, text, attachments, id, linkedMessage, linkedMessageType } = message;
 
       const messageCreationReq: ICreateMessageRequest = {
-        text: message.text,
+        text,
         chatId,
-        attachmentIds: message.attachments?.map((x) => x.id),
-        clientId: message.id,
+        attachmentIds: attachments?.map((x) => x.id),
+        clientId: id,
       };
 
-      if (message.linkedMessage && message.linkedMessageType) {
+      if (linkedMessage && linkedMessageType) {
         messageCreationReq.link = {
-          type: message.linkedMessageType,
-          originalMessageId: message.linkedMessage.id,
+          type: linkedMessageType,
+          originalMessageId: linkedMessage.id,
         };
       }
 
@@ -86,10 +86,10 @@ export class CreateMessage {
       yield put(
         CreateMessageSuccess.action({
           chatId,
-          oldMessageId: message.id,
+          oldMessageId: id,
           newMessageId: response.data.id,
           messageState: MessageState.SENT,
-          attachments: message.attachments,
+          attachments,
         }),
       );
     };

@@ -14,7 +14,11 @@ export class GetMessagesSuccess {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof GetMessagesSuccess.action>) => {
         const {
-          messageList: { chatId, hasMoreMessages, messages, messageIds, initializedByScroll },
+          chatId,
+          hasMoreMessages,
+          messages,
+          messageIds,
+          initializedByScroll,
         }: IGetMessagesSuccessActionPayload = payload;
 
         const chatMessages = draft.chats[chatId]?.messages;

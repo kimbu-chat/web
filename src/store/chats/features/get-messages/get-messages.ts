@@ -120,7 +120,7 @@ export class GetMessages {
           };
 
           yield put(AddOrUpdateUsers.action({ users }));
-          yield put(GetMessagesSuccess.action({ messageList }));
+          yield put(GetMessagesSuccess.action(messageList));
         } catch {
           yield put(GetMessagesFailure.action(chat.id));
         }

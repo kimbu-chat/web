@@ -6,7 +6,7 @@ export interface IGetMessagesSuccessActionPayload {
     messageIds: number[];
     hasMoreMessages: boolean;
     chatId: number;
-    isFromScroll?: boolean;
+    initializedByScroll?: boolean;
     searchString?: string;
   };
 }

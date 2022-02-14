@@ -58,7 +58,7 @@ export class GetMessages {
 
   static get saga() {
     return function* getMessages(action: ReturnType<typeof GetMessages.action>): SagaIterator {
-      const { initializedByScroll: isFromScroll } = action.payload;
+      const { initializedByScroll } = action.payload;
 
       const isFirstChatsLoad = yield select(getIsFirstChatsLoadSelector);
 
@@ -72,7 +72,7 @@ export class GetMessages {
         return;
       }
 
-      if (isFromScroll && !chat.messages.hasMore) {
+      if (initializedByScroll && !chat.messages.hasMore) {
         return;
       }
 
@@ -82,7 +82,7 @@ export class GetMessages {
         const request: IGetMessagesRequest = {
           page: {
             limit: MESSAGES_LIMIT,
-            offset: isFromScroll ? size(chat.messages.messageIds) : 0,
+            offset: initializedByScroll ? size(chat.messages.messageIds) : 0,
           },
           chatId: chat.id,
           searchString,
@@ -116,7 +116,7 @@ export class GetMessages {
             messageIds: result,
             hasMoreMessages: newMessages.length >= MESSAGES_LIMIT,
             searchString,
-            isFromScroll,
+            initializedByScroll,
           };
 
           yield put(AddOrUpdateUsers.action({ users }));

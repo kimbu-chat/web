@@ -42,7 +42,7 @@ export class GetMessages {
 
         const selectedChatMessages = chat.messages;
 
-        if (payload.isFromScroll && !chat.messages.hasMore) {
+        if (payload.initializedByScroll && !chat.messages.hasMore) {
           return draft;
         }
 
@@ -58,7 +58,7 @@ export class GetMessages {
 
   static get saga() {
     return function* getMessages(action: ReturnType<typeof GetMessages.action>): SagaIterator {
-      const { isFromScroll } = action.payload;
+      const { initializedByScroll: isFromScroll } = action.payload;
 
       const isFirstChatsLoad = yield select(getIsFirstChatsLoadSelector);
 

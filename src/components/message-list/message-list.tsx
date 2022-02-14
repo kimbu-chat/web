@@ -76,7 +76,7 @@ const MessageList = () => {
 
   const loadMore = useCallback(() => {
     getMessages({
-      isFromScroll: true,
+      initializedByScroll: true,
       searchString: messagesSearchString,
     });
   }, [getMessages, messagesSearchString]);

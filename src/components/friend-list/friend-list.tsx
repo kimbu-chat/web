@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { CenteredLoader, LoaderSize } from '@components/loader';
 import { SearchBox } from '@components/search-box';
-import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { getFriendsAction, resetSearchFriendsAction } from '@store/friends/actions';
 import { getMyFriendsListSelector, getMySearchFriendsListSelector } from '@store/friends/selectors';
@@ -27,7 +26,7 @@ export const FriendList = () => {
     loading: searchFriendsLoading,
   } = searchFriendsList;
 
-  const loadFriends = useActionWithDeferred(getFriendsAction);
+  const loadFriends = useActionWithDispatch(getFriendsAction);
   const resetSearchFriends = useActionWithDispatch(resetSearchFriendsAction);
 
   useEffect(

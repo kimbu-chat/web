@@ -3,9 +3,9 @@ import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
+import { YEAR_MONTH_DAY_HOUR_MINUTE } from '@common/constants';
 import { INormalizedMessage } from '@store/chats/models';
 import { getUsersSelector } from '@store/users/selectors';
-import { YEAR_MONTH_DAY_HOUR_MINUTE } from '@utils/constants';
 
 import { getSelectedChatMessagesSelector } from '../../selectors';
 

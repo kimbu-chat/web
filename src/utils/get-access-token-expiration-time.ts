@@ -1,6 +1,6 @@
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 
-import { SECOND_DURATION } from './constants';
+import { SECOND_DURATION } from '../common/constants';
 
 export const getAccessTokenExpirationTime = (accessToken: string): string => {
   const decodedJwt = jwtDecode<JwtPayload>(accessToken);

@@ -1,13 +1,13 @@
 import dayjs from 'dayjs';
 
-import { IGroupable } from '@store/chats/models';
 import {
   SHORT_TIME_AM_PM,
   HOUR_MINUTE_SECOND,
   MINUTES_SECONDS,
   SECOND_DURATION,
   DAY_MONTH_YEAR,
-} from '@utils/constants';
+} from '@common/constants';
+import { IGroupable } from '@store/chats/models';
 
 import { doesYearDifferFromCurrent } from './set-separators';
 

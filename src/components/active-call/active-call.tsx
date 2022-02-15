@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Rnd } from 'react-rnd';
 
+import { SECOND_DURATION } from '@common/constants';
 import { Avatar } from '@components/avatar';
 import { Dropdown } from '@components/dropdown';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -48,7 +49,6 @@ import {
   getInterlocutorVideoTrack,
   tracks,
 } from '@store/calls/utils/user-media';
-import { SECOND_DURATION } from '@utils/constants';
 import { playSoundSafely } from '@utils/current-music';
 import { getHourMinuteSecond } from '@utils/date-utils';
 

@@ -1,4 +1,4 @@
-import { REQUEST_TIMEOUT } from '@utils/constants';
+import { REQUEST_TIMEOUT } from '@common/constants';
 
 let makingOffer = false;
 let ignoreOffer = false;

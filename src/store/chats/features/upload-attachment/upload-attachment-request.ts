@@ -13,10 +13,10 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select, apply } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
+import { MAX_FILE_SIZE_MB } from '@common/constants';
 import { FILES_API } from '@common/paths';
 import { INamedAttachment } from '@store/chats/models/named-attachment';
 import { httpFilesRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { MAX_FILE_SIZE_MB } from '@utils/constants';
 import { emitToast } from '@utils/emit-toast';
 
 import { IChatsState } from '../../chats-state';

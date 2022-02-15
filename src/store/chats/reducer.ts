@@ -2,6 +2,7 @@ import produce from 'immer';
 import { SystemMessageType } from 'kimbu-models';
 import { createReducer } from 'typesafe-actions';
 
+import { APPEARANCE_CHAT_ID } from '@common/constants';
 import { MyProfileService } from '@services/my-profile-service';
 import { MessageState, INormalizedChat } from '@store/chats/models';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
@@ -10,7 +11,6 @@ import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/us
 import { GetMyProfileSuccess } from '@store/my-profile/features/get-my-profile/get-my-profile-success';
 import { UserAddedToBlackListEventHandler } from '@store/settings/socket-events/user-added-to-black-list/user-added-to-black-list-event-handler';
 import { UserRemovedFromBlackListEventHandler } from '@store/settings/socket-events/user-removed-from-black-list/user-removed-from-black-list-event-handler';
-import { APPEARANCE_CHAT_ID } from '@utils/constants';
 
 import { AddFriendSuccess } from '../friends/features/add-friend/add-friend-success';
 import { DeleteFriendSuccess } from '../friends/features/delete-friend/delete-friend-success';

@@ -13,7 +13,8 @@ import {
 import { INormalizedMessage } from '@store/chats/models';
 import { IMessageCreatedIntegrationEvent } from '@store/chats/socket-events/message-created/message-created-integration-event';
 
-import { SECOND_DURATION } from './constants';
+import { SECOND_DURATION } from '../common/constants';
+
 import { getHourMinuteSecond, getShortTimeAmPm } from './date-utils';
 
 import type { IUser } from 'kimbu-models';

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import {
   INTERSECTION_THROTTLE_FOR_MEDIA,
   INTERSECTION_THRESHOLD_FOR_MEDIA,
-} from '@common/constants/media';
+} from '@common/constants';
 import { Avatar } from '@components/avatar';
 import { MediaModal } from '@components/image-modal';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';

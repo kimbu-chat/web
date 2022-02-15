@@ -8,6 +8,7 @@ import Mousetrap from 'mousetrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import { MESSAGE_INPUT_ID } from '@common/constants';
 import { INPUT_MAX_LENGTH } from '@components/message-input/constants';
 import { inputUtils } from '@components/message-input/utilities/input-utilities';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -39,7 +40,6 @@ import {
 import { myIdSelector } from '@store/my-profile/selectors';
 import { TypingStrategy } from '@store/settings/features/models';
 import { getTypingStrategySelector } from '@store/settings/selectors';
-import { MESSAGE_INPUT_ID } from '@utils/constants';
 import { focusEditableElement } from '@utils/focus-editable-element';
 import { getAttachmentType } from '@utils/get-file-extension';
 import { insertHtmlInSelection } from '@utils/insert-html-in-selection';

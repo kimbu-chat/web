@@ -35,10 +35,7 @@ export class GetMyProfile {
         return;
       }
 
-      const {
-        entities: { users },
-      } = normalize<IUser, { users: Record<number, IUser> }, number[]>(data, userSchema);
-      yield put(AddOrUpdateUsers.action({ users }));
+      yield put(AddOrUpdateUsers.action({ [data.id]: data }));
 
       yield put(GetMyProfileSuccess.action({ user: data }));
     };

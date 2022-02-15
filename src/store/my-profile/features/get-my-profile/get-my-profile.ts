@@ -1,6 +1,5 @@
 import { AxiosResponse } from 'axios';
 import { IUser } from 'kimbu-models';
-import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 
@@ -9,7 +8,6 @@ import { Logout } from '@store/auth/features/logout/logout';
 import { authenticatedSelector } from '@store/auth/selectors';
 import { createEmptyAction } from '@store/common/actions';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
-import { userSchema } from '@store/friends/normalization';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
 import { GetMyProfileSuccess } from './get-my-profile-success';
@@ -35,9 +33,9 @@ export class GetMyProfile {
         return;
       }
 
-      yield put(AddOrUpdateUsers.action({ [data.id]: data }));
+      yield put(AddOrUpdateUsers.action({ users: { [data.id]: data } }));
 
-      yield put(GetMyProfileSuccess.action({ user: data }));
+      yield put(GetMyProfileSuccess.action(data));
     };
   }
 

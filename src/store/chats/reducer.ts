@@ -336,7 +336,7 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(
     GetMyProfileSuccess.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => {
-      const currentUserId = payload.user.id;
+      const currentUserId = payload.id;
       draft.chats[APPEARANCE_CHAT_ID] = {
         messages: {
           messages: {

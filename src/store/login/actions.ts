@@ -15,7 +15,7 @@ export const confirmPhoneAction = ConfirmPhone.action;
 export const confirmPhoneSuccessAction = ConfirmPhoneSuccess.action;
 export const confirmPhoneFailureAction = ConfirmPhoneFailure.action;
 export const registerAction = Register.action;
-export const loginSuccess = LoginSuccess.action;
+export const loginSuccessAction = LoginSuccess.action;
 
 export const LoginActions = {
   sendSmsCodeAction,
@@ -25,5 +25,5 @@ export const LoginActions = {
   confirmPhoneSuccessAction,
   confirmPhoneFailureAction,
   registerAction,
-  loginSuccess,
+  loginSuccessAction,
 };

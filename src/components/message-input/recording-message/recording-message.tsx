@@ -87,7 +87,7 @@ export const RecordingMessage: React.FC<IRecordingMessageProps> = ({ hide, refer
             id: new Date().getTime(),
             waveFormJson: JSON.stringify(waveForm),
             duration: referedRecordedSeconds.current,
-            url: recordingUrl,
+            // url: recordingUrl,
             linkedMessage: referredMessage,
             linkedMessageType: MessageLinkType.Reply,
           });

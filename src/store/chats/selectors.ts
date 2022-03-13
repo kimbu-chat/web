@@ -1,4 +1,4 @@
-import { AttachmentType, IAttachmentBase, IUser } from 'kimbu-models';
+import { AttachmentType, IUser } from 'kimbu-models';
 import unionBy from 'lodash/unionBy';
 
 import { INormalizedChat, INormalizedMessage, InterlocutorType } from './models';
@@ -92,7 +92,7 @@ export const getSelectedChatUnreadMessagesCountSelector = (state: RootState): nu
 
 export const getSelectedChatAttachmentsToSendSelector = (
   state: RootState,
-): IAttachmentToSend<IAttachmentBase>[] | undefined =>
+): IAttachmentToSend[] | undefined =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.attachmentsToSend;
 
 export const getIsFirstChatsLoadSelector = (state: RootState): boolean =>

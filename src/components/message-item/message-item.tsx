@@ -127,7 +127,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
       <>
         <RepliedMessage
           observeIntersection={observeIntersection}
-          linkedMessage={messageToProcess}
+          linkedMessage={messageToProcess as INormalizedLinkedMessage}
           isCurrentUserMessageCreator={isCurrentUserMessageCreator}
         />
         <AttachmentsMap
@@ -141,7 +141,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
     const renderForward = () => (
       <ForwardedMessage
         linkedMessageUserCreator={linkedMessageUserCreator}
-        linkedMessage={messageToProcess}
+        linkedMessage={messageToProcess as INormalizedLinkedMessage}
         observeIntersection={observeIntersection}
         isCurrentUserMessageCreator={isCurrentUserMessageCreator}
       />

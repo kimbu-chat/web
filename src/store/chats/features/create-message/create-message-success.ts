@@ -25,26 +25,30 @@ export class CreateMessageSuccess {
   static get reducer() {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof CreateMessageSuccess.action>) => {
-        const { messageState, chatId, oldMessageId, newMessageId, attachments } = payload;
+        const { messageState, chatId, draftMessageId, newMessageId, attachments } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
         const chatMessages = draft.chats[chatId]?.messages;
 
-        const message = chatMessages?.messages[oldMessageId];
+        const message = chatMessages?.messages[draftMessageId];
 
         if (message && chatMessages) {
           message.clientId = message.id;
           message.id = newMessageId;
           message.state = messageState;
+          message.creationDateTime = new Date().toISOString();
           chatMessages.messages[newMessageId] = message;
-          delete chatMessages?.messages[oldMessageId];
 
-          const messageIndex = chatMessages.messageIds.indexOf(oldMessageId);
+          if (draftMessageId) {
+            delete chatMessages?.messages[draftMessageId];
+          }
+
+          const messageIndex = chatMessages.messageIds.indexOf(draftMessageId);
           chatMessages.messageIds[messageIndex] = newMessageId;
         }
 
         if (chat) {
-          if (chat.lastMessageId === oldMessageId) {
+          if (chat.lastMessageId === draftMessageId) {
             chat.lastMessageId = newMessageId;
           }
 
@@ -106,7 +110,7 @@ export class CreateMessageSuccess {
     return function* createMessageSuccessSaga(
       action: ReturnType<typeof CreateMessageSuccess.action>,
     ): SagaIterator {
-      yield call(removeSendMessageRequest, action.payload.oldMessageId);
+      yield call(removeSendMessageRequest, action.payload.draftMessageId);
     };
   }
 }

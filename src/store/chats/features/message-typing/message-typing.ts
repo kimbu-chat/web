@@ -7,8 +7,8 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
+import { myFullNameSelector } from '@store/my-profile/selectors';
 
-import { myFullNameSelector } from '../../../my-profile/selectors';
 import { IChatsState } from '../../chats-state';
 import { getSelectedChatIdSelector, getChatByIdDraftSelector } from '../../selectors';
 
@@ -25,8 +25,8 @@ export class MessageTyping {
       if (draft.selectedChatId) {
         const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-        if (chat) {
-          chat.draftMessage = text;
+        if (chat && chat.draftMessageId) {
+          chat.messages.messages[chat.draftMessageId].text = text;
         }
       }
 

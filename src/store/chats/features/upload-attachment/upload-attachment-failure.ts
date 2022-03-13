@@ -1,6 +1,8 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 
+import {IAttachmentToSend} from '@store/chats/models';
+
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
@@ -18,14 +20,10 @@ export class UploadAttachmentFailure {
 
         const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat) {
-          if (!chat.attachmentsToSend) {
-            return draft;
-          }
-
-          const currentAttachment = chat.attachmentsToSend?.find(
-            ({ attachment }) => attachment.id === attachmentId,
-          );
+        if (chat && chat.draftMessageId) {
+          const currentAttachment = chat.messages.messages[chat.draftMessageId].attachments.find(
+            (attachment) => attachment.id === attachmentId,
+          ) as IAttachmentToSend;
 
           if (currentAttachment) {
             currentAttachment.success = false;

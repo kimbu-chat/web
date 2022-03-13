@@ -58,7 +58,8 @@ export const ChatActions: React.FC = () => {
 
   const chat = useSelector(
     getInfoChatSelector,
-    (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
+    // todo: avoid unnecessary renders
+    (prev, next) => prev === next,
   );
 
   const isMe = useIsMe(chat.interlocutorId);

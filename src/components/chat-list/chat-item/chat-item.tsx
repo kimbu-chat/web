@@ -121,6 +121,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     t,
   ]);
 
+  // TODO: Make this logic common across chat item and message item
   const messageStatIconMap = {
     [MessageState.QUEUED]: <MessageQeuedSvg />,
     [MessageState.SENT]: <MessageSentSvg />,
@@ -128,6 +129,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     [MessageState.ERROR]: <MessageErrorSvg />,
     [MessageState.DELETED]: undefined,
     [MessageState.LOCALMESSAGE]: undefined,
+    [MessageState.DRAFT]: undefined,
   };
 
   return (

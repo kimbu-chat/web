@@ -15,13 +15,12 @@ import { createAction } from 'typesafe-actions';
 
 import { MAX_FILE_SIZE_MB } from '@common/constants';
 import { FILES_API } from '@common/paths';
-import { INamedAttachment } from '@store/chats/models/named-attachment';
+import { IAttachmentToSend } from '@store/chats/models';
 import { httpFilesRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { emitToast } from '@utils/emit-toast';
 
 import { IChatsState } from '../../chats-state';
-import { IAttachmentToSend } from '../../models/attachment-to-send';
-import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
+import { getChatByIdDraftSelector, getChatByIdSelector } from '../../selectors';
 import { addUploadingAttachment, removeUploadingAttachment } from '../../upload-qeue';
 
 import { IUploadAttachmentRequestActionPayload } from './action-payloads/upload-attachment-request-action-payload';
@@ -49,31 +48,36 @@ export class UploadAttachmentRequest {
           return draft;
         }
 
-        if (draft.selectedChatId) {
-          const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
-
-          if (chat) {
-            if (!chat.attachmentsToSend) {
-              chat.attachmentsToSend = [];
-            }
-
-            const attachmentToAdd: IAttachmentToSend<INamedAttachment> = {
-              attachment: {
-                id: attachmentId,
-                byteSize: file.size,
-                creationDateTime: new Date().toISOString(),
-                url: '',
-                type,
-                fileName: file.name,
-              },
-              progress: 0,
-              file,
-              waveFormJson,
-            };
-
-            chat.attachmentsToSend?.push(attachmentToAdd);
-          }
+        if (!draft.selectedChatId) {
+          return draft;
         }
+
+        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+
+        if (!chat.draftMessageId) {
+          return draft;
+        }
+
+        const draftMessage = chat.messages.messages[chat?.draftMessageId];
+
+        if (chat) {
+          if (!draftMessage.attachments) {
+            draftMessage.attachments = [];
+          }
+
+          const attachmentToAdd: IAttachmentToSend = {
+            id: attachmentId,
+            byteSize: file.size,
+            type,
+            success: false,
+            progress: 0,
+            file,
+            waveFormJson,
+          };
+
+          draftMessage.attachments.push(attachmentToAdd);
+        }
+
         return draft;
       },
     );
@@ -83,13 +87,22 @@ export class UploadAttachmentRequest {
     return function* uploadAttachmentRequestSaga(
       action: ReturnType<typeof UploadAttachmentRequest.action>,
     ): SagaIterator {
-      const chatId = yield select(getSelectedChatIdSelector);
-      const { file, type, attachmentId, waveFormJson } = action.payload;
+      const { file, type, attachmentId, waveFormJson, chatId } = action.payload;
       let uploadRequest: IFilesRequestGenerator<AxiosResponse, FormData>;
 
       if (file.size / 1048576 > MAX_FILE_SIZE_MB) {
         emitToast(`The file "${file.name}" size cannot exceed 25Mb`, { type: 'error' });
 
+        return;
+      }
+
+      if (!chatId) {
+        return;
+      }
+
+      const chat = yield select(getChatByIdSelector(chatId));
+
+      if (!chat.draftMessageId) {
         return;
       }
 
@@ -137,7 +150,13 @@ export class UploadAttachmentRequest {
           },
           *onProgress({ progress, uploadedBytes }): SagaIterator {
             yield put(
-              UploadAttachmentProgress.action({ chatId, attachmentId, progress, uploadedBytes }),
+              UploadAttachmentProgress.action({
+                draftId: chat.draftMessageId,
+                chatId,
+                attachmentId,
+                progress,
+                uploadedBytes,
+              }),
             );
           },
           *onSuccess(payload: AxiosResponse<IAttachmentBase>): SagaIterator {
@@ -145,6 +164,7 @@ export class UploadAttachmentRequest {
             yield put(
               UploadAttachmentSuccess.action({
                 chatId,
+                draftId: chat.draftMessageId,
                 attachmentId,
                 attachment: { ...payload.data, waveFormJson } as IAttachmentBase,
               }),

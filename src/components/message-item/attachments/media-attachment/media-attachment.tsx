@@ -6,6 +6,7 @@ import { MediaModal } from '@components/image-modal';
 import ProgressiveImage from '@components/progressive-image';
 import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as PlaySvg } from '@icons/play.svg';
+import { IAttachmentToSend } from '@store/chats/models';
 import { INamedAttachment } from '@store/chats/models/named-attachment';
 import { getMinutesSeconds } from '@utils/date-utils';
 
@@ -27,7 +28,10 @@ export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
   const [bigMediaDisplayed, displayBigMedia, hideBigMedia] = useToggledState(false);
 
   const currentAttachment = attachmentsArr.find(({ id }) => id === attachmentId);
-
+  let previewUrl = '';
+  if (currentAttachment && 'file' in currentAttachment) {
+    previewUrl = URL.createObjectURL((currentAttachment as IAttachmentToSend)?.file);
+  }
   return (
     <>
       <div onClick={displayBigMedia} className="media-attachment">
@@ -35,8 +39,8 @@ export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
           currentAttachment?.fileName?.endsWith('.gif')) && (
           <ProgressiveImage
             thumb={(currentAttachment as IPictureAttachment).previewUrl}
-            src={currentAttachment.url}
-            alt={currentAttachment.fileName}
+            src={currentAttachment?.url || previewUrl}
+            alt={currentAttachment.fileName || ''}
             width={280}
             height={210}
             observeIntersection={observeIntersection}

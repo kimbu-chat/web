@@ -3,5 +3,5 @@ export interface IUploadVoiceAttachmentActionPayload {
   waveFormJson?: string;
   duration: number;
   id: number;
-  url: string;
+  // url: string;
 }

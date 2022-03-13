@@ -1,6 +1,7 @@
 import { all, takeEvery, takeLatest, takeLeading } from 'redux-saga/effects';
 
 import { GetPossibleMembers } from '@store/chats/features/get-possible-members/get-possible-members';
+import { UploadAttachmentSuccess } from '@store/chats/features/upload-attachment/upload-attachment-success';
 
 import { AddUsersToGroupChat } from './features/add-users-to-group-chat/add-users-to-group-chat';
 import { ChangeChatMutedStatus } from './features/change-chat-muted-status/change-chat-muted-status';
@@ -55,6 +56,7 @@ export function* chatSaga() {
     takeLatest(ChangeSelectedChat.action, ChangeSelectedChat.saga),
     takeLatest(EditGroupChat.action, EditGroupChat.saga),
     takeEvery(UploadAttachmentRequest.action, UploadAttachmentRequest.saga),
+    takeEvery(UploadAttachmentSuccess.action, UploadAttachmentSuccess.saga),
     takeEvery(RemoveAttachment.action, RemoveAttachment.saga),
     takeLeading(MessageTyping.action, MessageTyping.saga),
     takeLeading(GetMessages.action, GetMessages.saga),

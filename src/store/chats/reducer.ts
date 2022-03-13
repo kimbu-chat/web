@@ -4,6 +4,8 @@ import { createReducer } from 'typesafe-actions';
 
 import { APPEARANCE_CHAT_ID } from '@common/constants';
 import { MyProfileService } from '@services/my-profile-service';
+import { CreateDraftMessage } from '@store/chats/features/create-draft-message/create-draft-message';
+import { DiscardDraftMessage } from '@store/chats/features/create-draft-message/discard-draft-message';
 import { MessageState, INormalizedChat } from '@store/chats/models';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactAddedSuccessEventHandler } from '@store/friends/socket-events/user-contact-added/user-contact-added-success-event-handler';
@@ -135,6 +137,8 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(GetVideoAttachments.action, GetVideoAttachments.reducer)
   .handleAction(GetVideoAttachmentsSuccess.action, GetVideoAttachmentsSuccess.reducer)
   .handleAction(CreateMessageSuccess.action, CreateMessageSuccess.reducer)
+  .handleAction(CreateDraftMessage.action, CreateDraftMessage.reducer)
+  .handleAction(DiscardDraftMessage.action, DiscardDraftMessage.reducer)
   .handleAction(GetMessages.action, GetMessages.reducer)
   .handleAction(GetMessagesSuccess.action, GetMessagesSuccess.reducer)
   .handleAction(GetMessagesFailure.action, GetMessagesFailure.reducer)

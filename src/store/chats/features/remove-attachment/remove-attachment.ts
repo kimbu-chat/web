@@ -22,9 +22,10 @@ export class RemoveAttachment {
         if (draft.selectedChatId) {
           const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-          if (chat) {
-            chat.attachmentsToSend = chat.attachmentsToSend?.filter(
-              ({ attachment }) => attachment.id !== attachmentId,
+          if (chat && chat.draftMessageId) {
+            const draftAttachments = chat.messages.messages[chat.draftMessageId].attachments;
+            chat.messages.messages[chat.draftMessageId].attachments = draftAttachments.filter(
+              (attachment) => attachment.id !== attachmentId,
             );
           }
         }

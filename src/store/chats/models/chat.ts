@@ -23,13 +23,13 @@ export interface INormalizedChat {
   interlocutorId?: number;
   unreadMessagesCount: number;
   interlocutorLastReadMessageId?: number;
-  draftMessage?: string;
   typingInterlocutors?: string[];
   isMuted?: boolean;
   isGeneratedLocally?: boolean;
 
   messageToEdit?: INormalizedMessage;
   messageToReply?: INormalizedMessage;
+  draftMessageId?: number;
 
   photos: IMediaFileList<IPictureAttachment>;
   videos: IMediaFileList<IVideoAttachment>;
@@ -50,7 +50,7 @@ export interface INormalizedChat {
     searchString?: string;
   };
 
-  attachmentsToSend?: IAttachmentToSend<IAttachmentBase>[];
+  attachmentsToSend?: IAttachmentToSend[];
 
   rawAttachmentsCount?: number;
   videoAttachmentsCount?: number;

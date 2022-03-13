@@ -10,7 +10,7 @@ import { createAction } from 'typesafe-actions';
 
 import { MyProfileService } from '@services/my-profile-service';
 import { IChatsState } from '@store/chats/chats-state';
-import { INormalizedLinkedMessage, INormalizedMessage } from '@store/chats/models';
+import { INormalizedMessage } from '@store/chats/models';
 
 import { getMessageDraftSelector } from '../../selectors';
 
@@ -20,7 +20,7 @@ export class MessageCreatedEventHandlerSuccess {
   static get action() {
     return createAction('MessageCreated_SUCCESS')<
       IMessageCreatedIntegrationEvent & {
-        linkedMessage?: INormalizedLinkedMessage;
+        linkedMessage?: INormalizedMessage;
         isNewChat?: boolean;
       }
     >();
@@ -147,7 +147,6 @@ export class MessageCreatedEventHandlerSuccess {
 
           chat.lastMessageId = message.id;
           chat.unreadMessagesCount = newUnreadMessagesCount;
-          chat.draftMessage = '';
 
           draft.chatList.chatIds = draft.chatList.chatIds.filter(
             (currentId) => currentId !== chatId,

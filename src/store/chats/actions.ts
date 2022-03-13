@@ -1,4 +1,7 @@
+import { CreateDraftMessage } from '@store/chats/features/create-draft-message/create-draft-message';
+import { DiscardDraftMessage } from '@store/chats/features/create-draft-message/discard-draft-message';
 import { GetPossibleMembers } from '@store/chats/features/get-possible-members/get-possible-members';
+import {MessageAttachmentsUploaded} from '@store/chats/features/upload-attachment/message-attachments-uploaded';
 
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { AddUsersToGroupChat } from './features/add-users-to-group-chat/add-users-to-group-chat';
@@ -117,12 +120,15 @@ export const uploadAttachmentProgressAction = UploadAttachmentProgress.action;
 export const uploadAttachmentSuccessAction = UploadAttachmentSuccess.action;
 export const uploadAttachmentFailureAction = UploadAttachmentFailure.action;
 export const removeAttachmentAction = RemoveAttachment.action;
+export const uploadMessageAttachmentsSuccess = MessageAttachmentsUploaded.action;
 export const markMessagesAsReadAction = MarkMessagesAsRead.action;
 export const markMessagesAsReadSuccessAction = MarkMessagesAsReadSuccess.action;
 export const getMessagesAction = GetMessages.action;
 export const getMessagesSuccessAction = GetMessagesSuccess.action;
 export const getMessagesFailureAction = GetMessagesFailure.action;
 export const createMessageAction = CreateMessage.action;
+export const discardDraftMessageAction = DiscardDraftMessage.action;
+export const createDraftMessageAction = CreateDraftMessage.action;
 export const createMessageSuccessAction = CreateMessageSuccess.action;
 export const messageTypingAction = MessageTyping.action;
 export const deleteMessageAction = DeleteMessage.action;
@@ -236,6 +242,9 @@ export const ChatActions = {
   uploadVoiceAttachmentAction,
   uploadVoiceAttachmentSuccess,
   getPossibleChatMembersAction,
+  createDraftMessageAction,
+  discardDraftMessageAction,
+  uploadMessageAttachmentsSuccess,
 
   // socket-events
 

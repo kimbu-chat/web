@@ -1,5 +1,5 @@
 export interface IMyProfileState {
-  userId?: number;
+  userId: number;
   deviceId?: string;
   isTabActive: boolean;
 }

@@ -6,20 +6,20 @@ import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
+import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
 import { MessageState } from '@store/chats/models';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
-import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IChatsState } from '../../chats-state';
 import { getSelectedChatIdSelector, getChatByIdDraftSelector } from '../../selectors';
 
-import { ISumbitEditMessageActionPayload } from './action-payloads/submit-edit-message-action-payload';
+import { ISubmitEditMessageActionPayload } from './action-payloads/submit-edit-message-action-payload';
 import { SubmitEditMessageSuccess } from './sumbit-edit-message-success';
 
 export class SubmitEditMessage {
   static get action() {
-    return createAction('SUBMIT_EDIT_MESSAGE')<ISumbitEditMessageActionPayload>();
+    return createAction('SUBMIT_EDIT_MESSAGE')<ISubmitEditMessageActionPayload>();
   }
 
   static get reducer() {

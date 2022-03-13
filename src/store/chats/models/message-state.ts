@@ -5,4 +5,5 @@ export enum MessageState {
   ERROR = 'ERROR',
   DELETED = 'DELETED',
   LOCALMESSAGE = 'LOCALMESSAGE',
+  DRAFT = 'DRAFT'
 }

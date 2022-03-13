@@ -1,12 +1,8 @@
 import { IAttachmentBase, SystemMessageType, MessageLinkType } from 'kimbu-models';
 
+import { IAttachmentToSend } from '@store/chats/models/attachment-to-send';
+
 import { MessageState } from './message-state';
-
-import type { INormalizedLinkedMessage } from './normalized-linked-message';
-
-export interface IAttachmentWithClient extends IAttachmentBase {
-  clientId?: number;
-}
 
 export interface INormalizedMessage {
   id: number;
@@ -22,7 +18,7 @@ export interface INormalizedMessage {
   isEdited?: boolean;
   isDeleted?: boolean;
 
-  attachments?: IAttachmentWithClient[];
+  attachments: (IAttachmentBase | IAttachmentToSend)[];
   linkedMessageType?: MessageLinkType;
-  linkedMessage?: INormalizedLinkedMessage;
+  linkedMessage?: INormalizedMessage;
 }

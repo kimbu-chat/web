@@ -1,7 +1,7 @@
 import { IUser, IAttachmentBase, SystemMessageType, MessageLinkType } from 'kimbu-models';
 
 export interface IMessageCreatedIntegrationEvent {
-  attachments?: IAttachmentBase[];
+  attachments: IAttachmentBase[];
   chatId: number;
   creationDateTime: string;
   id: number;

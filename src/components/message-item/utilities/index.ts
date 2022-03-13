@@ -8,9 +8,8 @@ import {
 } from 'kimbu-models';
 import size from 'lodash/size';
 
+import { IAttachmentToSend } from '@store/chats/models';
 import { INamedAttachment } from '@store/chats/models/named-attachment';
-
-import type { IAttachmentWithClient } from '@store/chats/models';
 
 export type NormalizeAccumulator = {
   files: IAttachmentBase[];
@@ -20,14 +19,12 @@ export type NormalizeAccumulator = {
 };
 
 export function normalizeAttachments(
-  attachments: IAttachmentBase[] | IAttachmentWithClient[] = [],
+  attachments: (IAttachmentBase | IAttachmentToSend)[] = [],
 ): NormalizeAccumulator | null {
   if (!size(attachments)) {
     return null;
   }
-  return (
-    attachments as Array<IAttachmentBase | IAttachmentWithClient>
-  )?.reduce<NormalizeAccumulator>(
+  return (attachments as Array<IAttachmentBase>)?.reduce<NormalizeAccumulator>(
     (accum, currentAttachment) => {
       switch (currentAttachment.type) {
         case AttachmentType.Raw:

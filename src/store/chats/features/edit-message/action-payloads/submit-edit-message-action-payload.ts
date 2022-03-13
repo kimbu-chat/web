@@ -1,10 +1,10 @@
 import { IAttachmentBase } from 'kimbu-models';
 
-import { IAttachmentCreation } from '@store/chats/models';
+import { IAttachmentCreation, IAttachmentToSend } from '@store/chats/models';
 
-export interface ISumbitEditMessageActionPayload {
+export interface ISubmitEditMessageActionPayload {
   text: string;
   removedAttachments?: IAttachmentCreation[];
-  newAttachments?: IAttachmentBase[];
+  newAttachments?: (IAttachmentToSend | IAttachmentBase)[];
   messageId: number;
 }

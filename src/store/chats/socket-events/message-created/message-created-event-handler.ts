@@ -16,7 +16,7 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
-import { INormalizedLinkedMessage, INormalizedChat, INormalizedMessage } from '@store/chats/models';
+import { INormalizedChat, INormalizedMessage } from '@store/chats/models';
 import {
   chatNormalizationSchema,
   linkedMessageNormalizationSchema,
@@ -100,7 +100,7 @@ export class MessageCreatedEventHandler {
       const isTabActive = yield select(tabActiveSelector);
       const selectedChatId = yield select(getSelectedChatIdSelector);
 
-      let linkedMessage: INormalizedLinkedMessage | undefined;
+      let linkedMessage: INormalizedMessage | undefined;
 
       if (linkedMessageType === MessageLinkType.Reply) {
         linkedMessage = yield select(getMessageSelector(chatId, linkedMessageId));
@@ -117,7 +117,7 @@ export class MessageCreatedEventHandler {
           } = normalize<
             ILinkedMessage[],
             {
-              linkedMessages: Record<number, INormalizedLinkedMessage>;
+              linkedMessages: Record<number, INormalizedMessage>;
               users: Record<number, IUser>;
             },
             number[]

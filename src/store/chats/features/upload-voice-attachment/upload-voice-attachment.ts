@@ -36,7 +36,7 @@ export class UploadVoiceAttachment {
   static get reducer() {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof UploadVoiceAttachment.action>) => {
-        const { file, waveFormJson, duration, id, url } = payload;
+        const { file, waveFormJson, duration, id } = payload;
 
         if (!draft.selectedChatId) {
           return draft;
@@ -45,6 +45,8 @@ export class UploadVoiceAttachment {
         const chat = draft.chats[draft.selectedChatId];
 
         const currentUserId = new MyProfileService().myProfile.id;
+
+        const url = URL.createObjectURL(file);
 
         const message: INormalizedMessage = {
           systemMessageType: SystemMessageType.None,
@@ -98,10 +100,11 @@ export class UploadVoiceAttachment {
       action: ReturnType<typeof UploadVoiceAttachment.action>,
     ): SagaIterator {
       const chatId = yield select(getSelectedChatIdSelector);
-      const { file, waveFormJson, id, url, linkedMessageType, linkedMessage } = action.payload;
+      const { file, waveFormJson, id, linkedMessageType, linkedMessage } = action.payload;
 
       yield put(
         UploadAttachmentRequest.action({
+          chatId,
           type: AttachmentType.Voice,
           attachmentId: id,
           file,
@@ -136,7 +139,6 @@ export class UploadVoiceAttachment {
           chatId,
           attachmentId: uploadResponse.attachment.id,
           attachmentUrl: uploadResponse.attachment.url || '',
-          oldAttachmentUrl: url,
           messageId: data.id,
         }),
       );

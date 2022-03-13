@@ -32,8 +32,15 @@ export class GetMessagesSuccess {
             chatMessages.messageIds = [...new Set([...chatMessages.messageIds, ...messageIds])];
             chatMessages.messages = { ...messages, ...chatMessages.messages };
           } else {
+            const draftMessageId = draft.chats[chatId]?.draftMessageId;
+            let draftMessage;
+
+            if (draftMessageId) {
+              draftMessage = draft.chats[chatId]?.messages.messages[draftMessageId];
+            }
+
             chatMessages.messageIds = messageIds;
-            chatMessages.messages = messages;
+            chatMessages.messages = {...messages, [`${draftMessageId}`]: draftMessage }
           }
         }
 

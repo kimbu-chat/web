@@ -50,7 +50,6 @@ export const chatNormalizationSchema = new schema.Entity<INormalizedChat>(
         audios: { data: [], loading: false, hasMore: true },
         members: { memberIds: [], loading: false, hasMore: true },
         possibleMembers: { memberIds: [], loading: false, hasMore: true },
-        draftMessage: '',
         recordings: {
           hasMore: true,
           loading: false,

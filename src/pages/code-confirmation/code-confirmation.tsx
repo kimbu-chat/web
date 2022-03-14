@@ -81,7 +81,7 @@ const CodeConfirmation: React.FC = () => {
 
   const sendCodeToVerify = useCallback(
     (code: string) => {
-      checkConfirmationCode({ code, phoneNumber }).then(({ userRegistered }) => {
+      checkConfirmationCode({ code, phoneNumber }).then((userRegistered) => {
         if (userRegistered) {
           history.push(INSTANT_MESSAGING_PATH);
         } else {

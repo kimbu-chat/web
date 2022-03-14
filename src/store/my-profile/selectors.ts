@@ -3,7 +3,7 @@ import { RootState } from 'typesafe-actions';
 
 const undefinedKey = -1;
 
-export const myIdSelector = (state: RootState): number | undefined => state.myProfile.userId;
+export const myIdSelector = (state: RootState): number => state.myProfile.userId;
 
 export const myProfileSelector = (state: RootState): IUser | undefined =>
   state.users.users[state.myProfile.userId || undefinedKey];

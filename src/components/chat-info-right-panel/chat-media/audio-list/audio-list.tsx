@@ -35,7 +35,7 @@ export const AudioList: React.FC<IAudioListProps> = ({ rootRef }) => {
   }, [getAudios]);
 
   const audiosWithSeparators = setSeparators<IAudioAttachment>(
-    audiosForSelectedChat?.audios,
+    audiosForSelectedChat?.data,
     { separateByMonth: true, separateByYear: true },
     { separateByMonth: true, separateByYear: true },
   );

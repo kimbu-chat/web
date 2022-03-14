@@ -28,14 +28,15 @@ import './chat.scss';
 const BLOCK_NAME = 'chat-page';
 
 const ChatPage: React.FC = () => {
-  const { isDragging } = useDragDrop();
   const isCurrentChatBlackListed = useSelector(isCurrentChatBlackListedSelector);
   const isFriend = useSelector(isCurrentChatContactSelector);
   const isDismissed = useSelector(isCurrentChatDismissedAddToContactsSelector);
   const amIBlackListedByInterlocutor = useSelector(amIBlackListedByInterlocutorSelector);
   const isCurrentChatUserDeactivated = useSelector(isCurrentChatUserDeactivatedSelector);
   const isCurrentChatUserDeleted = useSelector(isCurrentChatUserDeletedSelector);
-  const selectedChatId = useSelector(getSelectedChatIdSelector);
+  const selectedChatId = useSelector(getSelectedChatIdSelector) as number;
+
+  const { isDragging } = useDragDrop({ chatId: selectedChatId });
 
   useLayoutEffect(() => {
     loadEmojiPicker();

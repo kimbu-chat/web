@@ -2,7 +2,10 @@ import produce from 'immer';
 import { SystemMessageType } from 'kimbu-models';
 import { createReducer } from 'typesafe-actions';
 
+import { APPEARANCE_CHAT_ID } from '@common/constants';
 import { MyProfileService } from '@services/my-profile-service';
+import { CreateDraftMessage } from '@store/chats/features/create-draft-message/create-draft-message';
+import { DiscardDraftMessage } from '@store/chats/features/create-draft-message/discard-draft-message';
 import { MessageState, INormalizedChat } from '@store/chats/models';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactAddedSuccessEventHandler } from '@store/friends/socket-events/user-contact-added/user-contact-added-success-event-handler';
@@ -10,7 +13,6 @@ import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/us
 import { GetMyProfileSuccess } from '@store/my-profile/features/get-my-profile/get-my-profile-success';
 import { UserAddedToBlackListEventHandler } from '@store/settings/socket-events/user-added-to-black-list/user-added-to-black-list-event-handler';
 import { UserRemovedFromBlackListEventHandler } from '@store/settings/socket-events/user-removed-from-black-list/user-removed-from-black-list-event-handler';
-import { APPEARANCE_CHAT_ID } from '@utils/constants';
 
 import { AddFriendSuccess } from '../friends/features/add-friend/add-friend-success';
 import { DeleteFriendSuccess } from '../friends/features/delete-friend/delete-friend-success';
@@ -135,6 +137,8 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(GetVideoAttachments.action, GetVideoAttachments.reducer)
   .handleAction(GetVideoAttachmentsSuccess.action, GetVideoAttachmentsSuccess.reducer)
   .handleAction(CreateMessageSuccess.action, CreateMessageSuccess.reducer)
+  .handleAction(CreateDraftMessage.action, CreateDraftMessage.reducer)
+  .handleAction(DiscardDraftMessage.action, DiscardDraftMessage.reducer)
   .handleAction(GetMessages.action, GetMessages.reducer)
   .handleAction(GetMessagesSuccess.action, GetMessagesSuccess.reducer)
   .handleAction(GetMessagesFailure.action, GetMessagesFailure.reducer)
@@ -336,7 +340,7 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(
     GetMyProfileSuccess.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => {
-      const currentUserId = payload.user.id;
+      const currentUserId = payload.id;
       draft.chats[APPEARANCE_CHAT_ID] = {
         messages: {
           messages: {

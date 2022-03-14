@@ -1,4 +1,4 @@
-import { AttachmentType, IAttachmentBase, IUser } from 'kimbu-models';
+import { AttachmentType, IUser } from 'kimbu-models';
 import unionBy from 'lodash/unionBy';
 
 import { INormalizedChat, INormalizedMessage, InterlocutorType } from './models';
@@ -92,7 +92,7 @@ export const getSelectedChatUnreadMessagesCountSelector = (state: RootState): nu
 
 export const getSelectedChatAttachmentsToSendSelector = (
   state: RootState,
-): IAttachmentToSend<IAttachmentBase>[] | undefined =>
+): IAttachmentToSend[] | undefined =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.attachmentsToSend;
 
 export const getIsFirstChatsLoadSelector = (state: RootState): boolean =>
@@ -113,34 +113,34 @@ export const getSelectedChatRecordingsSelector = (state: RootState) =>
 
 export const getSelectedChatRecordingsLengthSelector = (state: RootState) =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.recordings
-    .recordings.length || 0;
+    .data.length || 0;
 
 export const getSelectedChatAudiosSelector = (state: RootState) =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.audios;
 
 export const getSelectedChatAudiosLengthSelector = (state: RootState) =>
-  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.audios.audios
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.audios.data
     .length || 0;
 
 export const getSelectedChatFilesSelector = (state: RootState) =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.files;
 
 export const getSelectedChatFilesLengthSelector = (state: RootState) =>
-  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.files.files
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.files.data
     .length || 0;
 
 export const getSelectedChatPhotosSelector = (state: RootState) =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.photos;
 
 export const getSelectedChatPhotosLengthSelector = (state: RootState) =>
-  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.photos.photos
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.photos.data
     .length || 0;
 
 export const getSelectedChatVideosSelector = (state: RootState) =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.videos;
 
 export const getSelectedChatVideosLengthSelector = (state: RootState) =>
-  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.videos.videos
+  state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]?.videos.data
     .length || 0;
 
 // Attachments count selector
@@ -164,7 +164,6 @@ export const getVoiceAttachmentsCountSelector = (state: RootState): number =>
 export const getAudioAttachmentsCountSelector = (state: RootState): number =>
   state.chats.chats[state.chats.chatInfo.chatId || state.chats.selectedChatId || -1]
     ?.audioAttachmentsCount || 0;
-// -----------
 
 export const getSelectedChatIdSelector = (state: RootState): number | undefined =>
   state.chats.selectedChatId;
@@ -192,7 +191,7 @@ export const getSelectedChatAudioAttachmentsSelector =
       });
     });
 
-    return unionBy(audioAttachments, state.chats.chats[chatId]?.audios.audios, 'id');
+    return unionBy(audioAttachments, state.chats.chats[chatId]?.audios.data, 'id');
   };
 
 export const getSearchChatsListSelector = (state: RootState) => state.chats.searchChatList;
@@ -205,7 +204,7 @@ export const getMembersCountForSelectedGroupChatSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.members.memberIds.length || 0;
 
 export const getPossibleMembersCountForSelectedGroupChatSelector = (state: RootState) =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.possibleMembers.data.length || 0;
+  state.chats.chats[state?.chats?.selectedChatId || -1]?.possibleMembers.memberIds.length || 0;
 
 export const getPossibleMembersListForSelectedGroupChatSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.possibleMembers;

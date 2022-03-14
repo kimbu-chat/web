@@ -1,4 +1,4 @@
 export interface IGetMessagesActionPayload {
-  isFromScroll?: boolean;
+  initializedByScroll?: boolean;
   searchString?: string;
 }

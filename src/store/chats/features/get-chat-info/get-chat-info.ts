@@ -9,7 +9,6 @@ import { MAIN_API } from '@common/paths';
 import { INormalizedChat } from '@store/chats/models';
 import { chatNormalizationSchema } from '@store/chats/normalization';
 import { getChatByIdSelector } from '@store/chats/selectors';
-import { modelChatList } from '@store/chats/utils/model-chat-list';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { replaceInUrl } from '@utils/replace-in-url';
@@ -45,9 +44,10 @@ export class GetChatInfo {
           number[]
         >(data, chatNormalizationSchema);
 
-        const modeledChat = modelChatList(chats)[data.id as number];
+        if (chats) {
+          yield put(UnshiftChat.action({ chat: chats[data.id as number], addToList: false }));
+        }
 
-        yield put(UnshiftChat.action({ chat: modeledChat as INormalizedChat, addToList: false }));
         yield put(AddOrUpdateUsers.action({ users }));
       }
 

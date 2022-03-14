@@ -48,7 +48,6 @@ export class CreateGroupChat {
         unreadMessagesCount: 0,
         id: chatId,
         isMuted: false,
-        draftMessage: '',
         groupChat: {
           id: groupChatId,
           membersCount: userIds.length + 1,
@@ -61,7 +60,7 @@ export class CreateGroupChat {
         photos: {
           hasMore: true,
           loading: false,
-          photos: [],
+          data: [],
         },
         members: {
           hasMore: true,
@@ -69,29 +68,29 @@ export class CreateGroupChat {
           memberIds: [],
         },
         possibleMembers: {
-          data: [],
+          memberIds: [],
           loading: false,
           hasMore: true,
         },
         videos: {
           hasMore: true,
           loading: false,
-          videos: [],
+          data: [],
         },
         files: {
           hasMore: true,
           loading: false,
-          files: [],
+          data: [],
         },
         audios: {
           hasMore: true,
           loading: false,
-          audios: [],
+          data: [],
         },
         recordings: {
           hasMore: true,
           loading: false,
-          recordings: [],
+          data: [],
         },
         messages: {
           messages: {},

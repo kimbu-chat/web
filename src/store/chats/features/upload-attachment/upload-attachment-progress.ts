@@ -1,6 +1,8 @@
 import produce from 'immer';
 import { createAction } from 'typesafe-actions';
 
+import {IAttachmentToSend} from '@store/chats/models';
+
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
@@ -14,18 +16,18 @@ export class UploadAttachmentProgress {
   static get reducer() {
     return produce(
       (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentProgress.action>) => {
-        const { progress, chatId, attachmentId, uploadedBytes } = payload;
+        const { progress, chatId, attachmentId, uploadedBytes, draftId } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (chat) {
-          if (!chat.attachmentsToSend) {
+          if (!chat.messages.messages[draftId].attachments) {
             return draft;
           }
 
-          const currentAttachment = chat.attachmentsToSend?.find(
-            ({ attachment }) => attachment.id === attachmentId,
-          );
+          const currentAttachment = chat.messages.messages[draftId].attachments?.find(
+            (attachment) => attachment.id === attachmentId,
+          ) as IAttachmentToSend;
 
           if (currentAttachment) {
             currentAttachment.progress = progress;

@@ -30,21 +30,21 @@ const MessagesSearch = () => {
     if (isSearching) {
       setIsSearching(false);
       getMessages({
-        isFromScroll: false,
+        initializedByScroll: false,
       });
     }
   }, [isSearching, getMessages]);
 
   const resetSearch = useCallback(() => {
     getMessages({
-      isFromScroll: false,
+      initializedByScroll: false,
     });
   }, [getMessages]);
 
   const searchMessages = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       getMessages({
-        isFromScroll: false,
+        initializedByScroll: false,
         searchString: e.target.value,
       });
     },

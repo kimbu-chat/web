@@ -38,33 +38,27 @@ export class DeleteMessageSuccess {
                 switch (attachment.type) {
                   case AttachmentType.Audio:
                     chat.audioAttachmentsCount = (chat.audioAttachmentsCount || 1) - 1;
-                    chat.audios.audios = chat.audios.audios.filter(
-                      ({ id }) => id !== attachment.id,
-                    );
+                    chat.audios.data = chat.audios.data.filter(({ id }) => id !== attachment.id);
 
                     break;
                   case AttachmentType.Picture:
                     chat.pictureAttachmentsCount = (chat.pictureAttachmentsCount || 1) - 1;
-                    chat.photos.photos = chat.photos.photos.filter(
-                      ({ id }) => id !== attachment.id,
-                    );
+                    chat.photos.data = chat.photos.data.filter(({ id }) => id !== attachment.id);
 
                     break;
                   case AttachmentType.Raw:
                     chat.rawAttachmentsCount = (chat.rawAttachmentsCount || 1) - 1;
-                    chat.files.files = chat.files.files.filter(({ id }) => id !== attachment.id);
+                    chat.files.data = chat.files.data.filter(({ id }) => id !== attachment.id);
 
                     break;
                   case AttachmentType.Video:
                     chat.videoAttachmentsCount = (chat.videoAttachmentsCount || 1) - 1;
-                    chat.videos.videos = chat.videos.videos.filter(
-                      ({ id }) => id !== attachment.id,
-                    );
+                    chat.videos.data = chat.videos.data.filter(({ id }) => id !== attachment.id);
 
                     break;
                   case AttachmentType.Voice:
                     chat.voiceAttachmentsCount = (chat.voiceAttachmentsCount || 1) - 1;
-                    chat.recordings.recordings = chat.recordings.recordings.filter(
+                    chat.recordings.data = chat.recordings.data.filter(
                       ({ id }) => id !== attachment.id,
                     );
 

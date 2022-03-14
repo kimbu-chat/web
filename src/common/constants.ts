@@ -15,3 +15,6 @@ export const FULL_DATE_TIME = 'l LT';
 export const SHORT_TIME_AM_PM = 'LT';
 export const MINUTES_SECONDS = 'mm:ss';
 export const REQUEST_TIMEOUT = 10000;
+
+export const INTERSECTION_THROTTLE_FOR_MEDIA = 350;
+export const INTERSECTION_THRESHOLD_FOR_MEDIA = 0.0001;

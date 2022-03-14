@@ -11,7 +11,11 @@ import { getAttachmentType } from '@utils/get-file-extension';
 
 import { useActionWithDispatch } from './use-action-with-dispatch';
 
-export const useDragDrop = () => {
+interface IDragDropHookParams {
+  chatId: number;
+}
+
+export const useDragDrop = ({ chatId }: IDragDropHookParams) => {
   const uploadAttachmentRequest = useActionWithDispatch(uploadAttachmentRequestAction);
 
   const isAuthenticated = useSelector(authenticatedSelector);
@@ -70,6 +74,7 @@ export const useDragDrop = () => {
             const fileType = getAttachmentType(file.name);
 
             uploadAttachmentRequest({
+              chatId,
               type: fileType,
               file,
               attachmentId: Number(`${new Date().getTime()}${index}`),
@@ -78,7 +83,7 @@ export const useDragDrop = () => {
         }
       }
     },
-    [setIsDragging, uploadAttachmentRequest],
+    [chatId, uploadAttachmentRequest],
   );
 
   useEffect(() => {

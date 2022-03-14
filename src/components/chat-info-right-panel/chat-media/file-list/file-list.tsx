@@ -28,7 +28,7 @@ export const FileList: React.FC<IFileListProps> = ({ rootRef }) => {
   }, [getRawAttachments]);
 
   const filesWithSeparators = setSeparators(
-    filesForSelectedChat?.files,
+    filesForSelectedChat?.data,
     { separateByMonth: true, separateByYear: true },
     { separateByMonth: true, separateByYear: true },
   );

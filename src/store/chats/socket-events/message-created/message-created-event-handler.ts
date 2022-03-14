@@ -16,12 +16,11 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
-import { INormalizedLinkedMessage, INormalizedChat, INormalizedMessage } from '@store/chats/models';
+import { INormalizedChat, INormalizedMessage } from '@store/chats/models';
 import {
   chatNormalizationSchema,
   linkedMessageNormalizationSchema,
 } from '@store/chats/normalization';
-import { modelChatList } from '@store/chats/utils/model-chat-list';
 import { setUnreadMessageId } from '@store/chats/utils/unread-message';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { areNotificationsEnabledSelector } from '@store/settings/selectors';
@@ -101,7 +100,7 @@ export class MessageCreatedEventHandler {
       const isTabActive = yield select(tabActiveSelector);
       const selectedChatId = yield select(getSelectedChatIdSelector);
 
-      let linkedMessage: INormalizedLinkedMessage | undefined;
+      let linkedMessage: INormalizedMessage | undefined;
 
       if (linkedMessageType === MessageLinkType.Reply) {
         linkedMessage = yield select(getMessageSelector(chatId, linkedMessageId));
@@ -118,7 +117,7 @@ export class MessageCreatedEventHandler {
           } = normalize<
             ILinkedMessage[],
             {
-              linkedMessages: Record<number, INormalizedLinkedMessage>;
+              linkedMessages: Record<number, INormalizedMessage>;
               users: Record<number, IUser>;
             },
             number[]
@@ -151,11 +150,10 @@ export class MessageCreatedEventHandler {
             number[]
           >(data, chatNormalizationSchema);
 
-          const modeledChat = modelChatList(chats)[data.id as number];
+          yield put(AddOrUpdateUsers.action({ users }));
 
-          if (modeledChat) {
-            yield put(AddOrUpdateUsers.action({ users }));
-            yield put(UnshiftChat.action({ chat: modeledChat, addToList: true }));
+          if (chats) {
+            yield put(UnshiftChat.action({ chat: chats[data.id as number], addToList: true }));
           }
 
           chatOfMessage = data;

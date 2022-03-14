@@ -20,7 +20,6 @@ import {
   getChatByIdDraftSelector,
   getIsFirstChatsLoadSelector,
 } from '../../selectors';
-import { modelChatList } from '../../utils/model-chat-list';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
 import { UnshiftChat } from '../unshift-chat/unshift-chat';
 
@@ -118,10 +117,13 @@ export class ChangeSelectedChat {
             number[]
           >(data, chatNormalizationSchema);
 
-          const modeledChat = modelChatList(chats)[data.id as number];
-
           yield put(AddOrUpdateUsers.action({ users }));
-          yield put(UnshiftChat.action({ chat: modeledChat as INormalizedChat, addToList: true }));
+
+          if (chats) {
+            const normalizedChat: INormalizedChat = chats[data.id as number];
+
+            yield put(UnshiftChat.action({ chat: normalizedChat, addToList: true }));
+          }
         }
       }
     };

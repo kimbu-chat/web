@@ -4,6 +4,7 @@ import Slider from 'rc-slider/lib/Slider';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import { APPEARANCE_CHAT_ID } from '@common/constants';
 import { HorizontalSeparator } from '@components/horizontal-separator';
 import { MessageItem } from '@components/message-item';
 import { RadioBox } from '@components/radio-box';
@@ -11,7 +12,6 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { changeThemeAction, changeFontSizeAction } from '@store/settings/actions';
 import { Theme } from '@store/settings/features/models';
 import { getCurrentFontSizeSelector, getCurrentThemeSelector } from '@store/settings/selectors';
-import { APPEARANCE_CHAT_ID } from '@utils/constants';
 
 import './appearance.scss';
 

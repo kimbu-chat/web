@@ -21,7 +21,7 @@ export class GetPhotoAttachmentsSuccess {
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (chat) {
-          chat.photos.photos.push(...photos);
+          chat.photos.data.push(...photos);
           chat.photos.hasMore = hasMore;
           chat.photos.loading = false;
         }

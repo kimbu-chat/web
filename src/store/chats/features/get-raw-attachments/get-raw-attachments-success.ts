@@ -19,7 +19,7 @@ export class GetRawAttachmentsSuccess {
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (chat) {
-          chat.files.files.push(...files);
+          chat.files.data.push(...files);
           chat.files.hasMore = hasMore;
           chat.files.loading = false;
         }

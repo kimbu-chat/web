@@ -10,55 +10,34 @@ import {
 import { IPossibleMembers } from '@store/chats/models/possible-members';
 
 import { IAttachmentToSend } from './attachment-to-send';
-import { IGroupable } from './groupable';
 import { InterlocutorType } from './interlocutor-type';
+import { IMediaFileList } from './media-file-list';
 import { INormalizedMessage } from './normalized-message';
 
-export interface INormalizedRawChat {
+export interface INormalizedChat {
+  id: number;
+
   interlocutorType?: InterlocutorType;
   groupChat?: IGroupChat;
   lastMessageId?: number;
   interlocutorId?: number;
   unreadMessagesCount: number;
   interlocutorLastReadMessageId?: number;
-  draftMessage?: string;
   typingInterlocutors?: string[];
   isMuted?: boolean;
   isGeneratedLocally?: boolean;
-}
 
-export interface INormalizedChat extends INormalizedRawChat{
-  id: number;
   messageToEdit?: INormalizedMessage;
   messageToReply?: INormalizedMessage;
+  draftMessageId?: number;
 
-  photos: {
-    photos: (IPictureAttachment & IGroupable)[];
-    loading: boolean;
-    hasMore: boolean;
-  };
-  videos: {
-    videos: (IVideoAttachment & IGroupable)[];
-    loading: boolean;
-    hasMore: boolean;
-  };
-  audios: {
-    audios: (IAudioAttachment & IGroupable)[];
-    loading: boolean;
-    hasMore: boolean;
-  };
-  files: {
-    files: (IAttachmentBase & IGroupable)[];
-    loading: boolean;
-    hasMore: boolean;
-  };
+  photos: IMediaFileList<IPictureAttachment>;
+  videos: IMediaFileList<IVideoAttachment>;
+  audios: IMediaFileList<IAudioAttachment>;
+  files: IMediaFileList<IAttachmentBase>;
+  recordings: IMediaFileList<IVoiceAttachment>;
   members: {
     memberIds: number[];
-    loading: boolean;
-    hasMore: boolean;
-  };
-  recordings: {
-    recordings: (IVoiceAttachment & IGroupable)[];
     loading: boolean;
     hasMore: boolean;
   };
@@ -71,7 +50,7 @@ export interface INormalizedChat extends INormalizedRawChat{
     searchString?: string;
   };
 
-  attachmentsToSend?: IAttachmentToSend<IAttachmentBase>[];
+  attachmentsToSend?: IAttachmentToSend[];
 
   rawAttachmentsCount?: number;
   videoAttachmentsCount?: number;

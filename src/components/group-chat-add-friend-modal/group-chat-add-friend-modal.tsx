@@ -43,8 +43,8 @@ const InitialGroupChatAddFriendModal: React.FC<
   const [name, setName] = useState('');
 
   const chat = useSelector(
+    // todo: avoid unnecessary renders
     getInfoChatSelector,
-    (prev, next) => prev === next || prev?.draftMessage !== next?.draftMessage,
   );
 
   const addUsersToGroupChat = useActionWithDeferred(addUsersToGroupChatAction);

@@ -5,11 +5,11 @@ import { ISession } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import { MONTH_DAY_YEAR } from '@common/constants';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { Button } from '@shared-components/button';
 import { deviceIdSelector } from '@store/auth/selectors';
 import { terminateSessionAction } from '@store/settings/actions';
-import { MONTH_DAY_YEAR } from '@utils/constants';
 
 import './session.scss';
 

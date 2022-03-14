@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 
 import classNames from 'classnames';
 
-import { ANIMATION_DURATION } from '../utils/constants';
+import { ANIMATION_DURATION } from '../common/constants';
 
 export function useAnimation(BLOCK_NAME: string, close: () => void) {
   const [rootClass, setRootClass] = useState(BLOCK_NAME);

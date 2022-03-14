@@ -8,7 +8,8 @@ import { useSelector } from 'react-redux';
 import {
   INTERSECTION_THROTTLE_FOR_MEDIA,
   INTERSECTION_THRESHOLD_FOR_MEDIA,
-} from '@common/constants/media';
+  DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR,
+} from '@common/constants';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { CenteredLoader, LoaderSize } from '@components/loader';
 import { MessageItem } from '@components/message-item';
@@ -26,7 +27,6 @@ import {
   getSelectedChatMessagesSelector,
   getSelectedChatMessagesSearchStringSelector,
 } from '@store/chats/selectors';
-import { DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR } from '@utils/constants';
 import { checkIfDatesAreDifferentDate } from '@utils/date-utils';
 
 import { Welcome } from '../welcome/welcome';
@@ -76,7 +76,7 @@ const MessageList = () => {
 
   const loadMore = useCallback(() => {
     getMessages({
-      isFromScroll: true,
+      initializedByScroll: true,
       searchString: messagesSearchString,
     });
   }, [getMessages, messagesSearchString]);

@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { IGetGroupChatMembersRequest, IUser } from 'kimbu-models';
+import { IGetAllowedUsersForGroupChatRequest, IUser } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
@@ -23,7 +23,7 @@ export class GetPossibleMembers {
       try {
         const { groupChatId, name, offset } = action.payload;
 
-        const request: IGetGroupChatMembersRequest = {
+        const request: IGetAllowedUsersForGroupChatRequest = {
           name,
           groupChatId,
           page: { limit: CHAT_MEMBERS_LIMIT, offset },
@@ -34,14 +34,14 @@ export class GetPossibleMembers {
         );
 
         action.meta.deferred.resolve(data);
-      } catch (e) {
+      } catch (e: any) {
         action.meta.deferred.reject(e);
       }
     };
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<IUser[]>, IGetGroupChatMembersRequest>(
+    return httpRequestFactory<AxiosResponse<IUser[]>, IGetAllowedUsersForGroupChatRequest>(
       MAIN_API.GROUP_CHAT_ALLOWED_MEMBERS,
       HttpRequestMethod.Post,
     );

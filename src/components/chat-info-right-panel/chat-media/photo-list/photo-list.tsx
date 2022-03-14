@@ -33,16 +33,16 @@ const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection, rootRef }) =
   }, [getPhotoAttachments]);
 
   const photosWithSeparators = setSeparators<IPictureAttachment>(
-    photoForSelectedChat?.photos,
+    photoForSelectedChat?.data,
     { separateByMonth: true, separateByYear: true },
     { separateByMonth: true, separateByYear: true },
   );
 
   const PhotoAttachmentComponent: React.FC<IPictureAttachment> = ({ ...photo }) =>
-    photoForSelectedChat?.photos ? (
+    photoForSelectedChat?.data ? (
       <Photo
         photo={photo}
-        attachmentsArr={photoForSelectedChat.photos}
+        attachmentsArr={photoForSelectedChat.data}
         observeIntersection={observeIntersection}
       />
     ) : null;

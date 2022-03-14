@@ -31,14 +31,14 @@ export const VideoList: React.FC<IVideoListProps> = ({ rootRef }) => {
   }, [getVideoAttachmentss]);
 
   const videosWithSeparators = setSeparators<IVideoAttachment>(
-    videosForSelectedChat?.videos,
+    videosForSelectedChat?.data,
     { separateByMonth: true, separateByYear: true },
     { separateByMonth: true, separateByYear: true },
   );
 
   const VideoAttachmentComponent: React.FC<IVideoAttachment & IGroupable> = ({ ...video }) =>
-    videosForSelectedChat?.videos ? (
-      <VideoFromList video={video} attachmentsArr={videosForSelectedChat.videos} />
+    videosForSelectedChat?.data ? (
+      <VideoFromList video={video} attachmentsArr={videosForSelectedChat.data} />
     ) : null;
 
   return (

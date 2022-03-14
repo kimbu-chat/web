@@ -1,5 +1,8 @@
-import { INormalizedMessage } from '../../../models';
+import { MessageLinkType } from 'kimbu-models';
+
+import { INormalizedMessage } from '@store/chats/models';
 
 export interface ICreateMessageActionPayload {
-  message: INormalizedMessage;
+  linkedMessage?: INormalizedMessage;
+  linkedMessageType?: MessageLinkType;
 }

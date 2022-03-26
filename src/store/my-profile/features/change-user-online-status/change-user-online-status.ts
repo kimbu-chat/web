@@ -7,7 +7,7 @@ import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { authenticatedSelector } from '@store/auth/selectors';
-import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
+import { MarkChatAsRead } from '@store/chats/features/mark-chat-as-read/mark-chat-as-read';
 import { getSelectedChatIdSelector } from '@store/chats/selectors';
 import { getUnreadMessageId, setUnreadMessageId } from '@store/chats/utils/unread-message';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
@@ -53,7 +53,7 @@ export class ChangeUserOnlineStatus {
           lastReadMessageId: unreadMessageId,
         };
 
-        yield call(() => MarkMessagesAsRead.httpRequest.generator(httpRequestPayload));
+        yield call(() => MarkChatAsRead.httpRequest.generator(httpRequestPayload));
 
         setUnreadMessageId(null);
       }

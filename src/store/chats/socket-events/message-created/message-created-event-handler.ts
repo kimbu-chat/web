@@ -15,7 +15,7 @@ import { select, put, call } from 'redux-saga/effects';
 import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { MarkMessagesAsRead } from '@store/chats/features/mark-messages-as-read/mark-messages-as-read';
+import { MarkChatAsRead } from '@store/chats/features/mark-chat-as-read/mark-chat-as-read';
 import { INormalizedChat, INormalizedMessage } from '@store/chats/models';
 import {
   chatNormalizationSchema,
@@ -189,7 +189,7 @@ export class MessageCreatedEventHandler {
               lastReadMessageId: id,
             };
 
-            yield call(() => MarkMessagesAsRead.httpRequest.generator(httpRequestPayload));
+            yield call(() => MarkChatAsRead.httpRequest.generator(httpRequestPayload));
           } else {
             setUnreadMessageId(id);
           }

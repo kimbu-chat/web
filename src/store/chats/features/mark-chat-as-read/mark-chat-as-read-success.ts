@@ -4,18 +4,19 @@ import { createAction } from 'typesafe-actions';
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IMarkMessagesAsReadSuccessActionPayload } from './action-payloads/mark-messages-as-read-success-action-payload';
+export interface IMarkChatAsReadSuccessActionPayload {
+  chatId: number;
+  lastReadMessageId: number;
+}
 
-export class MarkMessagesAsReadSuccess {
+export class MarkChatAsReadSuccess {
   static get action() {
-    return createAction(
-      'RESET_UNREAD_MESSAGES_COUNT_SUCCESS',
-    )<IMarkMessagesAsReadSuccessActionPayload>();
+    return createAction('MARK_CHAT_AS_READ_SUCCESS')<IMarkChatAsReadSuccessActionPayload>();
   }
 
   static get reducer() {
     return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof MarkMessagesAsReadSuccess.action>) => {
+      (draft: IChatsState, { payload }: ReturnType<typeof MarkChatAsReadSuccess.action>) => {
         const { chatId } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);

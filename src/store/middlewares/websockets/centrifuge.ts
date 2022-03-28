@@ -21,11 +21,6 @@ async function openConnection(store: MiddlewareAPI<Dispatch, RootState>) {
     CentrifugeModule = (await import('centrifuge')).default;
   }
 
-  connection = new CentrifugeModule(REACT_APP_WEBSOCKET_API, {
-    debug: true,
-    timeout,
-  });
-
   const onRefresh = (_: any, cb: (response: Centrifuge.RefreshResponse) => void) => {
     store.dispatch(refreshTokenAction());
     refreshResponseCallback = cb;
@@ -34,6 +29,7 @@ async function openConnection(store: MiddlewareAPI<Dispatch, RootState>) {
   connection = new CentrifugeModule(REACT_APP_WEBSOCKET_API, {
     debug: true,
     onRefresh,
+    timeout,
   });
 
   connection.setToken(store.getState().auth?.securityTokens?.accessToken || '');

@@ -31,8 +31,8 @@ function* watcher(): SagaIterator {
   const visibilityChannel = createVisibilityChannel();
   const visibilityTask = yield takeEvery(
     visibilityChannel,
-    function* changeOnlineStatus(action: boolean): SagaIterator {
-      yield put(ChangeUserOnlineStatus.action(action));
+    function* changeOnlineStatus(online: boolean): SagaIterator {
+      yield put(ChangeUserOnlineStatus.action(online));
     },
   );
 

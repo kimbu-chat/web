@@ -25,7 +25,7 @@ import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attach
 import { GetVideoAttachments } from './features/get-video-attachments/get-video-attachments';
 import { GetVoiceAttachments } from './features/get-voice-attachments/get-voice-attachments';
 import { LeaveGroupChat } from './features/leave-group-chat/leave-group-chat';
-import { MarkMessagesAsRead } from './features/mark-messages-as-read/mark-messages-as-read';
+import { MarkChatAsRead } from './features/mark-chat-as-read/mark-chat-as-read';
 import { MessageTyping } from './features/message-typing/message-typing';
 import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
 import { RemoveAttachment } from './features/remove-attachment/remove-attachment';
@@ -51,7 +51,7 @@ export function* chatSaga() {
     takeLatest(GetRawAttachments.action, GetRawAttachments.saga),
     takeLatest(GetVoiceAttachments.action, GetVoiceAttachments.saga),
     takeLatest(GetAudioAttachments.action, GetAudioAttachments.saga),
-    takeLatest(MarkMessagesAsRead.action, MarkMessagesAsRead.saga),
+    takeLatest(MarkChatAsRead.action, MarkChatAsRead.saga),
     takeLatest(GetChatInfo.action, GetChatInfo.saga),
     takeLatest(ChangeSelectedChat.action, ChangeSelectedChat.saga),
     takeLatest(EditGroupChat.action, EditGroupChat.saga),

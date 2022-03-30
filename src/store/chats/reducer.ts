@@ -56,7 +56,7 @@ import { GetVoiceAttachmentsSuccess } from './features/get-voice-attachments/get
 import { GetVoiceAttachments } from './features/get-voice-attachments/get-voice-attachments';
 import { InterlocutorStoppedTyping } from './features/interlocutor-message-typing/interlocutor-stopped-typing';
 import { LeaveGroupChatSuccess } from './features/leave-group-chat/leave-group-chat-success';
-import { MarkMessagesAsReadSuccess } from './features/mark-messages-as-read/mark-messages-as-read-success';
+import { MarkChatAsReadSuccess } from './features/mark-chat-as-read/mark-chat-as-read-success';
 import { MessageTyping } from './features/message-typing/message-typing';
 import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
 import { RemoveAttachment } from './features/remove-attachment/remove-attachment';
@@ -117,7 +117,7 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(GetChatsSuccess.action, GetChatsSuccess.reducer)
   .handleAction(GetChatsFailure.action, GetChatsFailure.reducer)
   .handleAction(LeaveGroupChatSuccess.action, LeaveGroupChatSuccess.reducer)
-  .handleAction(MarkMessagesAsReadSuccess.action, MarkMessagesAsReadSuccess.reducer)
+  .handleAction(MarkChatAsReadSuccess.action, MarkChatAsReadSuccess.reducer)
   .handleAction(GetPhotoAttachmentsSuccess.action, GetPhotoAttachmentsSuccess.reducer)
   .handleAction(GetVoiceAttachmentsSuccess.action, GetVoiceAttachmentsSuccess.reducer)
   .handleAction(GetRawAttachmentsSuccess.action, GetRawAttachmentsSuccess.reducer)

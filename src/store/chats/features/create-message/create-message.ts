@@ -30,6 +30,7 @@ export class CreateMessage {
   static get reducer() {
     return produce((draft: IChatsState, { payload }: ReturnType<typeof CreateMessage.action>) => {
       const chat = draft.chats[draft.selectedChatId as number];
+      const { text, linkedMessage, linkedMessageType } = payload;
 
       if (chat) {
         chat.lastMessageId = chat.draftMessageId as number;
@@ -45,9 +46,10 @@ export class CreateMessage {
 
       if (chat.messages && chat.draftMessageId) {
         const draftMessage = chat.messages.messages[chat.draftMessageId];
+        draftMessage.text = text;
         draftMessage.state = MessageState.QUEUED;
-        draftMessage.linkedMessage = payload.linkedMessage;
-        draftMessage.linkedMessageType = payload.linkedMessageType;
+        draftMessage.linkedMessage = linkedMessage;
+        draftMessage.linkedMessageType = linkedMessageType;
         chat.messages.messageIds.unshift(chat.draftMessageId);
       }
       return draft;
@@ -55,7 +57,9 @@ export class CreateMessage {
   }
 
   static get saga() {
-    return function* createMessage(): SagaIterator {
+    return function* createMessage(action: ReturnType<typeof CreateMessage.action>): SagaIterator {
+      const { text } = action.payload;
+
       const selectedChatId: number = yield select(getSelectedChatIdSelector);
       const { draftMessageId }: INormalizedChat = yield select(getChatByIdSelector(selectedChatId));
       const chat = yield select(getChatByIdSelector(selectedChatId));
@@ -64,7 +68,7 @@ export class CreateMessage {
       let uploadedAttachments = [];
 
       const messageCreationReq: ICreateMessageRequest = {
-        text: message.text,
+        text,
         chatId: selectedChatId,
         attachmentIds: [],
         clientId: message.id,

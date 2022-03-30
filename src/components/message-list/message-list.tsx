@@ -16,7 +16,7 @@ import { MessageItem } from '@components/message-item';
 import { SelectedMessagesData } from '@components/selected-messages-data';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useIntersectionObserver } from '@hooks/use-intersection-observer';
-import { getMessagesAction, markMessagesAsReadAction } from '@store/chats/actions';
+import { getMessagesAction, markChatAsReadAction } from '@store/chats/actions';
 import {
   getMessagesIdsByChatIdSelector,
   getSelectedMessageIds,
@@ -42,7 +42,7 @@ type ISeparatedMessagesPack = {
 
 const MessageList = () => {
   const getMessages = useActionWithDispatch(getMessagesAction);
-  const markMessagesAsRead = useActionWithDispatch(markMessagesAsReadAction);
+  const markMessagesAsRead = useActionWithDispatch(markChatAsReadAction);
 
   const { t } = useTranslation();
 

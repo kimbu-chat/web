@@ -229,7 +229,7 @@ const CreateMessageInput = () => {
       currentUserId
     ) {
       if (chatId) {
-        const message: ICreateMessageActionPayload = {};
+        const message: ICreateMessageActionPayload = { text: messageText };
         if (refferedReplyingMessage.current) {
           const {
             current: referMessage,
@@ -269,7 +269,7 @@ const CreateMessageInput = () => {
         });
       },
       1000,
-      { leading: true, trailing: false },
+      { leading: true, trailing: true },
     ),
   ).current;
 

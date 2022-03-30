@@ -1,7 +1,7 @@
 import { CreateDraftMessage } from '@store/chats/features/create-draft-message/create-draft-message';
 import { DiscardDraftMessage } from '@store/chats/features/create-draft-message/discard-draft-message';
 import { GetPossibleMembers } from '@store/chats/features/get-possible-members/get-possible-members';
-import {MessageAttachmentsUploaded} from '@store/chats/features/upload-attachment/message-attachments-uploaded';
+import { MessageAttachmentsUploaded } from '@store/chats/features/upload-attachment/message-attachments-uploaded';
 
 import { AddUsersToGroupChatSuccess } from './features/add-users-to-group-chat/add-users-to-group-chat-success';
 import { AddUsersToGroupChat } from './features/add-users-to-group-chat/add-users-to-group-chat';
@@ -48,8 +48,8 @@ import { GetVoiceAttachments } from './features/get-voice-attachments/get-voice-
 import { InterlocutorStoppedTyping } from './features/interlocutor-message-typing/interlocutor-stopped-typing';
 import { LeaveGroupChatSuccess } from './features/leave-group-chat/leave-group-chat-success';
 import { LeaveGroupChat } from './features/leave-group-chat/leave-group-chat';
-import { MarkMessagesAsReadSuccess } from './features/mark-messages-as-read/mark-messages-as-read-success';
-import { MarkMessagesAsRead } from './features/mark-messages-as-read/mark-messages-as-read';
+import { MarkChatAsReadSuccess } from './features/mark-chat-as-read/mark-chat-as-read-success';
+import { MarkChatAsRead } from './features/mark-chat-as-read/mark-chat-as-read';
 import { MessageTyping } from './features/message-typing/message-typing';
 import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
 import { RemoveAttachment } from './features/remove-attachment/remove-attachment';
@@ -121,8 +121,8 @@ export const uploadAttachmentSuccessAction = UploadAttachmentSuccess.action;
 export const uploadAttachmentFailureAction = UploadAttachmentFailure.action;
 export const removeAttachmentAction = RemoveAttachment.action;
 export const uploadMessageAttachmentsSuccess = MessageAttachmentsUploaded.action;
-export const markMessagesAsReadAction = MarkMessagesAsRead.action;
-export const markMessagesAsReadSuccessAction = MarkMessagesAsReadSuccess.action;
+export const markChatAsReadAction = MarkChatAsRead.action;
+export const markMessagesAsReadSuccessAction = MarkChatAsReadSuccess.action;
 export const getMessagesAction = GetMessages.action;
 export const getMessagesSuccessAction = GetMessagesSuccess.action;
 export const getMessagesFailureAction = GetMessagesFailure.action;
@@ -211,7 +211,7 @@ export const ChatActions = {
   uploadAttachmentSuccessAction,
   uploadAttachmentFailureAction,
   removeAttachmentAction,
-  markMessagesAsReadAction,
+  markMessagesAsReadAction: markChatAsReadAction,
   markMessagesAsReadSuccessAction,
   getMessagesAction,
   getMessagesSuccessAction,

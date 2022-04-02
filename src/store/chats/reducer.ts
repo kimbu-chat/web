@@ -160,8 +160,7 @@ const reducer = createReducer<IChatsState>(initialState)
   .handleAction(ForwardMessages.action, ForwardMessages.reducer)
   .handleAction(RemoveUserFromGroupChatSuccess.action, RemoveUserFromGroupChatSuccess.reducer)
   .handleAction(RemoveChatSuccess.action, RemoveChatSuccess.reducer)
-  .handleAction(MessageCreatedEventHandlerSuccess.action, MessageCreatedEventHandlerSuccess.reducer)
-  .handleAction(DialogRemovedEventHandler.action, DialogRemovedEventHandler.reducer)
+
   .handleAction(ResetSearchChats.action, ResetSearchChats.reducer)
   .handleAction(RemoveChat.action, RemoveChat.reducer)
   .handleAction(UploadVoiceAttachment.action, UploadVoiceAttachment.reducer)
@@ -198,55 +197,7 @@ const reducer = createReducer<IChatsState>(initialState)
       return draft;
     }),
   )
-  .handleAction(
-    UserAddedToBlackListEventHandler.action,
-    produce((draft, { payload }: ReturnType<typeof UserAddedToBlackListEventHandler.action>) => {
-      const { userInitiatorId, blockedUserId } = payload;
-      const myId = new MyProfileService().myProfile.id;
 
-      if (myId === blockedUserId) {
-        const chatId: number = ChatId.from(userInitiatorId).id;
-        const chat = getChatByIdDraftSelector(chatId, draft);
-        if (chat) {
-          chat.isBlockedByInterlocutor = true;
-        }
-      } else {
-        const chatId: number = ChatId.from(blockedUserId).id;
-        const chat = getChatByIdDraftSelector(chatId, draft);
-        if (chat) {
-          chat.isBlockedByUser = true;
-        }
-      }
-      return draft;
-    }),
-  )
-  .handleAction(
-    UserRemovedFromBlackListEventHandler.action,
-    produce(
-      (
-        draft: IChatsState,
-        { payload }: ReturnType<typeof UserRemovedFromBlackListEventHandler.action>,
-      ) => {
-        const { userInitiatorId, unblockedUserId } = payload;
-        const myId = new MyProfileService().myProfile.id;
-
-        if (myId === unblockedUserId) {
-          const chatId = ChatId.from(userInitiatorId).id;
-          const chat = getChatByIdDraftSelector(chatId, draft);
-          if (chat) {
-            chat.isBlockedByInterlocutor = false;
-          }
-        } else {
-          const chatId = ChatId.from(unblockedUserId).id;
-          const chat = getChatByIdDraftSelector(chatId, draft);
-          if (chat) {
-            chat.isBlockedByUser = false;
-          }
-        }
-        return draft;
-      },
-    ),
-  )
   .handleAction(
     DeleteFriendSuccess.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof DeleteFriendSuccess.action>) => {
@@ -262,48 +213,7 @@ const reducer = createReducer<IChatsState>(initialState)
       return draft;
     }),
   )
-  .handleAction(
-    UserContactsRemovedEventHandler.action,
-    produce(
-      (
-        draft: IChatsState,
-        { payload }: ReturnType<typeof UserContactsRemovedEventHandler.action>,
-      ) => {
-        const { userIds } = payload;
 
-        userIds.forEach((userId) => {
-          const chatId = ChatId.from(userId).id;
-          const chat = getChatByIdDraftSelector(chatId, draft);
-
-          if (chat) {
-            chat.isInContacts = false;
-          }
-        });
-
-        return draft;
-      },
-    ),
-  )
-  .handleAction(
-    UserContactAddedSuccessEventHandler.action,
-    produce(
-      (
-        draft: IChatsState,
-        { payload }: ReturnType<typeof UserContactAddedSuccessEventHandler.action>,
-      ) => {
-        const { userId } = payload;
-
-        const chatId = ChatId.from(userId).id;
-        const chat = getChatByIdDraftSelector(chatId, draft);
-
-        if (chat) {
-          chat.isInContacts = true;
-        }
-
-        return draft;
-      },
-    ),
-  )
   .handleAction(
     AddFriendSuccess.action,
     produce((draft: IChatsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
@@ -437,6 +347,100 @@ const reducer = createReducer<IChatsState>(initialState)
   )
 
   // socket-events
+  .handleAction(MessageCreatedEventHandlerSuccess.action, MessageCreatedEventHandlerSuccess.reducer)
+  .handleAction(DialogRemovedEventHandler.action, DialogRemovedEventHandler.reducer)
+  .handleAction(
+    UserAddedToBlackListEventHandler.action,
+    produce((draft, { payload }: ReturnType<typeof UserAddedToBlackListEventHandler.action>) => {
+      const { userInitiatorId, blockedUserId } = payload;
+      const myId = new MyProfileService().myProfile.id;
+
+      if (myId === blockedUserId) {
+        const chatId: number = ChatId.from(userInitiatorId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
+        if (chat) {
+          chat.isBlockedByInterlocutor = true;
+        }
+      } else {
+        const chatId: number = ChatId.from(blockedUserId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
+        if (chat) {
+          chat.isBlockedByUser = true;
+        }
+      }
+      return draft;
+    }),
+  )
+  .handleAction(
+    UserRemovedFromBlackListEventHandler.action,
+    produce(
+      (
+        draft: IChatsState,
+        { payload }: ReturnType<typeof UserRemovedFromBlackListEventHandler.action>,
+      ) => {
+        const { userInitiatorId, unblockedUserId } = payload;
+        const myId = new MyProfileService().myProfile.id;
+
+        if (myId === unblockedUserId) {
+          const chatId = ChatId.from(userInitiatorId).id;
+          const chat = getChatByIdDraftSelector(chatId, draft);
+          if (chat) {
+            chat.isBlockedByInterlocutor = false;
+          }
+        } else {
+          const chatId = ChatId.from(unblockedUserId).id;
+          const chat = getChatByIdDraftSelector(chatId, draft);
+          if (chat) {
+            chat.isBlockedByUser = false;
+          }
+        }
+        return draft;
+      },
+    ),
+  )
+
+  .handleAction(
+    UserContactsRemovedEventHandler.action,
+    produce(
+      (
+        draft: IChatsState,
+        { payload }: ReturnType<typeof UserContactsRemovedEventHandler.action>,
+      ) => {
+        const { userIds } = payload;
+
+        userIds.forEach((userId) => {
+          const chatId = ChatId.from(userId).id;
+          const chat = getChatByIdDraftSelector(chatId, draft);
+
+          if (chat) {
+            chat.isInContacts = false;
+          }
+        });
+
+        return draft;
+      },
+    ),
+  )
+  .handleAction(
+    UserContactAddedSuccessEventHandler.action,
+    produce(
+      (
+        draft: IChatsState,
+        { payload }: ReturnType<typeof UserContactAddedSuccessEventHandler.action>,
+      ) => {
+        const { userId } = payload;
+
+        const chatId = ChatId.from(userId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
+
+        if (chat) {
+          chat.isInContacts = true;
+        }
+
+        return draft;
+      },
+    ),
+  )
   .handleAction(UserMessageTypingEventHandler.action, UserMessageTypingEventHandler.reducer)
   .handleAction(MemberLeftGroupChatEventHandler.action, MemberLeftGroupChatEventHandler.reducer)
   .handleAction(

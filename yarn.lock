@@ -8647,9 +8647,10 @@ killable@^1.0.1:
   resolved "https://registry.yarnpkg.com/killable/-/killable-1.0.1.tgz#4c8ce441187a061c7474fb87ca08e2a638194892"
   integrity sha512-LzqtLKlUwirEUyl/nicirVmNiPvYs7l5n8wOPP7fyJVpUPkvCnW/vuiXGpylGUlnPDnB7311rARzAt3Mhswpjg==
 
-"kimbu-models@git://github.com/kimbu-chat/frontend-types.git#fd7cc7c":
+"kimbu-models@https://github.com/kimbu-chat/frontend-types.git#fd7cc7c":
   version "1.0.0"
-  resolved "git://github.com/kimbu-chat/frontend-types.git#fd7cc7ce1adc249a0e42abe527d2bcf78b3a94b9"
+  uid fd7cc7ce1adc249a0e42abe527d2bcf78b3a94b9
+  resolved "https://github.com/kimbu-chat/frontend-types.git#fd7cc7ce1adc249a0e42abe527d2bcf78b3a94b9"
 
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
@@ -14318,6 +14319,11 @@ workbox-core@6.2.4:
   version "6.2.4"
   resolved "https://registry.yarnpkg.com/workbox-core/-/workbox-core-6.2.4.tgz#0ffb4f0ce6d8e36f10bf4aabd96a6f55705ccd80"
   integrity sha512-Nu8X4R4Is3g8uzEJ6qwbW2CGVpzntW/cSf8OfsQGIKQR0nt84FAKzP2cLDaNLp3L/iV9TuhZgCTZzkMiap5/OQ==
+
+workbox-core@6.5.2:
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/workbox-core/-/workbox-core-6.5.2.tgz#f5e06a22c6cb4651d3e13107443d972fdbd47364"
+  integrity sha512-IlxLGQf+wJHCR+NM0UWqDh4xe/Gu6sg2i4tfZk6WIij34IVk9BdOQgi6WvqSHd879jbQIUgL2fBdJUJyAP5ypQ==
 
 workbox-core@^5.1.4:
   version "5.1.4"

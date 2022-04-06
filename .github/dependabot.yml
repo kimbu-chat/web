@@ -26,6 +26,7 @@ updates:
   # Maintain dependencies for npm
   - package-ecosystem: 'npm'
     directory: '/'
+    target-branch: 'development'
     schedule:
       interval: 'weekly'
       day: 'sunday'

@@ -35,7 +35,7 @@ jobs:
         file_name: .env
 
     - name: Build container image
-      uses: docker/build-push-action@v1
+      uses: docker/build-push-action@v2.10.0
       with:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}

@@ -3,10 +3,10 @@ importScripts('https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.1.2/firebase-messaging.js');
 
 const config = {
-  apiKey: 'AIzaSyBndllDIwxwEq0S4Dls5pNVslmJIgmfO4o',
-  projectId: 'kimbu-3d936',
-  messagingSenderId: '104186841570',
-  appId: '1:104186841570:web:d96d94528e19aa12d5d1bb',
+  apiKey: 'AIzaSyBf0_d04cMXhPuxiK-oj6eVQ0MLqxrDObo',
+  projectId: 'kimbu-21a94',
+  messagingSenderId: '1016600291611',
+  appId: '1:1016600291611:web:5ad726519e8b76ea960bbe',
 };
 
 firebase.initializeApp(config);

@@ -1,14 +1,12 @@
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { call } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
 import { createEmptyAction } from '@store/common/actions';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 import { messaging } from '@store/middlewares/firebase/firebase';
 import { getPushNotificationToken } from '@store/notifications/utils';
-
-import { UnSubscribeToPushNotificationsSuccess } from './un-subscribe-from-push-notifications_success';
 
 export class UnSubscribeFromPushNotifications {
   static get action() {
@@ -24,8 +22,6 @@ export class UnSubscribeFromPushNotifications {
 
         yield call(async () => messaging?.deleteToken());
       }
-
-      yield put(UnSubscribeToPushNotificationsSuccess.action());
     };
   }
 

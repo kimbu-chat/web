@@ -38,10 +38,10 @@ jobs:
       shell: bash
       run: |
           docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
-          docker build --no-cache --tag ${{ github.repository }}:${{ steps.vars.outputs.DOCKER_IMAGE_TAG }} .
-          docker tag ${{ github.repository }}:${{ steps.vars.outputs.DOCKER_IMAGE_TAG }} ${{ github.repository }}:latest
-          docker push ${{ github.repository }}:${{ steps.vars.outputs.DOCKER_IMAGE_TAG }}
-          docker push ${{ github.repository }}:latest
+          docker build --no-cache --tag ghcr.io/${{ github.repository }}:${{ steps.vars.outputs.DOCKER_IMAGE_TAG }} .
+          docker tag ghcr.io/${{ github.repository }}:${{ steps.vars.outputs.DOCKER_IMAGE_TAG }} ghcr.io/${{ github.repository }}:latest
+          docker push ghcr.io/${{ github.repository }}:${{ steps.vars.outputs.DOCKER_IMAGE_TAG }}
+          docker push ghcr.io/${{ github.repository }}:latest
           docker logout ghcr.io
 
   deploy:

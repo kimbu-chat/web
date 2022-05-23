@@ -34,14 +34,15 @@ jobs:
         envkey_REACT_APP_VERSION: development
         file_name: .env
 
-    - name: Build container image
-      uses: docker/build-push-action@v2.10.0
-      with:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        registry: ghcr.io
-        repository: ${{ github.repository }}
-        tags: latest,${{ steps.vars.outputs.DOCKER_IMAGE_TAG }}
+    - name: Build and push container image
+      shell: bash
+      run: |
+          docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+          docker build --no-cache --tag ghcr.io/${{ github.repository }}:${{ steps.vars.outputs.DOCKER_IMAGE_TAG }} .
+          docker tag ghcr.io/${{ github.repository }}:${{ steps.vars.outputs.DOCKER_IMAGE_TAG }} ghcr.io/${{ github.repository }}:latest
+          docker push ghcr.io/${{ github.repository }}:${{ steps.vars.outputs.DOCKER_IMAGE_TAG }}
+          docker push ghcr.io/${{ github.repository }}:latest
+          docker logout ghcr.io
 
   deploy:
     needs: [build-and-push]

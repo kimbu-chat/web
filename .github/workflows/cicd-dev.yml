@@ -35,7 +35,6 @@ jobs:
         file_name: .env
 
     - name: Build and push container image
-    - name: Deploy
       shell: bash
       run: |
           docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}

@@ -42,6 +42,7 @@ jobs:
           docker tag ${{ github.repository }}:${{ steps.vars.outputs.DOCKER_IMAGE_TAG }} ${{ github.repository }}:latest
           docker push ${{ github.repository }}:${{ steps.vars.outputs.DOCKER_IMAGE_TAG }}
           docker push ${{ github.repository }}:latest
+          docker logout ghcr.io
 
   deploy:
     needs: [build-and-push]

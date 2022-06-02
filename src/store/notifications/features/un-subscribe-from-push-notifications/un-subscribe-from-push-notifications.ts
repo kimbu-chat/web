@@ -1,16 +1,16 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
-import { createEmptyAction } from '@store/common/actions';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 import { messaging } from '@store/middlewares/firebase/firebase';
 import { getPushNotificationToken } from '@store/notifications/utils';
 
 export class UnSubscribeFromPushNotifications {
   static get action() {
-    return createEmptyAction('UN_SUBSCRIBE_FROM_PUSH_NOTIFICATIONS');
+    return createAction('UN_SUBSCRIBE_FROM_PUSH_NOTIFICATIONS');
   }
 
   static get saga() {

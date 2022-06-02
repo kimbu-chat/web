@@ -1,7 +1,6 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { myIdSelector } from '@store/my-profile/selectors';
 import { resetUnreadNotifications } from '@utils/set-favicon';
@@ -12,12 +11,11 @@ import { IStatusChangedIntegrationEvent } from './status-changed-integration-eve
 
 export class UserStatusChangedEventHandler {
   static get action() {
-    return createAction('UserStatusChanged')<IStatusChangedIntegrationEvent>();
+    return createAction<IStatusChangedIntegrationEvent>('UserStatusChanged');
   }
 
   static get reducer() {
-    return produce(
-      (
+    return (
         draft: IUsersState,
         { payload }: ReturnType<typeof UserStatusChangedEventHandler.action>,
       ) => {
@@ -32,8 +30,7 @@ export class UserStatusChangedEventHandler {
         user.lastOnlineTime = payload.lastOnlineTime;
 
         return draft;
-      },
-    );
+      }
   }
 
   static get saga() {

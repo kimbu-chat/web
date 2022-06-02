@@ -1,5 +1,5 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { apply, call, put, select } from 'redux-saga/effects';
 
@@ -8,7 +8,6 @@ import { AuthService } from '@services/auth-service';
 import { MyProfileService } from '@services/my-profile-service';
 import { IAuthState } from '@store/auth/auth-state';
 import { securityTokensSelector } from '@store/auth/selectors';
-import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory } from '@store/common/http/http-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { ChangeUserOnlineStatus } from '@store/my-profile/features/change-user-online-status/change-user-online-status';
@@ -16,14 +15,13 @@ import { CloseWebsocketConnection } from '@store/web-sockets/features/close-web-
 
 export class Logout {
   static get action() {
-    return createEmptyAction('LOGOUT');
+    return createAction('LOGOUT');
   }
 
   static get reducer() {
-    return produce((draft: IAuthState) => ({
-      ...draft,
-      loading: true,
-    }));
+    return (draft: IAuthState) => {
+      draft.loading = true;
+    };
   }
 
   static get saga() {

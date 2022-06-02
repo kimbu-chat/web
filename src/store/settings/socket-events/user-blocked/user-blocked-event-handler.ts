@@ -1,9 +1,9 @@
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { IUserBlockedIntegrationEvent } from './user-blocked-integration-event';
 
 export class UserBlockedEventHandler {
   static get action() {
-    return createAction('UserBlocked')<IUserBlockedIntegrationEvent>();
+    return createAction<IUserBlockedIntegrationEvent>('UserBlocked');
   }
 }

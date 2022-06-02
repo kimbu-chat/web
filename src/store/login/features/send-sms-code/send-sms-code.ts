@@ -23,12 +23,12 @@ export class SendSmsCode {
   }
 
   static get reducer() {
-    return produce((draft: ILoginState, { payload }: ReturnType<typeof SendSmsCode.action>) => ({
-      ...draft,
-      loading: true,
-      isConfirmationCodeWrong: false,
-      phoneNumber: payload.phoneNumber,
-    }));
+    return produce((draft: ILoginState, { payload }: ReturnType<typeof SendSmsCode.action>) => {
+      draft.loading = true;
+      draft.isConfirmationCodeWrong = false;
+      draft.phoneNumber = payload.phoneNumber;
+      draft.loginSource = 'phone-number';
+    });
   }
 
   static get saga() {

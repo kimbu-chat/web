@@ -1,6 +1,5 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import merge from 'lodash/merge';
-import { createAction } from 'typesafe-actions';
 
 import { IUsersState } from '../../users-state';
 
@@ -8,18 +7,16 @@ import { IAddOrUpdateUsersActionPayload } from './action-payloads/add-or-update-
 
 export class AddOrUpdateUsers {
   static get action() {
-    return createAction('UPDATE_USERS_LIST')<IAddOrUpdateUsersActionPayload>();
+    return createAction<IAddOrUpdateUsersActionPayload>('UPDATE_USERS_LIST');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IUsersState, { payload }: ReturnType<typeof AddOrUpdateUsers.action>) => {
-        const { users } = payload;
+    return (draft: IUsersState, { payload }: ReturnType<typeof AddOrUpdateUsers.action>) => {
+      const { users } = payload;
 
-        draft.users = merge(draft.users, users);
+      draft.users = merge(draft.users, users);
 
-        return draft;
-      },
-    );
+      return draft;
+    };
   }
 }

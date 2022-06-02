@@ -1,6 +1,6 @@
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { select, call } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { deviceIdSelector } from '@store/auth/selectors';
 
@@ -10,7 +10,7 @@ import { ISessionTerminatedIntegrationEvent } from './session-terminated-event';
 
 export class SessionTerminatedEventHandler {
   static get action() {
-    return createAction('SessionTerminated')<ISessionTerminatedIntegrationEvent>();
+    return createAction<ISessionTerminatedIntegrationEvent>('SessionTerminated');
   }
 
   static get saga() {

@@ -1,7 +1,7 @@
-import { createEmptyAction } from '@store/common/actions';
+import { createAction } from '@reduxjs/toolkit';
 
 export class CloseWebsocketConnection {
   static get action() {
-    return createEmptyAction('CLOSE_WEB_SOCKET_CONNECTION');
+    return createAction('CLOSE_WEB_SOCKET_CONNECTION');
   }
 }

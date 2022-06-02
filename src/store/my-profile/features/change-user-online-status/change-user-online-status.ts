@@ -1,5 +1,4 @@
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { IMarkChatAsReadRequest, IChangeOnlineStatusRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
@@ -20,12 +19,10 @@ export class ChangeUserOnlineStatus {
   }
 
   static get reducer() {
-    return produce(
-      (draft: IMyProfileState, { payload }: ReturnType<typeof ChangeUserOnlineStatus.action>) => {
+    return (draft: IMyProfileState, { payload }: ReturnType<typeof ChangeUserOnlineStatus.action>) => {
         draft.isTabActive = payload;
         return draft;
-      },
-    );
+      }
   }
 
   static get saga() {

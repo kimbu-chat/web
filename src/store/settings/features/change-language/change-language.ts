@@ -1,7 +1,6 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { apply } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { SettingsService } from '@services/settings-service';
 import { IUserSettings } from '@store/settings/user-settings-state';
@@ -10,16 +9,14 @@ import { IChangeLanguageActionPayload } from './action-payloads/change-language-
 
 export class ChangeLanguage {
   static get action() {
-    return createAction('CHANGE_LANGUAGE')<IChangeLanguageActionPayload>();
+    return createAction<IChangeLanguageActionPayload>('CHANGE_LANGUAGE');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IUserSettings, { payload }: ReturnType<typeof ChangeLanguage.action>) => {
+    return (draft: IUserSettings, { payload }: ReturnType<typeof ChangeLanguage.action>) => {
         draft.language = payload.language;
         return draft;
-      },
-    );
+      }
   }
 
   static get saga() {

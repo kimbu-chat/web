@@ -4,8 +4,7 @@ export const authenticatedSelector = (state: RootState): boolean => state.auth.i
 
 export const authPhoneNumberSelector = (state: RootState): string => state.login.phoneNumber;
 
-export const authPhoneNumberExistsSelector = (state: RootState): boolean =>
-  state.login.phoneNumber.length > 0;
+export const googleIdTokenSelector = (state: RootState): string => state.login.googleIdToken;
 
 export const confirmationCodeSelector = (state: RootState): string => state.login.confirmationCode;
 

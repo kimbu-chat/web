@@ -2,18 +2,17 @@ import { AxiosResponse } from 'axios';
 import { ITerminateSessionRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
-import { Meta } from '../../../common/actions';
+import { createDeferredAction } from '../../../common/actions';
 
 import { TerminateSessionSuccess } from './terminate-session-success';
 
 export class TerminateSession {
   static get action() {
-    return createAction('TERMINATE_SESSION')<number, Meta>();
+    return createDeferredAction<number>('TERMINATE_SESSION');
   }
 
   static get saga() {

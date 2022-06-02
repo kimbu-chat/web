@@ -2,7 +2,7 @@ import { SagaIterator } from 'redux-saga';
 import { select, put, call } from 'redux-saga/effects';
 
 import { SettingsService } from '@services/settings-service';
-import { createEmptyDefferedAction } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { SubscribeToPushNotifications } from '@store/notifications/features/subscribe-to-push-notifications/subscribe-to-push-notifications';
 import { UnSubscribeFromPushNotifications } from '@store/notifications/features/un-subscribe-from-push-notifications/un-subscribe-from-push-notifications';
 import { arePushNotificationsEnabledSelector } from '@store/settings/selectors';
@@ -11,7 +11,7 @@ import { ChangePushNotificationStateSuccess } from './change-push-notification-s
 
 export class ChangePushNotificationState {
   static get action() {
-    return createEmptyDefferedAction('CHANGE_PUSH_NOTIFICATIONS_STATE');
+    return createDeferredAction('CHANGE_PUSH_NOTIFICATIONS_STATE');
   }
 
   static get saga() {

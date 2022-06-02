@@ -1,12 +1,11 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { ISecurityTokens, IRefreshTokenRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
 import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
-import { createEmptyAction } from '@store/common/actions';
 import { authRequestFactory } from '@store/common/http/auth-request-factory';
 import { getAuthHeader } from '@store/common/http/common';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
@@ -21,14 +20,14 @@ import { RefreshTokenSuccess } from './refresh-token-success';
 
 export class RefreshToken {
   static get action() {
-    return createEmptyAction('REFRESH_TOKEN');
+    return createAction('REFRESH_TOKEN');
   }
 
   static get reducer() {
-    return produce((draft: IAuthState) => {
+    return (draft: IAuthState) => {
       draft.refreshTokenRequestLoading = true;
       return draft;
-    });
+    };
   }
 
   static get saga() {

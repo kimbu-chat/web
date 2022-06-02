@@ -2,17 +2,20 @@ import { SagaIterator } from '@redux-saga/core';
 import { spawn } from 'redux-saga/effects';
 
 import { createEmptyAction } from '@store/common/actions';
-import { ILoginState } from '@store/login/login-state';
 import { subscribeToPushNotifications } from '@store/notifications/actions';
 
-export class LoginSuccess {
+import { ILoginState } from '../../login-state';
+
+export class LoginFromGoogleAccountSuccess {
   static get action() {
-    return createEmptyAction('LOGIN_SUCCESS');
+    return createEmptyAction('LOGIN_FROM_GOOGLE_ACCOUNT_SUCCESS');
   }
 
   static get reducer() {
     return (draft: ILoginState) => {
-      draft.isAuthenticated = true;
+      draft.googleAuthLoading = false;
+
+      return draft;
     };
   }
 

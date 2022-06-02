@@ -1,7 +1,6 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { apply } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { SettingsService } from '@services/settings-service';
 import { IUserSettings } from '@store/settings/user-settings-state';
@@ -11,14 +10,14 @@ import { Theme } from '../models';
 
 export class ChangeTheme {
   static get action() {
-    return createAction('CHANGE_THEME')<Theme>();
+    return createAction<Theme>('CHANGE_THEME');
   }
 
   static get reducer() {
-    return produce((draft: IUserSettings, { payload }: ReturnType<typeof ChangeTheme.action>) => {
+    return (draft: IUserSettings, { payload }: ReturnType<typeof ChangeTheme.action>) => {
       draft.theme = payload;
       return draft;
-    });
+    };
   }
 
   static get saga() {

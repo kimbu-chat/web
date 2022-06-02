@@ -1,7 +1,6 @@
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
-import { Reducer, RootAction, RootState } from 'typesafe-actions';
 
 import { centrifugeInvokeMiddleware } from './middlewares/websockets/centrifuge';
 

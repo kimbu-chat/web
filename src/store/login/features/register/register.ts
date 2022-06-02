@@ -9,11 +9,7 @@ import { MAIN_API } from '@common/paths';
 import { Meta } from '@store/common/actions';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { Login } from '@store/login/features/login/login';
-import {
-  authPhoneNumberSelector,
-  confirmationCodeSelector,
-  twoLetterCountryCodeSelector,
-} from '@store/login/selectors';
+import { authPhoneNumberSelector, confirmationCodeSelector } from '@store/login/selectors';
 
 import { LoginSuccess } from '../login/login-success';
 
@@ -38,8 +34,6 @@ export class Register {
 
       const phoneNumber = yield select(authPhoneNumberSelector);
 
-      const twoLetterCountryCode = yield select(twoLetterCountryCodeSelector);
-
       const confirmationCode = yield select(confirmationCodeSelector);
 
       yield call(Register.httpRequest.generator, {
@@ -47,7 +41,6 @@ export class Register {
         lastName,
         nickname,
         phoneNumber,
-        twoLetterCountryCode,
         avatarId,
       });
 

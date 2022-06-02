@@ -1,5 +1,4 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { IUsersState } from '@store/users/users-state';
 
@@ -7,12 +6,11 @@ import { IUserEditedIntegrationEvent } from './action-payloads/user-edited-integ
 
 export class UserEditedEventHandler {
   static get action() {
-    return createAction('UserEdited')<IUserEditedIntegrationEvent>();
+    return createAction<IUserEditedIntegrationEvent>('UserEdited');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IUsersState, { payload }: ReturnType<typeof UserEditedEventHandler.action>) => {
+    return (draft: IUsersState, { payload }: ReturnType<typeof UserEditedEventHandler.action>) => {
         const {
           userId,
           firstName,
@@ -40,7 +38,6 @@ export class UserEditedEventHandler {
         };
 
         return draft;
-      },
-    );
+      }
   }
 }

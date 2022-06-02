@@ -1,7 +1,7 @@
-import { createEmptyAction } from '@store/common/actions';
+import { createAction } from '@reduxjs/toolkit';
 
 export class InitSocketConnection {
   static get action() {
-    return createEmptyAction('INIT_SOCKET_CONNECTION');
+    return createAction('INIT_SOCKET_CONNECTION');
   }
 }

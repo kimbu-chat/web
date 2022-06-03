@@ -1,8 +1,8 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { IMarkChatAsReadRequest, IChangeOnlineStatusRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { authenticatedSelector } from '@store/auth/selectors';
@@ -15,7 +15,7 @@ import { resetUnreadNotifications } from '@utils/set-favicon';
 
 export class ChangeUserOnlineStatus {
   static get action() {
-    return createAction('CHANGE_ONLINE_STATUS')<boolean>();
+    return createAction<boolean>('CHANGE_ONLINE_STATUS');
   }
 
   static get reducer() {

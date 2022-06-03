@@ -1,30 +1,31 @@
-import produce from 'immer';
 import { ICreateMessageRequest, MessageLinkType } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { HTTPStatusCode } from '@common/http-status-code';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 
 import { IChatsState } from '../../chats-state';
 import { INormalizedMessage } from '../../models/normalized-message';
 import { getMessageSelector, getSelectedChatIdSelector } from '../../selectors';
 import { CreateMessage } from '../create-message/create-message';
 
-import { IForwardMessagesActionPayload } from './action-payloads/forward-messages-action-payload';
+export interface IForwardMessagesActionPayload {
+  messageIdsToForward: number[];
+  chatIdsToForward: number[];
+}
 
 export class ForwardMessages {
   static get action() {
-    return createAction('FORWARD_MESSAGES')<IForwardMessagesActionPayload, Meta>();
+    return createDeferredAction<IForwardMessagesActionPayload>('FORWARD_MESSAGES');
   }
 
   static get reducer() {
-    return produce((draft: IChatsState) => {
+    return (draft: IChatsState) => {
       draft.selectedMessageIds = [];
 
       return draft;
-    });
+    };
   }
 
   static get saga() {

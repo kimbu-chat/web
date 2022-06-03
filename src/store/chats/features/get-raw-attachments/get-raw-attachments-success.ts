@@ -1,19 +1,25 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
+import { IAttachmentBase } from 'kimbu-models';
+
+import { IGroupable } from '@store/chats/models';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IGetRawAttachmentsSuccessActionPayload } from './action-payloads/get-raw-attachments-success-action-payload';
+export interface IGetRawAttachmentsSuccessActionPayload {
+  chatId: number;
+  files: (IAttachmentBase & IGroupable)[];
+  hasMore: boolean;
+}
+
 
 export class GetRawAttachmentsSuccess {
   static get action() {
-    return createAction('GET_RAW_ATTACHMENTS_SUCCESS')<IGetRawAttachmentsSuccessActionPayload>();
+    return createAction<IGetRawAttachmentsSuccessActionPayload>('GET_RAW_ATTACHMENTS_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof GetRawAttachmentsSuccess.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof GetRawAttachmentsSuccess.action>) => {
         const { files, chatId, hasMore } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
@@ -24,7 +30,6 @@ export class GetRawAttachmentsSuccess {
           chat.files.loading = false;
         }
         return draft;
-      },
-    );
+      };
   }
 }

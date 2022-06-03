@@ -1,7 +1,7 @@
+import { createAction } from '@reduxjs/toolkit';
 import dayjs from 'dayjs';
 import { SagaIterator } from 'redux-saga';
 import { select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { YEAR_MONTH_DAY_HOUR_MINUTE } from '@common/constants';
 import { INormalizedMessage } from '@store/chats/models';
@@ -9,11 +9,13 @@ import { getUsersSelector } from '@store/users/selectors';
 
 import { getSelectedChatMessagesSelector } from '../../selectors';
 
-import { ICopyMessagesActionPayload } from './action-payloads/copy-messages-action-payload';
+export interface ICopyMessagesActionPayload {
+  messageIds: number[];
+}
 
 export class CopyMessages {
   static get action() {
-    return createAction('COPY_MESSAGES')<ICopyMessagesActionPayload>();
+    return createAction<ICopyMessagesActionPayload>('COPY_MESSAGES');
   }
 
   static get saga() {

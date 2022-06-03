@@ -1,8 +1,8 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { IDeleteMessagesRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
@@ -11,12 +11,16 @@ import { cancelSendMessageRequest } from '@utils/cancel-send-message-request';
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { getSelectedChatIdSelector } from '../../selectors';
 
-import { IDeleteMessageActionPayload } from './action-payloads/delete-message-action-payload';
 import { DeleteMessageSuccess } from './delete-message-success';
+
+export interface IDeleteMessageActionPayload {
+  messageIds: number[];
+  forEveryone: boolean;
+}
 
 export class DeleteMessage {
   static get action() {
-    return createAction('DELETE_MESSAGE')<IDeleteMessageActionPayload>();
+    return createAction<IDeleteMessageActionPayload>('DELETE_MESSAGE');
   }
 
   static get saga() {

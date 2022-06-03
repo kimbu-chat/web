@@ -1,12 +1,10 @@
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { IVerifySmsCodeResponse, IVerifySmsCodeRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, take } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { ILoginState } from '../../login-state';
@@ -19,14 +17,14 @@ import { ConfirmPhoneSuccess } from './confirm-phone-success';
 
 export class ConfirmPhone {
   static get action() {
-    return createAction('CONFIRM_PHONE')<IConfirmPhoneActionPayload, Meta<boolean>>();
+    return createDeferredAction<IConfirmPhoneActionPayload, boolean>('CONFIRM_PHONE');
   }
 
   static get reducer() {
-    return produce((draft: ILoginState) => {
+    return (draft: ILoginState) => {
       draft.loading = true;
       return draft;
-    });
+    };
   }
 
   static get saga() {

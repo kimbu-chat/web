@@ -1,12 +1,11 @@
 import { useCallback, useState } from 'react';
 
-import { PayloadMetaActionCreator } from 'typesafe-actions';
+import { ActionCreatorWithoutPayload, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import { Meta } from '@store/common/actions';
 
 interface IInfinityDeferredParams<TPayload> {
-  action: PayloadMetaActionCreator<string, TPayload, Meta>;
+  action: ActionCreatorWithPayload<string, TPayload, Meta>;
   limit: number;
 }
 

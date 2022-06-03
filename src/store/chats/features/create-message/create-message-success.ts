@@ -1,6 +1,7 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import {
   AttachmentType,
+  IAttachmentBase,
   IAudioAttachment,
   IPictureAttachment,
   IVideoAttachment,
@@ -8,23 +9,28 @@ import {
 } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
+import { MessageState } from '@store/chats/models';
 import { removeSendMessageRequest } from '@utils/cancel-send-message-request';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { ICreateMessageSuccessActionPayload } from './action-payloads/create-message-success-action-payload';
+export interface ICreateMessageSuccessActionPayload {
+  draftMessageId: number;
+  newMessageId: number;
+  messageState: MessageState;
+  attachments?: IAttachmentBase[];
+  chatId: number;
+}
 
 export class CreateMessageSuccess {
   static get action() {
-    return createAction('CREATE_MESSAGE_SUCCESS')<ICreateMessageSuccessActionPayload>();
+    return createAction<ICreateMessageSuccessActionPayload>('CREATE_MESSAGE_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof CreateMessageSuccess.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof CreateMessageSuccess.action>) => {
         const { messageState, chatId, draftMessageId, newMessageId, attachments } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
@@ -102,8 +108,7 @@ export class CreateMessageSuccess {
         }
 
         return draft;
-      },
-    );
+      };
   }
 
   static get saga() {

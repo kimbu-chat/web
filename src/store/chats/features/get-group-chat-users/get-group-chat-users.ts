@@ -1,10 +1,9 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import { produce } from 'immer';
 import { IGetGroupChatMembersRequest, IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
@@ -19,16 +18,20 @@ import {
   getMembersCountForSelectedGroupChatSelector,
 } from '../../selectors';
 
-import { IGetGroupChatUsersActionPayload } from './action-payloads/get-group-chat-users-action-payload';
 import { GetGroupChatUsersSuccess } from './get-group-chat-users-success';
+
+export interface IGetGroupChatUsersActionPayload {
+  isFromSearch: boolean;
+  name?: string;
+}
 
 export class GetGroupChatUsers {
   static get action() {
-    return createAction('GET_GROUP_CHAT_USERS')<IGetGroupChatUsersActionPayload>();
+    return createAction<IGetGroupChatUsersActionPayload>('GET_GROUP_CHAT_USERS');
   }
 
   static get reducer() {
-    return produce((draft: IChatsState) => {
+    return (draft: IChatsState) => {
       const chat = draft.chats[draft?.selectedChatId || -1];
 
       if (chat) {
@@ -36,7 +39,7 @@ export class GetGroupChatUsers {
       }
 
       return draft;
-    });
+    };
   }
 
   static get saga() {

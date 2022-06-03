@@ -1,8 +1,8 @@
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select, take, delay, spawn } from 'redux-saga/effects';
 
 import { authenticatedSelector } from '@store/auth/selectors';
-import { createEmptyAction } from '@store/common/actions';
 
 import { getInternetStateSelector, getWebsocketStateSelector } from '../../selectors';
 import { WebsocketsDisconnected } from '../websockets-connection/websockets-disconnected';
@@ -56,7 +56,7 @@ function* watchInternetConnectionChange(): SagaIterator {
 
 export class StartInternetConnectionStateChangeWatcher {
   static get action() {
-    return createEmptyAction('START_INTERNET_CONNECTION_WATCHER');
+    return createAction('START_INTERNET_CONNECTION_WATCHER');
   }
 
   static get saga() {

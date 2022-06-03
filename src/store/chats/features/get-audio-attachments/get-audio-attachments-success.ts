@@ -1,21 +1,26 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
+import { IAudioAttachment } from 'kimbu-models';
+
+import { IGroupable } from '@store/chats/models';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IGetAudioAttachmentsSuccessActionPayload } from './action-payloads/get-audio-attachments-success-action-payload';
+export interface IGetAudioAttachmentsSuccessActionPayload {
+  chatId: number;
+  audios: (IAudioAttachment & IGroupable)[];
+  hasMore: boolean;
+}
 
 export class GetAudioAttachmentsSuccess {
   static get action() {
-    return createAction(
+    return createAction<IGetAudioAttachmentsSuccessActionPayload>(
       'GET_AUDIO_ATTACHMENTS_SUCCESS',
-    )<IGetAudioAttachmentsSuccessActionPayload>();
+    );
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof GetAudioAttachmentsSuccess.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof GetAudioAttachmentsSuccess.action>) => {
         const { audios, chatId, hasMore } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
@@ -26,7 +31,6 @@ export class GetAudioAttachmentsSuccess {
           chat.audios.loading = false;
         }
         return draft;
-      },
-    );
+      };
   }
 }

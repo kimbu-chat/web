@@ -1,20 +1,21 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { MessageState } from '@store/chats/models';
 
 import { IChatsState } from '../../chats-state';
 
-import { ISumbitEditMessageSuccessActionPayload } from './action-payloads/sumbit-edit-message-success-action-payload';
+export interface ISumbitEditMessageSuccessActionPayload {
+  messageId: number;
+  chatId: number;
+}
 
 export class SubmitEditMessageSuccess {
   static get action() {
-    return createAction('SUBMIT_EDIT_MESSAGE_SUCCESS')<ISumbitEditMessageSuccessActionPayload>();
+    return createAction<ISumbitEditMessageSuccessActionPayload>('SUBMIT_EDIT_MESSAGE_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof SubmitEditMessageSuccess.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof SubmitEditMessageSuccess.action>) => {
         const { chatId, messageId } = payload;
 
         const message = draft.chats[chatId]?.messages.messages[messageId];
@@ -24,7 +25,6 @@ export class SubmitEditMessageSuccess {
         }
 
         return draft;
-      },
-    );
+      };
   }
 }

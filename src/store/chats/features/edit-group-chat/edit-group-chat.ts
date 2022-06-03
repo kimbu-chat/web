@@ -1,23 +1,27 @@
 import { AxiosResponse } from 'axios';
-import { IEditGroupChatRequest } from 'kimbu-models';
+import { IAvatar, IEditGroupChatRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { ChatId } from '../../chat-id';
 import { getSelectedChatIdSelector } from '../../selectors';
 
-import { IEditGroupChatActionPayload } from './action-payloads/edit-group-chat-action-payload';
 import { EditGroupChatSuccess } from './edit-group-chat-success';
+
+export interface IEditGroupChatActionPayload {
+  name: string;
+  description?: string;
+  avatar?: IAvatar;
+}
 
 export class EditGroupChat {
   static get action() {
-    return createAction('EDIT_GROUP_CHAT')<IEditGroupChatActionPayload, Meta>();
+    return createDeferredAction<IEditGroupChatActionPayload>('EDIT_GROUP_CHAT');
   }
 
   static get saga() {

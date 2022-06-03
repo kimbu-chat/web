@@ -1,19 +1,23 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IGetGroupChatUsersSuccessActionPayload } from './action-payloads/get-group-chat-users-success-action-payload';
+export interface IGetGroupChatUsersSuccessActionPayload {
+  chatId: number;
+  isFromSearch?: boolean;
+  hasMore: boolean;
+  userIds: number[];
+}
+
 
 export class GetGroupChatUsersSuccess {
   static get action() {
-    return createAction('GET_GROUP_CHAT_USERS_SUCCESS')<IGetGroupChatUsersSuccessActionPayload>();
+    return createAction<IGetGroupChatUsersSuccessActionPayload>('GET_GROUP_CHAT_USERS_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof GetGroupChatUsersSuccess.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof GetGroupChatUsersSuccess.action>) => {
         const { chatId, isFromSearch, userIds, hasMore } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
@@ -32,7 +36,6 @@ export class GetGroupChatUsersSuccess {
         }
 
         return draft;
-      },
-    );
+      };
   }
 }

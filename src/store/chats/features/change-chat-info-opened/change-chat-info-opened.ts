@@ -1,5 +1,4 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
@@ -7,12 +6,11 @@ import { INormalizedChat } from '../../models/chat';
 
 export class ChangeChatInfoOpened {
   static get action() {
-    return createAction('CHANGE_CHAT_INFO_OPENED')<number | undefined>();
+    return createAction<number | undefined>('CHANGE_CHAT_INFO_OPENED');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof ChangeChatInfoOpened.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof ChangeChatInfoOpened.action>) => {
         const chatId = payload;
 
         if (chatId) {
@@ -85,7 +83,6 @@ export class ChangeChatInfoOpened {
         draft.chatInfo.chatId = chatId;
 
         return draft;
-      },
-    );
+      };
   }
 }

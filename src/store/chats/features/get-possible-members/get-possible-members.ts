@@ -2,18 +2,22 @@ import { AxiosResponse } from 'axios';
 import { IGetAllowedUsersForGroupChatRequest, IUser } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 
-import { IPossibleChatMembersActionPayload } from './action-payloads/get-possible-members-action-payload';
+export interface IPossibleChatMembersActionPayload {
+  groupChatId: number;
+  offset: number;
+  name?: string;
+}
+
 
 export class GetPossibleMembers {
   static get action() {
-    return createAction('GET_POSSIBLE_CHAT_MEMBERS')<IPossibleChatMembersActionPayload, Meta>();
+    return createDeferredAction<IPossibleChatMembersActionPayload>('GET_POSSIBLE_CHAT_MEMBERS');
   }
 
   static get saga() {

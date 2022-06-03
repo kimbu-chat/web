@@ -1,10 +1,9 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { IUser, IChat } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { INormalizedChat } from '@store/chats/models';
@@ -23,16 +22,17 @@ import {
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
 import { UnshiftChat } from '../unshift-chat/unshift-chat';
 
-import { IChangeSelectedChatActionPayload } from './action-payloads/change-selected-chat-action-payload';
+export interface IChangeSelectedChatActionPayload {
+  newChatId?: number;
+}
 
 export class ChangeSelectedChat {
   static get action() {
-    return createAction('CHANGE_SELECTED_CHAT')<IChangeSelectedChatActionPayload>();
+    return createAction<IChangeSelectedChatActionPayload>('CHANGE_SELECTED_CHAT');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof ChangeSelectedChat.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof ChangeSelectedChat.action>) => {
         const { newChatId } = payload;
 
         draft.chatInfo = {
@@ -83,8 +83,7 @@ export class ChangeSelectedChat {
         draft.selectedMessageIds = [];
 
         return draft;
-      },
-    );
+      };
   }
 
   static get saga() {

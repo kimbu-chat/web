@@ -1,9 +1,10 @@
-import { createEmptyAction } from '@store/common/actions';
+import { createAction } from '@reduxjs/toolkit';
+
 import { ILoginState } from '@store/login/login-state';
 
 export class LoginFromGoogleAccountFailure {
   static get action() {
-    return createEmptyAction('LOGIN_FROM_GOOGLE_ACCOUNT_FAILURE');
+    return createAction('LOGIN_FROM_GOOGLE_ACCOUNT_FAILURE');
   }
 
   static get reducer() {

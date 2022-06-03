@@ -1,4 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
+
 import { MyProfileService } from '@services/my-profile-service';
 import { UserDeactivatedEventHandler } from '@store/users/socket-events/user-deactivated/user-deactivated-event-handler';
 import { UserDeletedEventHandler } from '@store/users/socket-events/user-deleted/user-deleted';
@@ -38,5 +39,5 @@ const reducer = createReducer<IUsersState>(initialState, builder =>
     UserPhoneNumberChangedEventHandler.action,
     UserPhoneNumberChangedEventHandler.reducer,
   )
-  .addCase(UserStatusChangedEventHandler.action, UserStatusChangedEventHandler.reducer);
+  .addCase(UserStatusChangedEventHandler.action, UserStatusChangedEventHandler.reducer));
 export default reducer;

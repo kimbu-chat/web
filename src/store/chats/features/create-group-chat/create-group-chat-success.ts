@@ -1,19 +1,19 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
+
+import { INormalizedChat } from '@store/chats/models';
 
 import { IChatsState } from '../../chats-state';
 import { getChatExistsDraftSelector } from '../../selectors';
 
-import { ICreateGroupChatSuccessActionPayload } from './action-payloads/create-group-chat-success-action-payload';
+export type ICreateGroupChatSuccessActionPayload = INormalizedChat;
 
 export class CreateGroupChatSuccess {
   static get action() {
-    return createAction('CREATE_GROUP_CHAT_SUCCESS')<ICreateGroupChatSuccessActionPayload>();
+    return createAction<ICreateGroupChatSuccessActionPayload>('CREATE_GROUP_CHAT_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof CreateGroupChatSuccess.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof CreateGroupChatSuccess.action>) => {
         const newChat = payload;
 
         const isChatExists: boolean = getChatExistsDraftSelector(newChat.id, draft);
@@ -27,7 +27,6 @@ export class CreateGroupChatSuccess {
         }
 
         return draft;
-      },
-    );
+      };
   }
 }

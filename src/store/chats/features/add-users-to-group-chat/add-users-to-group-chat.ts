@@ -2,22 +2,24 @@ import { AxiosResponse } from 'axios';
 import { IAddUsersIntoGroupChatRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, call, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { ChatId } from '../../chat-id';
 import { getSelectedChatIdSelector } from '../../selectors';
 
-import { IAddUsersToGroupChatActionPayload } from './action-payloads/add-users-to-group-chat-action-payload';
 import { AddUsersToGroupChatSuccess } from './add-users-to-group-chat-success';
+
+export interface IAddUsersToGroupChatActionPayload {
+  userIds: number[];
+}
 
 export class AddUsersToGroupChat {
   static get action() {
-    return createAction('ADD_USERS_TO_GROUP_CHAT')<IAddUsersToGroupChatActionPayload, Meta>();
+    return createDeferredAction<IAddUsersToGroupChatActionPayload>('ADD_USERS_TO_GROUP_CHAT');
   }
 
   static get saga() {

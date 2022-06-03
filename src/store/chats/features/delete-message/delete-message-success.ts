@@ -1,20 +1,21 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { AttachmentType } from 'kimbu-models';
-import { createAction } from 'typesafe-actions';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IDeleteMessageSuccessActionPayload } from './action-payloads/delete-message-success-action-payload';
+export interface IDeleteMessageSuccessActionPayload {
+  messageIds: number[];
+  chatId: number;
+}
 
 export class DeleteMessageSuccess {
   static get action() {
-    return createAction('DELETE_MESSAGE_SUCCESS')<IDeleteMessageSuccessActionPayload>();
+    return createAction<IDeleteMessageSuccessActionPayload>('DELETE_MESSAGE_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof DeleteMessageSuccess.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof DeleteMessageSuccess.action>) => {
         const { chatId, messageIds } = payload;
         const chat = getChatByIdDraftSelector(chatId, draft);
         const messagesForChat = draft.chats[chatId]?.messages;
@@ -82,7 +83,6 @@ export class DeleteMessageSuccess {
         // TODO: handle user deleteing
 
         return draft;
-      },
-    );
+      };
   }
 }

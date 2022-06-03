@@ -1,18 +1,16 @@
-import produce from 'immer';
-
-import { createEmptyAction } from '@store/common/actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { IInternetState } from '../../internet-state';
 
 export class WebsocketsConnected {
   static get action() {
-    return createEmptyAction('WEBSOCKETS_CONNECTED');
+    return createAction('WEBSOCKETS_CONNECTED');
   }
 
   static get reducer() {
-    return produce((draft: IInternetState) => {
+    return (draft: IInternetState) => {
       draft.isWebSocketConnected = true;
       return draft;
-    });
+    };
   }
 }

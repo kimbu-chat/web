@@ -2,20 +2,24 @@ import { AxiosResponse } from 'axios';
 import { IChangeChatsMuteStatusRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { getChatByIdSelector } from '../../selectors';
 
 import { ChangeChatMutedStatusSuccess } from './change-chat-muted-status-success';
 
+export interface IChangeChatMutedStatusActionPayload {
+  chatId: number;
+  isMuted: boolean;
+}
+
 export class ChangeChatMutedStatus {
   static get action() {
-    return createAction('CHANGE_SELECTED_CHAT_MUTE_STATUS')<number, Meta>();
+    return createDeferredAction<number>('CHANGE_SELECTED_CHAT_MUTE_STATUS');
   }
 
   static get saga() {

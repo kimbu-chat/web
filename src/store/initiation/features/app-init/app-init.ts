@@ -1,11 +1,10 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import isEmpty from 'lodash/isEmpty';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
 import { AuthService } from '@services/auth-service';
 import { AuthInit } from '@store/auth/features/initiate-auth/initiate-auth';
-import { createEmptyAction } from '@store/common/actions';
 import { GetMyProfile } from '@store/my-profile/features/get-my-profile/get-my-profile';
 
 import { StartInternetConnectionStateChangeWatcher } from '../../../internet/features/internet-connection-check/start-internet-connection-state-change-watcher';
@@ -16,11 +15,7 @@ import { StartIdleStateChangeWatcher } from '../start-idle-state-change-watcher/
 
 export class AppInit {
   static get action() {
-    return createEmptyAction('INIT');
-  }
-
-  static get reducer() {
-    return produce((draft) => draft);
+    return createAction('INIT');
   }
 
   static get saga() {

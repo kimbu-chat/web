@@ -1,19 +1,23 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
+import { IAvatar } from 'kimbu-models';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IEditGroupChatSuccessActionPayload } from './action-payloads/edit-group-chat-success-action-payload';
+export interface IEditGroupChatSuccessActionPayload {
+  chatId: number;
+  name: string;
+  description?: string;
+  avatar?: IAvatar;
+}
 
 export class EditGroupChatSuccess {
   static get action() {
-    return createAction('EDIT_GROUP_CHAT_SUCCESS')<IEditGroupChatSuccessActionPayload>();
+    return createAction<IEditGroupChatSuccessActionPayload>('EDIT_GROUP_CHAT_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof EditGroupChatSuccess.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof EditGroupChatSuccess.action>) => {
         const { chatId, name, description, avatar } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
@@ -27,7 +31,6 @@ export class EditGroupChatSuccess {
           }
         }
         return draft;
-      },
-    );
+      };
   }
 }

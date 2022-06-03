@@ -1,18 +1,25 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
+
+import { INormalizedMessage } from '@store/chats/models';
 
 import { IChatsState } from '../../chats-state';
 
-import { IGetMessagesSuccessActionPayload } from './action-payloads/get-messages-success-action-payload';
+export interface IGetMessagesSuccessActionPayload {
+  messages: Record<number, INormalizedMessage>;
+  messageIds: number[];
+  hasMoreMessages: boolean;
+  chatId: number;
+  initializedByScroll?: boolean;
+  searchString?: string;
+}
 
 export class GetMessagesSuccess {
   static get action() {
-    return createAction('GET_MESSAGES_SUCCESS')<IGetMessagesSuccessActionPayload>();
+    return createAction<IGetMessagesSuccessActionPayload>('GET_MESSAGES_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof GetMessagesSuccess.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof GetMessagesSuccess.action>) => {
         const {
           chatId,
           hasMoreMessages,
@@ -45,7 +52,6 @@ export class GetMessagesSuccess {
         }
 
         return draft;
-      },
-    );
+      };
   }
 }

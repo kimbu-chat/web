@@ -1,5 +1,4 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { IFriendsState } from '../../friends-state';
 
@@ -7,12 +6,11 @@ import { IUserContactAddedIntegrationEvent } from './user-contact-added-integrat
 
 export class UserContactAddedSuccessEventHandler {
   static get action() {
-    return createAction('UserContactAddedSuccess')<IUserContactAddedIntegrationEvent>();
+    return createAction<IUserContactAddedIntegrationEvent>('UserContactAddedSuccess');
   }
 
   static get reducer() {
-    return produce(
-      (
+    return (
         draft: IFriendsState,
         { payload }: ReturnType<typeof UserContactAddedSuccessEventHandler.action>,
       ) => {
@@ -23,7 +21,6 @@ export class UserContactAddedSuccessEventHandler {
         }
 
         return draft;
-      },
-    );
+      };
   }
 }

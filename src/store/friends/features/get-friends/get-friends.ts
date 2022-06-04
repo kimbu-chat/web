@@ -1,10 +1,9 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { IGetContactsRequest, IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
@@ -23,11 +22,11 @@ import { GetFriendsSuccess } from './get-friends-success';
 
 export class GetFriends {
   static get action() {
-    return createAction('GET_FRIENDS')<IGetFriendsActionPayload>();
+    return createAction<IGetFriendsActionPayload>('GET_FRIENDS');
   }
 
   static get reducer() {
-    return produce((draft: IFriendsState, { payload }: ReturnType<typeof GetFriends.action>) => {
+    return (draft: IFriendsState, { payload }: ReturnType<typeof GetFriends.action>) => {
       if (!payload.name?.length && !payload.initializedByScroll) {
         draft.searchFriends.friendIds = [];
         draft.searchFriends.hasMore = true;
@@ -41,7 +40,7 @@ export class GetFriends {
       }
 
       return draft;
-    });
+    };
   }
 
   static get saga() {

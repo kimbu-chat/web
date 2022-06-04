@@ -1,5 +1,4 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { ICallsState } from '../../calls-state';
 import { InputType } from '../../common/enums/input-type';
@@ -8,12 +7,11 @@ import { IChangeActiveDeviceIdActionPayload } from './action-payloads/change-act
 
 export class ChangeActiveDeviceId {
   static get action() {
-    return createAction('CHANGE_ACTIVE_DEVICE_ID')<IChangeActiveDeviceIdActionPayload>();
+    return createAction<IChangeActiveDeviceIdActionPayload>('CHANGE_ACTIVE_DEVICE_ID');
   }
 
   static get reducer() {
-    return produce(
-      (draft: ICallsState, { payload }: ReturnType<typeof ChangeActiveDeviceId.action>) => {
+    return (draft: ICallsState, { payload }: ReturnType<typeof ChangeActiveDeviceId.action>) => {
         if (payload.kind === InputType.VideoInput) {
           draft.videoConstraints.deviceId = payload.deviceId;
         }
@@ -23,7 +21,6 @@ export class ChangeActiveDeviceId {
         }
 
         return draft;
-      },
-    );
+      };
   }
 }

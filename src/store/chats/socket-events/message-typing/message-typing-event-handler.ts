@@ -1,6 +1,5 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { delay, put } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { InterlocutorType } from '@store/chats/models';
 
@@ -10,16 +9,22 @@ import { IChatsState } from '../../chats-state';
 import { InterlocutorStoppedTyping } from '../../features/interlocutor-message-typing/interlocutor-stopped-typing';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IIntercolutorMessageTypingIntegrationEvent } from './message-typing-integration-event';
+export interface IIntercolutorMessageTypingIntegrationEvent {
+  text: string;
+  timeoutId: NodeJS.Timeout;
+  interlocutorName: string;
+  interlocutorId: number;
+  chatId: number;
+}
+
 
 export class UserMessageTypingEventHandler {
   static get action() {
-    return createAction('MessageTyping')<IIntercolutorMessageTypingIntegrationEvent>();
+    return createAction<IIntercolutorMessageTypingIntegrationEvent>('MessageTyping');
   }
 
   static get reducer() {
-    return produce(
-      (
+    return (
         draft: IChatsState,
         { payload }: ReturnType<typeof UserMessageTypingEventHandler.action>,
       ) => {
@@ -46,8 +51,7 @@ export class UserMessageTypingEventHandler {
         }
 
         return draft;
-      },
-    );
+      };
   }
 
   static get saga() {

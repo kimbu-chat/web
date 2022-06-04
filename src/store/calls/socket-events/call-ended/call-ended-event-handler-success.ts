@@ -1,5 +1,4 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { ICallsState } from '@store/calls/calls-state';
 
@@ -7,12 +6,11 @@ import { INormalizedCall } from '../../common/models';
 
 export class CallEndedEventHandlerSuccess {
   static get action() {
-    return createAction('CallEndedEventHandlerSuccess')<INormalizedCall>();
+    return createAction<INormalizedCall>('CallEndedEventHandlerSuccess');
   }
 
   static get reducer() {
-    return produce(
-      (draft: ICallsState, { payload }: ReturnType<typeof CallEndedEventHandlerSuccess.action>) => {
+    return (draft: ICallsState, { payload }: ReturnType<typeof CallEndedEventHandlerSuccess.action>) => {
         if (payload) {
           if (!draft.callList.callIds.includes(payload.id)) {
             draft.callList.callIds.unshift(payload.id);
@@ -34,7 +32,6 @@ export class CallEndedEventHandlerSuccess {
         draft.isScreenSharingOpened = false;
 
         return draft;
-      },
-    );
+      };
   }
 }

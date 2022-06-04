@@ -1,25 +1,22 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { IUser } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { apply } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MyProfileService } from '../../../../services/my-profile-service';
 import { IMyProfileState } from '../../my-profile-state';
 
 export class GetMyProfileSuccess {
   static get action() {
-    return createAction('GET_MY_PROFILE_SUCCESS')<IUser>();
+    return createAction<IUser>('GET_MY_PROFILE_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IMyProfileState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => {
+    return (draft: IMyProfileState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => {
         draft.userId = payload.id;
 
         return draft;
-      },
-    );
+      }
   }
 
   static get saga() {

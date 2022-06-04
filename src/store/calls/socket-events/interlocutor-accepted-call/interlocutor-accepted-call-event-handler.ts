@@ -1,7 +1,6 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { myIdSelector } from '@store/my-profile/selectors';
 
@@ -18,12 +17,11 @@ import { IInterlocutorAcceptedCallIntegrationEvent } from './interlocutor-accept
 
 export class InterlocutorAcceptedCallEventHandler {
   static get action() {
-    return createAction('CallAccepted')<IInterlocutorAcceptedCallIntegrationEvent>();
+    return createAction<IInterlocutorAcceptedCallIntegrationEvent>('CallAccepted');
   }
 
   static get reducer() {
-    return produce(
-      (
+    return (
         draft: ICallsState,
         { payload }: ReturnType<typeof InterlocutorAcceptedCallEventHandler.action>,
       ) => {
@@ -47,8 +45,7 @@ export class InterlocutorAcceptedCallEventHandler {
         }
 
         return draft;
-      },
-    );
+      }
   }
 
   static get saga() {

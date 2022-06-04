@@ -1,23 +1,26 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { AttachmentType } from 'kimbu-models';
-import { createAction } from 'typesafe-actions';
 
 import { IChatsState } from '@store/chats/chats-state';
+import { INormalizedMessage } from '@store/chats/models';
 
 import { getChatByIdDraftSelector, getChatLastMessageDraftSelector } from '../../selectors';
 
-import { IMessagesDeletedIntegrationEventHandlerSuccessActionPayload } from './action-payloads/messages-deleted-integration-event-handler-success-action-payload';
+export interface IMessagesDeletedIntegrationEventHandlerSuccessActionPayload {
+  chatId: number;
+  messageIds: number[];
+  chatNewLastMessage: INormalizedMessage | null;
+}
 
 export class MessagesDeletedIntegrationEventHandlerSuccess {
   static get action() {
-    return createAction(
+    return createAction<IMessagesDeletedIntegrationEventHandlerSuccessActionPayload>(
       'MessagesDeletedSuccess',
-    )<IMessagesDeletedIntegrationEventHandlerSuccessActionPayload>();
+    );
   }
 
   static get reducer() {
-    return produce(
-      (
+    return (
         draft: IChatsState,
         { payload }: ReturnType<typeof MessagesDeletedIntegrationEventHandlerSuccess.action>,
       ) => {
@@ -107,7 +110,6 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
         // TODO: handle user deleteing
 
         return draft;
-      },
-    );
+      };
   }
 }

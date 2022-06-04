@@ -1,21 +1,24 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { IAttachmentBase } from 'kimbu-models';
 import xorBy from 'lodash/xorBy';
-import { createAction } from 'typesafe-actions';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IMessageEditedIntegrationEvent } from './message-edited-integration-event';
+export interface IMessageEditedIntegrationEvent {
+  attachments: string; // TODO: Check for a generic JSON that will receive BaseAttachment[]
+  chatId: number;
+  messageId: number;
+  text: string;
+}
 
 export class MessageEditedEventHandler {
   static get action() {
-    return createAction('MessageEdited')<IMessageEditedIntegrationEvent>();
+    return createAction<IMessageEditedIntegrationEvent>('MessageEdited');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof MessageEditedEventHandler.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof MessageEditedEventHandler.action>) => {
         const { chatId, messageId, text } = payload;
 
         // messages update
@@ -54,7 +57,6 @@ export class MessageEditedEventHandler {
         });
 
         return draft;
-      },
-    );
+      };
   }
 }

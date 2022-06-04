@@ -1,9 +1,8 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { ISendCallOfferResponse, ISendCallOfferRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, delay, put, race, select, spawn, take } from 'redux-saga/effects';
-import { createAction, RootState } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory } from '@store/common/http/http-factory';
@@ -36,11 +35,11 @@ import { IOutgoingCallActionPayload } from './action-payloads/outgoing-call-acti
 
 export class OutgoingCall {
   static get action() {
-    return createAction('OUTGOING_CALL')<IOutgoingCallActionPayload>();
+    return createAction<IOutgoingCallActionPayload>('OUTGOING_CALL');
   }
 
   static get reducer() {
-    return produce((draft: ICallsState, { payload }: ReturnType<typeof OutgoingCall.action>) => {
+    return (draft: ICallsState, { payload }: ReturnType<typeof OutgoingCall.action>) => {
       if (draft.isSpeaking) {
         return draft;
       }
@@ -57,7 +56,7 @@ export class OutgoingCall {
         isOpened: payload.constraints.videoEnabled,
       };
       return draft;
-    });
+    };
   }
 
   static get saga() {

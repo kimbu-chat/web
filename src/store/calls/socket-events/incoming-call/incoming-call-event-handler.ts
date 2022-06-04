@@ -1,9 +1,8 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { apply, put } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { userSchema } from '@store/friends/normalization';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
@@ -15,20 +14,18 @@ import { IIncomingCallIntegrationEvent } from './incoming-call-integration-event
 
 export class IncomingCallEventHandler {
   static get action() {
-    return createAction('CallOfferSent')<IIncomingCallIntegrationEvent>();
+    return createAction<IIncomingCallIntegrationEvent>('CallOfferSent');
   }
 
   static get reducer() {
-    return produce(
-      (draft: ICallsState, { payload }: ReturnType<typeof IncomingCallEventHandler.action>) => {
+    return (draft: ICallsState, { payload }: ReturnType<typeof IncomingCallEventHandler.action>) => {
         draft.isIncomingCallVideoEnbaled = payload.isVideoEnabled;
         const interlocutor = payload.userInterlocutor;
         draft.interlocutorId = interlocutor.id;
         draft.amICalled = true;
 
         return draft;
-      },
-    );
+      };
   }
 
   static get saga() {

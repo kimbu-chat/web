@@ -1,13 +1,11 @@
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { ISendSmsCodeRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { authRequestFactory } from '@store/common/http/auth-request-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 
@@ -19,16 +17,16 @@ import type { ILoginState } from '@store/login/login-state';
 
 export class SendSmsCode {
   static get action() {
-    return createAction('SEND_PHONE_CONFIRMATION_CODE')<ISendSmsCodeActionPayload, Meta>();
+    return createDeferredAction<ISendSmsCodeActionPayload>('SEND_PHONE_CONFIRMATION_CODE');
   }
 
   static get reducer() {
-    return produce((draft: ILoginState, { payload }: ReturnType<typeof SendSmsCode.action>) => {
+    return (draft: ILoginState, { payload }: ReturnType<typeof SendSmsCode.action>) => {
       draft.loading = true;
       draft.isConfirmationCodeWrong = false;
       draft.phoneNumber = payload.phoneNumber;
       draft.loginSource = 'phone-number';
-    });
+    };
   }
 
   static get saga() {

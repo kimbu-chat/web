@@ -1,6 +1,5 @@
-import produce from 'immer';
+import { createReducer } from '@reduxjs/toolkit';
 import { SystemMessageType } from 'kimbu-models';
-import { createReducer } from 'typesafe-actions';
 
 import { APPEARANCE_CHAT_ID } from '@common/constants';
 import { MyProfileService } from '@services/my-profile-service';
@@ -107,67 +106,67 @@ const initialState: IChatsState = {
   chatInfo: { isInfoOpened: false },
 };
 
-const reducer = createReducer<IChatsState>(initialState)
-  .handleAction(InterlocutorStoppedTyping.action, InterlocutorStoppedTyping.reducer)
-  .handleAction(CreateGroupChatSuccess.action, CreateGroupChatSuccess.reducer)
-  .handleAction(AddUsersToGroupChatSuccess.action, AddUsersToGroupChatSuccess.reducer)
-  .handleAction(ChangeChatMutedStatusSuccess.action, ChangeChatMutedStatusSuccess.reducer)
-  .handleAction(ChangeSelectedChat.action, ChangeSelectedChat.reducer)
-  .handleAction(GetChats.action, GetChats.reducer)
-  .handleAction(GetChatsSuccess.action, GetChatsSuccess.reducer)
-  .handleAction(GetChatsFailure.action, GetChatsFailure.reducer)
-  .handleAction(LeaveGroupChatSuccess.action, LeaveGroupChatSuccess.reducer)
-  .handleAction(MarkChatAsReadSuccess.action, MarkChatAsReadSuccess.reducer)
-  .handleAction(GetPhotoAttachmentsSuccess.action, GetPhotoAttachmentsSuccess.reducer)
-  .handleAction(GetVoiceAttachmentsSuccess.action, GetVoiceAttachmentsSuccess.reducer)
-  .handleAction(GetRawAttachmentsSuccess.action, GetRawAttachmentsSuccess.reducer)
-  .handleAction(GetRawAttachments.action, GetRawAttachments.reducer)
-  .handleAction(GetPhotoAttachments.action, GetPhotoAttachments.reducer)
-  .handleAction(GetAudioAttachmentsSuccess.action, GetAudioAttachmentsSuccess.reducer)
-  .handleAction(UploadAttachmentRequest.action, UploadAttachmentRequest.reducer)
-  .handleAction(UploadAttachmentProgress.action, UploadAttachmentProgress.reducer)
-  .handleAction(UploadAttachmentSuccess.action, UploadAttachmentSuccess.reducer)
-  .handleAction(UploadAttachmentFailure.action, UploadAttachmentFailure.reducer)
-  .handleAction(RemoveAttachment.action, RemoveAttachment.reducer)
-  .handleAction(GetChatInfoSuccess.action, GetChatInfoSuccess.reducer)
-  .handleAction(EditGroupChatSuccess.action, EditGroupChatSuccess.reducer)
-  .handleAction(GetGroupChatUsers.action, GetGroupChatUsers.reducer)
-  .handleAction(GetGroupChatUsersSuccess.action, GetGroupChatUsersSuccess.reducer)
-  .handleAction(GetVoiceAttachments.action, GetVoiceAttachments.reducer)
-  .handleAction(GetVideoAttachments.action, GetVideoAttachments.reducer)
-  .handleAction(GetVideoAttachmentsSuccess.action, GetVideoAttachmentsSuccess.reducer)
-  .handleAction(CreateMessageSuccess.action, CreateMessageSuccess.reducer)
-  .handleAction(CreateDraftMessage.action, CreateDraftMessage.reducer)
-  .handleAction(DiscardDraftMessage.action, DiscardDraftMessage.reducer)
-  .handleAction(GetMessages.action, GetMessages.reducer)
-  .handleAction(GetMessagesSuccess.action, GetMessagesSuccess.reducer)
-  .handleAction(GetMessagesFailure.action, GetMessagesFailure.reducer)
-  .handleAction(CreateMessage.action, CreateMessage.reducer)
-  .handleAction(DeleteMessageSuccess.action, DeleteMessageSuccess.reducer)
-  .handleAction(SelectMessage.action, SelectMessage.reducer)
-  .handleAction(ResetSelectedMessages.action, ResetSelectedMessages.reducer)
-  .handleAction(ReplyToMessage.action, ReplyToMessage.reducer)
-  .handleAction(EditMessage.action, EditMessage.reducer)
-  .handleAction(SubmitEditMessage.action, SubmitEditMessage.reducer)
-  .handleAction(SubmitEditMessageSuccess.action, SubmitEditMessageSuccess.reducer)
-  .handleAction(ResetReplyToMessage.action, ResetReplyToMessage.reducer)
-  .handleAction(ResetEditMessage.action, ResetEditMessage.reducer)
-  .handleAction(ClearChatHistorySuccess.action, ClearChatHistorySuccess.reducer)
-  .handleAction(UnshiftChat.action, UnshiftChat.reducer)
-  .handleAction(MessageTyping.action, MessageTyping.reducer)
-  .handleAction(ChangeChatInfoOpened.action, ChangeChatInfoOpened.reducer)
-  .handleAction(RemoveAllAttachments.action, RemoveAllAttachments.reducer)
-  .handleAction(ForwardMessages.action, ForwardMessages.reducer)
-  .handleAction(RemoveUserFromGroupChatSuccess.action, RemoveUserFromGroupChatSuccess.reducer)
-  .handleAction(RemoveChatSuccess.action, RemoveChatSuccess.reducer)
+const reducer = createReducer<IChatsState>(initialState, builder => 
+  builder.addCase(InterlocutorStoppedTyping.action, InterlocutorStoppedTyping.reducer)
+  .addCase(CreateGroupChatSuccess.action, CreateGroupChatSuccess.reducer)
+  .addCase(AddUsersToGroupChatSuccess.action, AddUsersToGroupChatSuccess.reducer)
+  .addCase(ChangeChatMutedStatusSuccess.action, ChangeChatMutedStatusSuccess.reducer)
+  .addCase(ChangeSelectedChat.action, ChangeSelectedChat.reducer)
+  .addCase(GetChats.action, GetChats.reducer)
+  .addCase(GetChatsSuccess.action, GetChatsSuccess.reducer)
+  .addCase(GetChatsFailure.action, GetChatsFailure.reducer)
+  .addCase(LeaveGroupChatSuccess.action, LeaveGroupChatSuccess.reducer)
+  .addCase(MarkChatAsReadSuccess.action, MarkChatAsReadSuccess.reducer)
+  .addCase(GetPhotoAttachmentsSuccess.action, GetPhotoAttachmentsSuccess.reducer)
+  .addCase(GetVoiceAttachmentsSuccess.action, GetVoiceAttachmentsSuccess.reducer)
+  .addCase(GetRawAttachmentsSuccess.action, GetRawAttachmentsSuccess.reducer)
+  .addCase(GetRawAttachments.action, GetRawAttachments.reducer)
+  .addCase(GetPhotoAttachments.action, GetPhotoAttachments.reducer)
+  .addCase(GetAudioAttachmentsSuccess.action, GetAudioAttachmentsSuccess.reducer)
+  .addCase(UploadAttachmentRequest.action, UploadAttachmentRequest.reducer)
+  .addCase(UploadAttachmentProgress.action, UploadAttachmentProgress.reducer)
+  .addCase(UploadAttachmentSuccess.action, UploadAttachmentSuccess.reducer)
+  .addCase(UploadAttachmentFailure.action, UploadAttachmentFailure.reducer)
+  .addCase(RemoveAttachment.action, RemoveAttachment.reducer)
+  .addCase(GetChatInfoSuccess.action, GetChatInfoSuccess.reducer)
+  .addCase(EditGroupChatSuccess.action, EditGroupChatSuccess.reducer)
+  .addCase(GetGroupChatUsers.action, GetGroupChatUsers.reducer)
+  .addCase(GetGroupChatUsersSuccess.action, GetGroupChatUsersSuccess.reducer)
+  .addCase(GetVoiceAttachments.action, GetVoiceAttachments.reducer)
+  .addCase(GetVideoAttachments.action, GetVideoAttachments.reducer)
+  .addCase(GetVideoAttachmentsSuccess.action, GetVideoAttachmentsSuccess.reducer)
+  .addCase(CreateMessageSuccess.action, CreateMessageSuccess.reducer)
+  .addCase(CreateDraftMessage.action, CreateDraftMessage.reducer)
+  .addCase(DiscardDraftMessage.action, DiscardDraftMessage.reducer)
+  .addCase(GetMessages.action, GetMessages.reducer)
+  .addCase(GetMessagesSuccess.action, GetMessagesSuccess.reducer)
+  .addCase(GetMessagesFailure.action, GetMessagesFailure.reducer)
+  .addCase(CreateMessage.action, CreateMessage.reducer)
+  .addCase(DeleteMessageSuccess.action, DeleteMessageSuccess.reducer)
+  .addCase(SelectMessage.action, SelectMessage.reducer)
+  .addCase(ResetSelectedMessages.action, ResetSelectedMessages.reducer)
+  .addCase(ReplyToMessage.action, ReplyToMessage.reducer)
+  .addCase(EditMessage.action, EditMessage.reducer)
+  .addCase(SubmitEditMessage.action, SubmitEditMessage.reducer)
+  .addCase(SubmitEditMessageSuccess.action, SubmitEditMessageSuccess.reducer)
+  .addCase(ResetReplyToMessage.action, ResetReplyToMessage.reducer)
+  .addCase(ResetEditMessage.action, ResetEditMessage.reducer)
+  .addCase(ClearChatHistorySuccess.action, ClearChatHistorySuccess.reducer)
+  .addCase(UnshiftChat.action, UnshiftChat.reducer)
+  .addCase(MessageTyping.action, MessageTyping.reducer)
+  .addCase(ChangeChatInfoOpened.action, ChangeChatInfoOpened.reducer)
+  .addCase(RemoveAllAttachments.action, RemoveAllAttachments.reducer)
+  .addCase(ForwardMessages.action, ForwardMessages.reducer)
+  .addCase(RemoveUserFromGroupChatSuccess.action, RemoveUserFromGroupChatSuccess.reducer)
+  .addCase(RemoveChatSuccess.action, RemoveChatSuccess.reducer)
 
-  .handleAction(ResetSearchChats.action, ResetSearchChats.reducer)
-  .handleAction(RemoveChat.action, RemoveChat.reducer)
-  .handleAction(UploadVoiceAttachment.action, UploadVoiceAttachment.reducer)
-  .handleAction(UploadVoiceAttachmentSuccess.action, UploadVoiceAttachmentSuccess.reducer)
-  .handleAction(
+  .addCase(ResetSearchChats.action, ResetSearchChats.reducer)
+  .addCase(RemoveChat.action, RemoveChat.reducer)
+  .addCase(UploadVoiceAttachment.action, UploadVoiceAttachment.reducer)
+  .addCase(UploadVoiceAttachmentSuccess.action, UploadVoiceAttachmentSuccess.reducer)
+  .addCase(
     BlockUserSuccess.action,
-    produce((draft, { payload }: ReturnType<typeof BlockUserSuccess.action>) => {
+    (draft, { payload }: ReturnType<typeof BlockUserSuccess.action>) => {
       const userId = payload;
       const chatId = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);
@@ -179,11 +178,11 @@ const reducer = createReducer<IChatsState>(initialState)
       chat.isBlockedByUser = true;
 
       return draft;
-    }),
+    },
   )
-  .handleAction(
+  .addCase(
     UnblockUserSuccess.action,
-    produce((draft: IChatsState, { payload }: ReturnType<typeof UnblockUserSuccess.action>) => {
+    (draft: IChatsState, { payload }: ReturnType<typeof UnblockUserSuccess.action>) => {
       const userId = payload;
       const chatId = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);
@@ -195,12 +194,12 @@ const reducer = createReducer<IChatsState>(initialState)
       chat.isBlockedByUser = false;
 
       return draft;
-    }),
+    },
   )
 
-  .handleAction(
+  .addCase(
     DeleteFriendSuccess.action,
-    produce((draft: IChatsState, { payload }: ReturnType<typeof DeleteFriendSuccess.action>) => {
+    (draft: IChatsState, { payload }: ReturnType<typeof DeleteFriendSuccess.action>) => {
       const userId = payload;
 
       const chatId = ChatId.from(userId).id;
@@ -211,12 +210,12 @@ const reducer = createReducer<IChatsState>(initialState)
       }
 
       return draft;
-    }),
+    },
   )
 
-  .handleAction(
+  .addCase(
     AddFriendSuccess.action,
-    produce((draft: IChatsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
+    (draft: IChatsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
       const userId = payload;
       const chatId = ChatId.from(userId).id;
       const chat = getChatByIdDraftSelector(chatId, draft);
@@ -228,12 +227,11 @@ const reducer = createReducer<IChatsState>(initialState)
       chat.isInContacts = true;
 
       return draft;
-    }),
+    },
   )
-  .handleAction(
+  .addCase(
     DismissToAddContactSuccess.action,
-    produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof DismissToAddContactSuccess.action>) => {
+    (draft: IChatsState, { payload }: ReturnType<typeof DismissToAddContactSuccess.action>) => {
         const chatId: number = ChatId.from(payload).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
 
@@ -244,12 +242,11 @@ const reducer = createReducer<IChatsState>(initialState)
         chat.isDismissedAddToContacts = true;
 
         return draft;
-      },
-    ),
+      }
   )
-  .handleAction(
+  .addCase(
     GetMyProfileSuccess.action,
-    produce((draft: IChatsState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => {
+    (draft: IChatsState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => {
       const currentUserId = payload.id;
       draft.chats[APPEARANCE_CHAT_ID] = {
         messages: {
@@ -343,15 +340,15 @@ const reducer = createReducer<IChatsState>(initialState)
         },
       } as unknown as INormalizedChat;
       return draft;
-    }),
+    },
   )
 
   // socket-events
-  .handleAction(MessageCreatedEventHandlerSuccess.action, MessageCreatedEventHandlerSuccess.reducer)
-  .handleAction(DialogRemovedEventHandler.action, DialogRemovedEventHandler.reducer)
-  .handleAction(
+  .addCase(MessageCreatedEventHandlerSuccess.action, MessageCreatedEventHandlerSuccess.reducer)
+  .addCase(DialogRemovedEventHandler.action, DialogRemovedEventHandler.reducer)
+  .addCase(
     UserAddedToBlackListEventHandler.action,
-    produce((draft, { payload }: ReturnType<typeof UserAddedToBlackListEventHandler.action>) => {
+    (draft, { payload }: ReturnType<typeof UserAddedToBlackListEventHandler.action>) => {
       const { userInitiatorId, blockedUserId } = payload;
       const myId = new MyProfileService().myProfile.id;
 
@@ -369,12 +366,11 @@ const reducer = createReducer<IChatsState>(initialState)
         }
       }
       return draft;
-    }),
+    },
   )
-  .handleAction(
+  .addCase(
     UserRemovedFromBlackListEventHandler.action,
-    produce(
-      (
+    (
         draft: IChatsState,
         { payload }: ReturnType<typeof UserRemovedFromBlackListEventHandler.action>,
       ) => {
@@ -396,13 +392,11 @@ const reducer = createReducer<IChatsState>(initialState)
         }
         return draft;
       },
-    ),
   )
 
-  .handleAction(
+  .addCase(
     UserContactsRemovedEventHandler.action,
-    produce(
-      (
+    (
         draft: IChatsState,
         { payload }: ReturnType<typeof UserContactsRemovedEventHandler.action>,
       ) => {
@@ -419,12 +413,10 @@ const reducer = createReducer<IChatsState>(initialState)
 
         return draft;
       },
-    ),
   )
-  .handleAction(
+  .addCase(
     UserContactAddedSuccessEventHandler.action,
-    produce(
-      (
+    (
         draft: IChatsState,
         { payload }: ReturnType<typeof UserContactAddedSuccessEventHandler.action>,
       ) => {
@@ -438,27 +430,26 @@ const reducer = createReducer<IChatsState>(initialState)
         }
 
         return draft;
-      },
-    ),
+      }
   )
-  .handleAction(UserMessageTypingEventHandler.action, UserMessageTypingEventHandler.reducer)
-  .handleAction(MemberLeftGroupChatEventHandler.action, MemberLeftGroupChatEventHandler.reducer)
-  .handleAction(
+  .addCase(UserMessageTypingEventHandler.action, UserMessageTypingEventHandler.reducer)
+  .addCase(MemberLeftGroupChatEventHandler.action, MemberLeftGroupChatEventHandler.reducer)
+  .addCase(
     MemberRemovedFromGroupChatEventHandler.action,
     MemberRemovedFromGroupChatEventHandler.reducer,
   )
-  .handleAction(GroupChatEditedEventHandler.action, GroupChatEditedEventHandler.reducer)
-  .handleAction(GroupChatCreatedEventHandler.action, GroupChatCreatedEventHandler.reducer)
-  .handleAction(
+  .addCase(GroupChatEditedEventHandler.action, GroupChatEditedEventHandler.reducer)
+  .addCase(GroupChatCreatedEventHandler.action, GroupChatCreatedEventHandler.reducer)
+  .addCase(
     ChatMutedStatusChangedEventHandler.action,
     ChatMutedStatusChangedEventHandler.reducer,
   )
-  .handleAction(MessageEditedEventHandler.action, MessageEditedEventHandler.reducer)
-  .handleAction(MessageReadEventHandler.action, MessageReadEventHandler.reducer)
-  .handleAction(ChatClearedEventHandler.action, ChatClearedEventHandler.reducer)
-  .handleAction(
+  .addCase(MessageEditedEventHandler.action, MessageEditedEventHandler.reducer)
+  .addCase(MessageReadEventHandler.action, MessageReadEventHandler.reducer)
+  .addCase(ChatClearedEventHandler.action, ChatClearedEventHandler.reducer)
+  .addCase(
     MessagesDeletedIntegrationEventHandlerSuccess.action,
-    MessagesDeletedIntegrationEventHandlerSuccess.reducer,
-  );
+    MessagesDeletedIntegrationEventHandlerSuccess.reducer
+  ));
 
 export default reducer;

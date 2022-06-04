@@ -1,12 +1,10 @@
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { ICreateUserRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { Login } from '@store/login/features/login/login';
 import { authPhoneNumberSelector, confirmationCodeSelector } from '@store/login/selectors';
@@ -18,14 +16,13 @@ import type { ILoginState } from '@store/login/login-state';
 
 export class Register {
   static get action() {
-    return createAction('REGISTER')<IRegisterActionPayload, Meta>();
+    return createDeferredAction<IRegisterActionPayload>('REGISTER');
   }
 
   static get reducer() {
-    return produce((draft: ILoginState) => ({
-      ...draft,
-      loading: true,
-    }));
+    return (draft: ILoginState) => {
+      draft.loading = true;
+    };
   }
 
   static get saga() {

@@ -1,5 +1,4 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { IFriendsState } from '../../friends-state';
 
@@ -7,12 +6,11 @@ import { IGetFriendsSuccessActionPayload } from './action-payloads/get-friends-s
 
 export class GetFriendsSuccess {
   static get action() {
-    return createAction('GET_FRIENDS_SUCCESS')<IGetFriendsSuccessActionPayload>();
+    return createAction<IGetFriendsSuccessActionPayload>('GET_FRIENDS_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IFriendsState, { payload }: ReturnType<typeof GetFriendsSuccess.action>) => {
+    return (draft: IFriendsState, { payload }: ReturnType<typeof GetFriendsSuccess.action>) => {
         const { friendIds, hasMore, name, initializedByScroll } = payload;
 
         if (initializedByScroll) {
@@ -34,7 +32,6 @@ export class GetFriendsSuccess {
         }
 
         return draft;
-      },
-    );
+      };
   }
 }

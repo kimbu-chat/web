@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { IIntercolutorMessageTypingIntegrationEvent } from '@store/chats/socket-events/message-typing/message-typing-integration-event';
+import { IIntercolutorMessageTypingIntegrationEvent } from '@store/chats/socket-events/message-typing/message-typing-event-handler';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';

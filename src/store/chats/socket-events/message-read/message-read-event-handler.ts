@@ -1,5 +1,4 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { MessageState } from '@store/chats/models';
 
@@ -7,16 +6,20 @@ import { MyProfileService } from '../../../../services/my-profile-service';
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IMessagesReadIntegrationEvent } from './messages-read-integration-event';
+export interface IMessagesReadIntegrationEvent {
+  lastReadMessageId: number;
+  chatId: number;
+  userReaderId: number;
+}
+
 
 export class MessageReadEventHandler {
   static get action() {
-    return createAction('MessagesRead')<IMessagesReadIntegrationEvent>();
+    return createAction<IMessagesReadIntegrationEvent>('MessagesRead');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof MessageReadEventHandler.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof MessageReadEventHandler.action>) => {
         // chat update
         const { lastReadMessageId, chatId, userReaderId } = payload;
 
@@ -41,7 +44,6 @@ export class MessageReadEventHandler {
         }
 
         return draft;
-      },
-    );
+      };
   }
 }

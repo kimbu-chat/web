@@ -1,4 +1,4 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import {
   AttachmentType,
   IAudioAttachment,
@@ -6,7 +6,6 @@ import {
   IVideoAttachment,
   IVoiceAttachment,
 } from 'kimbu-models';
-import { createAction } from 'typesafe-actions';
 
 import { MyProfileService } from '@services/my-profile-service';
 import { IChatsState } from '@store/chats/chats-state';
@@ -16,19 +15,17 @@ import { getMessageDraftSelector } from '../../selectors';
 
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 
+
 export class MessageCreatedEventHandlerSuccess {
   static get action() {
-    return createAction('MessageCreated_SUCCESS')<
-      IMessageCreatedIntegrationEvent & {
+    return createAction<IMessageCreatedIntegrationEvent & {
         linkedMessage?: INormalizedMessage;
         isNewChat?: boolean;
-      }
-    >();
+      }>('MessageCreated_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (
+    return (
         draft: IChatsState,
         { payload }: ReturnType<typeof MessageCreatedEventHandlerSuccess.action>,
       ) => {
@@ -156,7 +153,6 @@ export class MessageCreatedEventHandlerSuccess {
         }
 
         return draft;
-      },
-    );
+      };
   }
 }

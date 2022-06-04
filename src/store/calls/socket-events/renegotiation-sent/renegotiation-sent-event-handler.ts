@@ -1,9 +1,8 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { IAcceptRenegotiationRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
@@ -27,20 +26,18 @@ import { IRenegotiationSentIntegrationEvent } from './renegotiation-sent-integra
 
 export class RenegotiationSentEventHandler {
   static get action() {
-    return createAction('RenegotiationSent')<IRenegotiationSentIntegrationEvent>();
+    return createAction<IRenegotiationSentIntegrationEvent>('RenegotiationSent');
   }
 
   static get reducer() {
-    return produce(
-      (
+    return (
         draft: ICallsState,
         { payload }: ReturnType<typeof RenegotiationSentEventHandler.action>,
       ) => {
         if (!payload.isVideoEnabled) {
           draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
         }
-      },
-    );
+      };
   }
 
   static get saga() {

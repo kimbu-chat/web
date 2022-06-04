@@ -1,5 +1,4 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { IFriendsState } from '../../friends-state';
 
@@ -7,12 +6,11 @@ import { IUserContactsRemovedIntegrationEvent } from './user-contacts-removed-in
 
 export class UserContactsRemovedEventHandler {
   static get action() {
-    return createAction('UserContactsRemoved')<IUserContactsRemovedIntegrationEvent>();
+    return createAction<IUserContactsRemovedIntegrationEvent>('UserContactsRemoved');
   }
 
   static get reducer() {
-    return produce(
-      (
+    return (
         draft: IFriendsState,
         { payload }: ReturnType<typeof UserContactsRemovedEventHandler.action>,
       ) => {
@@ -24,7 +22,6 @@ export class UserContactsRemovedEventHandler {
         );
 
         return draft;
-      },
-    );
+      };
   }
 }

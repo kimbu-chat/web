@@ -1,12 +1,17 @@
+import { Reducer } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 
 import { centrifugeInvokeMiddleware } from './middlewares/websockets/centrifuge';
+import { RootAction } from './root-action';
+import combinedReducer from './root-reducer';
 
 import type { RootReducer } from './root-reducer';
 import type { Saga, Task } from 'redux-saga';
 import type { Store, Dispatch } from 'redux';
+
+export type RootState = ReturnType<typeof combinedReducer>
 
 export enum StoreKeys {
   AUTH = 'auth',

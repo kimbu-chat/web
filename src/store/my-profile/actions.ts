@@ -22,16 +22,15 @@ export const deleteAccountAction = DeleteAccount.action;
 export const sendSmsChangePhone = SendSmsChangePhone.action;
 export const confirmChangePhone = ConfirmChangePhone.action;
 
-export const MyProfileActions = {
-  updateMyProfileAction,
-  checkNicknameAvailabilityAction,
-  getMyProfileAction,
-  getMyProfileSuccessAction,
-  changeUserOnlineStatusAction,
-  uploadAvatarRequestAction,
-  cancelAvatarUploadingRequestAction,
-  deleteAccountAction,
-  deactivateAccountAction,
-  sendSmsChangePhone,
-  confirmChangePhone,
-};
+export type MyProfileActions = 
+  typeof updateMyProfileAction &
+  typeof checkNicknameAvailabilityAction &
+  typeof getMyProfileAction &
+  typeof getMyProfileSuccessAction &
+  typeof changeUserOnlineStatusAction &
+  typeof uploadAvatarRequestAction &
+  typeof cancelAvatarUploadingRequestAction &
+  typeof deleteAccountAction &
+  typeof deactivateAccountAction &
+  typeof sendSmsChangePhone &
+  typeof confirmChangePhone;

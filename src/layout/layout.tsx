@@ -5,8 +5,7 @@ import { useSelector } from 'react-redux';
 
 import { AuthService } from '@services/auth-service';
 import { store, StoreKeys } from '@store';
-
-import type { RootState } from 'typesafe-actions';
+import { RootState } from '@store/root-reducer';
 
 const authService = new AuthService();
 const isTokenExistInStorage = !isEmpty(authService.securityTokens);

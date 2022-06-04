@@ -23,13 +23,12 @@ export const confirmPhoneFailureAction = ConfirmPhoneFailure.action;
 export const registerAction = Register.action;
 export const loginSuccessAction = LoginSuccess.action;
 
-export const LoginActions = {
-  sendSmsCodeAction,
-  sendSmsCodeFailureAction,
-  sendSmsCodeSuccessAction,
-  confirmPhoneAction,
-  confirmPhoneSuccessAction,
-  confirmPhoneFailureAction,
-  registerAction,
-  loginSuccessAction,
-};
+export type LoginActions =
+  typeof sendSmsCodeAction &
+  typeof sendSmsCodeFailureAction &
+  typeof sendSmsCodeSuccessAction &
+  typeof confirmPhoneAction &
+  typeof confirmPhoneSuccessAction &
+  typeof confirmPhoneFailureAction &
+  typeof registerAction &
+  typeof loginSuccessAction;

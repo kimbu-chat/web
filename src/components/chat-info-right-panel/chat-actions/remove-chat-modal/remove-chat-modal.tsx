@@ -10,7 +10,7 @@ import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { INSTANT_MESSAGING_PATH } from '@routing/routing.constants';
 import { Button } from '@shared-components/button';
-import { removeChat } from '@store/chats/actions';
+import { removeChatAction } from '@store/chats/actions';
 import { getInfoChatIdSelector } from '@store/chats/selectors';
 
 import './remove-chat-modal.scss';
@@ -30,7 +30,7 @@ const InitialRemoveChatModal: React.FC<IRemoveChatModalProps & IModalChildrenPro
 
   const chatId = useSelector(getInfoChatIdSelector);
 
-  const removeThisChat = useActionWithDeferred(removeChat);
+  const removeThisChat = useActionWithDeferred(removeChatAction);
 
   const [deleteForInterlocutor, setDeleteForInterlocutor] = useState(false);
   const [loading, setLoading] = useState(false);

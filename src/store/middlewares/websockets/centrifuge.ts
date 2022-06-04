@@ -1,9 +1,11 @@
+import { getType } from '@reduxjs/toolkit';
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux';
-import { getType, RootAction, RootState } from 'typesafe-actions';
 
 import { REACT_APP_WEBSOCKET_API } from '@common/paths';
 import { refreshTokenAction, refreshTokenSuccessAction } from '@store/auth/actions';
+import { RootAction } from '@store/root-action';
 
+import { RootState } from "../../index";
 import { WebsocketsConnected } from '../../internet/features/websockets-connection/websockets-connected';
 import { WebsocketsDisconnected } from '../../internet/features/websockets-connection/websockets-disconnected';
 import { CloseWebsocketConnection } from '../../web-sockets/features/close-web-socket-connection/close-web-socket-connection';

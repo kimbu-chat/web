@@ -1,17 +1,16 @@
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { HTTPStatusCode } from '@common/http-status-code';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { SendSmsCode } from '@store/login/features/send-sms-code/send-sms-code';
 
 import { ISendSmsChangePhoneActionPayload } from './action-payloads/send-sms-code-action-payload';
 
 export class SendSmsChangePhone {
   static get action() {
-    return createAction('SEND_SMS_CHANGE_PHONE')<ISendSmsChangePhoneActionPayload, Meta>();
+    return createDeferredAction<ISendSmsChangePhoneActionPayload>('SEND_SMS_CHANGE_PHONE');
   }
 
   static get saga() {

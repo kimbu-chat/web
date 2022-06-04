@@ -10,16 +10,15 @@ import { SettingsActions } from './settings/actions';
 import { UsersActions } from './users/actions';
 import { WebSocketActions } from './web-sockets/actions';
 
-export default {
-  auth: AuthActions,
-  chat: ChatActions,
-  profile: MyProfileActions,
-  friend: FriendActions,
-  call: CallActions,
-  internet: InternetActions,
-  settings: SettingsActions,
-  webSocket: WebSocketActions,
-  users: UsersActions,
-  login: LoginActions,
-  notifications: NotificationsActions,
-};
+export type RootAction = AuthActions &
+      ChatActions &
+      MyProfileActions &
+      FriendActions &
+      CallActions &
+      InternetActions &
+      SettingsActions &
+      WebSocketActions & 
+      UsersActions &
+      LoginActions &
+      NotificationsActions
+

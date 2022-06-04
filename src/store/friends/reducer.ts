@@ -1,4 +1,4 @@
-import { createReducer } from 'typesafe-actions';
+import { createReducer } from '@reduxjs/toolkit';
 
 import { AddFriendSuccess } from './features/add-friend/add-friend-success';
 import { DeleteFriendSuccess } from './features/delete-friend/delete-friend-success';
@@ -22,18 +22,18 @@ const initialState: IFriendsState = {
   },
 };
 
-const reducer = createReducer<IFriendsState>(initialState)
-  .handleAction(DeleteFriendSuccess.action, DeleteFriendSuccess.reducer)
-  .handleAction(AddFriendSuccess.action, AddFriendSuccess.reducer)
-  .handleAction(GetFriends.action, GetFriends.reducer)
-  .handleAction(GetFriendsSuccess.action, GetFriendsSuccess.reducer)
-  .handleAction(ResetSearchFriends.action, ResetSearchFriends.reducer)
+const reducer = createReducer<IFriendsState>(initialState, builder => 
+  builder.addCase(DeleteFriendSuccess.action, DeleteFriendSuccess.reducer)
+  .addCase(AddFriendSuccess.action, AddFriendSuccess.reducer)
+  .addCase(GetFriends.action, GetFriends.reducer)
+  .addCase(GetFriendsSuccess.action, GetFriendsSuccess.reducer)
+  .addCase(ResetSearchFriends.action, ResetSearchFriends.reducer)
 
   // socket-events
-  .handleAction(UserContactsRemovedEventHandler.action, UserContactsRemovedEventHandler.reducer)
-  .handleAction(
+  .addCase(UserContactsRemovedEventHandler.action, UserContactsRemovedEventHandler.reducer)
+  .addCase(
     UserContactAddedSuccessEventHandler.action,
     UserContactAddedSuccessEventHandler.reducer,
-  );
+  ));
 
 export default reducer;

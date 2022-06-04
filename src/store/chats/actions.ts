@@ -169,96 +169,95 @@ export const messageEditedEventHandlerAction = MessageEditedEventHandler.action;
 export const chatClearedEventHandlerAction = ChatClearedEventHandler.action;
 export const messagesDeletedIntegrationEventHandlerSuccessAction =
   MessagesDeletedIntegrationEventHandlerSuccess.action;
-export const removeChat = RemoveChat.action;
-export const removeChatSuccess = RemoveChatSuccess.action;
+export const removeChatAction = RemoveChat.action;
+export const removeChatSuccessAction = RemoveChatSuccess.action;
 export const dialogRemovedEventHandler = DialogRemovedEventHandler.action;
 
-export const ChatActions = {
+export type ChatActions =
   // ChatActions
-  getChatsAction,
-  resetSearchChatsAction,
-  getPhotoAttachmentsAction,
-  getVideoAttachmentsAction,
-  getRawAttachmentsAction,
-  getVoiceAttachmentsAction,
-  getAudioAttachmentsAction,
-  getChatInfoAction,
-  getChatsSuccessAction,
-  getChatsFailureAction,
-  getPhotoAttachmentsSuccessAction,
-  getVideoAttachmentsSuccessAction,
-  getRawAttachmentsSuccessAction,
-  getVoiceAttachmentsSuccessAction,
-  getAudioAttachmentsSuccessAction,
-  getChatInfoSuccessAction,
-  changeSelectedChatAction,
-  unshiftChatAction,
-  changeChatMutedStatusAction,
-  changeChatMutedStatusSuccessAction,
-  createGroupChatAction,
-  createGroupChatSuccessAction,
-  editGroupChatAction,
-  editGroupChatSuccessAction,
-  getGroupChatUsersAction,
-  getGroupChatUsersSuccessAction,
-  leaveGroupChatAction,
-  leaveGroupChatSuccessAction,
-  addUsersToGroupChatAction,
-  addUsersToGroupChatSuccessAction,
-  interlocutorStoppedTypingAction,
-  uploadAttachmentRequestAction,
-  uploadAttachmentProgressAction,
-  uploadAttachmentSuccessAction,
-  uploadAttachmentFailureAction,
-  removeAttachmentAction,
-  markMessagesAsReadAction: markChatAsReadAction,
-  markMessagesAsReadSuccessAction,
-  getMessagesAction,
-  getMessagesSuccessAction,
-  getMessagesFailureAction,
-  createMessageAction,
-  createMessageSuccessAction,
-  messageTypingAction,
-  deleteMessageAction,
-  deleteMessageSuccessAction,
-  selectMessageAction,
-  resetSelectedMessagesAction,
-  copyMessagesAction,
-  replyToMessageAction,
-  resetReplyToMessageAction,
-  editMessageAction,
-  submitEditMessageAction,
-  submitEditMessageSuccessAction,
-  resetEditMessageAction,
-  clearChatHistoryAction,
-  clearChatHistorySuccessAction,
-  forwardMessagesAction,
-  changeChatInfoOpenedAction,
-  removeAllAttachmentsAction,
-  removeUserFromGroupChatAction,
-  removeUserFromGroupChatSuccessAction,
-  removeChat,
-  removeChatSuccess,
-  uploadVoiceAttachmentAction,
-  uploadVoiceAttachmentSuccess,
-  getPossibleChatMembersAction,
-  createDraftMessageAction,
-  discardDraftMessageAction,
-  uploadMessageAttachmentsSuccess,
+  typeof getChatsAction &
+  typeof resetSearchChatsAction &
+  typeof getPhotoAttachmentsAction &
+  typeof getVideoAttachmentsAction &
+  typeof getRawAttachmentsAction &
+  typeof getVoiceAttachmentsAction &
+  typeof getAudioAttachmentsAction &
+  typeof getChatInfoAction &
+  typeof getChatsSuccessAction &
+  typeof getChatsFailureAction &
+  typeof getPhotoAttachmentsSuccessAction &
+  typeof getVideoAttachmentsSuccessAction &
+  typeof getRawAttachmentsSuccessAction &
+  typeof getVoiceAttachmentsSuccessAction &
+  typeof getAudioAttachmentsSuccessAction &
+  typeof getChatInfoSuccessAction &
+  typeof changeSelectedChatAction &
+  typeof unshiftChatAction &
+  typeof changeChatMutedStatusAction &
+  typeof changeChatMutedStatusSuccessAction &
+  typeof createGroupChatAction &
+  typeof createGroupChatSuccessAction &
+  typeof editGroupChatAction &
+  typeof editGroupChatSuccessAction &
+  typeof getGroupChatUsersAction &
+  typeof getGroupChatUsersSuccessAction &
+  typeof leaveGroupChatAction &
+  typeof leaveGroupChatSuccessAction &
+  typeof addUsersToGroupChatAction &
+  typeof addUsersToGroupChatSuccessAction &
+  typeof interlocutorStoppedTypingAction &
+  typeof uploadAttachmentRequestAction &
+  typeof uploadAttachmentProgressAction &
+  typeof uploadAttachmentSuccessAction &
+  typeof uploadAttachmentFailureAction &
+  typeof removeAttachmentAction &
+  typeof markChatAsReadAction &
+  typeof markMessagesAsReadSuccessAction &
+  typeof getMessagesAction &
+  typeof getMessagesSuccessAction &
+  typeof getMessagesFailureAction &
+  typeof createMessageAction &
+  typeof createMessageSuccessAction &
+  typeof messageTypingAction &
+  typeof deleteMessageAction &
+  typeof deleteMessageSuccessAction &
+  typeof selectMessageAction &
+  typeof resetSelectedMessagesAction &
+  typeof copyMessagesAction &
+  typeof replyToMessageAction &
+  typeof resetReplyToMessageAction &
+  typeof editMessageAction &
+  typeof submitEditMessageAction &
+  typeof submitEditMessageSuccessAction &
+  typeof resetEditMessageAction &
+  typeof clearChatHistoryAction &
+  typeof clearChatHistorySuccessAction &
+  typeof forwardMessagesAction &
+  typeof changeChatInfoOpenedAction &
+  typeof removeAllAttachmentsAction &
+  typeof removeUserFromGroupChatAction &
+  typeof removeUserFromGroupChatSuccessAction &
+  typeof removeChatAction &
+  typeof removeChatSuccessAction &
+  typeof uploadVoiceAttachmentAction &
+  typeof uploadVoiceAttachmentSuccess &
+  typeof getPossibleChatMembersAction &
+  typeof createDraftMessageAction &
+  typeof discardDraftMessageAction &
+  typeof uploadMessageAttachmentsSuccess &
 
   // socket-events
 
-  userMessageTypingEventHandlerAction,
-  memberLeftGroupChatEventHandlerAction,
-  memberRemovedFromGroupChatEventHandlerAction,
-  groupChatEditedEventHandlerAction,
-  groupChatCreatedEventHandlerAction,
-  chatMutedStatusChangedEventHandlerAction,
-  messageCreatedEventHandlerAction,
-  messageCreatedEventHandlerSuccessAction,
-  messageReadEventHandlerAction,
-  messageEditedEventHandlerAction,
-  chatClearedEventHandlerAction,
-  messagesDeletedIntegrationEventHandlerSuccessAction,
-  dialogRemovedEventHandler,
-};
+  typeof userMessageTypingEventHandlerAction &
+  typeof memberLeftGroupChatEventHandlerAction &
+  typeof memberRemovedFromGroupChatEventHandlerAction &
+  typeof groupChatEditedEventHandlerAction &
+  typeof groupChatCreatedEventHandlerAction &
+  typeof chatMutedStatusChangedEventHandlerAction &
+  typeof messageCreatedEventHandlerAction &
+  typeof messageCreatedEventHandlerSuccessAction &
+  typeof messageReadEventHandlerAction &
+  typeof messageEditedEventHandlerAction &
+  typeof chatClearedEventHandlerAction &
+  typeof messagesDeletedIntegrationEventHandlerSuccessAction &
+  typeof dialogRemovedEventHandler;

@@ -70,38 +70,37 @@ export const interlocutorAcceptedCallEventHandlerAction =
 export const callEndedEventHandlerAction = CallEndedEventHandler.action;
 export const callEndedEventHandlerSuccessAction = CallEndedEventHandlerSuccess.action;
 
-export const CallActions = {
-  getCallsAction,
-  getCallsSuccessAction,
-  outgoingCallAction,
-  changeActiveDeviceIdAction,
-  interlocutorBusyAction,
-  cancelCallAction,
-  cancelCallSuccessAction,
-  resetSearchCallsAction,
-  declineCallAction,
-  endCallAction,
-  timeoutCallAction,
-  acceptCallAction,
-  changeMediaStatusAction,
-  changeScreenShareStatusAction,
-  closeScreenShareStatusAction,
-  openScreenShareStatusAction,
-  closeVideoStatusAction,
-  openVideoStatusAction,
-  closeAudioStatusAction,
-  openAudioStatusAction,
-  gotDevicesInfoAction,
-  switchDeviceAction,
-  acceptCallSuccessAction,
-  spawnDeviceUpdateWatcherAction,
-  killDeviceUpdateWatcherAction,
-  openInterlocutorVideoStatusAction,
-  openInterlocutorAudioStatusAction,
-  incomingCallEventHandlerAction,
-  renegotiationSentEventHandlerAction,
-  renegotiationAcceptedEventHandlerAction,
-  interlocutorAcceptedCallEventHandlerAction,
-  callEndedEventHandlerAction,
-  callEndedEventHandlerSuccessAction,
-};
+export type CallActions =
+  typeof getCallsAction &
+  typeof getCallsSuccessAction &
+  typeof outgoingCallAction &
+  typeof changeActiveDeviceIdAction &
+  typeof interlocutorBusyAction &
+  typeof cancelCallAction &
+  typeof cancelCallSuccessAction &
+  typeof resetSearchCallsAction &
+  typeof declineCallAction &
+  typeof endCallAction &
+  typeof timeoutCallAction &
+  typeof acceptCallAction &
+  typeof changeMediaStatusAction &
+  typeof changeScreenShareStatusAction &
+  typeof closeScreenShareStatusAction &
+  typeof openScreenShareStatusAction &
+  typeof closeVideoStatusAction &
+  typeof openVideoStatusAction &
+  typeof closeAudioStatusAction &
+  typeof openAudioStatusAction &
+  typeof gotDevicesInfoAction &
+  typeof switchDeviceAction &
+  typeof acceptCallSuccessAction &
+  typeof spawnDeviceUpdateWatcherAction &
+  typeof killDeviceUpdateWatcherAction &
+  typeof openInterlocutorVideoStatusAction &
+  typeof openInterlocutorAudioStatusAction &
+  typeof incomingCallEventHandlerAction &
+  typeof renegotiationSentEventHandlerAction &
+  typeof renegotiationAcceptedEventHandlerAction &
+  typeof interlocutorAcceptedCallEventHandlerAction &
+  typeof callEndedEventHandlerAction &
+  typeof callEndedEventHandlerSuccessAction;

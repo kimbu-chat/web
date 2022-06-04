@@ -4,7 +4,6 @@ import { InitSocketConnection } from './features/init-web-socked-connection/init
 export const initSocketConnectionAction = InitSocketConnection.action;
 export const closeSocketConnectionAction = CloseWebsocketConnection.action;
 
-export const WebSocketActions = {
-  initSocketConnectionAction,
-  closeSocketConnectionAction,
-};
+export type WebSocketActions =
+  typeof initSocketConnectionAction &
+  typeof closeSocketConnectionAction;

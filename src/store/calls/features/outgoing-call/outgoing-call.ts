@@ -5,6 +5,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, delay, put, race, select, spawn, take } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
+import { RootState } from '@store';
 import { httpRequestFactory } from '@store/common/http/http-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 

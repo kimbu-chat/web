@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 
+import { RootState } from '@store/';
 import isEmpty from 'lodash/isEmpty';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -15,7 +16,6 @@ import {
 
 import type { Preload, UserStatus } from './routing.types';
 import type { RouteComponentProps } from 'react-router-dom';
-import type { RootState } from 'typesafe-actions';
 
 const userStatusSelector = (state: RootState): UserStatus => {
   const authService = new AuthService();

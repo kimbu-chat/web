@@ -9,9 +9,8 @@ export const internetDisconnectedAction = InternetDisconnected.action;
 export const websocketsConnectedAction = WebsocketsConnected.action;
 export const websocketsDisconnectedAction = WebsocketsDisconnected.action;
 
-export const InternetActions = {
-  internetConnectedAction,
-  internetDisconnectedAction,
-  websocketsConnectedAction,
-  websocketsDisconnectedAction,
-};
+export type InternetActions =
+  typeof internetConnectedAction &
+  typeof internetDisconnectedAction &
+  typeof websocketsConnectedAction &
+  typeof websocketsDisconnectedAction;

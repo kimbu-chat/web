@@ -1,5 +1,4 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
@@ -11,12 +10,11 @@ export interface IMarkChatAsReadSuccessActionPayload {
 
 export class MarkChatAsReadSuccess {
   static get action() {
-    return createAction('MARK_CHAT_AS_READ_SUCCESS')<IMarkChatAsReadSuccessActionPayload>();
+    return createAction<IMarkChatAsReadSuccessActionPayload>('MARK_CHAT_AS_READ_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof MarkChatAsReadSuccess.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof MarkChatAsReadSuccess.action>) => {
         const { chatId } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
@@ -26,7 +24,6 @@ export class MarkChatAsReadSuccess {
         }
 
         return draft;
-      },
-    );
+      };
   }
 }

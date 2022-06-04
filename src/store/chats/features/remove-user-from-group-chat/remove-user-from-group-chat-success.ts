@@ -1,22 +1,23 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { ChatId } from '@store/chats/chat-id';
 import { IChatsState } from '@store/chats/chats-state';
 import { getChatByIdDraftSelector } from '@store/chats/selectors';
 
-import { IRemoveUserFromGroupChatSuccessActionPayload } from './action-payloads/remove-user-from-group-chat-success-payload';
+export interface IRemoveUserFromGroupChatSuccessActionPayload {
+  userId: number;
+  groupChatId: number;
+}
 
 export class RemoveUserFromGroupChatSuccess {
   static get action() {
-    return createAction(
+    return createAction<IRemoveUserFromGroupChatSuccessActionPayload>(
       'REMOVE_USER_FROM_GROUP_CHAT_SUCCESS',
-    )<IRemoveUserFromGroupChatSuccessActionPayload>();
+    );
   }
 
   static get reducer() {
-    return produce(
-      (
+    return (
         draft: IChatsState,
         { payload }: ReturnType<typeof RemoveUserFromGroupChatSuccess.action>,
       ) => {
@@ -32,7 +33,6 @@ export class RemoveUserFromGroupChatSuccess {
         }
 
         return draft;
-      },
-    );
+      };
   }
 }

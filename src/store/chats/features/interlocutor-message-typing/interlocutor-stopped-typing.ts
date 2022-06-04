@@ -1,19 +1,20 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
+
+import { IIntercolutorMessageTypingIntegrationEvent } from '@store/chats/socket-events/message-typing/message-typing-integration-event';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IInterlocutorStoppedTypingActionPayload } from './action-payloads/interlocutor-stopped-typing-action-payload';
+
+export type IInterlocutorStoppedTypingActionPayload = IIntercolutorMessageTypingIntegrationEvent;
 
 export class InterlocutorStoppedTyping {
   static get action() {
-    return createAction('INTERLOCUTOR_STOPPED_TYPING')<IInterlocutorStoppedTypingActionPayload>();
+    return createAction<IInterlocutorStoppedTypingActionPayload>('INTERLOCUTOR_STOPPED_TYPING');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof InterlocutorStoppedTyping.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof InterlocutorStoppedTyping.action>) => {
         const { chatId, interlocutorName } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
@@ -24,7 +25,6 @@ export class InterlocutorStoppedTyping {
           );
         }
         return draft;
-      },
-    );
+      };
   }
 }

@@ -1,18 +1,19 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { IChatsState } from '../../chats-state';
 
-import { IChatMutedStatusChangedIntegrationEvent } from './chat-mute-status-changed-integration-event';
+export interface IChatMutedStatusChangedIntegrationEvent {
+  chatIds: number[];
+  isMuted: boolean;
+}
 
 export class ChatMutedStatusChangedEventHandler {
   static get action() {
-    return createAction('ChatsMuteStatusChanged')<IChatMutedStatusChangedIntegrationEvent>();
+    return createAction<IChatMutedStatusChangedIntegrationEvent>('ChatsMuteStatusChanged');
   }
 
   static get reducer() {
-    return produce(
-      (
+    return (
         draft: IChatsState,
         { payload }: ReturnType<typeof ChatMutedStatusChangedEventHandler.action>,
       ) => {
@@ -27,7 +28,6 @@ export class ChatMutedStatusChangedEventHandler {
         });
 
         return draft;
-      },
-    );
+      };
   }
 }

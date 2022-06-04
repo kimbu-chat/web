@@ -1,5 +1,5 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
+import { IUser } from 'kimbu-models';
 
 import { INormalizedChat, InterlocutorType } from '@store/chats/models';
 import { playSoundSafely } from '@utils/current-music';
@@ -9,16 +9,25 @@ import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
 import { getChatExistsDraftSelector } from '../../selectors';
 
-import { IGroupChatCreatedIntegrationEvent } from './group-chat-сreated-integration-event';
+export interface IGroupChatCreatedIntegrationEvent {
+  description?: string;
+  id: number;
+  memberIds: number[];
+  name: string;
+  userCreator: IUser;
+  userCreatorId: number;
+  avatarId?: number;
+  avatarUrl?: string;
+  avatarPreviewUrl?: string;
+}
 
 export class GroupChatCreatedEventHandler {
   static get action() {
-    return createAction('GroupChatCreated')<IGroupChatCreatedIntegrationEvent>();
+    return createAction<IGroupChatCreatedIntegrationEvent>('GroupChatCreated');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof GroupChatCreatedEventHandler.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof GroupChatCreatedEventHandler.action>) => {
         const {
           description,
           id,
@@ -113,7 +122,6 @@ export class GroupChatCreatedEventHandler {
         }
 
         return draft;
-      },
-    );
+      };
   }
 }

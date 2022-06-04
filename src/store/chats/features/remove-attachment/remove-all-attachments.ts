@@ -1,22 +1,23 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { all, apply } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { getChatByIdDraftSelector } from '@store/chats/selectors';
 
 import { IChatsState } from '../../chats-state';
 import { removeUploadingAttachment } from '../../upload-qeue';
 
-import { IRemoveAllAttachmentsActionPayload } from './action-payloads/remove-all-attachments-action-payload';
+export interface IRemoveAllAttachmentsActionPayload {
+  ids: number[];
+}
 
 export class RemoveAllAttachments {
   static get action() {
-    return createAction('REMOVE_ALL_ATTACHMENTS')<IRemoveAllAttachmentsActionPayload>();
+    return createAction<IRemoveAllAttachmentsActionPayload>('REMOVE_ALL_ATTACHMENTS');
   }
 
   static get reducer() {
-    return produce((draft: IChatsState) => {
+    return (draft: IChatsState) => {
       if (draft.selectedChatId) {
         const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
@@ -26,7 +27,7 @@ export class RemoveAllAttachments {
       }
 
       return draft;
-    });
+    };
   }
 
   static get saga() {

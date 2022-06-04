@@ -1,20 +1,22 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { MyProfileService } from '../../../../services/my-profile-service';
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IChatClearedIntegrationEvent } from './chat-cleared-integration-event';
+export interface IChatClearedIntegrationEvent {
+  chatId: number;
+  onlyForUserInitiator: boolean;
+  userInitiatorId: number;
+}
 
 export class ChatClearedEventHandler {
   static get action() {
-    return createAction('ChatCleared')<IChatClearedIntegrationEvent>();
+    return createAction<IChatClearedIntegrationEvent>('ChatCleared');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof ChatClearedEventHandler.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof ChatClearedEventHandler.action>) => {
         const { chatId, onlyForUserInitiator, userInitiatorId } = payload;
 
         const myId = new MyProfileService().myProfile.id;
@@ -42,7 +44,6 @@ export class ChatClearedEventHandler {
         }
 
         return draft;
-      },
-    );
+      };
   }
 }

@@ -1,4 +1,4 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import {
   AttachmentType,
   IAttachmentBase,
@@ -9,7 +9,6 @@ import {
 } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MyProfileService } from '@services/my-profile-service';
 import { IChatsState } from '@store/chats/chats-state';
@@ -20,7 +19,6 @@ import { CreateMessage } from '../create-message/create-message';
 import { UploadAttachmentRequest } from '../upload-attachment/upload-attachment-request';
 import { UploadAttachmentSuccess } from '../upload-attachment/upload-attachment-success';
 
-import { IUploadVoiceAttachmentActionPayload } from './action-payloads/upload-voice-attachment-action-payload';
 import { UploadVoiceAttachmentSuccess } from './upload-voice-attachment-success';
 
 interface IUploadVoiceReferred extends IUploadVoiceAttachmentActionPayload {
@@ -28,14 +26,22 @@ interface IUploadVoiceReferred extends IUploadVoiceAttachmentActionPayload {
   linkedMessageType: MessageLinkType;
 }
 
+export interface IUploadVoiceAttachmentActionPayload {
+  file: File;
+  waveFormJson?: string;
+  duration: number;
+  id: number;
+  // url: string;
+}
+
+
 export class UploadVoiceAttachment {
   static get action() {
-    return createAction('UPLOAD_VOICE_ATTACHMENT')<IUploadVoiceReferred>();
+    return createAction<IUploadVoiceReferred>('UPLOAD_VOICE_ATTACHMENT');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof UploadVoiceAttachment.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof UploadVoiceAttachment.action>) => {
         const { file, waveFormJson, duration, id } = payload;
 
         if (!draft.selectedChatId) {
@@ -91,8 +97,7 @@ export class UploadVoiceAttachment {
           chatMessages.messageIds.unshift(message.id);
         }
         return draft;
-      },
-    );
+      };
   }
 
   static get saga() {

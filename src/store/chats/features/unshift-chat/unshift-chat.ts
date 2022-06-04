@@ -1,18 +1,20 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import merge from 'lodash/merge';
-import { createAction } from 'typesafe-actions';
+
+import { INormalizedChat } from '@store/chats/models';
 
 import { IChatsState } from '../../chats-state';
 
-import { IUnshiftChatActionPayload } from './action-payloads/unshift-chat-action-payload';
+
+export type IUnshiftChatActionPayload = { chat: INormalizedChat; addToList: boolean };
 
 export class UnshiftChat {
   static get action() {
-    return createAction('UNSHIFT_CHAT')<IUnshiftChatActionPayload>();
+    return createAction<IUnshiftChatActionPayload>('UNSHIFT_CHAT');
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof UnshiftChat.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof UnshiftChat.action>) => {
       const { chat, addToList } = payload;
 
       draft.chats[chat.id] = merge(draft.chats[chat.id], chat);
@@ -28,6 +30,6 @@ export class UnshiftChat {
       }
 
       return draft;
-    });
+    };
   }
 }

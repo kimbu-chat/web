@@ -1,21 +1,22 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import {IAttachmentToSend} from '@store/chats/models';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IUploadAttachmentFailureActionPayload } from './action-payloads/upload-attachment-failure-action-payload';
+export interface IUploadAttachmentFailureActionPayload {
+  chatId: number;
+  attachmentId: number;
+}
 
 export class UploadAttachmentFailure {
   static get action() {
-    return createAction('UPLOAD_ATTACHMENT_FAILURE')<IUploadAttachmentFailureActionPayload>();
+    return createAction<IUploadAttachmentFailureActionPayload>('UPLOAD_ATTACHMENT_FAILURE');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentFailure.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentFailure.action>) => {
         const { chatId, attachmentId } = payload;
 
         const chat = getChatByIdDraftSelector(chatId, draft);
@@ -31,7 +32,6 @@ export class UploadAttachmentFailure {
           }
         }
         return draft;
-      },
-    );
+      };
   }
 }

@@ -1,7 +1,7 @@
-import { createEmptyAction } from '@store/common/actions';
+import { createAction } from "@reduxjs/toolkit";
 
 export class MessageAttachmentsUploaded {
   static get action() {
-    return createEmptyAction('MESSAGE_ATTACHMENTS_UPLOADED');
+    return createAction('MESSAGE_ATTACHMENTS_UPLOADED');
   }
 }

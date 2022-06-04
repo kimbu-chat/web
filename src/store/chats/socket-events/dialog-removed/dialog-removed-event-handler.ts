@@ -1,19 +1,19 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
 
-import { IDialogRemovedIntegrationEvent } from './dialog-removed-integration-event';
+export interface IDialogRemovedIntegrationEvent {
+  userInterlocutorId: number;
+}
 
 export class DialogRemovedEventHandler {
   static get action() {
-    return createAction('DialogRemoved')<IDialogRemovedIntegrationEvent>();
+    return createAction<IDialogRemovedIntegrationEvent>('DialogRemoved');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof DialogRemovedEventHandler.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof DialogRemovedEventHandler.action>) => {
         const { userInterlocutorId } = payload;
         const chatId = ChatId.from(userInterlocutorId).id;
 
@@ -27,7 +27,6 @@ export class DialogRemovedEventHandler {
         // TODO: handle user deleteing
 
         return draft;
-      },
-    );
+      };
   }
 }

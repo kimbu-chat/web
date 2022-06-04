@@ -1,18 +1,19 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IReplyToMessageActionPayload } from './action-payloads/reply-to-message-action-payload';
+export interface IReplyToMessageActionPayload {
+  messageId: number;
+}
 
 export class ReplyToMessage {
   static get action() {
-    return createAction('REPLY_TO_MESSAGE')<IReplyToMessageActionPayload>();
+    return createAction<IReplyToMessageActionPayload>('REPLY_TO_MESSAGE');
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof ReplyToMessage.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof ReplyToMessage.action>) => {
       const { messageId } = payload;
 
       if (draft.selectedChatId) {
@@ -26,6 +27,6 @@ export class ReplyToMessage {
       }
 
       return draft;
-    });
+    };
   }
 }

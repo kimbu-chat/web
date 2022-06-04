@@ -1,5 +1,4 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { MyProfileService } from '@services/my-profile-service';
 
@@ -7,18 +6,22 @@ import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IMemberRemovedFromGroupChatIntegrationEvent } from './member-removed-from-group-chat-integration-event';
+
+export interface IMemberRemovedFromGroupChatIntegrationEvent {
+  groupChatId: number;
+  userId: number;
+}
+
 
 export class MemberRemovedFromGroupChatEventHandler {
   static get action() {
-    return createAction(
+    return createAction<IMemberRemovedFromGroupChatIntegrationEvent>(
       'MemberRemovedFromGroupChat',
-    )<IMemberRemovedFromGroupChatIntegrationEvent>();
+    );
   }
 
   static get reducer() {
-    return produce(
-      (
+    return (
         draft: IChatsState,
         { payload }: ReturnType<typeof MemberRemovedFromGroupChatEventHandler.action>,
       ) => {
@@ -50,7 +53,6 @@ export class MemberRemovedFromGroupChatEventHandler {
         }
 
         return draft;
-      },
-    );
+      };
   }
 }

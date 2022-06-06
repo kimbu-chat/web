@@ -1,10 +1,10 @@
-import { RootState } from 'typesafe-actions';
+import { RootState } from "..";
 
 export const authenticatedSelector = (state: RootState): boolean => state.auth.isAuthenticated;
 
 export const authPhoneNumberSelector = (state: RootState): string => state.login.phoneNumber;
 
-export const googleIdTokenSelector = (state: RootState): string => state.login.googleIdToken;
+export const googleIdTokenSelector = (state: RootState) => state.login.googleAuthIdToken;
 
 export const confirmationCodeSelector = (state: RootState): string => state.login.confirmationCode;
 

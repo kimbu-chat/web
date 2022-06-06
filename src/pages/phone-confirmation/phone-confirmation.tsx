@@ -28,7 +28,7 @@ const loadPrivacyPolicy = () => import('@auth-components/privacy-policy');
 const LazyPrivacyPolicy = React.lazy(loadPrivacyPolicy);
 
 const googleErrors = new Map<LoginFromGoogleAccountResult, string>([
-  [LoginFromGoogleAccountResult.GoogleAuthDisbled, "Google auth disabled"],
+  [LoginFromGoogleAccountResult.GoogleAuthDisabled, "Google auth disabled"],
   [LoginFromGoogleAccountResult.NetworkError, "Network Error, try later"],
   [LoginFromGoogleAccountResult.IdTokenInvalid, "Failed to log in, try later"],
   [LoginFromGoogleAccountResult.UnknownError, "Failed to log in, try later"],
@@ -75,7 +75,7 @@ const PhoneConfirmationPage: React.FC = () => {
       .then()
       .catch((result: LoginFromGoogleAccountResult) => {
         if(googleErrors.has(result)){
-          emitToast(googleErrors[result], { type: 'error' });
+          emitToast(googleErrors.get(result), { type: 'error' });
         } else if(result === LoginFromGoogleAccountResult.UserNotRegistered){
           history.push(SIGN_UP_PATH);
         }

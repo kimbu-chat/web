@@ -1,6 +1,6 @@
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { InputType } from '../../common/enums/input-type';
@@ -28,7 +28,7 @@ import { CloseVideoStatus } from './close-video-status';
 
 export class ChangeMediaStatus {
   static get action() {
-    return createAction('CHANGE_MEDIA_STATUS')<IChangeMediaStatusActionPayload>();
+    return createAction<IChangeMediaStatusActionPayload>('CHANGE_MEDIA_STATUS');
   }
 
   static get saga() {

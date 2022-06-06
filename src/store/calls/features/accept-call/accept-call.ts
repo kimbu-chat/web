@@ -30,6 +30,7 @@ import { ICallsState } from '../../calls-state';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 
 import { AcceptCallSuccess } from './accept-call-success';
+import {createAction} from "@reduxjs/toolkit";
 
 export interface IAcceptCallActionPayload {
   videoEnabled: boolean;
@@ -46,9 +47,9 @@ export class AcceptCall {
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.videoEnabled };
 
-      /* 
-         We need to hide incoming call when other clients(mobile apps, web clients, etc) 
-         of same user get "CallAccepted" event and "isCallAccepted" is false. 
+      /*
+         We need to hide incoming call when other clients(mobile apps, web clients, etc)
+         of same user get "CallAccepted" event and "isCallAccepted" is false.
       */
       draft.isCallAccepted = true;
 

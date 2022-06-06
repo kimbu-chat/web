@@ -4,12 +4,12 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
 import { IModalChildrenProps, Modal } from '@components/modal';
-import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as LogoutSvg } from '@icons/logout.svg';
 import { Button } from '@shared-components/button';
 import { logoutAction } from '@store/auth/actions';
 
 import './logout-modal.scss';
+import {useActionWithDeferred} from "@hooks/use-action-with-deferred";
 
 interface ILogoutModalProps {
   onClose: () => void;
@@ -24,11 +24,11 @@ const InitialLogoutModal: React.FC<ILogoutModalProps & IModalChildrenProps> = ({
 
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const logoutRequest = useEmptyActionWithDeferred(logoutAction);
+  const logoutRequest = useActionWithDeferred(logoutAction);
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async ()  => {
     setIsLoggingOut(true);
-    logoutRequest();
+    await logoutRequest();
   }, [logoutRequest]);
 
   return (

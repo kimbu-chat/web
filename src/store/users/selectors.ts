@@ -1,4 +1,4 @@
-import { RootState } from 'typesafe-actions';
+import { RootState } from "..";
 
 export const getUserListSelector = (state: RootState) => state.users.users;
 

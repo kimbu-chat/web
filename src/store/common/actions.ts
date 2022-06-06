@@ -11,7 +11,7 @@ export type Meta<TData = Record<string, unknown>, TException = unknown> = {
 
 type PrepareActionFnType<TPayload, TMetaPayload> = (
   payload: TPayload,
-  meta: Meta<TMetaPayload, unknown>,
+  meta?: Meta<TMetaPayload, unknown>,
 ) => {
   meta: Meta<TMetaPayload, unknown>;
   payload: TPayload;

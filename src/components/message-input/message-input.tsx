@@ -26,7 +26,6 @@ import {
   submitEditMessageAction,
   uploadAttachmentRequestAction,
 } from '@store/chats/actions';
-import { ICreateMessageActionPayload } from '@store/chats/features/create-message/action-payloads/create-message-action-payload';
 import { IAttachmentCreation, MessageState } from '@store/chats/models';
 import {
   getMessageToEditSelector,
@@ -52,6 +51,7 @@ import { RecordingMessage } from './recording-message/recording-message';
 import { RespondingMessage } from './responding-message/responding-message';
 
 import './message-input.scss';
+import {ICreateMessageActionPayload} from "@store/chats/features/create-message/create-message";
 
 const CreateMessageInput = () => {
   const { t } = useTranslation();

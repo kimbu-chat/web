@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { CheckBox } from '@components/check-box';
-import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import {
   changeNotificationSoundStateAction,
@@ -16,6 +15,7 @@ import {
 } from '@store/settings/selectors';
 
 import './notifications-settings.scss';
+import {useActionWithDeferred} from "@hooks/use-action-with-deferred";
 
 const NotificationsSettings = () => {
   const { t } = useTranslation();
@@ -26,7 +26,7 @@ const NotificationsSettings = () => {
   const arePushNotificationsEnabled = useSelector(arePushNotificationsEnabledSelector);
 
   const changeSoundNotificationState = useActionWithDispatch(changeNotificationSoundStateAction);
-  const changePushNotificationState = useEmptyActionWithDeferred(changePushNotificationStateAction);
+  const changePushNotificationState = useActionWithDeferred(changePushNotificationStateAction);
 
   const togglePushNotification = useCallback(() => {
     setPushNotificationsLoading(true);

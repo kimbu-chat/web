@@ -4,12 +4,12 @@ import { call } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
 import { Logout } from '@store/auth/features/logout/logout';
-import { createEmptyDefferedAction } from '@store/common/actions';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
+import {createDeferredAction} from "@store/common/actions";
 
 export class DeactivateAccount {
   static get action() {
-    return createEmptyDefferedAction('DEACTIVATE_ACCOUNT');
+    return createDeferredAction('DEACTIVATE_ACCOUNT');
   }
 
   static get saga() {

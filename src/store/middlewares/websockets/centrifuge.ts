@@ -68,8 +68,8 @@ async function openConnection(store: MiddlewareAPI<Dispatch, RootState>) {
 export const centrifugeInvokeMiddleware: Middleware<RootAction, RootState> =
   (store: MiddlewareAPI<Dispatch, RootState>) =>
   (next: Dispatch<RootAction>) =>
-  async (action: RootAction): Promise<RootAction> => {
-    switch (action.type) {
+  async (action: ReturnType<typeof RootAction>): Promise<RootAction> => {
+    switch (getType(action)) {
       case getType(InitSocketConnection.action): {
         const expTime = new Date(
           store.getState().auth?.securityTokens?.accessTokenExpirationTime || '',

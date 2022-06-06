@@ -1,6 +1,6 @@
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { call, put, spawn } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { InputType } from '../../common/enums/input-type';
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
@@ -11,7 +11,7 @@ import { ISpawnDeviceUpdateWatcherActionPayload } from './action-payloads/spawn-
 
 export class SpawnDeviceUpdateWatcher {
   static get action() {
-    return createAction('SPAWN_DEVICE_UPDATE_WATCHER')<ISpawnDeviceUpdateWatcherActionPayload>();
+    return createAction<ISpawnDeviceUpdateWatcherActionPayload>('SPAWN_DEVICE_UPDATE_WATCHER');
   }
 
   static get saga() {

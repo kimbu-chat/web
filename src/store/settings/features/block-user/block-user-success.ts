@@ -1,7 +1,7 @@
-import { createAction } from 'typesafe-actions';
+import { createAction } from "@reduxjs/toolkit";
 
 export class BlockUserSuccess {
   static get action() {
-    return createAction('BLOCK_USER_SUCCESS')<number>();
+    return createAction<number>('BLOCK_USER_SUCCESS');
   }
 }

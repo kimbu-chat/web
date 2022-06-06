@@ -12,7 +12,7 @@ import { apply, call, put } from 'redux-saga/effects';
 import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
 import { AuthService } from '@services/auth-service';
-import { Meta } from '@store/common/actions';
+import {createDeferredAction, Meta} from '@store/common/actions';
 import { authRequestFactory } from '@store/common/http/auth-request-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { LoginFromGoogleAccountSuccess } from '@store/login/features/login-from-google-account/login-from-google-account-success';
@@ -21,6 +21,7 @@ import { isNetworkError } from '@utils/error-utils';
 import { ICustomJwtPayload } from '../login/models/custom-jwt-payload';
 
 import type { ILoginState } from '@store/login/login-state';
+import {createAction} from "@reduxjs/toolkit";
 
 export interface ILoginFromGoogleAccountActionPayload {
   idToken: string;
@@ -60,10 +61,7 @@ const mapError = (error: AxiosError): LoginFromGoogleAccountResult => {
 
 export class LoginFromGoogleAccount {
   static get action() {
-    return createAction('LOGIN_FROM_GOOGLE_ACCOUNT')<
-      ILoginFromGoogleAccountActionPayload,
-      Meta<LoginFromGoogleAccountResult, LoginFromGoogleAccountResult> | null
-    >();
+    return createDeferredAction<ILoginFromGoogleAccountActionPayload, LoginFromGoogleAccountResult>('LOGIN_FROM_GOOGLE_ACCOUNT');
   }
 
   static get reducer() {

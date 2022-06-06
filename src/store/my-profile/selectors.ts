@@ -1,5 +1,6 @@
 import { IUser } from 'kimbu-models';
-import { RootState } from 'typesafe-actions';
+
+import { RootState } from '..';
 
 const undefinedKey = -1;
 

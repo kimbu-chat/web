@@ -56,7 +56,7 @@ const initialState: ICallsState = {
   calls: {},
 };
 
-const reducer = createReducer<ICallsState>(initialState, builder => 
+const reducer = createReducer<ICallsState>(initialState, builder =>
   builder.addCase(OutgoingCall.action, OutgoingCall.reducer)
   .addCase(CancelCallSuccess.action, CancelCallSuccess.reducer)
   .addCase(AcceptCall.action, AcceptCall.reducer)
@@ -86,5 +86,5 @@ const reducer = createReducer<ICallsState>(initialState, builder =>
     InterlocutorAcceptedCallEventHandler.reducer,
   )
   .addCase(RenegotiationSentEventHandler.action, RenegotiationSentEventHandler.reducer)
-  .addCase(CallEndedEventHandlerSuccess.action, CallEndedEventHandlerSuccess.reducer);
+  .addCase(CallEndedEventHandlerSuccess.action, CallEndedEventHandlerSuccess.reducer));
 export default reducer;

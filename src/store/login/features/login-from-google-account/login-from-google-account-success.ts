@@ -1,14 +1,14 @@
 import { SagaIterator } from '@redux-saga/core';
 import { spawn } from 'redux-saga/effects';
 
-import { createEmptyAction } from '@store/common/actions';
 import { subscribeToPushNotifications } from '@store/notifications/actions';
 
 import { ILoginState } from '../../login-state';
+import {createAction} from "@reduxjs/toolkit";
 
 export class LoginFromGoogleAccountSuccess {
   static get action() {
-    return createEmptyAction('LOGIN_FROM_GOOGLE_ACCOUNT_SUCCESS');
+    return createAction('LOGIN_FROM_GOOGLE_ACCOUNT_SUCCESS');
   }
 
   static get reducer() {

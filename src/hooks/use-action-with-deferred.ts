@@ -6,8 +6,6 @@ import {useDispatch} from 'react-redux';
 
 import { withDeferred } from '@utils/with-deffered';
 
-import { AppDispatch } from "../store";
-
 type ActionReturnType = ReturnType<typeof createAction>;
 type ArgumentTypes<F extends ActionReturnType> = F extends (
   ...args: infer A

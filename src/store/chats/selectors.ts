@@ -1,13 +1,14 @@
 import { AttachmentType, IUser } from 'kimbu-models';
 import unionBy from 'lodash/unionBy';
 
+import { RootState } from "../index";
+
 import { INormalizedChat, INormalizedMessage, InterlocutorType } from './models';
 
 import type { IChatsState } from './chats-state';
 import type { IAttachmentToSend } from '@store/chats/models';
 import type { TFunction } from 'i18next';
 import type { IAudioAttachment } from 'kimbu-models';
-import type { RootState } from 'typesafe-actions';
 
 // RootState selectors
 export const getSelectedChatSelector = (state: RootState): INormalizedChat | undefined =>

@@ -1,10 +1,9 @@
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { replaceInUrl } from '@utils/replace-in-url';
 
@@ -12,10 +11,7 @@ import { ICheckNicknameAvailabilityActionPayload } from './action-payloads/check
 
 export class CheckNicknameAvailability {
   static get action() {
-    return createAction('CHECK_NICKNAME_AVAILABILITY')<
-      ICheckNicknameAvailabilityActionPayload,
-      Meta<boolean>
-    >();
+    return createDeferredAction<ICheckNicknameAvailabilityActionPayload, boolean>('CHECK_NICKNAME_AVAILABILITY');
   }
 
   static get saga() {

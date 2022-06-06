@@ -2,11 +2,10 @@ import { AxiosResponse } from 'axios';
 import { IChangeUserPhoneNumberRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory } from '@store/common/http';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { ConfirmPhone } from '@store/login/features/confirm-phone/confirm-phone';
@@ -17,7 +16,7 @@ import { IConfirmChangePhoneActionPayload } from './action-payloads/confirm-chan
 
 export class ConfirmChangePhone {
   static get action() {
-    return createAction('CONFIRM_CHANGE_PHONE')<IConfirmChangePhoneActionPayload, Meta>();
+    return createDeferredAction<IConfirmChangePhoneActionPayload>('CONFIRM_CHANGE_PHONE');
   }
 
   static get saga() {

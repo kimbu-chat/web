@@ -3,12 +3,12 @@ import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
-import { createEmptyDefferedAction } from '@store/common/actions';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
+import {createDeferredAction} from "@store/common/actions";
 
 export class DeleteAccount {
   static get action() {
-    return createEmptyDefferedAction('DELETE_ACCOUNT');
+    return createDeferredAction('DELETE_ACCOUNT');
   }
 
   static get saga() {

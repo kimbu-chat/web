@@ -1,12 +1,13 @@
 import { ISecurityTokens } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { select, put, take } from 'redux-saga/effects';
-import { RootState } from 'typesafe-actions';
 
 import { REQUEST_TIMEOUT } from '@common/constants';
 import { RefreshTokenSuccess } from '@store/auth/features/refresh-token/refresh-token-success';
 import { RefreshToken } from '@store/auth/features/refresh-token/refresh-token';
 import { securityTokensSelector } from '@store/auth/selectors';
+import {RootState} from "@store";
+
 
 export function* checkTokensSaga(): SagaIterator {
   const refreshTokenRequestLoading = yield select(

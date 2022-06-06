@@ -16,7 +16,6 @@ import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
 import { loadPhotoEditor } from '@routing/module-loader';
 import { Button } from '@shared-components/button';
 import { editGroupChatAction } from '@store/chats/actions';
-import { IEditGroupChatActionPayload } from '@store/chats/features/edit-group-chat/action-payloads/edit-group-chat-action-payload';
 import { getSelectedGroupChatSelector } from '@store/chats/selectors';
 import { IAvatarSelectedData } from '@store/common/models';
 import {
@@ -25,6 +24,7 @@ import {
 } from '@store/my-profile/actions';
 
 import './edit-chat-modal.scss';
+import {IEditGroupChatActionPayload} from "@store/chats/features/edit-group-chat/edit-group-chat";
 
 const BLOCK_NAME = 'edit-chat-modal';
 

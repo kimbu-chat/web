@@ -2,17 +2,16 @@ import { AxiosResponse } from 'axios';
 import { IDismissAddToContactsRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { DismissToAddContactSuccess } from './dismiss-to-add-contact-success';
 
 export class DismissToAddContact {
   static get action() {
-    return createAction('DISMISS_TO_ADD_CONTACT')<number, Meta>();
+    return createDeferredAction<number>('DISMISS_TO_ADD_CONTACT');
   }
 
   static get saga() {

@@ -1,4 +1,5 @@
 import { LoginFromGoogleAccount } from '@store/login/features/login-from-google-account/login-from-google-account';
+import { RegisterFromGoogleAccount } from '@store/login/features/register-from-google-account/register-from-google-account';
 
 import { ConfirmPhoneFailure } from './features/confirm-phone/confirm-phone-failure';
 import { ConfirmPhoneSuccess } from './features/confirm-phone/confirm-phone-success';
@@ -21,6 +22,7 @@ export const confirmPhoneAction = ConfirmPhone.action;
 export const confirmPhoneSuccessAction = ConfirmPhoneSuccess.action;
 export const confirmPhoneFailureAction = ConfirmPhoneFailure.action;
 export const registerAction = Register.action;
+export const registerFromGoogleAction = RegisterFromGoogleAccount.action;
 export const loginSuccessAction = LoginSuccess.action;
 
 export type LoginActions =

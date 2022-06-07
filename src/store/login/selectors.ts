@@ -4,6 +4,8 @@ export const authPhoneNumberSelector = (state: RootState): string => state.login
 
 export const googleIdTokenSelector = (state: RootState) => state.login.googleAuthIdToken;
 
+export const loginSourceSelector = (state: RootState) => state.login.loginSource;
+
 export const confirmationCodeSelector = (state: RootState): string => state.login.confirmationCode;
 
 export const twoLetterCountryCodeSelector = (state: RootState): string =>

@@ -10,8 +10,8 @@ import { InputWithError } from '@components/input-with-error';
 import { Loader } from '@components/loader';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { INSTANT_MESSAGING_PATH } from '@routing/routing.constants';
-import { registerAction } from '@store/login/actions';
-import { authLoadingSelector, authPhoneNumberSelector } from '@store/login/selectors';
+import { registerAction, registerFromGoogleAction } from '@store/login/actions';
+import { authLoadingSelector, authPhoneNumberSelector, loginSourceSelector } from '@store/login/selectors';
 import { checkNicknameAvailabilityAction } from '@store/my-profile/actions';
 import { validateNickname } from '@utils/validate-nick-name';
 
@@ -23,13 +23,15 @@ const SignUpPage: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const phoneNumber = useSelector(authPhoneNumberSelector);
+  const loginSource = useSelector(loginSourceSelector);
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastname] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
   const [error, setError] = useState<string>();
   const [firstNameError, setFirstNameError] = useState<string>();
 
-  const register = useActionWithDeferred(registerAction);
+  const register = useActionWithDeferred(loginSource === 'google' ? registerFromGoogleAction: registerAction);
+
   const checkNicknameAvailability = useActionWithDeferred(checkNicknameAvailabilityAction);
   const isLoading = useSelector(authLoadingSelector);
 

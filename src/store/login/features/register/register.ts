@@ -11,8 +11,14 @@ import { authPhoneNumberSelector, confirmationCodeSelector } from '@store/login/
 
 import { LoginSuccess } from '../login/login-success';
 
-import type { IRegisterActionPayload } from './action-payloads/register-action-payload';
 import type { ILoginState } from '@store/login/login-state';
+
+export interface IRegisterActionPayload {
+  lastName: string;
+  firstName: string;
+  nickname: string;
+  avatarId?: number;
+}
 
 export class Register {
   static get action() {

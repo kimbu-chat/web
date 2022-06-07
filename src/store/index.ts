@@ -1,7 +1,7 @@
 import { Reducer } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers, Action } from 'redux';
 
 import type { RootReducer } from './root-reducer';
 import type { Saga, Task } from 'redux-saga';
@@ -23,7 +23,7 @@ export enum StoreKeys {
   LOCATION = 'location',
 }
 
-type CustomReducer = Reducer<RootState, RootAction>;
+type CustomReducer = Reducer<RootState, Action>;
 
 type ReducersStore = {
   [key in StoreKeys]?: CustomReducer;

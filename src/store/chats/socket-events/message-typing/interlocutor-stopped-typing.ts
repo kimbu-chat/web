@@ -1,12 +1,12 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import { IIntercolutorMessageTypingIntegrationEvent } from '@store/chats/socket-events/message-typing/message-typing-event-handler';
-
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-
-export type IInterlocutorStoppedTypingActionPayload = IIntercolutorMessageTypingIntegrationEvent;
+export type IInterlocutorStoppedTypingActionPayload = {
+  interlocutorName: string;
+  chatId: number;
+};
 
 export class InterlocutorStoppedTyping {
   static get action() {

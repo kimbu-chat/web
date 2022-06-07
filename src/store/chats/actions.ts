@@ -45,7 +45,6 @@ import { GetVideoAttachmentsSuccess } from './features/get-video-attachments/get
 import { GetVideoAttachments } from './features/get-video-attachments/get-video-attachments';
 import { GetVoiceAttachmentsSuccess } from './features/get-voice-attachments/get-voice-attachments-success';
 import { GetVoiceAttachments } from './features/get-voice-attachments/get-voice-attachments';
-import { InterlocutorStoppedTyping } from './features/interlocutor-message-typing/interlocutor-stopped-typing';
 import { LeaveGroupChatSuccess } from './features/leave-group-chat/leave-group-chat-success';
 import { LeaveGroupChat } from './features/leave-group-chat/leave-group-chat';
 import { MarkChatAsReadSuccess } from './features/mark-chat-as-read/mark-chat-as-read-success';
@@ -114,7 +113,6 @@ export const leaveGroupChatAction = LeaveGroupChat.action;
 export const leaveGroupChatSuccessAction = LeaveGroupChatSuccess.action;
 export const addUsersToGroupChatAction = AddUsersToGroupChat.action;
 export const addUsersToGroupChatSuccessAction = AddUsersToGroupChatSuccess.action;
-export const interlocutorStoppedTypingAction = InterlocutorStoppedTyping.action;
 export const uploadAttachmentRequestAction = UploadAttachmentRequest.action;
 export const uploadAttachmentProgressAction = UploadAttachmentProgress.action;
 export const uploadAttachmentSuccessAction = UploadAttachmentSuccess.action;
@@ -205,7 +203,6 @@ export type ChatActions =
   typeof leaveGroupChatSuccessAction &
   typeof addUsersToGroupChatAction &
   typeof addUsersToGroupChatSuccessAction &
-  typeof interlocutorStoppedTypingAction &
   typeof uploadAttachmentRequestAction &
   typeof uploadAttachmentProgressAction &
   typeof uploadAttachmentSuccessAction &

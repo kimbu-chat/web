@@ -29,7 +29,7 @@ export class Logout {
       const securityTokens = yield select(securityTokensSelector);
 
       if (securityTokens) {
-        yield call(() => ChangeUserOnlineStatus.httpRequest.generator({ isOnline: false }));
+        yield put(ChangeUserOnlineStatus.action(false));
         yield put(CloseWebsocketConnection.action());
         yield call(() => Logout.httpRequest.generator());
       }

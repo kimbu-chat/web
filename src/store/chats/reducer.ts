@@ -5,7 +5,7 @@ import { APPEARANCE_CHAT_ID } from '@common/constants';
 import { MyProfileService } from '@services/my-profile-service';
 import { CreateDraftMessage } from '@store/chats/features/create-draft-message/create-draft-message';
 import { DiscardDraftMessage } from '@store/chats/features/create-draft-message/discard-draft-message';
-import { MessageState, INormalizedChat } from '@store/chats/models';
+import { INormalizedChat, MessageState } from '@store/chats/models';
 import { DismissToAddContactSuccess } from '@store/friends/features/dismiss-to-add-contact/dismiss-to-add-contact-success';
 import { UserContactAddedSuccessEventHandler } from '@store/friends/socket-events/user-contact-added/user-contact-added-success-event-handler';
 import { UserContactsRemovedEventHandler } from '@store/friends/socket-events/user-contacts-removed/user-contacts-removed-event-handler';
@@ -53,7 +53,6 @@ import { GetVideoAttachmentsSuccess } from './features/get-video-attachments/get
 import { GetVideoAttachments } from './features/get-video-attachments/get-video-attachments';
 import { GetVoiceAttachmentsSuccess } from './features/get-voice-attachments/get-voice-attachments-success';
 import { GetVoiceAttachments } from './features/get-voice-attachments/get-voice-attachments';
-import { InterlocutorStoppedTyping } from './features/interlocutor-message-typing/interlocutor-stopped-typing';
 import { LeaveGroupChatSuccess } from './features/leave-group-chat/leave-group-chat-success';
 import { MarkChatAsReadSuccess } from './features/mark-chat-as-read/mark-chat-as-read-success';
 import { MessageTyping } from './features/message-typing/message-typing';
@@ -86,6 +85,7 @@ import { MessageCreatedEventHandlerSuccess } from './socket-events/message-creat
 import { MessagesDeletedIntegrationEventHandlerSuccess } from './socket-events/message-deleted/messages-deleted-integration-event-handler-success';
 import { MessageEditedEventHandler } from './socket-events/message-edited/message-edited-event-handler';
 import { MessageReadEventHandler } from './socket-events/message-read/message-read-event-handler';
+import { InterlocutorStoppedTyping } from './socket-events/message-typing/interlocutor-stopped-typing';
 import { UserMessageTypingEventHandler } from './socket-events/message-typing/message-typing-event-handler';
 
 const initialState: IChatsState = {
@@ -167,8 +167,7 @@ const reducer = createReducer<IChatsState>(initialState, builder =>
     .addCase(
       BlockUserSuccess.action,
       (draft, { payload }: ReturnType<typeof BlockUserSuccess.action>) => {
-        const userId = payload;
-        const chatId = ChatId.from(userId).id;
+        const chatId = ChatId.from(payload).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (!chat) {
@@ -183,8 +182,7 @@ const reducer = createReducer<IChatsState>(initialState, builder =>
     .addCase(
       UnblockUserSuccess.action,
       (draft: IChatsState, { payload }: ReturnType<typeof UnblockUserSuccess.action>) => {
-        const userId = payload;
-        const chatId = ChatId.from(userId).id;
+        const chatId = ChatId.from(payload).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (!chat) {
@@ -200,9 +198,7 @@ const reducer = createReducer<IChatsState>(initialState, builder =>
     .addCase(
       DeleteFriendSuccess.action,
       (draft: IChatsState, { payload }: ReturnType<typeof DeleteFriendSuccess.action>) => {
-        const userId = payload;
-
-        const chatId = ChatId.from(userId).id;
+        const chatId = ChatId.from(payload).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (chat) {
@@ -216,8 +212,7 @@ const reducer = createReducer<IChatsState>(initialState, builder =>
     .addCase(
       AddFriendSuccess.action,
       (draft: IChatsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
-        const userId = payload;
-        const chatId = ChatId.from(userId).id;
+        const chatId = ChatId.from(payload).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
 
         if (!chat) {

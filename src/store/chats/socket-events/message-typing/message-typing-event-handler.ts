@@ -1,22 +1,15 @@
 import { createAction } from '@reduxjs/toolkit';
 import { delay, put } from 'redux-saga/effects';
 
-import { InterlocutorStoppedTyping } from '@store/chats/features/interlocutor-message-typing/interlocutor-stopped-typing';
 import { InterlocutorType } from '@store/chats/models';
 
-import { MyProfileService } from '../../../../services/my-profile-service';
+import { MyProfileService } from '@services/my-profile-service';
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-export interface IIntercolutorMessageTypingIntegrationEvent {
-  text: string;
-  timeoutId: NodeJS.Timeout;
-  interlocutorName: string;
-  interlocutorId: number;
-  chatId: number;
-}
-
+import { InterlocutorStoppedTyping } from './interlocutor-stopped-typing';
+import { IIntercolutorMessageTypingIntegrationEvent } from './message-typing-integration-event';
 
 export class UserMessageTypingEventHandler {
   static get action() {

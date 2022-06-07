@@ -74,10 +74,10 @@ const PhoneConfirmationPage: React.FC = () => {
     loginFromGoogleAccount({ idToken: credential })
       .then()
       .catch((result: LoginFromGoogleAccountResult) => {
-        if (googleErrors.has(result)) {
-          emitToast(googleErrors.get(result), { type: 'error' });
-        } else if (result === LoginFromGoogleAccountResult.UserNotRegistered) {
-          history.push(SIGN_UP_PATH);
+        if (result === LoginFromGoogleAccountResult.UserNotRegistered) {
+            history.push(SIGN_UP_PATH);
+        } else {
+            emitToast(googleErrors.get(result), { type: 'error' });
         }
       });
   }, [history, loginFromGoogleAccount]);

@@ -20,7 +20,7 @@ const userStatusSelector = (state: RootState): UserStatus => {
   const authService = new AuthService();
   const isTokenExistInStorage = !isEmpty(authService.securityTokens);
   const isUserAuthorized = state.login?.isAuthenticated || isTokenExistInStorage;
-  const isProspectUser = state.login?.phoneNumber;
+  const isProspectUser = state.login?.phoneNumber || state.login?.googleAuthIdToken;
 
   if (isUserAuthorized) {
     return REGISTERED_USER;
@@ -37,7 +37,6 @@ const withPageGuard =
       if (allowedUsers.indexOf(userStatus) !== -1) {
         return <Component {...props} />;
       }
-
       return <Redirect to={fallbackUrl || HOME_PAGE_PATH} />;
     };
 

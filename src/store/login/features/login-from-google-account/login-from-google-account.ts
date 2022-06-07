@@ -46,6 +46,8 @@ const mapError = (error: AxiosError): LoginFromGoogleAccountResult => {
   if (status === HTTPStatusCode.Forbidden) {
     return LoginFromGoogleAccountResult.GoogleAuthDisabled;
   }
+
+
   if (status === HTTPStatusCode.UnprocessableEntity) {
     if (errorData.code === ApplicationErrorCode.GoogleAuthDisabled) {
       return LoginFromGoogleAccountResult.GoogleAuthDisabled;
@@ -67,7 +69,7 @@ export class LoginFromGoogleAccount {
     return (draft: ILoginState, { payload }: ReturnType<typeof LoginFromGoogleAccount.action>) => {
       draft.googleAuthLoading = true;
       draft.googleAuthIdToken = payload.idToken;
-      draft.loginSource = 'phone-number';
+      draft.loginSource = 'google';
     };
   }
 
@@ -103,7 +105,6 @@ export class LoginFromGoogleAccount {
         const error = e as AxiosError;
 
         const result = mapError(error);
-
         if (action.meta) {
           yield call([action, action.meta?.deferred?.reject], result);
         }

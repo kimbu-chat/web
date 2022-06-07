@@ -37,7 +37,7 @@ export class ConfirmChangePhone {
         verifyData.userExists ||
         !verifyData.isCodeCorrect
       ) {
-        action?.meta.deferred.reject();
+        action.meta?.deferred?.reject();
         return;
       }
 
@@ -49,7 +49,7 @@ export class ConfirmChangePhone {
       );
 
       if (changeStatus !== HTTPStatusCode.OK) {
-        action?.meta.deferred.reject();
+        action.meta?.deferred?.reject();
         return;
       }
 
@@ -63,7 +63,7 @@ export class ConfirmChangePhone {
         yield put(AddOrUpdateUsers.action({ users: { [updatedProfile.id]: updatedProfile } }));
       }
 
-      action?.meta.deferred.resolve();
+      action.meta?.deferred?.resolve();
     };
   }
 

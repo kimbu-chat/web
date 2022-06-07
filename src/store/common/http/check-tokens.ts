@@ -6,8 +6,6 @@ import { REQUEST_TIMEOUT } from '@common/constants';
 import { RefreshTokenSuccess } from '@store/auth/features/refresh-token/refresh-token-success';
 import { RefreshToken } from '@store/auth/features/refresh-token/refresh-token';
 import { securityTokensSelector } from '@store/auth/selectors';
-import {RootState} from "@store";
-
 
 export function* checkTokensSaga(): SagaIterator {
   const refreshTokenRequestLoading = yield select(

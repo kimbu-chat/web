@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ICountry } from '@common/country';
 import { CountryService } from '@services/country-service';
@@ -38,7 +38,8 @@ export const useCountry = () => {
           CountryService.initializeOrUpdate(countryOfResidence);
         }
         // eslint-disable-next-line no-empty
-      } catch {}
+      } catch {
+      }
     })();
 
     return () => {

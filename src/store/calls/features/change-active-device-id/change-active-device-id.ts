@@ -12,15 +12,15 @@ export class ChangeActiveDeviceId {
 
   static get reducer() {
     return (draft: ICallsState, { payload }: ReturnType<typeof ChangeActiveDeviceId.action>) => {
-        if (payload.kind === InputType.VideoInput) {
-          draft.videoConstraints.deviceId = payload.deviceId;
-        }
+      if (payload.kind === InputType.VideoInput) {
+        draft.videoConstraints.deviceId = payload.deviceId;
+      }
 
-        if (payload.kind === InputType.AudioInput) {
-          draft.audioConstraints.deviceId = payload.deviceId;
-        }
+      if (payload.kind === InputType.AudioInput) {
+        draft.audioConstraints.deviceId = payload.deviceId;
+      }
 
-        return draft;
-      };
+      return draft;
+    };
   }
 }

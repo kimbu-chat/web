@@ -8,11 +8,7 @@ import { MAIN_API } from '@common/paths';
 import { DiscardDraftMessage } from '@store/chats/features/create-draft-message/discard-draft-message';
 import { MessageAttachmentsUploaded } from '@store/chats/features/upload-attachment/message-attachments-uploaded';
 import { IAttachmentToSend, INormalizedChat, INormalizedMessage, MessageState } from '@store/chats/models';
-import {
-  getChatByIdSelector,
-  getMessageSelector,
-  getSelectedChatIdSelector,
-} from '@store/chats/selectors';
+import { getChatByIdSelector, getMessageSelector, getSelectedChatIdSelector } from '@store/chats/selectors';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { addMessageSendingRequest } from '@utils/cancel-send-message-request';
 

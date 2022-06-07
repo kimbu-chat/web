@@ -24,7 +24,7 @@ export class DismissToAddContact {
       yield call(() => DismissToAddContact.httpRequest.generator(phoneToAdd));
 
       yield put(DismissToAddContactSuccess.action(userId));
-      action.meta.deferred?.resolve();
+      action.meta?.deferred?.resolve();
     };
   }
 

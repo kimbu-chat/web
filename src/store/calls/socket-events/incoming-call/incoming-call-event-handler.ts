@@ -19,13 +19,13 @@ export class IncomingCallEventHandler {
 
   static get reducer() {
     return (draft: ICallsState, { payload }: ReturnType<typeof IncomingCallEventHandler.action>) => {
-        draft.isIncomingCallVideoEnbaled = payload.isVideoEnabled;
-        const interlocutor = payload.userInterlocutor;
-        draft.interlocutorId = interlocutor.id;
-        draft.amICalled = true;
+      draft.isIncomingCallVideoEnbaled = payload.isVideoEnabled;
+      const interlocutor = payload.userInterlocutor;
+      draft.interlocutorId = interlocutor.id;
+      draft.amICalled = true;
 
-        return draft;
-      };
+      return draft;
+    };
   }
 
   static get saga() {

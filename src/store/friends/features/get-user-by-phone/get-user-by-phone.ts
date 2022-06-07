@@ -31,9 +31,9 @@ export class GetUserByPhone {
           yield call(() => GetUserByPhone.httpRequest.generator({ phone: parsedPhone })),
         );
 
-        action.meta.deferred?.resolve(data);
+        action.meta?.deferred?.resolve(data);
       } catch {
-        action.meta.deferred?.reject();
+        action.meta?.deferred?.reject();
       }
     };
   }

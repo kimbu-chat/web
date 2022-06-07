@@ -36,7 +36,7 @@ export class LeaveGroupChat {
 
         if (status === HTTPStatusCode.OK) {
           yield put(LeaveGroupChatSuccess.action({ chatId }));
-          action.meta.deferred.resolve();
+          action.meta?.deferred?.resolve();
         }
       }
     };

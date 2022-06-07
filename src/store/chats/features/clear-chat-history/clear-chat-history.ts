@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { IClearChatRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
-import { put, call } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
 import { createDeferredAction } from '@store/common/actions';
@@ -38,7 +38,7 @@ export class ClearChatHistory {
 
       if (status === HTTPStatusCode.OK) {
         yield put(ClearChatHistorySuccess.action({ chatId }));
-        action.meta.deferred?.resolve();
+        action.meta?.deferred?.resolve();
       }
     };
   }

@@ -23,11 +23,11 @@ const PrivacySecurity = () => {
       <div className={`${BLOCK_NAME}__radiobox-group`}>
         <RadioBox
           defaultChecked
-          groupName="who-can-message-me"
+          groupName='who-can-message-me'
           content={t('privacySecurity.everyone')}
         />
-        <RadioBox groupName="who-can-message-me" content={t('privacySecurity.contacts')} />
-        <RadioBox groupName="who-can-message-me" content={t('privacySecurity.no-one')} />
+        <RadioBox groupName='who-can-message-me' content={t('privacySecurity.contacts')} />
+        <RadioBox groupName='who-can-message-me' content={t('privacySecurity.no-one')} />
       </div>
       <HorizontalSeparator />
 
@@ -35,18 +35,18 @@ const PrivacySecurity = () => {
       <div className={`${BLOCK_NAME}__radiobox-group`}>
         <RadioBox
           defaultChecked
-          groupName="who-can-call-me"
+          groupName='who-can-call-me'
           content={t('privacySecurity.everyone')}
         />
-        <RadioBox groupName="who-can-call-me" content={t('privacySecurity.contacts')} />
-        <RadioBox groupName="who-can-call-me" content={t('privacySecurity.no-one')} />
+        <RadioBox groupName='who-can-call-me' content={t('privacySecurity.contacts')} />
+        <RadioBox groupName='who-can-call-me' content={t('privacySecurity.no-one')} />
       </div>
       <HorizontalSeparator />
 
       <h2 className={`${BLOCK_NAME}__subject`}>{t('privacySecurity.who-can-find-me')}</h2>
       <div className={`${BLOCK_NAME}__radiobox-group`}>
-        <RadioBox groupName="who-can-find-me" content={t('privacySecurity.everyone')} />
-        <RadioBox groupName="who-can-find-me" content={t('privacySecurity.no-one')} />
+        <RadioBox groupName='who-can-find-me' content={t('privacySecurity.everyone')} />
+        <RadioBox groupName='who-can-find-me' content={t('privacySecurity.no-one')} />
       </div>
       <HorizontalSeparator />
 

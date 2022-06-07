@@ -1,3 +1,5 @@
+import { createReducer } from '@reduxjs/toolkit';
+
 import { ICallsState } from './calls-state';
 import { AcceptCallSuccess } from './features/accept-call/accept-call-success';
 import { AcceptCall } from './features/accept-call/accept-call';
@@ -24,7 +26,6 @@ import { CallEndedEventHandlerSuccess } from './socket-events/call-ended/call-en
 import { IncomingCallEventHandler } from './socket-events/incoming-call/incoming-call-event-handler';
 import { InterlocutorAcceptedCallEventHandler } from './socket-events/interlocutor-accepted-call/interlocutor-accepted-call-event-handler';
 import { RenegotiationSentEventHandler } from './socket-events/renegotiation-sent/renegotiation-sent-event-handler';
-import { createReducer } from '@reduxjs/toolkit';
 
 const initialState: ICallsState = {
   isInterlocutorVideoEnabled: false,
@@ -58,33 +59,33 @@ const initialState: ICallsState = {
 
 const reducer = createReducer<ICallsState>(initialState, builder =>
   builder.addCase(OutgoingCall.action, OutgoingCall.reducer)
-  .addCase(CancelCallSuccess.action, CancelCallSuccess.reducer)
-  .addCase(AcceptCall.action, AcceptCall.reducer)
-  .addCase(CloseScreenShareStatus.action, CloseScreenShareStatus.reducer)
-  .addCase(OpenScreenShareStatus.action, OpenScreenShareStatus.reducer)
-  .addCase(CloseAudioStatus.action, CloseAudioStatus.reducer)
-  .addCase(OpenAudioStatus.action, OpenAudioStatus.reducer)
-  .addCase(CloseVideoStatus.action, CloseVideoStatus.reducer)
-  .addCase(OpenVideoStatus.action, OpenVideoStatus.reducer)
-  .addCase(GotDevicesInfo.action, GotDevicesInfo.reducer)
-  .addCase(SwitchDevice.action, SwitchDevice.reducer)
-  .addCase(ChangeActiveDeviceId.action, ChangeActiveDeviceId.reducer)
-  .addCase(GetCalls.action, GetCalls.reducer)
-  .addCase(GetCallsSuccess.action, GetCallsSuccess.reducer)
-  .addCase(InterlocutorBusy.action, InterlocutorBusy.reducer)
-  .addCase(DeclineCall.action, DeclineCall.reducer)
-  .addCase(EndCall.action, EndCall.reducer)
-  .addCase(AcceptCallSuccess.action, AcceptCallSuccess.reducer)
-  .addCase(OpenInterlocutorVideoStatus.action, OpenInterlocutorVideoStatus.reducer)
-  .addCase(OpenInterlocutorAudioStatus.action, OpenInterlocutorAudioStatus.reducer)
-  .addCase(ResetSearchCalls.action, ResetSearchCalls.reducer)
+    .addCase(CancelCallSuccess.action, CancelCallSuccess.reducer)
+    .addCase(AcceptCall.action, AcceptCall.reducer)
+    .addCase(CloseScreenShareStatus.action, CloseScreenShareStatus.reducer)
+    .addCase(OpenScreenShareStatus.action, OpenScreenShareStatus.reducer)
+    .addCase(CloseAudioStatus.action, CloseAudioStatus.reducer)
+    .addCase(OpenAudioStatus.action, OpenAudioStatus.reducer)
+    .addCase(CloseVideoStatus.action, CloseVideoStatus.reducer)
+    .addCase(OpenVideoStatus.action, OpenVideoStatus.reducer)
+    .addCase(GotDevicesInfo.action, GotDevicesInfo.reducer)
+    .addCase(SwitchDevice.action, SwitchDevice.reducer)
+    .addCase(ChangeActiveDeviceId.action, ChangeActiveDeviceId.reducer)
+    .addCase(GetCalls.action, GetCalls.reducer)
+    .addCase(GetCallsSuccess.action, GetCallsSuccess.reducer)
+    .addCase(InterlocutorBusy.action, InterlocutorBusy.reducer)
+    .addCase(DeclineCall.action, DeclineCall.reducer)
+    .addCase(EndCall.action, EndCall.reducer)
+    .addCase(AcceptCallSuccess.action, AcceptCallSuccess.reducer)
+    .addCase(OpenInterlocutorVideoStatus.action, OpenInterlocutorVideoStatus.reducer)
+    .addCase(OpenInterlocutorAudioStatus.action, OpenInterlocutorAudioStatus.reducer)
+    .addCase(ResetSearchCalls.action, ResetSearchCalls.reducer)
 
-  // web-socket events
-  .addCase(IncomingCallEventHandler.action, IncomingCallEventHandler.reducer)
-  .addCase(
-    InterlocutorAcceptedCallEventHandler.action,
-    InterlocutorAcceptedCallEventHandler.reducer,
-  )
-  .addCase(RenegotiationSentEventHandler.action, RenegotiationSentEventHandler.reducer)
-  .addCase(CallEndedEventHandlerSuccess.action, CallEndedEventHandlerSuccess.reducer));
+    // web-socket events
+    .addCase(IncomingCallEventHandler.action, IncomingCallEventHandler.reducer)
+    .addCase(
+      InterlocutorAcceptedCallEventHandler.action,
+      InterlocutorAcceptedCallEventHandler.reducer,
+    )
+    .addCase(RenegotiationSentEventHandler.action, RenegotiationSentEventHandler.reducer)
+    .addCase(CallEndedEventHandlerSuccess.action, CallEndedEventHandlerSuccess.reducer));
 export default reducer;

@@ -9,7 +9,7 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { myFullNameSelector } from '@store/my-profile/selectors';
 
 import { IChatsState } from '../../chats-state';
-import { getSelectedChatIdSelector, getChatByIdDraftSelector } from '../../selectors';
+import { getChatByIdDraftSelector, getSelectedChatIdSelector } from '../../selectors';
 
 export interface IMessageTypingActionPayload {
   text: string;

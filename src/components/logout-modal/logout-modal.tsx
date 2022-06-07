@@ -4,12 +4,12 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
 import { IModalChildrenProps, Modal } from '@components/modal';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as LogoutSvg } from '@icons/logout.svg';
 import { Button } from '@shared-components/button';
+import './logout-modal.scss';
 import { logoutAction } from '@store/auth/actions';
 
-import './logout-modal.scss';
-import {useActionWithDeferred} from "@hooks/use-action-with-deferred";
 
 interface ILogoutModalProps {
   onClose: () => void;

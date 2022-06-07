@@ -12,7 +12,7 @@ import { apply, call, put } from 'redux-saga/effects';
 import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
 import { AuthService } from '@services/auth-service';
-import {createDeferredAction, Meta} from '@store/common/actions';
+import {createDeferredAction} from '@store/common/actions';
 import { authRequestFactory } from '@store/common/http/auth-request-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { LoginFromGoogleAccountSuccess } from '@store/login/features/login-from-google-account/login-from-google-account-success';
@@ -21,7 +21,6 @@ import { isNetworkError } from '@utils/error-utils';
 import { ICustomJwtPayload } from '../login/models/custom-jwt-payload';
 
 import type { ILoginState } from '@store/login/login-state';
-import {createAction} from "@reduxjs/toolkit";
 
 export interface ILoginFromGoogleAccountActionPayload {
   idToken: string;
@@ -98,7 +97,7 @@ export class LoginFromGoogleAccount {
         yield put(LoginFromGoogleAccountSuccess.action());
 
         if (action.meta) {
-          yield call([action, action?.meta.deferred.resolve], LoginFromGoogleAccountResult.Success);
+          yield call([action, action.meta?.deferred?.resolve], LoginFromGoogleAccountResult.Success);
         }
       } catch (e) {
         const error = e as AxiosError;
@@ -106,7 +105,7 @@ export class LoginFromGoogleAccount {
         const result = mapError(error);
 
         if (action.meta) {
-          yield call([action, action?.meta.deferred.reject], result);
+          yield call([action, action.meta?.deferred?.reject], result);
         }
       }
     };

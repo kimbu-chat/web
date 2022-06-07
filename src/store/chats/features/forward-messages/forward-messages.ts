@@ -60,7 +60,7 @@ export class ForwardMessages {
           );
 
           if (status === HTTPStatusCode.OK) {
-            action.meta.deferred?.resolve();
+            action.meta?.deferred?.resolve();
           }
         }
       }

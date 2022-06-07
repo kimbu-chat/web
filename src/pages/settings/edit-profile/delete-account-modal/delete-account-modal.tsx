@@ -3,13 +3,12 @@ import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import { Modal, IModalChildrenProps } from '@components/modal';
+import { IModalChildrenProps, Modal } from '@components/modal';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { Button } from '@shared-components/button';
 import { deleteAccountAction } from '@store/my-profile/actions';
-
 import './delete-account-modal.scss';
-import {useActionWithDeferred} from "@hooks/use-action-with-deferred";
 
 interface IDeleteAccountModalProps {
   onClose: () => void;
@@ -43,13 +42,13 @@ export const InitialDeleteAccountModal: React.FC<IDeleteAccountModalProps & IMod
 
           <div className={`${BLOCK_NAME}__btn-block`}>
             <Button
-              type="button"
+              type='button'
               onClick={animatedClose}
               className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}>
               {t('deleteAccountModal.cancel')}
             </Button>
             <Button
-              type="button"
+              type='button'
               loading={deleting}
               onClick={submitDeleteing}
               className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}>

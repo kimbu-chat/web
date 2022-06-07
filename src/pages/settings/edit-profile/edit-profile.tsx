@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef, lazy, Suspense, useEffect } from 'react';
+import React, { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 
 import { AttachmentType, IAvatar } from 'kimbu-models';
 import { parsePhoneNumber } from 'libphonenumber-js';
@@ -19,9 +19,9 @@ import { loadPhotoEditor } from '@routing/module-loader';
 import { Button } from '@shared-components/button';
 import { IAvatarSelectedData } from '@store/common/models';
 import {
-  uploadAvatarRequestAction,
-  updateMyProfileAction,
   checkNicknameAvailabilityAction,
+  updateMyProfileAction,
+  uploadAvatarRequestAction,
 } from '@store/my-profile/actions';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import { validateNickname } from '@utils/validate-nick-name';
@@ -196,31 +196,31 @@ const EditProfile = () => {
 
   return (
     <>
-      <div className="edit-profile">
-        <h2 className="edit-profile__page-name">{t('settings.edit_profile')}</h2>
-        <h2 className="edit-profile__title">{t('editProfile.personal-information')}</h2>
-        <div className="edit-profile__photo-data">
-          <div className="edit-profile__avatar-wrapper">
+      <div className='edit-profile'>
+        <h2 className='edit-profile__page-name'>{t('settings.edit_profile')}</h2>
+        <h2 className='edit-profile__title'>{t('editProfile.personal-information')}</h2>
+        <div className='edit-profile__photo-data'>
+          <div className='edit-profile__avatar-wrapper'>
             {newAvatar?.previewUrl ? (
-              <img src={newAvatar?.previewUrl} alt="" className="edit-profile__avatar" />
+              <img src={newAvatar?.previewUrl} alt='' className='edit-profile__avatar' />
             ) : (
-              <UserSvg className="edit-profile__avatar-wrapper__alt" />
+              <UserSvg className='edit-profile__avatar-wrapper__alt' />
             )}
-            <TopAvatarLine className="edit-profile__avatar-wrapper__top-line" />
-            <BottomAvatarLine className="edit-profile__avatar-wrapper__bottom-line" />
+            <TopAvatarLine className='edit-profile__avatar-wrapper__top-line' />
+            <BottomAvatarLine className='edit-profile__avatar-wrapper__bottom-line' />
             {newAvatar && (
               <>
                 <button
                   onClick={displayBigPhoto}
-                  type="button"
-                  className="edit-profile__avatar-wrapper__view-avatar">
+                  type='button'
+                  className='edit-profile__avatar-wrapper__view-avatar'>
                   {t('editProfile.view_photo')}
                 </button>
                 <button
                   onClick={removeAvatar}
-                  type="button"
-                  className="edit-profile__avatar-wrapper__delete">
-                  <ColoredClose className="edit-profile__avatar-wrapper__delete-icon" />
+                  type='button'
+                  className='edit-profile__avatar-wrapper__delete'>
+                  <ColoredClose className='edit-profile__avatar-wrapper__delete-icon' />
                 </button>
               </>
             )}
@@ -229,17 +229,17 @@ const EditProfile = () => {
           <input
             onChange={handleImageChange}
             ref={fileInputRef}
-            type="file"
+            type='file'
             hidden
-            accept="image/*"
+            accept='image/*'
           />
 
-          <div className="edit-profile__avatar-upload">
-            <div className="edit-profile__avatar-requirements">{t('editProfile.requirements')}</div>
+          <div className='edit-profile__avatar-upload'>
+            <div className='edit-profile__avatar-requirements'>{t('editProfile.requirements')}</div>
             <button
-              type="button"
+              type='button'
               onClick={openFileExplorer}
-              className="edit-profile__avatar-upload-btn">
+              className='edit-profile__avatar-upload-btn'>
               {t('editProfile.upload_new_photo')}
             </button>
           </div>
@@ -248,7 +248,7 @@ const EditProfile = () => {
           label={t('editProfile.first_name')}
           value={firstName}
           onChange={changeFirstName}
-          containerClassName="edit-profile__input"
+          containerClassName='edit-profile__input'
           maxLength={30}
           defaultValue={myProfile?.firstName}
         />
@@ -256,51 +256,51 @@ const EditProfile = () => {
           label={t('editProfile.last_name')}
           value={lastName}
           onChange={changeLastName}
-          containerClassName="edit-profile__input"
+          containerClassName='edit-profile__input'
           maxLength={30}
         />
         <LabeledInput
           label={t('editProfile.username')}
           value={nickname}
           onChange={onChangeNickname}
-          containerClassName="edit-profile__input"
+          containerClassName='edit-profile__input'
           errorText={errorsMap[error]}
         />
         <Button
-          type="button"
+          type='button'
           onClick={sumbmitChanges}
-          className="edit-profile__btn"
+          className='edit-profile__btn'
           loading={submitLoading}
           disabled={error !== NicknameState.ALLOWED_NICKNAME || isLoading || !firstName.length}>
           {t('editProfile.save-changes')}
         </Button>
         <HorizontalSeparator />
-        <h2 className="edit-profile__title">{t('editProfile.phone-number')}</h2>
-        <div className="edit-profile__phone">
+        <h2 className='edit-profile__title'>{t('editProfile.phone-number')}</h2>
+        <div className='edit-profile__phone'>
           {myProfile?.phoneNumber && parsePhoneNumber(myProfile?.phoneNumber).formatInternational()}
         </div>
-        <div className="edit-profile__details">{t('editProfile.phone-details')}</div>
-        <button onClick={displayEditPhoneModal} type="button" className="edit-profile__btn">
+        <div className='edit-profile__details'>{t('editProfile.phone-details')}</div>
+        <button onClick={displayEditPhoneModal} type='button' className='edit-profile__btn'>
           {t('editProfile.change-number')}
         </button>
         <HorizontalSeparator />
-        <h2 className="edit-profile__title">{t('editProfile.account-actions')}</h2>
-        <div className="edit-profile__details edit-profile__details--deactivate">
+        <h2 className='edit-profile__title'>{t('editProfile.account-actions')}</h2>
+        <div className='edit-profile__details edit-profile__details--deactivate'>
           {t('editProfile.deactivate-details')}
         </div>
         <button
           onClick={displayDeactivateAccountModal}
-          type="button"
-          className="edit-profile__btn edit-profile__btn--delete">
+          type='button'
+          className='edit-profile__btn edit-profile__btn--delete'>
           {t('editProfile.deactivate-confirmation')}
         </button>
-        <div className="edit-profile__details edit-profile__details--delete">
+        <div className='edit-profile__details edit-profile__details--delete'>
           {t('editProfile.delete-details')}
         </div>
         <button
           onClick={displayDeleteAccountModal}
-          type="button"
-          className="edit-profile__btn edit-profile__btn--delete">
+          type='button'
+          className='edit-profile__btn edit-profile__btn--delete'>
           {t('editProfile.delete-confirmation')}
         </button>
       </div>

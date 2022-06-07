@@ -3,13 +3,13 @@ import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import { Modal, IModalChildrenProps } from '@components/modal';
+import { IModalChildrenProps, Modal } from '@components/modal';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { Button } from '@shared-components/button';
 import { deactivateAccountAction } from '@store/my-profile/actions';
 
 import './deactivate-account-modal.scss';
-import {useActionWithDeferred} from "@hooks/use-action-with-deferred";
 
 interface IDeactivateAccountModalProps {
   onClose: () => void;
@@ -17,9 +17,7 @@ interface IDeactivateAccountModalProps {
 
 const BLOCK_NAME = 'deactivate-account-modal';
 
-export const InitialDeactivateAccountModal: React.FC<
-  IDeactivateAccountModalProps & IModalChildrenProps
-> = ({ animatedClose }) => {
+export const InitialDeactivateAccountModal: React.FC<IDeactivateAccountModalProps & IModalChildrenProps> = ({ animatedClose }) => {
   const { t } = useTranslation();
 
   const deactivateAccount = useActionWithDeferred(deactivateAccountAction);
@@ -46,13 +44,13 @@ export const InitialDeactivateAccountModal: React.FC<
 
         <div className={`${BLOCK_NAME}__btn-block`}>
           <Button
-            type="button"
+            type='button'
             onClick={animatedClose}
             className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}--cancel`)}>
             {t('deactivateAccountModal.cancel')}
           </Button>
           <Button
-            type="button"
+            type='button'
             loading={deactivating}
             onClick={submitDeactivating}
             className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}>

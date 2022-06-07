@@ -4,18 +4,8 @@ import { call, select } from 'redux-saga/effects';
 
 import { ICallsState } from '../../calls-state';
 import { InputType } from '../../common/enums/input-type';
-import {
-  getAudioConstraintsSelector,
-  getVideoConstraintsSelector,
-  doIhaveCallSelector,
-} from '../../selectors';
-import {
-  getVideoSender,
-  getUserAudio,
-  getUserVideo,
-  tracks,
-  getAudioSender,
-} from '../../utils/user-media';
+import { doIhaveCallSelector, getAudioConstraintsSelector, getVideoConstraintsSelector } from '../../selectors';
+import { getAudioSender, getUserAudio, getUserVideo, getVideoSender, tracks } from '../../utils/user-media';
 
 import { ISwitchDeviceActionPayload } from './action-payloads/switch-device-action-payload';
 

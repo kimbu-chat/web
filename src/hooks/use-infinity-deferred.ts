@@ -1,24 +1,18 @@
 import { useCallback, useState } from 'react';
 
-import {
-  ActionCreatorWithoutPayload,
-  ActionCreatorWithPayload,
-  ActionCreatorWithPreparedPayload
-} from '@reduxjs/toolkit';
+import { PayloadActionCreator } from '@reduxjs/toolkit';
 
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
-import {Meta} from "@store/common/actions";
-import {PayloadAction} from "@reduxjs/toolkit/src/createAction";
 
 interface IInfinityDeferredParams<TPayload> {
-  action: PayloadAction<TPayload, string, Meta>;
+  action: PayloadActionCreator<TPayload>;
   limit: number;
 }
 
 export function useInfinityDeferred<TPayload, TResponse>({
-  action,
-  limit,
-}: IInfinityDeferredParams<TPayload>) {
+                                                           action,
+                                                           limit,
+                                                         }: IInfinityDeferredParams<TPayload>) {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [data, setData] = useState<TResponse[]>([]);

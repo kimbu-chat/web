@@ -13,10 +13,7 @@ import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
-import {
-  getInfoChatIdSelector,
-  getMembersCountForSelectedGroupChatSelector,
-} from '../../selectors';
+import { getInfoChatIdSelector, getMembersCountForSelectedGroupChatSelector } from '../../selectors';
 
 import { GetGroupChatUsersSuccess } from './get-group-chat-users-success';
 

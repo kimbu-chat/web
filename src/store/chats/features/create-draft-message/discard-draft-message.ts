@@ -10,10 +10,10 @@ export class DiscardDraftMessage {
 
   static get reducer() {
     return (draft: IChatsState, { payload: chatId }: ReturnType<typeof DiscardDraftMessage.action>) => {
-        const chat = draft.chats[chatId];
-        chat.draftMessageId = undefined;
+      const chat = draft.chats[chatId];
+      chat.draftMessageId = undefined;
 
-        return draft;
-      };
+      return draft;
+    };
   }
 }

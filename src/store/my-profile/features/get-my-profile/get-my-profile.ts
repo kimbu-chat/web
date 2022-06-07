@@ -1,3 +1,4 @@
+import {createAction} from "@reduxjs/toolkit";
 import { AxiosResponse } from 'axios';
 import { IUser } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
@@ -10,7 +11,6 @@ import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 
 import { GetMyProfileSuccess } from './get-my-profile-success';
-import {createAction} from "@reduxjs/toolkit";
 
 export class GetMyProfile {
   static get action() {

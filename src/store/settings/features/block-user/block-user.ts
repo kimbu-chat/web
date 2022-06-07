@@ -21,7 +21,7 @@ export class BlockUser {
 
       yield put(BlockUserSuccess.action(action.payload));
 
-      action.meta.deferred?.resolve();
+      action.meta?.deferred?.resolve();
     };
   }
 

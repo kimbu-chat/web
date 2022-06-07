@@ -4,9 +4,9 @@ import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
-import { createDeferredAction } from '../../../common/actions';
 
 import { TerminateSessionSuccess } from './terminate-session-success';
 
@@ -23,7 +23,7 @@ export class TerminateSession {
 
       yield put(TerminateSessionSuccess.action(action.payload));
 
-      action.meta.deferred?.resolve();
+      action.meta?.deferred?.resolve();
     };
   }
 

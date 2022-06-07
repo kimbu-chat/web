@@ -20,16 +20,16 @@ export class GetRawAttachmentsSuccess {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof GetRawAttachmentsSuccess.action>) => {
-        const { files, chatId, hasMore } = payload;
+      const { files, chatId, hasMore } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat) {
-          chat.files.data.push(...files);
-          chat.files.hasMore = hasMore;
-          chat.files.loading = false;
-        }
-        return draft;
-      };
+      if (chat) {
+        chat.files.data.push(...files);
+        chat.files.hasMore = hasMore;
+        chat.files.loading = false;
+      }
+      return draft;
+    };
   }
 }

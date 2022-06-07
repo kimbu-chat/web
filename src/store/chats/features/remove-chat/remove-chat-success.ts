@@ -13,15 +13,15 @@ export class RemoveChatSuccess {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof RemoveChatSuccess.action>) => {
-        const { chatId } = payload;
+      const { chatId } = payload;
 
-        draft.chatList.chatIds = draft.chatList.chatIds.filter((id) => id !== chatId);
-        delete draft.chats[chatId];
-        if (draft.selectedChatId === chatId) {
-          draft.selectedChatId = undefined;
-        }
+      draft.chatList.chatIds = draft.chatList.chatIds.filter((id) => id !== chatId);
+      delete draft.chats[chatId];
+      if (draft.selectedChatId === chatId) {
+        draft.selectedChatId = undefined;
+      }
 
-        return draft;
-      };
+      return draft;
+    };
   }
 }

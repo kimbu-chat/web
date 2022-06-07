@@ -23,7 +23,7 @@ export class CheckNicknameAvailability {
         yield call(() => httpRequest.generator(action.payload.nickname)),
       );
 
-      action.meta.deferred?.resolve(data);
+      action.meta?.deferred?.resolve(data);
     };
   }
 

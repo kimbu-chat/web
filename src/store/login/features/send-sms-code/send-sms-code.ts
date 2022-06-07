@@ -43,13 +43,13 @@ export class SendSmsCode {
 
       if (status !== HTTPStatusCode.OK) {
         yield put(SendSmsCodeFailure.action());
-        action?.meta.deferred.reject();
+        action.meta?.deferred?.reject();
         return;
       }
 
       yield put(SendSmsCodeSuccess.action());
 
-      yield call([action, action?.meta.deferred.resolve]);
+      yield call(() => action.meta?.deferred?.resolve());
     };
   }
 

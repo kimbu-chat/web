@@ -106,132 +106,132 @@ const initialState: IChatsState = {
   chatInfo: { isInfoOpened: false },
 };
 
-const reducer = createReducer<IChatsState>(initialState, builder => 
+const reducer = createReducer<IChatsState>(initialState, builder =>
   builder.addCase(InterlocutorStoppedTyping.action, InterlocutorStoppedTyping.reducer)
-  .addCase(CreateGroupChatSuccess.action, CreateGroupChatSuccess.reducer)
-  .addCase(AddUsersToGroupChatSuccess.action, AddUsersToGroupChatSuccess.reducer)
-  .addCase(ChangeChatMutedStatusSuccess.action, ChangeChatMutedStatusSuccess.reducer)
-  .addCase(ChangeSelectedChat.action, ChangeSelectedChat.reducer)
-  .addCase(GetChats.action, GetChats.reducer)
-  .addCase(GetChatsSuccess.action, GetChatsSuccess.reducer)
-  .addCase(GetChatsFailure.action, GetChatsFailure.reducer)
-  .addCase(LeaveGroupChatSuccess.action, LeaveGroupChatSuccess.reducer)
-  .addCase(MarkChatAsReadSuccess.action, MarkChatAsReadSuccess.reducer)
-  .addCase(GetPhotoAttachmentsSuccess.action, GetPhotoAttachmentsSuccess.reducer)
-  .addCase(GetVoiceAttachmentsSuccess.action, GetVoiceAttachmentsSuccess.reducer)
-  .addCase(GetRawAttachmentsSuccess.action, GetRawAttachmentsSuccess.reducer)
-  .addCase(GetRawAttachments.action, GetRawAttachments.reducer)
-  .addCase(GetPhotoAttachments.action, GetPhotoAttachments.reducer)
-  .addCase(GetAudioAttachmentsSuccess.action, GetAudioAttachmentsSuccess.reducer)
-  .addCase(UploadAttachmentRequest.action, UploadAttachmentRequest.reducer)
-  .addCase(UploadAttachmentProgress.action, UploadAttachmentProgress.reducer)
-  .addCase(UploadAttachmentSuccess.action, UploadAttachmentSuccess.reducer)
-  .addCase(UploadAttachmentFailure.action, UploadAttachmentFailure.reducer)
-  .addCase(RemoveAttachment.action, RemoveAttachment.reducer)
-  .addCase(GetChatInfoSuccess.action, GetChatInfoSuccess.reducer)
-  .addCase(EditGroupChatSuccess.action, EditGroupChatSuccess.reducer)
-  .addCase(GetGroupChatUsers.action, GetGroupChatUsers.reducer)
-  .addCase(GetGroupChatUsersSuccess.action, GetGroupChatUsersSuccess.reducer)
-  .addCase(GetVoiceAttachments.action, GetVoiceAttachments.reducer)
-  .addCase(GetVideoAttachments.action, GetVideoAttachments.reducer)
-  .addCase(GetVideoAttachmentsSuccess.action, GetVideoAttachmentsSuccess.reducer)
-  .addCase(CreateMessageSuccess.action, CreateMessageSuccess.reducer)
-  .addCase(CreateDraftMessage.action, CreateDraftMessage.reducer)
-  .addCase(DiscardDraftMessage.action, DiscardDraftMessage.reducer)
-  .addCase(GetMessages.action, GetMessages.reducer)
-  .addCase(GetMessagesSuccess.action, GetMessagesSuccess.reducer)
-  .addCase(GetMessagesFailure.action, GetMessagesFailure.reducer)
-  .addCase(CreateMessage.action, CreateMessage.reducer)
-  .addCase(DeleteMessageSuccess.action, DeleteMessageSuccess.reducer)
-  .addCase(SelectMessage.action, SelectMessage.reducer)
-  .addCase(ResetSelectedMessages.action, ResetSelectedMessages.reducer)
-  .addCase(ReplyToMessage.action, ReplyToMessage.reducer)
-  .addCase(EditMessage.action, EditMessage.reducer)
-  .addCase(SubmitEditMessage.action, SubmitEditMessage.reducer)
-  .addCase(SubmitEditMessageSuccess.action, SubmitEditMessageSuccess.reducer)
-  .addCase(ResetReplyToMessage.action, ResetReplyToMessage.reducer)
-  .addCase(ResetEditMessage.action, ResetEditMessage.reducer)
-  .addCase(ClearChatHistorySuccess.action, ClearChatHistorySuccess.reducer)
-  .addCase(UnshiftChat.action, UnshiftChat.reducer)
-  .addCase(MessageTyping.action, MessageTyping.reducer)
-  .addCase(ChangeChatInfoOpened.action, ChangeChatInfoOpened.reducer)
-  .addCase(RemoveAllAttachments.action, RemoveAllAttachments.reducer)
-  .addCase(ForwardMessages.action, ForwardMessages.reducer)
-  .addCase(RemoveUserFromGroupChatSuccess.action, RemoveUserFromGroupChatSuccess.reducer)
-  .addCase(RemoveChatSuccess.action, RemoveChatSuccess.reducer)
+    .addCase(CreateGroupChatSuccess.action, CreateGroupChatSuccess.reducer)
+    .addCase(AddUsersToGroupChatSuccess.action, AddUsersToGroupChatSuccess.reducer)
+    .addCase(ChangeChatMutedStatusSuccess.action, ChangeChatMutedStatusSuccess.reducer)
+    .addCase(ChangeSelectedChat.action, ChangeSelectedChat.reducer)
+    .addCase(GetChats.action, GetChats.reducer)
+    .addCase(GetChatsSuccess.action, GetChatsSuccess.reducer)
+    .addCase(GetChatsFailure.action, GetChatsFailure.reducer)
+    .addCase(LeaveGroupChatSuccess.action, LeaveGroupChatSuccess.reducer)
+    .addCase(MarkChatAsReadSuccess.action, MarkChatAsReadSuccess.reducer)
+    .addCase(GetPhotoAttachmentsSuccess.action, GetPhotoAttachmentsSuccess.reducer)
+    .addCase(GetVoiceAttachmentsSuccess.action, GetVoiceAttachmentsSuccess.reducer)
+    .addCase(GetRawAttachmentsSuccess.action, GetRawAttachmentsSuccess.reducer)
+    .addCase(GetRawAttachments.action, GetRawAttachments.reducer)
+    .addCase(GetPhotoAttachments.action, GetPhotoAttachments.reducer)
+    .addCase(GetAudioAttachmentsSuccess.action, GetAudioAttachmentsSuccess.reducer)
+    .addCase(UploadAttachmentRequest.action, UploadAttachmentRequest.reducer)
+    .addCase(UploadAttachmentProgress.action, UploadAttachmentProgress.reducer)
+    .addCase(UploadAttachmentSuccess.action, UploadAttachmentSuccess.reducer)
+    .addCase(UploadAttachmentFailure.action, UploadAttachmentFailure.reducer)
+    .addCase(RemoveAttachment.action, RemoveAttachment.reducer)
+    .addCase(GetChatInfoSuccess.action, GetChatInfoSuccess.reducer)
+    .addCase(EditGroupChatSuccess.action, EditGroupChatSuccess.reducer)
+    .addCase(GetGroupChatUsers.action, GetGroupChatUsers.reducer)
+    .addCase(GetGroupChatUsersSuccess.action, GetGroupChatUsersSuccess.reducer)
+    .addCase(GetVoiceAttachments.action, GetVoiceAttachments.reducer)
+    .addCase(GetVideoAttachments.action, GetVideoAttachments.reducer)
+    .addCase(GetVideoAttachmentsSuccess.action, GetVideoAttachmentsSuccess.reducer)
+    .addCase(CreateMessageSuccess.action, CreateMessageSuccess.reducer)
+    .addCase(CreateDraftMessage.action, CreateDraftMessage.reducer)
+    .addCase(DiscardDraftMessage.action, DiscardDraftMessage.reducer)
+    .addCase(GetMessages.action, GetMessages.reducer)
+    .addCase(GetMessagesSuccess.action, GetMessagesSuccess.reducer)
+    .addCase(GetMessagesFailure.action, GetMessagesFailure.reducer)
+    .addCase(CreateMessage.action, CreateMessage.reducer)
+    .addCase(DeleteMessageSuccess.action, DeleteMessageSuccess.reducer)
+    .addCase(SelectMessage.action, SelectMessage.reducer)
+    .addCase(ResetSelectedMessages.action, ResetSelectedMessages.reducer)
+    .addCase(ReplyToMessage.action, ReplyToMessage.reducer)
+    .addCase(EditMessage.action, EditMessage.reducer)
+    .addCase(SubmitEditMessage.action, SubmitEditMessage.reducer)
+    .addCase(SubmitEditMessageSuccess.action, SubmitEditMessageSuccess.reducer)
+    .addCase(ResetReplyToMessage.action, ResetReplyToMessage.reducer)
+    .addCase(ResetEditMessage.action, ResetEditMessage.reducer)
+    .addCase(ClearChatHistorySuccess.action, ClearChatHistorySuccess.reducer)
+    .addCase(UnshiftChat.action, UnshiftChat.reducer)
+    .addCase(MessageTyping.action, MessageTyping.reducer)
+    .addCase(ChangeChatInfoOpened.action, ChangeChatInfoOpened.reducer)
+    .addCase(RemoveAllAttachments.action, RemoveAllAttachments.reducer)
+    .addCase(ForwardMessages.action, ForwardMessages.reducer)
+    .addCase(RemoveUserFromGroupChatSuccess.action, RemoveUserFromGroupChatSuccess.reducer)
+    .addCase(RemoveChatSuccess.action, RemoveChatSuccess.reducer)
 
-  .addCase(ResetSearchChats.action, ResetSearchChats.reducer)
-  .addCase(RemoveChat.action, RemoveChat.reducer)
-  .addCase(UploadVoiceAttachment.action, UploadVoiceAttachment.reducer)
-  .addCase(UploadVoiceAttachmentSuccess.action, UploadVoiceAttachmentSuccess.reducer)
-  .addCase(
-    BlockUserSuccess.action,
-    (draft, { payload }: ReturnType<typeof BlockUserSuccess.action>) => {
-      const userId = payload;
-      const chatId = ChatId.from(userId).id;
-      const chat = getChatByIdDraftSelector(chatId, draft);
+    .addCase(ResetSearchChats.action, ResetSearchChats.reducer)
+    .addCase(RemoveChat.action, RemoveChat.reducer)
+    .addCase(UploadVoiceAttachment.action, UploadVoiceAttachment.reducer)
+    .addCase(UploadVoiceAttachmentSuccess.action, UploadVoiceAttachmentSuccess.reducer)
+    .addCase(
+      BlockUserSuccess.action,
+      (draft, { payload }: ReturnType<typeof BlockUserSuccess.action>) => {
+        const userId = payload;
+        const chatId = ChatId.from(userId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-      if (!chat) {
+        if (!chat) {
+          return draft;
+        }
+
+        chat.isBlockedByUser = true;
+
         return draft;
-      }
+      },
+    )
+    .addCase(
+      UnblockUserSuccess.action,
+      (draft: IChatsState, { payload }: ReturnType<typeof UnblockUserSuccess.action>) => {
+        const userId = payload;
+        const chatId = ChatId.from(userId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-      chat.isBlockedByUser = true;
+        if (!chat) {
+          return draft;
+        }
 
-      return draft;
-    },
-  )
-  .addCase(
-    UnblockUserSuccess.action,
-    (draft: IChatsState, { payload }: ReturnType<typeof UnblockUserSuccess.action>) => {
-      const userId = payload;
-      const chatId = ChatId.from(userId).id;
-      const chat = getChatByIdDraftSelector(chatId, draft);
+        chat.isBlockedByUser = false;
 
-      if (!chat) {
         return draft;
-      }
+      },
+    )
 
-      chat.isBlockedByUser = false;
+    .addCase(
+      DeleteFriendSuccess.action,
+      (draft: IChatsState, { payload }: ReturnType<typeof DeleteFriendSuccess.action>) => {
+        const userId = payload;
 
-      return draft;
-    },
-  )
+        const chatId = ChatId.from(userId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-  .addCase(
-    DeleteFriendSuccess.action,
-    (draft: IChatsState, { payload }: ReturnType<typeof DeleteFriendSuccess.action>) => {
-      const userId = payload;
+        if (chat) {
+          chat.isInContacts = false;
+        }
 
-      const chatId = ChatId.from(userId).id;
-      const chat = getChatByIdDraftSelector(chatId, draft);
-
-      if (chat) {
-        chat.isInContacts = false;
-      }
-
-      return draft;
-    },
-  )
-
-  .addCase(
-    AddFriendSuccess.action,
-    (draft: IChatsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
-      const userId = payload;
-      const chatId = ChatId.from(userId).id;
-      const chat = getChatByIdDraftSelector(chatId, draft);
-
-      if (!chat) {
         return draft;
-      }
+      },
+    )
 
-      chat.isInContacts = true;
+    .addCase(
+      AddFriendSuccess.action,
+      (draft: IChatsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
+        const userId = payload;
+        const chatId = ChatId.from(userId).id;
+        const chat = getChatByIdDraftSelector(chatId, draft);
 
-      return draft;
-    },
-  )
-  .addCase(
-    DismissToAddContactSuccess.action,
-    (draft: IChatsState, { payload }: ReturnType<typeof DismissToAddContactSuccess.action>) => {
+        if (!chat) {
+          return draft;
+        }
+
+        chat.isInContacts = true;
+
+        return draft;
+      },
+    )
+    .addCase(
+      DismissToAddContactSuccess.action,
+      (draft: IChatsState, { payload }: ReturnType<typeof DismissToAddContactSuccess.action>) => {
         const chatId: number = ChatId.from(payload).id;
         const chat = getChatByIdDraftSelector(chatId, draft);
 
@@ -242,135 +242,135 @@ const reducer = createReducer<IChatsState>(initialState, builder =>
         chat.isDismissedAddToContacts = true;
 
         return draft;
-      }
-  )
-  .addCase(
-    GetMyProfileSuccess.action,
-    (draft: IChatsState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => {
-      const currentUserId = payload.id;
-      draft.chats[APPEARANCE_CHAT_ID] = {
-        messages: {
+      },
+    )
+    .addCase(
+      GetMyProfileSuccess.action,
+      (draft: IChatsState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => {
+        const currentUserId = payload.id;
+        draft.chats[APPEARANCE_CHAT_ID] = {
           messages: {
-            [-1]: {
-              id: -1,
-              userCreatorId: currentUserId,
-              creationDateTime: new Date('2021-05-04T13:50:11.5995892'),
-              text: 'Hello',
-              systemMessageType: SystemMessageType.None,
-              state: MessageState.READ,
-              chatId: -1,
-              isEdited: true,
-            },
-            [-2]: {
-              id: -2,
-              userCreatorId: currentUserId,
-              creationDateTime: new Date('2021-05-04T13:51:11.3543574'),
-              text: 'Hi, friend!',
-              systemMessageType: SystemMessageType.None,
-              state: MessageState.READ,
-              chatId: -1,
-            },
-            [-3]: {
-              id: -3,
-              userCreatorId: currentUserId,
-              creationDateTime: new Date('2021-05-04T14:28:11.137058'),
-              text: 'How are you?',
-              systemMessageType: SystemMessageType.None,
-              state: MessageState.READ,
-              chatId: -1,
-              isEdited: true,
-            },
-            [-4]: {
-              id: -4,
-              userCreatorId: currentUserId,
-              creationDateTime: new Date('2021-05-04T15:58:10.9164275'),
-              text: 'You know, I am great!',
-              systemMessageType: SystemMessageType.None,
-              state: MessageState.READ,
-              chatId: -1,
-              isEdited: true,
-            },
-            [-5]: {
-              id: -5,
-              userCreatorId: currentUserId,
-              creationDateTime: new Date('2021-05-04T16:08:10.7092581'),
-              text: 'So, I am happy for you',
-              systemMessageType: SystemMessageType.None,
-              state: MessageState.READ,
-              chatId: -1,
-            },
-            [-6]: {
-              id: -6,
-              userCreatorId: currentUserId,
-              creationDateTime: new Date('2021-05-04T17:11:10.4607332'),
-              text: 'What kind of plans do you have for tomorrow?',
-              systemMessageType: SystemMessageType.None,
-              state: MessageState.READ,
-              chatId: -1,
-            },
-            [-7]: {
-              id: -7,
-              userCreatorId: currentUserId,
-              creationDateTime: new Date('2021-05-04T17:22:10.1117228'),
-              text: 'Swimming, running, doing sports',
-              systemMessageType: SystemMessageType.None,
-              state: MessageState.READ,
-              chatId: -1,
-              isEdited: true,
-            },
-            [-8]: {
-              id: -8,
-              userCreatorId: currentUserId,
-              creationDateTime: new Date('2021-05-04T22:35:09.7422384'),
-              text: 'Can I make a company for you?',
-              systemMessageType: SystemMessageType.None,
-              state: MessageState.SENT,
-              chatId: -1,
-            },
-            [-9]: {
-              id: -9,
-              userCreatorId: currentUserId,
-              creationDateTime: new Date(),
-              text: 'I will be happy for such a company!',
-              systemMessageType: SystemMessageType.None,
-              state: MessageState.QUEUED,
-              chatId: -1,
+            messages: {
+              [-1]: {
+                id: -1,
+                userCreatorId: currentUserId,
+                creationDateTime: new Date('2021-05-04T13:50:11.5995892'),
+                text: 'Hello',
+                systemMessageType: SystemMessageType.None,
+                state: MessageState.READ,
+                chatId: -1,
+                isEdited: true,
+              },
+              [-2]: {
+                id: -2,
+                userCreatorId: currentUserId,
+                creationDateTime: new Date('2021-05-04T13:51:11.3543574'),
+                text: 'Hi, friend!',
+                systemMessageType: SystemMessageType.None,
+                state: MessageState.READ,
+                chatId: -1,
+              },
+              [-3]: {
+                id: -3,
+                userCreatorId: currentUserId,
+                creationDateTime: new Date('2021-05-04T14:28:11.137058'),
+                text: 'How are you?',
+                systemMessageType: SystemMessageType.None,
+                state: MessageState.READ,
+                chatId: -1,
+                isEdited: true,
+              },
+              [-4]: {
+                id: -4,
+                userCreatorId: currentUserId,
+                creationDateTime: new Date('2021-05-04T15:58:10.9164275'),
+                text: 'You know, I am great!',
+                systemMessageType: SystemMessageType.None,
+                state: MessageState.READ,
+                chatId: -1,
+                isEdited: true,
+              },
+              [-5]: {
+                id: -5,
+                userCreatorId: currentUserId,
+                creationDateTime: new Date('2021-05-04T16:08:10.7092581'),
+                text: 'So, I am happy for you',
+                systemMessageType: SystemMessageType.None,
+                state: MessageState.READ,
+                chatId: -1,
+              },
+              [-6]: {
+                id: -6,
+                userCreatorId: currentUserId,
+                creationDateTime: new Date('2021-05-04T17:11:10.4607332'),
+                text: 'What kind of plans do you have for tomorrow?',
+                systemMessageType: SystemMessageType.None,
+                state: MessageState.READ,
+                chatId: -1,
+              },
+              [-7]: {
+                id: -7,
+                userCreatorId: currentUserId,
+                creationDateTime: new Date('2021-05-04T17:22:10.1117228'),
+                text: 'Swimming, running, doing sports',
+                systemMessageType: SystemMessageType.None,
+                state: MessageState.READ,
+                chatId: -1,
+                isEdited: true,
+              },
+              [-8]: {
+                id: -8,
+                userCreatorId: currentUserId,
+                creationDateTime: new Date('2021-05-04T22:35:09.7422384'),
+                text: 'Can I make a company for you?',
+                systemMessageType: SystemMessageType.None,
+                state: MessageState.SENT,
+                chatId: -1,
+              },
+              [-9]: {
+                id: -9,
+                userCreatorId: currentUserId,
+                creationDateTime: new Date(),
+                text: 'I will be happy for such a company!',
+                systemMessageType: SystemMessageType.None,
+                state: MessageState.QUEUED,
+                chatId: -1,
+              },
             },
           },
-        },
-      } as unknown as INormalizedChat;
-      return draft;
-    },
-  )
+        } as unknown as INormalizedChat;
+        return draft;
+      },
+    )
 
-  // socket-events
-  .addCase(MessageCreatedEventHandlerSuccess.action, MessageCreatedEventHandlerSuccess.reducer)
-  .addCase(DialogRemovedEventHandler.action, DialogRemovedEventHandler.reducer)
-  .addCase(
-    UserAddedToBlackListEventHandler.action,
-    (draft, { payload }: ReturnType<typeof UserAddedToBlackListEventHandler.action>) => {
-      const { userInitiatorId, blockedUserId } = payload;
-      const myId = new MyProfileService().myProfile.id;
+    // socket-events
+    .addCase(MessageCreatedEventHandlerSuccess.action, MessageCreatedEventHandlerSuccess.reducer)
+    .addCase(DialogRemovedEventHandler.action, DialogRemovedEventHandler.reducer)
+    .addCase(
+      UserAddedToBlackListEventHandler.action,
+      (draft, { payload }: ReturnType<typeof UserAddedToBlackListEventHandler.action>) => {
+        const { userInitiatorId, blockedUserId } = payload;
+        const myId = new MyProfileService().myProfile.id;
 
-      if (myId === blockedUserId) {
-        const chatId: number = ChatId.from(userInitiatorId).id;
-        const chat = getChatByIdDraftSelector(chatId, draft);
-        if (chat) {
-          chat.isBlockedByInterlocutor = true;
+        if (myId === blockedUserId) {
+          const chatId: number = ChatId.from(userInitiatorId).id;
+          const chat = getChatByIdDraftSelector(chatId, draft);
+          if (chat) {
+            chat.isBlockedByInterlocutor = true;
+          }
+        } else {
+          const chatId: number = ChatId.from(blockedUserId).id;
+          const chat = getChatByIdDraftSelector(chatId, draft);
+          if (chat) {
+            chat.isBlockedByUser = true;
+          }
         }
-      } else {
-        const chatId: number = ChatId.from(blockedUserId).id;
-        const chat = getChatByIdDraftSelector(chatId, draft);
-        if (chat) {
-          chat.isBlockedByUser = true;
-        }
-      }
-      return draft;
-    },
-  )
-  .addCase(
-    UserRemovedFromBlackListEventHandler.action,
-    (
+        return draft;
+      },
+    )
+    .addCase(
+      UserRemovedFromBlackListEventHandler.action,
+      (
         draft: IChatsState,
         { payload }: ReturnType<typeof UserRemovedFromBlackListEventHandler.action>,
       ) => {
@@ -392,11 +392,11 @@ const reducer = createReducer<IChatsState>(initialState, builder =>
         }
         return draft;
       },
-  )
+    )
 
-  .addCase(
-    UserContactsRemovedEventHandler.action,
-    (
+    .addCase(
+      UserContactsRemovedEventHandler.action,
+      (
         draft: IChatsState,
         { payload }: ReturnType<typeof UserContactsRemovedEventHandler.action>,
       ) => {
@@ -413,10 +413,10 @@ const reducer = createReducer<IChatsState>(initialState, builder =>
 
         return draft;
       },
-  )
-  .addCase(
-    UserContactAddedSuccessEventHandler.action,
-    (
+    )
+    .addCase(
+      UserContactAddedSuccessEventHandler.action,
+      (
         draft: IChatsState,
         { payload }: ReturnType<typeof UserContactAddedSuccessEventHandler.action>,
       ) => {
@@ -430,26 +430,26 @@ const reducer = createReducer<IChatsState>(initialState, builder =>
         }
 
         return draft;
-      }
-  )
-  .addCase(UserMessageTypingEventHandler.action, UserMessageTypingEventHandler.reducer)
-  .addCase(MemberLeftGroupChatEventHandler.action, MemberLeftGroupChatEventHandler.reducer)
-  .addCase(
-    MemberRemovedFromGroupChatEventHandler.action,
-    MemberRemovedFromGroupChatEventHandler.reducer,
-  )
-  .addCase(GroupChatEditedEventHandler.action, GroupChatEditedEventHandler.reducer)
-  .addCase(GroupChatCreatedEventHandler.action, GroupChatCreatedEventHandler.reducer)
-  .addCase(
-    ChatMutedStatusChangedEventHandler.action,
-    ChatMutedStatusChangedEventHandler.reducer,
-  )
-  .addCase(MessageEditedEventHandler.action, MessageEditedEventHandler.reducer)
-  .addCase(MessageReadEventHandler.action, MessageReadEventHandler.reducer)
-  .addCase(ChatClearedEventHandler.action, ChatClearedEventHandler.reducer)
-  .addCase(
-    MessagesDeletedIntegrationEventHandlerSuccess.action,
-    MessagesDeletedIntegrationEventHandlerSuccess.reducer
-  ));
+      },
+    )
+    .addCase(UserMessageTypingEventHandler.action, UserMessageTypingEventHandler.reducer)
+    .addCase(MemberLeftGroupChatEventHandler.action, MemberLeftGroupChatEventHandler.reducer)
+    .addCase(
+      MemberRemovedFromGroupChatEventHandler.action,
+      MemberRemovedFromGroupChatEventHandler.reducer,
+    )
+    .addCase(GroupChatEditedEventHandler.action, GroupChatEditedEventHandler.reducer)
+    .addCase(GroupChatCreatedEventHandler.action, GroupChatCreatedEventHandler.reducer)
+    .addCase(
+      ChatMutedStatusChangedEventHandler.action,
+      ChatMutedStatusChangedEventHandler.reducer,
+    )
+    .addCase(MessageEditedEventHandler.action, MessageEditedEventHandler.reducer)
+    .addCase(MessageReadEventHandler.action, MessageReadEventHandler.reducer)
+    .addCase(ChatClearedEventHandler.action, ChatClearedEventHandler.reducer)
+    .addCase(
+      MessagesDeletedIntegrationEventHandlerSuccess.action,
+      MessagesDeletedIntegrationEventHandlerSuccess.reducer,
+    ));
 
 export default reducer;

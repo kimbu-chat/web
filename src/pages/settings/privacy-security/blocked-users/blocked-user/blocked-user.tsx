@@ -29,16 +29,16 @@ export const BlockedUser: React.FC<IBlockedUserProps> = ({ user }) => {
   }, [user.id, unblockUser]);
 
   return (
-    <div className="blocked-user">
-      <Avatar className="blocked-user__avatar" size={24} user={user} />
+    <div className='blocked-user'>
+      <Avatar className='blocked-user__avatar' size={24} user={user} />
 
-      <span className="blocked-user__name">{`${user.firstName} ${user.lastName}`}</span>
+      <span className='blocked-user__name'>{`${user.firstName} ${user.lastName}`}</span>
 
       <Button
         loading={isUnblocking}
         onClick={unblockThisUser}
-        type="button"
-        className="blocked-user__unblock">
+        type='button'
+        className='blocked-user__unblock'>
         {t('blockedUser.unblock')}
       </Button>
     </div>

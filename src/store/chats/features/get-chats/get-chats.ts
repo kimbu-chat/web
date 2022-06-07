@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import { IPaginationParams, IChat, IUser, IGetChatsRequest } from 'kimbu-models';
+import { IChat, IGetChatsRequest, IPaginationParams, IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
@@ -84,14 +84,12 @@ export class GetChats {
       const {
         entities: { chats: normalizedChats, users },
         result,
-      } = normalize<
-        IChat[],
+      } = normalize<IChat[],
         {
           chats?: Record<number, INormalizedChat>;
           users: Record<number, IUser>;
         },
-        number[]
-      >(data, chatArrNormalizationSchema);
+        number[]>(data, chatArrNormalizationSchema);
 
       const chatList: IGetChatsSuccessActionPayload = {
         chats: normalizedChats || {},

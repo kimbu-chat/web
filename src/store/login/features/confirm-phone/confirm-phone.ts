@@ -39,12 +39,12 @@ export class ConfirmPhone {
         const { phoneNumber, code } = action.payload;
         yield put(Login.action({ phoneNumber, code }));
         yield take(LoginSuccess.action);
-        action?.meta?.deferred?.resolve(true);
+        action.meta?.deferred?.resolve(true);
       } else if (data.isCodeCorrect && !data.userExists) {
         yield put(ConfirmPhoneSuccess.action({ confirmationCode: action.payload.code }));
-        action?.meta?.deferred.resolve(false);
+        action.meta?.deferred?.resolve(false);
       } else {
-        action?.meta?.deferred.reject();
+        action.meta?.deferred?.reject();
         yield put(ConfirmPhoneFailure.action());
       }
     };

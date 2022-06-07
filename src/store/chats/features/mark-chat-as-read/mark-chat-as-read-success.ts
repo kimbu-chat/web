@@ -15,15 +15,15 @@ export class MarkChatAsReadSuccess {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof MarkChatAsReadSuccess.action>) => {
-        const { chatId } = payload;
+      const { chatId } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat) {
-          chat.unreadMessagesCount = 0;
-        }
+      if (chat) {
+        chat.unreadMessagesCount = 0;
+      }
 
-        return draft;
-      };
+      return draft;
+    };
   }
 }

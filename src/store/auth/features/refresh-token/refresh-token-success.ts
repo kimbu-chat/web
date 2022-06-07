@@ -1,11 +1,16 @@
 import { createAction } from '@reduxjs/toolkit';
+import { ISecurityTokens } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { apply } from 'redux-saga/effects';
 
-import { AuthService } from '../../../../services/auth-service';
+import { AuthService } from '@services/auth-service';
+
 import { IAuthState } from '../../auth-state';
 
-import { IRefreshTokenSuccessActionPayload } from './action-payloads/refresh-token-success-action-payload';
+
+export type IRefreshTokenSuccessActionPayload = ISecurityTokens & {
+  accessTokenExpirationTime: string;
+};
 
 export class RefreshTokenSuccess {
   static get action() {

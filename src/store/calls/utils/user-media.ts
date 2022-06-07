@@ -9,11 +9,11 @@ import { CloseVideoStatus } from '../features/change-user-media-status/close-vid
 import { OpenAudioStatus } from '../features/change-user-media-status/open-audio-status';
 import { OpenVideoStatus } from '../features/change-user-media-status/open-video-status';
 import {
+  amICallingSelector,
   doIhaveCallSelector,
   getAudioConstraintsSelector,
-  getVideoConstraintsSelector,
-  amICallingSelector,
   getIsCallAcceptedSelector,
+  getVideoConstraintsSelector,
 } from '../selectors';
 
 interface IInCompleteConstraints {

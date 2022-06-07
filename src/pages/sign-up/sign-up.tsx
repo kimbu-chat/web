@@ -99,14 +99,14 @@ const SignUpPage: React.FC = () => {
           maxLength={30}
         />
         <InputWithError
-          prefix="@"
+          prefix='@'
           label={t('loginPage.nick_name')}
           className={`${BLOCK_NAME}__input`}
           onChange={onNicknameChange}
           error={error}
         />
         <button
-          type="submit"
+          type='submit'
           disabled={!firstName && !nickname}
           aria-label={t('loginPage.next')}
           className={`${BLOCK_NAME}__login-button`}>

@@ -31,7 +31,7 @@ export class AddFriend {
         }),
       );
 
-      action.meta.deferred?.resolve();
+      action.meta?.deferred?.resolve();
     };
   }
 

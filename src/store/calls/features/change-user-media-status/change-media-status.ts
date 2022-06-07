@@ -10,13 +10,13 @@ import {
   getMediaDevicesList,
   getUserAudio,
   getUserVideo,
+  getVideoSender,
+  preventEternalCamera,
   setVideoSender,
   stopAudioTracks,
   stopScreenSharingTracks,
   stopVideoTracks,
   tracks,
-  getVideoSender,
-  preventEternalCamera,
 } from '../../utils/user-media';
 import { ChangeActiveDeviceId } from '../change-active-device-id/change-active-device-id';
 import { CloseScreenShareStatus } from '../change-screen-share-status/close-screen-share-status';

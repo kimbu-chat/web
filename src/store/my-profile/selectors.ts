@@ -1,7 +1,5 @@
 import { IUser } from 'kimbu-models';
 
-import { RootState } from '..';
-
 const undefinedKey = -1;
 
 export const myIdSelector = (state: RootState): number => state.myProfile.userId;

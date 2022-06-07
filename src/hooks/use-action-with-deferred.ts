@@ -1,15 +1,15 @@
-import {useCallback} from 'react';
+import { useCallback } from 'react';
 
-import {createAction} from '@reduxjs/toolkit';
+import { createAction } from '@reduxjs/toolkit';
 import flow from 'lodash/flow';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { withDeferred } from '@utils/with-deffered';
 
 type ActionReturnType = ReturnType<typeof createAction>;
 type ArgumentTypes<F extends ActionReturnType> = F extends (
-  ...args: infer A
-) => void
+    ...args: infer A
+  ) => void
   ? A
   : never;
 

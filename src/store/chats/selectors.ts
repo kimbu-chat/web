@@ -1,8 +1,6 @@
 import { AttachmentType, IUser } from 'kimbu-models';
 import unionBy from 'lodash/unionBy';
 
-import { RootState } from "../index";
-
 import { INormalizedChat, INormalizedMessage, InterlocutorType } from './models';
 
 import type { IChatsState } from './chats-state';

@@ -12,12 +12,12 @@ export class CreateDraftMessage {
 
   static get reducer() {
     return (draft: IChatsState, { payload: message }: ReturnType<typeof CreateDraftMessage.action>) => {
-        const chat = draft.chats[message.chatId];
-        const chatMessages = chat?.messages;
-        chatMessages.messages[message.id] = message;
-        chat.draftMessageId = message.id;
+      const chat = draft.chats[message.chatId];
+      const chatMessages = chat?.messages;
+      chatMessages.messages[message.id] = message;
+      chat.draftMessageId = message.id;
 
-        return draft;
-      };
+      return draft;
+    };
   }
 }

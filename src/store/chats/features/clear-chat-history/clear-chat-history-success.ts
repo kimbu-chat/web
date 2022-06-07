@@ -14,23 +14,23 @@ export class ClearChatHistorySuccess {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof ClearChatHistorySuccess.action>) => {
-        const { chatId } = payload;
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const { chatId } = payload;
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        const chatMessages = draft.chats[chatId]?.messages;
+      const chatMessages = draft.chats[chatId]?.messages;
 
-        if (chatMessages && chatMessages.messageIds.length !== 0) {
-          chatMessages.messages = {};
-          chatMessages.messageIds = [];
-          chatMessages.hasMore = false;
-          chatMessages.loading = false;
+      if (chatMessages && chatMessages.messageIds.length !== 0) {
+        chatMessages.messages = {};
+        chatMessages.messageIds = [];
+        chatMessages.hasMore = false;
+        chatMessages.loading = false;
 
-          if (chat) {
-            chat.lastMessageId = undefined;
-          }
+        if (chat) {
+          chat.lastMessageId = undefined;
         }
+      }
 
-        return draft;
-      };
+      return draft;
+    };
   }
 }

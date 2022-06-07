@@ -18,24 +18,24 @@ export class GetGroupChatUsersSuccess {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof GetGroupChatUsersSuccess.action>) => {
-        const { chatId, isFromSearch, userIds, hasMore } = payload;
+      const { chatId, isFromSearch, userIds, hasMore } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat) {
-          chat.members.hasMore = hasMore;
-          chat.members.loading = false;
+      if (chat) {
+        chat.members.hasMore = hasMore;
+        chat.members.loading = false;
 
-          if (isFromSearch) {
-            chat.members.memberIds = userIds;
-          }
-
-          if (!isFromSearch) {
-            chat.members.memberIds = [...new Set([...chat.members.memberIds, ...userIds])];
-          }
+        if (isFromSearch) {
+          chat.members.memberIds = userIds;
         }
 
-        return draft;
-      };
+        if (!isFromSearch) {
+          chat.members.memberIds = [...new Set([...chat.members.memberIds, ...userIds])];
+        }
+      }
+
+      return draft;
+    };
   }
 }

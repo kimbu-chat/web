@@ -43,7 +43,7 @@ export class Register {
 
       yield put(Login.action({ phoneNumber, code: confirmationCode }));
       yield take(LoginSuccess.action);
-      action.meta.deferred.resolve();
+      action.meta?.deferred?.resolve();
     };
   }
 

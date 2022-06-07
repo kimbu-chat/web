@@ -15,6 +15,8 @@ import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import { Button } from '@shared-components/button';
 import { AnimationMode } from '@shared-components/with-background/with-background';
 import { createGroupChatAction } from '@store/chats/actions';
+import {ICreateGroupChatActionPayload} from "@store/chats/features/create-group-chat/create-group-chat";
+import {resetSearchFriendsAction} from "@store/friends/actions";
 import { myIdSelector } from '@store/my-profile/selectors';
 import { replaceInUrl } from '@utils/replace-in-url';
 
@@ -22,8 +24,6 @@ import { GroupChatCreation } from './group-chat-creation/group-chat-creation';
 import { UserSelect } from './user-select/user-select';
 
 import './create-group-chat-modal.scss';
-import {ICreateGroupChatActionPayload} from "@store/chats/features/create-group-chat/create-group-chat";
-import {resetSearchFriendsAction} from "@store/friends/actions";
 
 interface ICreateGroupChatModalProps {
   onClose: () => void;

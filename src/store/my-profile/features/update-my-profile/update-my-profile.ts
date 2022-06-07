@@ -46,7 +46,7 @@ export class UpdateMyProfile {
           yield put(AddOrUpdateUsers.action({ users: { [updatedProfile.id]: updatedProfile } }));
         }
 
-        action.meta.deferred.resolve();
+        action.meta?.deferred?.resolve();
       }
     };
   }

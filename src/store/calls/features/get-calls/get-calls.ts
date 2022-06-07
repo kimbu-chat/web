@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import { IUser, ICall, IGetCallsRequest, IPaginationParams } from 'kimbu-models';
+import { ICall, IGetCallsRequest, IPaginationParams, IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
@@ -70,11 +70,9 @@ export class GetCalls {
         const {
           entities: { calls, users },
           result,
-        } = normalize<
-          ICall[],
+        } = normalize<ICall[],
           { calls: Record<number, INormalizedCall>; users: Record<number, IUser> },
-          number[]
-        >(data, callArrNormalizationSchema);
+          number[]>(data, callArrNormalizationSchema);
 
         yield put(
           GetCallsSuccess.action({ callIds: result, calls, hasMore, name, initializedByScroll }),

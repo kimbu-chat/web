@@ -21,16 +21,16 @@ export class GetVideoAttachmentsSuccess {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof GetVideoAttachmentsSuccess.action>) => {
-        const { videos, chatId, hasMore } = payload;
+      const { videos, chatId, hasMore } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat) {
-          chat.videos.data.push(...videos);
-          chat.videos.hasMore = hasMore;
-          chat.videos.loading = false;
-        }
-        return draft;
-      };
+      if (chat) {
+        chat.videos.data.push(...videos);
+        chat.videos.hasMore = hasMore;
+        chat.videos.loading = false;
+      }
+      return draft;
+    };
   }
 }

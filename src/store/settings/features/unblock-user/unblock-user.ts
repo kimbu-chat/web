@@ -20,7 +20,7 @@ export class UnblockUser {
 
       yield put(UnblockUserSuccess.action(action.payload));
 
-      action.meta.deferred?.resolve();
+      action.meta?.deferred?.resolve();
     };
   }
 

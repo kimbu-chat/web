@@ -1,3 +1,4 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { IAcceptCallRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
@@ -14,23 +15,18 @@ import {
 import { deviceUpdateWatcher } from '@store/calls/utils/device-update-watcher';
 import { waitForAllICE } from '@store/calls/utils/glare-utils';
 import { peerWatcher } from '@store/calls/utils/peer-watcher';
-import {
-  getAndSendUserMedia,
-  getMediaDevicesList,
-  preventEternalCamera,
-} from '@store/calls/utils/user-media';
+import { getAndSendUserMedia, getMediaDevicesList, preventEternalCamera } from '@store/calls/utils/user-media';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import {
   createPeerConnection,
-  getPeerConnection,
   getInterlocutorOffer,
+  getPeerConnection,
 } from '@store/middlewares/webRTC/peerConnectionFactory';
 
 import { ICallsState } from '../../calls-state';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 
 import { AcceptCallSuccess } from './accept-call-success';
-import {createAction} from "@reduxjs/toolkit";
 
 export interface IAcceptCallActionPayload {
   videoEnabled: boolean;

@@ -15,16 +15,16 @@ export class InterlocutorStoppedTyping {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof InterlocutorStoppedTyping.action>) => {
-        const { chatId, interlocutorName } = payload;
+      const { chatId, interlocutorName } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat && chat.typingInterlocutors?.length) {
-          chat.typingInterlocutors = chat.typingInterlocutors?.filter(
-            (fullName) => fullName !== interlocutorName,
-          );
-        }
-        return draft;
-      };
+      if (chat && chat.typingInterlocutors?.length) {
+        chat.typingInterlocutors = chat.typingInterlocutors?.filter(
+          (fullName) => fullName !== interlocutorName,
+        );
+      }
+      return draft;
+    };
   }
 }

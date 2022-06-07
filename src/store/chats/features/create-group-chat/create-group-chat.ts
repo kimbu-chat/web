@@ -5,7 +5,7 @@ import { call, put } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
 import { INormalizedChat, InterlocutorType } from '@store/chats/models';
-import { createDeferredAction, Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { ChatId } from '../../chat-id';
@@ -108,7 +108,7 @@ export class CreateGroupChat {
       };
 
       yield put(CreateGroupChatSuccess.action(chat));
-      action.meta.deferred?.resolve(chat);
+      action.meta?.deferred?.resolve(chat);
     };
   }
 

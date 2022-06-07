@@ -39,7 +39,7 @@ export class ChangeChatMutedStatus {
       );
 
       if (status === HTTPStatusCode.OK) {
-        action.meta.deferred.resolve();
+        action.meta?.deferred?.resolve();
         yield put(
           ChangeChatMutedStatusSuccess.action({
             chatId,

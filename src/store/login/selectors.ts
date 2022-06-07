@@ -1,5 +1,3 @@
-import { RootState } from "..";
-
 export const authenticatedSelector = (state: RootState): boolean => state.auth.isAuthenticated;
 
 export const authPhoneNumberSelector = (state: RootState): string => state.login.phoneNumber;

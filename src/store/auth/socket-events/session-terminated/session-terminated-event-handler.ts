@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
-import { select, call } from 'redux-saga/effects';
+import { call, select } from 'redux-saga/effects';
 
 import { deviceIdSelector } from '@store/auth/selectors';
 

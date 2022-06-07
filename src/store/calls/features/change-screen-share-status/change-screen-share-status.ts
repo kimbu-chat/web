@@ -1,23 +1,24 @@
+import { createAction } from '@reduxjs/toolkit';
 import { buffers, END, eventChannel, SagaIterator } from 'redux-saga';
 import { call, cancel, put, race, select, spawn, take, takeEvery } from 'redux-saga/effects';
 
 import { getPeerConnection } from '@store/middlewares/webRTC/peerConnectionFactory';
+
 import { getIsScreenSharingEnabledSelector } from '../../selectors';
 import { CallEndedEventHandler } from '../../socket-events/call-ended/call-ended-event-handler';
 import {
   getUserDisplay,
+  getVideoSender,
   setVideoSender,
   stopScreenSharingTracks,
   stopVideoTracks,
   tracks,
-  getVideoSender,
 } from '../../utils/user-media';
 import { CancelCall } from '../cancel-call/cancel-call';
 import { CloseVideoStatus } from '../change-user-media-status/close-video-status';
 import { DeclineCall } from '../decline-call/decline-call';
 
 import { CloseScreenShareStatus } from './close-screen-share-status';
-import {createAction} from "@reduxjs/toolkit";
 
 export class ChangeScreenShareStatus {
   static get action() {

@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { IAudioAttachment, IGetAudioAttachmentsRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
-import { put, call, select } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
@@ -10,11 +10,7 @@ import { AUDIO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IChatsState } from '../../chats-state';
-import {
-  getChatByIdDraftSelector,
-  getInfoChatIdSelector,
-  getSelectedChatAudiosLengthSelector,
-} from '../../selectors';
+import { getChatByIdDraftSelector, getInfoChatIdSelector, getSelectedChatAudiosLengthSelector } from '../../selectors';
 
 import { GetAudioAttachmentsSuccess } from './get-audio-attachments-success';
 

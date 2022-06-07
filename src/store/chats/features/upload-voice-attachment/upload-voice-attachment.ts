@@ -42,62 +42,62 @@ export class UploadVoiceAttachment {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof UploadVoiceAttachment.action>) => {
-        const { file, waveFormJson, duration, id } = payload;
+      const { file, waveFormJson, duration, id } = payload;
 
-        if (!draft.selectedChatId) {
-          return draft;
-        }
-
-        const chat = draft.chats[draft.selectedChatId];
-
-        const currentUserId = new MyProfileService().myProfile.id;
-
-        const url = URL.createObjectURL(file);
-
-        const message: INormalizedMessage = {
-          systemMessageType: SystemMessageType.None,
-          userCreatorId: currentUserId,
-          creationDateTime: new Date().toISOString(),
-          state: MessageState.QUEUED,
-          id,
-          chatId: draft.selectedChatId,
-          attachments: [
-            {
-              id,
-              clientId: id,
-              creationDateTime: new Date().toISOString(),
-              url,
-              byteSize: file.size,
-              type: AttachmentType.Voice,
-              waveFormJson,
-              duration,
-            } as IVoiceAttachment as IAttachmentBase,
-          ],
-          isDeleted: false,
-          isEdited: false,
-          linkedMessage: payload.linkedMessage,
-          linkedMessageType: payload.linkedMessageType,
-        };
-
-        if (chat) {
-          chat.lastMessageId = message.id;
-
-          const chatIndex = draft.chatList.chatIds.indexOf(chat.id);
-          if (chatIndex !== 0) {
-            draft.chatList.chatIds.splice(chatIndex, 1);
-
-            draft.chatList.chatIds.unshift(chat.id);
-          }
-        }
-
-        const chatMessages = draft.chats[message.chatId]?.messages;
-
-        if (chatMessages && !chatMessages.messages[message.id]) {
-          chatMessages.messages[message.id] = message;
-          chatMessages.messageIds.unshift(message.id);
-        }
+      if (!draft.selectedChatId) {
         return draft;
+      }
+
+      const chat = draft.chats[draft.selectedChatId];
+
+      const currentUserId = new MyProfileService().myProfile.id;
+
+      const url = URL.createObjectURL(file);
+
+      const message: INormalizedMessage = {
+        systemMessageType: SystemMessageType.None,
+        userCreatorId: currentUserId,
+        creationDateTime: new Date().toISOString(),
+        state: MessageState.QUEUED,
+        id,
+        chatId: draft.selectedChatId,
+        attachments: [
+          {
+            id,
+            clientId: id,
+            creationDateTime: new Date().toISOString(),
+            url,
+            byteSize: file.size,
+            type: AttachmentType.Voice,
+            waveFormJson,
+            duration,
+          } as IVoiceAttachment as IAttachmentBase,
+        ],
+        isDeleted: false,
+        isEdited: false,
+        linkedMessage: payload.linkedMessage,
+        linkedMessageType: payload.linkedMessageType,
       };
+
+      if (chat) {
+        chat.lastMessageId = message.id;
+
+        const chatIndex = draft.chatList.chatIds.indexOf(chat.id);
+        if (chatIndex !== 0) {
+          draft.chatList.chatIds.splice(chatIndex, 1);
+
+          draft.chatList.chatIds.unshift(chat.id);
+        }
+      }
+
+      const chatMessages = draft.chats[message.chatId]?.messages;
+
+      if (chatMessages && !chatMessages.messages[message.id]) {
+        chatMessages.messages[message.id] = message;
+        chatMessages.messageIds.unshift(message.id);
+      }
+      return draft;
+    };
   }
 
   static get saga() {

@@ -27,7 +27,7 @@ export class ChangePushNotificationState {
         yield call(SubscribeToPushNotifications.saga);
       }
       yield put(ChangePushNotificationStateSuccess.action());
-      action.meta.deferred.resolve();
+      action.meta?.deferred?.resolve();
     };
   }
 }

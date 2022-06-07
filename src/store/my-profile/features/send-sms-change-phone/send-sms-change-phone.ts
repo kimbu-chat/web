@@ -24,11 +24,11 @@ export class SendSmsChangePhone {
       );
 
       if (codeStatus !== HTTPStatusCode.OK) {
-        action?.meta.deferred.reject();
+        action.meta?.deferred?.reject();
         return;
       }
 
-      action?.meta.deferred.resolve();
+      action.meta?.deferred?.resolve();
     };
   }
 }

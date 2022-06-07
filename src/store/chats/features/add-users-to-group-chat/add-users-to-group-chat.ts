@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { IAddUsersIntoGroupChatRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
-import { put, call, select } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 
 import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
@@ -43,7 +43,7 @@ export class AddUsersToGroupChat {
 
       if (status === HTTPStatusCode.OK) {
         yield put(AddUsersToGroupChatSuccess.action({ chatId, userIds }));
-        action.meta.deferred?.resolve();
+        action.meta?.deferred?.resolve();
       }
     };
   }

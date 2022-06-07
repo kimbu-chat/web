@@ -1,5 +1,3 @@
-import { RootState } from "..";
-
 export const getCurrentLanguageSelector = (state: RootState) => state.settings.language;
 export const getTypingStrategySelector = (state: RootState) => state.settings.typingStrategy;
 export const getCurrentThemeSelector = (state: RootState) => state.settings.theme;

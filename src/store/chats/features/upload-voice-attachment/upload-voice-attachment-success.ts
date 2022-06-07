@@ -22,36 +22,36 @@ export class UploadVoiceAttachmentSuccess {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof UploadVoiceAttachmentSuccess.action>) => {
-        const { oldId, attachmentId, messageId, chatId } = payload;
+      const { oldId, attachmentId, messageId, chatId } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
-        const chatMessages = draft.chats[chatId]?.messages;
+      const chat = getChatByIdDraftSelector(chatId, draft);
+      const chatMessages = draft.chats[chatId]?.messages;
 
-        const message = chatMessages?.messages[oldId];
+      const message = chatMessages?.messages[oldId];
 
-        if (message && chatMessages) {
-          message.clientId = message.id;
-          message.id = messageId;
-          message.state = MessageState.SENT;
-          chatMessages.messages[messageId] = message;
+      if (message && chatMessages) {
+        message.clientId = message.id;
+        message.id = messageId;
+        message.state = MessageState.SENT;
+        chatMessages.messages[messageId] = message;
 
-          if (message.attachments && message.attachments[0]) {
-            message.attachments[0].id = attachmentId;
-          }
-
-          delete chatMessages?.messages[oldId];
-
-          const messageIndex = chatMessages.messageIds.indexOf(oldId);
-          chatMessages.messageIds[messageIndex] = messageId;
+        if (message.attachments && message.attachments[0]) {
+          message.attachments[0].id = attachmentId;
         }
 
-        if (chat) {
-          if (chat.lastMessageId === oldId) {
-            chat.lastMessageId = messageId;
-          }
-        }
+        delete chatMessages?.messages[oldId];
 
-        return draft;
-      };
+        const messageIndex = chatMessages.messageIds.indexOf(oldId);
+        chatMessages.messageIds[messageIndex] = messageId;
+      }
+
+      if (chat) {
+        if (chat.lastMessageId === oldId) {
+          chat.lastMessageId = messageId;
+        }
+      }
+
+      return draft;
+    };
   }
 }

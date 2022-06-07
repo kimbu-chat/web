@@ -21,16 +21,16 @@ export class GetAudioAttachmentsSuccess {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof GetAudioAttachmentsSuccess.action>) => {
-        const { audios, chatId, hasMore } = payload;
+      const { audios, chatId, hasMore } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat) {
-          chat.audios.data.push(...audios);
-          chat.audios.hasMore = hasMore;
-          chat.audios.loading = false;
-        }
-        return draft;
-      };
+      if (chat) {
+        chat.audios.data.push(...audios);
+        chat.audios.hasMore = hasMore;
+        chat.audios.loading = false;
+      }
+      return draft;
+    };
   }
 }

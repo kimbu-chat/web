@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import classNames from 'classnames';
 import parsePhoneNumberFromString from 'libphonenumber-js';
@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import useInterval from 'use-interval';
 
 import { LabeledInput } from '@components/labeled-input';
-import { Modal, IModalChildrenProps } from '@components/modal';
+import { IModalChildrenProps, Modal } from '@components/modal';
 import { PhoneInputGroup } from '@components/phone-input-group';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
@@ -25,8 +25,8 @@ interface IChangePhoneModalProps {
 const BLOCK_NAME = 'change-phone-modal';
 
 const InitialChangePhoneModal: React.FC<IChangePhoneModalProps & IModalChildrenProps> = ({
-  animatedClose,
-}) => {
+                                                                                           animatedClose,
+                                                                                         }) => {
   const { t } = useTranslation();
 
   const sendSms = useActionWithDeferred(sendSmsChangePhone);
@@ -139,7 +139,7 @@ const InitialChangePhoneModal: React.FC<IChangePhoneModalProps & IModalChildrenP
           errorText={submited ? null : error && t(error)}
           phoneInputIcon={
             submited ? (
-              <button type="button" className={`${BLOCK_NAME}__back-icon`}>
+              <button type='button' className={`${BLOCK_NAME}__back-icon`}>
                 <CrayonSvg onClick={prevStep} />
               </button>
             ) : undefined
@@ -182,21 +182,21 @@ const InitialChangePhoneModal: React.FC<IChangePhoneModalProps & IModalChildrenP
               disabled={!/^[0-9]{4}$/.test(code)}
               loading={loading}
               onClick={confirm}
-              type="button"
+              type='button'
               className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--submit`)}>
               {t('changePhoneModal.confirm')}
             </Button>
           ) : (
             <>
               <button
-                type="button"
+                type='button'
                 className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}
                 onClick={animatedClose}>
                 {t('changePhoneModal.cancel')}
               </button>
               <Button
                 disabled={!parsePhoneNumberFromString(phone)?.isValid()}
-                type="button"
+                type='button'
                 loading={loading}
                 onClick={sendCodeConfirmation}
                 className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--submit`)}>

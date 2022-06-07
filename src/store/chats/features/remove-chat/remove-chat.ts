@@ -48,7 +48,7 @@ export class RemoveChat {
 
         if (status === HTTPStatusCode.OK) {
           yield put(RemoveChatSuccess.action({ chatId }));
-          action.meta.deferred.resolve();
+          action.meta?.deferred?.resolve();
         }
       }
     };

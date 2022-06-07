@@ -17,16 +17,16 @@ export class AddUsersToGroupChatSuccess {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof AddUsersToGroupChatSuccess.action>) => {
-        const { chatId, userIds } = payload;
+      const { chatId, userIds } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat?.groupChat) {
-          chat.groupChat.membersCount += userIds.length;
-          chat.members.memberIds = [...new Set([...chat.members.memberIds, ...userIds])];
-        }
+      if (chat?.groupChat) {
+        chat.groupChat.membersCount += userIds.length;
+        chat.members.memberIds = [...new Set([...chat.members.memberIds, ...userIds])];
+      }
 
-        return draft;
-      };
+      return draft;
+    };
   }
 }

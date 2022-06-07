@@ -1,8 +1,6 @@
 
 // state-selectors
 
-import { RootState } from "..";
-
 export const getMyFriendsListSelector = (state: RootState) => state.friends.friends;
 
 export const getMySearchFriendsListSelector = (state: RootState) => state.friends.searchFriends;

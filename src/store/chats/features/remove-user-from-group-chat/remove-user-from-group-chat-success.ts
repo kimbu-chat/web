@@ -18,21 +18,21 @@ export class RemoveUserFromGroupChatSuccess {
 
   static get reducer() {
     return (
-        draft: IChatsState,
-        { payload }: ReturnType<typeof RemoveUserFromGroupChatSuccess.action>,
-      ) => {
-        const { userId, groupChatId } = payload;
+      draft: IChatsState,
+      { payload }: ReturnType<typeof RemoveUserFromGroupChatSuccess.action>,
+    ) => {
+      const { userId, groupChatId } = payload;
 
-        const chatId = ChatId.from(undefined, groupChatId).id;
+      const chatId = ChatId.from(undefined, groupChatId).id;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat?.groupChat) {
-          // chat.groupChat.membersCount is decremented in event handler
-          chat.members.memberIds = chat.members.memberIds.filter((id) => id !== userId);
-        }
+      if (chat?.groupChat) {
+        // chat.groupChat.membersCount is decremented in event handler
+        chat.members.memberIds = chat.members.memberIds.filter((id) => id !== userId);
+      }
 
-        return draft;
-      };
+      return draft;
+    };
   }
 }

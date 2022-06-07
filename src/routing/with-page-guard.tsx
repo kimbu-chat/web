@@ -15,7 +15,6 @@ import {
 
 import type { Preload, UserStatus } from './routing.types';
 import type { RouteComponentProps } from 'react-router-dom';
-import {RootState} from "@store";
 
 const userStatusSelector = (state: RootState): UserStatus => {
   const authService = new AuthService();

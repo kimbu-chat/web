@@ -10,14 +10,14 @@ import { SettingsActions } from './settings/actions';
 import { UsersActions } from './users/actions';
 import { WebSocketActions } from './web-sockets/actions';
 
-export type RootAction = AuthActions &
+export type AppRootAction = AuthActions &
       ChatActions &
       MyProfileActions &
       FriendActions &
       CallActions &
       InternetActions &
       SettingsActions &
-      WebSocketActions & 
+      WebSocketActions &
       UsersActions &
       LoginActions &
       NotificationsActions

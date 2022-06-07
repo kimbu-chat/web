@@ -1,10 +1,10 @@
 import { SagaIterator } from '@redux-saga/core';
+import {createAction} from "@reduxjs/toolkit";
 import { spawn } from 'redux-saga/effects';
 
 import { subscribeToPushNotifications } from '@store/notifications/actions';
 
 import { ILoginState } from '../../login-state';
-import {createAction} from "@reduxjs/toolkit";
 
 export class LoginFromGoogleAccountSuccess {
   static get action() {

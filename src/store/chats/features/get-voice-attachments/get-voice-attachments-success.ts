@@ -21,17 +21,17 @@ export class GetVoiceAttachmentsSuccess {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof GetVoiceAttachmentsSuccess.action>) => {
-        const { recordings, chatId, hasMore } = payload;
+      const { recordings, chatId, hasMore } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat) {
-          chat.recordings.data.push(...recordings);
-          chat.recordings.hasMore = hasMore;
-          chat.recordings.loading = false;
-        }
+      if (chat) {
+        chat.recordings.data.push(...recordings);
+        chat.recordings.hasMore = hasMore;
+        chat.recordings.loading = false;
+      }
 
-        return draft;
-      };
+      return draft;
+    };
   }
 }

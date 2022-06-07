@@ -44,7 +44,7 @@ export class UploadAvatar {
             yield apply(setAvatarUploadCancelTokenSource, setAvatarUploadCancelTokenSource, [
               undefined,
             ]);
-            action.meta.deferred.resolve(payload.data);
+            action.meta?.deferred?.resolve(payload.data);
           },
           *onProgress(payload): SagaIterator {
             if (onProgress) {
@@ -55,7 +55,7 @@ export class UploadAvatar {
             yield apply(setAvatarUploadCancelTokenSource, setAvatarUploadCancelTokenSource, [
               undefined,
             ]);
-            action.meta.deferred.reject();
+            action.meta?.deferred?.reject();
           },
         }),
       );

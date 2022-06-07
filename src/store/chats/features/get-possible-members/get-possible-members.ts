@@ -37,9 +37,9 @@ export class GetPossibleMembers {
           yield call(() => GetPossibleMembers.httpRequest.generator(request)),
         );
 
-        action.meta.deferred.resolve(data);
+        action.meta?.deferred?.resolve(data);
       } catch (e: any) {
-        action.meta.deferred.reject(e);
+        action.meta?.deferred?.reject(e);
       }
     };
   }

@@ -1,9 +1,9 @@
 import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import { IUser, ICall } from 'kimbu-models';
+import { ICall, IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
-import { select, put, call } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
 import { INormalizedCall } from '@store/calls/common/models';
@@ -63,11 +63,9 @@ export class CallEndedEventHandler {
 
         const {
           entities: { calls, users },
-        } = normalize<
-          ICall[],
+        } = normalize<ICall[],
           { calls: Record<number, INormalizedCall>; users: Record<number, IUser> },
-          number[]
-        >(activeCall, callNormalizationSchema);
+          number[]>(activeCall, callNormalizationSchema);
 
         const normalizedCall = calls[activeCall.id];
 

@@ -31,13 +31,13 @@ export class RenegotiationSentEventHandler {
 
   static get reducer() {
     return (
-        draft: ICallsState,
-        { payload }: ReturnType<typeof RenegotiationSentEventHandler.action>,
-      ) => {
-        if (!payload.isVideoEnabled) {
-          draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
-        }
-      };
+      draft: ICallsState,
+      { payload }: ReturnType<typeof RenegotiationSentEventHandler.action>,
+    ) => {
+      if (!payload.isVideoEnabled) {
+        draft.isInterlocutorVideoEnabled = payload.isVideoEnabled;
+      }
+    };
   }
 
   static get saga() {

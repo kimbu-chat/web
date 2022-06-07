@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import {IChatsState} from '../../chats-state';
+import { IChatsState } from '../../chats-state';
 
 export class GetMessagesFailure {
   static get action() {
@@ -9,13 +9,13 @@ export class GetMessagesFailure {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof GetMessagesFailure.action>) => {
-        const chatMessages = draft.chats[payload]?.messages;
+      const chatMessages = draft.chats[payload]?.messages;
 
-        if (chatMessages) {
-          chatMessages.loading = false;
-        }
+      if (chatMessages) {
+        chatMessages.loading = false;
+      }
 
-        return draft;
-      };
+      return draft;
+    };
   }
 }

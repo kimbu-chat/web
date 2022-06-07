@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { IDeleteMessagesRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
-import { put, call, select } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';

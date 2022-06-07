@@ -1,4 +1,3 @@
-
 import { createAction } from '@reduxjs/toolkit';
 
 import { IChatsState } from '../../chats-state';

@@ -21,16 +21,16 @@ export class GetPhotoAttachmentsSuccess {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof GetPhotoAttachmentsSuccess.action>) => {
-        const { photos, chatId, hasMore } = payload;
+      const { photos, chatId, hasMore } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat) {
-          chat.photos.data.push(...photos);
-          chat.photos.hasMore = hasMore;
-          chat.photos.loading = false;
-        }
-        return draft;
-      };
+      if (chat) {
+        chat.photos.data.push(...photos);
+        chat.photos.hasMore = hasMore;
+        chat.photos.loading = false;
+      }
+      return draft;
+    };
   }
 }

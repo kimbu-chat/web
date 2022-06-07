@@ -13,18 +13,18 @@ export class LeaveGroupChatSuccess {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof LeaveGroupChatSuccess.action>) => {
-        const { chatId } = payload;
+      const { chatId } = payload;
 
-        draft.chatList.chatIds = draft.chatList.chatIds.filter((id) => id !== chatId);
+      draft.chatList.chatIds = draft.chatList.chatIds.filter((id) => id !== chatId);
 
-        delete draft.chats[chatId];
+      delete draft.chats[chatId];
 
-        if (draft.selectedChatId === chatId) {
-          draft.selectedChatId = undefined;
-        }
-        // TODO: handle user deleteing
+      if (draft.selectedChatId === chatId) {
+        draft.selectedChatId = undefined;
+      }
+      // TODO: handle user deleteing
 
-        return draft;
-      };
+      return draft;
+    };
   }
 }

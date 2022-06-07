@@ -1,7 +1,5 @@
 import { IUser } from 'kimbu-models';
 
-import { RootState } from '..';
-
 export const getCallInterlocutorSelector = (state: RootState): IUser | undefined =>
   state.users.users[state.calls.interlocutorId || -1];
 

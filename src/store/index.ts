@@ -3,15 +3,11 @@ import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 
-import { centrifugeInvokeMiddleware } from './middlewares/websockets/centrifuge';
-import { RootAction } from './root-action';
-import combinedReducer from './root-reducer';
-
 import type { RootReducer } from './root-reducer';
 import type { Saga, Task } from 'redux-saga';
 import type { Store, Dispatch } from 'redux';
 
-export type RootState = ReturnType<typeof combinedReducer>
+// export type RootState = ReturnType<typeof combinedReducer>
 
 export enum StoreKeys {
   AUTH = 'auth',
@@ -50,7 +46,10 @@ function* staticRootSaga() {
 }
 
 function createReducer(asyncReducers?: ReducersStore) {
-  return combineReducers({ dummyReducer, ...staticReducers, ...asyncReducers });
+  if(asyncReducers){
+    return combineReducers({ dummyReducer, ...staticReducers, ...asyncReducers });
+  }
+  return combineReducers({ dummyReducer, ...staticReducers });
 }
 
 function createSagaInjector(
@@ -84,7 +83,7 @@ function configureStore(): InjectorReduxStore {
       ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
       : compose;
   const sagaMiddleware = createSagaMiddleware();
-  const enchancers = composeEnchancers(applyMiddleware(sagaMiddleware, centrifugeInvokeMiddleware));
+  const enchancers = composeEnchancers(applyMiddleware(sagaMiddleware));
   const store: any = createStore(createReducer(), enchancers);
   store.asyncReducers = {};
 

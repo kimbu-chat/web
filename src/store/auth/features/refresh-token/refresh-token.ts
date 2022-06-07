@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import { ISecurityTokens, IRefreshTokenRequest } from 'kimbu-models';
+import { IRefreshTokenRequest, ISecurityTokens } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
@@ -14,9 +14,8 @@ import { getAccessTokenExpirationTime } from '@utils/get-access-token-expiration
 import { IAuthState } from '../../auth-state';
 import { securityTokensSelector } from '../../selectors';
 
-import { IRefreshTokenSuccessActionPayload } from './action-payloads/refresh-token-success-action-payload';
 import { RefreshTokenFailure } from './refresh-token-failure';
-import { RefreshTokenSuccess } from './refresh-token-success';
+import { IRefreshTokenSuccessActionPayload, RefreshTokenSuccess } from './refresh-token-success';
 
 export class RefreshToken {
   static get action() {

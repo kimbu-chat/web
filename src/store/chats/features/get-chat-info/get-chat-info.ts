@@ -43,11 +43,9 @@ export class GetChatInfo {
 
         const {
           entities: { chats, users },
-        } = normalize<
-          IChat[],
+        } = normalize<IChat[],
           { chats: Record<number, INormalizedChat>; users: Record<number, IUser> },
-          number[]
-        >(data, chatNormalizationSchema);
+          number[]>(data, chatNormalizationSchema);
 
         if (chats) {
           yield put(UnshiftChat.action({ chat: chats[data.id as number], addToList: false }));

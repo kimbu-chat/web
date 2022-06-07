@@ -25,7 +25,7 @@ export class DeleteFriend {
 
       if (status === HTTPStatusCode.OK) {
         yield put(DeleteFriendSuccess.action(userId));
-        action.meta.deferred?.resolve();
+        action.meta?.deferred?.resolve();
       }
     };
   }

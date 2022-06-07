@@ -174,7 +174,7 @@ export const removeChatSuccessAction = RemoveChatSuccess.action;
 export const dialogRemovedEventHandler = DialogRemovedEventHandler.action;
 
 export type ChatActions =
-  // ChatActions
+// ChatActions
   typeof getChatsAction &
   typeof resetSearchChatsAction &
   typeof getPhotoAttachmentsAction &

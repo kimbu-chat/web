@@ -1,4 +1,4 @@
-import { createAction, PayloadActionCreator } from '@reduxjs/toolkit';
+import { createAction } from '@reduxjs/toolkit';
 
 type Deferred<TData = string, TException = unknown> = {
   resolve: (data?: TData) => void;
@@ -9,17 +9,17 @@ export type Meta<TData = Record<string, unknown>, TException = unknown> = {
   deferred: Deferred<TData, TException>;
 };
 
-type PrepareActionFnType<TPayload, TMetaPayload> = (
+type PrepareActionFnType<TPayload, TMetaPayload = unknown> = (
   payload: TPayload,
-  meta?: Meta<TMetaPayload, unknown>,
+  meta?: Meta<TMetaPayload, unknown>
 ) => {
-  meta: Meta<TMetaPayload, unknown>;
+  meta: Meta<TMetaPayload, unknown> | undefined;
   payload: TPayload;
 };
 
-function prepareActionFn<TPayload, TMetaPayload>(
+function prepareActionFn<TPayload, TMetaPayload = unknown>(
   payload: TPayload,
-  meta: Meta<TMetaPayload, unknown>,
+  meta?: Meta<TMetaPayload, unknown> | undefined
 ) {
   return {
     meta,
@@ -33,10 +33,6 @@ export function createDeferredAction<
   TType extends string = string,
 >(
   type: TType,
-): PayloadActionCreator<
-  ReturnType<PrepareActionFnType<TPayload, TMetaPayload>>['payload'],
-  TType,
-  PrepareActionFnType<TPayload, TMetaPayload>
-> {
+) {
   return createAction<PrepareActionFnType<TPayload, TMetaPayload>, TType>(type, prepareActionFn);
 }

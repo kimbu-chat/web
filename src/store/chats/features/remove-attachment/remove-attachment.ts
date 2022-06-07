@@ -18,21 +18,21 @@ export class RemoveAttachment {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof RemoveAttachment.action>) => {
-        const { attachmentId } = payload;
+      const { attachmentId } = payload;
 
-        if (draft.selectedChatId) {
-          const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+      if (draft.selectedChatId) {
+        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-          if (chat && chat.draftMessageId) {
-            const draftAttachments = chat.messages.messages[chat.draftMessageId].attachments;
-            chat.messages.messages[chat.draftMessageId].attachments = draftAttachments.filter(
-              (attachment) => attachment.id !== attachmentId,
-            );
-          }
+        if (chat && chat.draftMessageId) {
+          const draftAttachments = chat.messages.messages[chat.draftMessageId].attachments;
+          chat.messages.messages[chat.draftMessageId].attachments = draftAttachments.filter(
+            (attachment) => attachment.id !== attachmentId,
+          );
         }
+      }
 
-        return draft;
-      };
+      return draft;
+    };
   }
 
   static get saga() {

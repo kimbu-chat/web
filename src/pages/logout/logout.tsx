@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
 import { CubeLoader } from '@components/cube-loader';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { logoutAction } from '@store/auth/actions';
 
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 
 export const Logout = () => {
   const logout = useActionWithDispatch(logoutAction);

@@ -17,15 +17,15 @@ export class ChangeChatMutedStatusSuccess {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof ChangeChatMutedStatusSuccess.action>) => {
-        const { chatId } = payload;
+      const { chatId } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat) {
-          chat.isMuted = !chat.isMuted;
-        }
+      if (chat) {
+        chat.isMuted = !chat.isMuted;
+      }
 
-        return draft;
-      };
+      return draft;
+    };
   }
 }

@@ -1,5 +1,3 @@
-import {RootState} from "@store";
-
 export const getInternetStateSelector = (state: RootState): boolean =>
   state.internet.isInternetConnected;
 

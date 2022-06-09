@@ -1,5 +1,4 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { IUsersState } from '@store/users/users-state';
 
@@ -7,24 +6,22 @@ import { IUserPhoneNumberChangedActionPayload } from './action-payloads/user-pho
 
 export class UserPhoneNumberChangedEventHandler {
   static get action() {
-    return createAction('UserPhoneNumberChanged')<IUserPhoneNumberChangedActionPayload>();
+    return createAction<IUserPhoneNumberChangedActionPayload>('UserPhoneNumberChanged');
   }
 
   static get reducer() {
-    return produce(
-      (
-        draft: IUsersState,
-        { payload }: ReturnType<typeof UserPhoneNumberChangedEventHandler.action>,
-      ) => {
-        const { userId, phoneNumber } = payload;
-        const user = draft.users[userId];
+    return (
+      draft: IUsersState,
+      { payload }: ReturnType<typeof UserPhoneNumberChangedEventHandler.action>,
+    ) => {
+      const { userId, phoneNumber } = payload;
+      const user = draft.users[userId];
 
-        if (user) {
-          user.phoneNumber = phoneNumber;
-        }
+      if (user) {
+        user.phoneNumber = phoneNumber;
+      }
 
-        return draft;
-      },
-    );
+      return draft;
+    };
   }
 }

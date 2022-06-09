@@ -1,32 +1,31 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { ICallsState } from '../../calls-state';
 import { InputType } from '../../common/enums/input-type';
 import {
+  doIhaveCallSelector,
   getAudioConstraintsSelector,
   getVideoConstraintsSelector,
-  doIhaveCallSelector,
 } from '../../selectors';
 import {
-  getVideoSender,
+  getAudioSender,
   getUserAudio,
   getUserVideo,
+  getVideoSender,
   tracks,
-  getAudioSender,
 } from '../../utils/user-media';
 
 import { ISwitchDeviceActionPayload } from './action-payloads/switch-device-action-payload';
 
 export class SwitchDevice {
   static get action() {
-    return createAction('SWITCH_DEVICE')<ISwitchDeviceActionPayload>();
+    return createAction<ISwitchDeviceActionPayload>('SWITCH_DEVICE');
   }
 
   static get reducer() {
-    return produce((draft: ICallsState, { payload }: ReturnType<typeof SwitchDevice.action>) => {
+    return (draft: ICallsState, { payload }: ReturnType<typeof SwitchDevice.action>) => {
       if (payload.kind === InputType.VideoInput) {
         draft.videoConstraints.deviceId = payload.deviceId;
       }
@@ -36,7 +35,7 @@ export class SwitchDevice {
       }
 
       return draft;
-    });
+    };
   }
 
   static get saga() {

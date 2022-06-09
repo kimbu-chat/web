@@ -1,4 +1,4 @@
-import { createReducer } from 'typesafe-actions';
+import { createReducer } from '@reduxjs/toolkit';
 
 import { MyProfileService } from '@services/my-profile-service';
 import { UserDeactivatedEventHandler } from '@store/users/socket-events/user-deactivated/user-deactivated-event-handler';
@@ -27,17 +27,16 @@ function initializeUsers() {
 
 const initialState: IUsersState = initializeUsers();
 
-const reducer = createReducer<IUsersState>(initialState)
-  .handleAction(AddOrUpdateUsers.action, AddOrUpdateUsers.reducer)
+const reducer = createReducer<IUsersState>(initialState, (builder) =>
+  builder
+    .addCase(AddOrUpdateUsers.action, AddOrUpdateUsers.reducer)
 
-  // data maniputating
-  .handleAction(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
-  .handleAction(UserDeactivatedEventHandler.action, UserDeactivatedEventHandler.reducer)
-  .handleAction(UserActivatedEventHandler.action, UserActivatedEventHandler.reducer)
-  .handleAction(UserDeletedEventHandler.action, UserDeletedEventHandler.reducer)
-  .handleAction(
-    UserPhoneNumberChangedEventHandler.action,
-    UserPhoneNumberChangedEventHandler.reducer,
-  )
-  .handleAction(UserStatusChangedEventHandler.action, UserStatusChangedEventHandler.reducer);
+    // data maniputating
+    .addCase(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
+    .addCase(UserDeactivatedEventHandler.action, UserDeactivatedEventHandler.reducer)
+    .addCase(UserActivatedEventHandler.action, UserActivatedEventHandler.reducer)
+    .addCase(UserDeletedEventHandler.action, UserDeletedEventHandler.reducer)
+    .addCase(UserPhoneNumberChangedEventHandler.action, UserPhoneNumberChangedEventHandler.reducer)
+    .addCase(UserStatusChangedEventHandler.action, UserStatusChangedEventHandler.reducer),
+);
 export default reducer;

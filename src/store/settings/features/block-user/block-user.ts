@@ -2,18 +2,17 @@ import { AxiosResponse } from 'axios';
 import { IAddUserIntoBlackListRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
-import { Meta } from '../../../common/actions';
+import { createDeferredAction } from '../../../common/actions';
 
 import { BlockUserSuccess } from './block-user-success';
 
 export class BlockUser {
   static get action() {
-    return createAction('BLOCK_USER')<number, Meta>();
+    return createDeferredAction<number>('BLOCK_USER');
   }
 
   static get saga() {
@@ -22,7 +21,7 @@ export class BlockUser {
 
       yield put(BlockUserSuccess.action(action.payload));
 
-      action.meta.deferred?.resolve();
+      action.meta?.deferred?.resolve();
     };
   }
 

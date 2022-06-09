@@ -1,7 +1,6 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { apply } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { IUserSettings } from '@store/settings/user-settings-state';
 import { applyFontSize } from '@utils/apply-font-size';
@@ -11,18 +10,19 @@ import { IGetUserSettingsSuccessActionPayload } from './action-payloads/get-user
 
 export class GetUserSettingsSuccess {
   static get action() {
-    return createAction('GET_USER_SETTINGS_SUCCESS')<
-      IGetUserSettingsSuccessActionPayload | undefined
-    >();
+    return createAction<IGetUserSettingsSuccessActionPayload | undefined>(
+      'GET_USER_SETTINGS_SUCCESS',
+    );
   }
 
   static get reducer() {
-    return produce(
-      (draft: IUserSettings, { payload }: ReturnType<typeof GetUserSettingsSuccess.action>) => ({
-        ...draft,
-        ...payload,
-      }),
-    );
+    return (
+      draft: IUserSettings,
+      { payload }: ReturnType<typeof GetUserSettingsSuccess.action>,
+    ) => ({
+      ...draft,
+      ...payload,
+    });
   }
 
   static get saga() {

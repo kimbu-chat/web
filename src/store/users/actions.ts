@@ -14,12 +14,10 @@ export const userPhoneNumberChangedEventHandler = UserPhoneNumberChangedEventHan
 export const userEditedEventHandlerAction = UserEditedEventHandler.action;
 export const userActivatedEventHandler = UserActivatedEventHandler.action;
 
-export const UsersActions = {
-  addOrUpdateUsers,
-  userStatusChangedEventHandler,
-  userEditedEventHandlerAction,
-  userDeletedEventHandler,
-  userDeactivatedEventHandler,
-  userPhoneNumberChangedEventHandler,
-  userActivatedEventHandler,
-};
+export type UsersActions = typeof addOrUpdateUsers &
+  typeof userStatusChangedEventHandler &
+  typeof userEditedEventHandlerAction &
+  typeof userDeletedEventHandler &
+  typeof userDeactivatedEventHandler &
+  typeof userPhoneNumberChangedEventHandler &
+  typeof userActivatedEventHandler;

@@ -1,9 +1,9 @@
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { IUserAddedToBlackListIntegrationEvent } from './user-added-to-black-list-integration-event';
 
 export class UserAddedToBlackListEventHandler {
   static get action() {
-    return createAction('UserAddedToBlackList')<IUserAddedToBlackListIntegrationEvent>();
+    return createAction<IUserAddedToBlackListIntegrationEvent>('UserAddedToBlackList');
   }
 }

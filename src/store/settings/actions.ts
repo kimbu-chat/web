@@ -44,27 +44,26 @@ export const terminateSessionSuccessAction = TerminateSessionSuccess.action;
 export const userRemovedFromBlackListEventHandler = UserRemovedFromBlackListEventHandler.action;
 export const userAddedToBlackListEventHandler = UserAddedToBlackListEventHandler.action;
 
-export const SettingsActions = {
+export type SettingsActions =
   // SettingsActions
-  changeLanguageAction,
-  changeNotificationSoundStateAction,
-  changeTypingStrategyAction,
-  getUserSettingsSuccessAction,
-  getUserSettingsAction,
-  changeThemeAction,
-  changeFontSizeAction,
-  changePushNotificationStateAction,
-  changePushNotificationStateSuccessAction,
-  getBlackListSuccessAction,
-  getBlackListAction,
-  blockUserAction,
-  blockUserSuccessAction,
-  unblockUserAction,
-  unblockUserSuccessAction,
-  getSessionListAction,
-  getSessionListSucessAction,
-  terminateSessionAction,
-  terminateSessionSuccessAction,
-  userRemovedFromBlackListEventHandler,
-  userAddedToBlackListEventHandler,
-};
+  typeof changeLanguageAction &
+    typeof changeNotificationSoundStateAction &
+    typeof changeTypingStrategyAction &
+    typeof getUserSettingsSuccessAction &
+    typeof getUserSettingsAction &
+    typeof changeThemeAction &
+    typeof changeFontSizeAction &
+    typeof changePushNotificationStateAction &
+    typeof changePushNotificationStateSuccessAction &
+    typeof getBlackListSuccessAction &
+    typeof getBlackListAction &
+    typeof blockUserAction &
+    typeof blockUserSuccessAction &
+    typeof unblockUserAction &
+    typeof unblockUserSuccessAction &
+    typeof getSessionListAction &
+    typeof getSessionListSucessAction &
+    typeof terminateSessionAction &
+    typeof terminateSessionSuccessAction &
+    typeof userRemovedFromBlackListEventHandler &
+    typeof userAddedToBlackListEventHandler;

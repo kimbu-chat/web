@@ -3,19 +3,19 @@ import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
-import { createEmptyDefferedAction } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 
 export class DeleteAccount {
   static get action() {
-    return createEmptyDefferedAction('DELETE_ACCOUNT');
+    return createDeferredAction('DELETE_ACCOUNT');
   }
 
   static get saga() {
     return function* getMyProfile(action: ReturnType<typeof DeleteAccount.action>): SagaIterator {
       DeleteAccount.httpRequest.call(yield call(() => DeleteAccount.httpRequest.generator()));
 
-      action.meta.deferred.resolve();
+      action.meta?.deferred?.resolve();
 
       window.location.replace('logout');
     };

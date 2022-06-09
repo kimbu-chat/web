@@ -2,18 +2,17 @@ import { AxiosResponse } from 'axios';
 import { IRemoveUsersFromContactListRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { DeleteFriendSuccess } from './delete-friend-success';
 
 export class DeleteFriend {
   static get action() {
-    return createAction('DELETE_FRIEND')<number, Meta>();
+    return createDeferredAction<number>('DELETE_FRIEND');
   }
 
   static get saga() {
@@ -26,7 +25,7 @@ export class DeleteFriend {
 
       if (status === HTTPStatusCode.OK) {
         yield put(DeleteFriendSuccess.action(userId));
-        action.meta.deferred?.resolve();
+        action.meta?.deferred?.resolve();
       }
     };
   }

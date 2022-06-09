@@ -1,4 +1,4 @@
-import { all, takeLeading, takeEvery } from 'redux-saga/effects';
+import { all, takeEvery, takeLeading } from 'redux-saga/effects';
 
 import { Logout } from './features/logout/logout';
 import { RefreshTokenFailure } from './features/refresh-token/refresh-token-failure';

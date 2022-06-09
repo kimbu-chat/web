@@ -45,7 +45,6 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const lastMessageUserCreator = useSelector(getChatLastMessageUser(chatId));
   const interlocutor = useSelector(getUserSelector(chat?.interlocutorId));
 
-
   const currentUserId = useSelector(myIdSelector);
   const typingString = useSelector(getTypingStringSelector(t, chatId));
 

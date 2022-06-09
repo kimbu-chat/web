@@ -8,18 +8,14 @@ import { MyProfileActions } from './my-profile/actions';
 import { NotificationsActions } from './notifications/actions';
 import { SettingsActions } from './settings/actions';
 import { UsersActions } from './users/actions';
-import { WebSocketActions } from './web-sockets/actions';
 
-export default {
-  auth: AuthActions,
-  chat: ChatActions,
-  profile: MyProfileActions,
-  friend: FriendActions,
-  call: CallActions,
-  internet: InternetActions,
-  settings: SettingsActions,
-  webSocket: WebSocketActions,
-  users: UsersActions,
-  login: LoginActions,
-  notifications: NotificationsActions,
-};
+export type AppRootAction = AuthActions &
+  ChatActions &
+  MyProfileActions &
+  FriendActions &
+  CallActions &
+  InternetActions &
+  SettingsActions &
+  UsersActions &
+  LoginActions &
+  NotificationsActions;

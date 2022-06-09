@@ -1,10 +1,9 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
-import { IPaginationParams, IChat, IUser, IGetChatsRequest } from 'kimbu-models';
+import { IChat, IGetChatsRequest, IPaginationParams, IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { INormalizedChat } from '@store/chats/models';
@@ -16,17 +15,22 @@ import { IChatsState } from '../../chats-state';
 import { chatArrNormalizationSchema } from '../../normalization';
 import { getChatsPageSelector, getChatsSearchPageSelector } from '../../selectors';
 
-import { IGetChatsActionPayload } from './action-payloads/get-chats-action-payload';
-import { IGetChatsSuccessActionPayload } from './action-payloads/get-chats-success-action-payload';
-import { GetChatsSuccess } from './get-chats-success';
+import { GetChatsSuccess, IGetChatsSuccessActionPayload } from './get-chats-success';
+
+export interface IGetChatsActionPayload {
+  showOnlyHidden: boolean;
+  showAll: boolean;
+  initializedByScroll: boolean;
+  name?: string;
+}
 
 export class GetChats {
   static get action() {
-    return createAction('GET_CHATS')<IGetChatsActionPayload>();
+    return createAction<IGetChatsActionPayload>('GET_CHATS');
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetChats.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof GetChats.action>) => {
       if (!payload.name?.length && !payload.initializedByScroll) {
         draft.searchChatList.chatIds = [];
         draft.searchChatList.hasMore = true;
@@ -46,7 +50,7 @@ export class GetChats {
       }
 
       return draft;
-    });
+    };
   }
 
   static get saga() {

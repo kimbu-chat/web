@@ -1,9 +1,9 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import jwtDecode from 'jwt-decode';
 import { ILoginRequest, ISecurityTokens } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, apply, put } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
@@ -16,7 +16,7 @@ import { ICustomJwtPayload } from './models/custom-jwt-payload';
 
 export class Login {
   static get action() {
-    return createAction('LOGIN')<ILoginActionPayload>();
+    return createAction<ILoginActionPayload>('LOGIN');
   }
 
   static get saga() {

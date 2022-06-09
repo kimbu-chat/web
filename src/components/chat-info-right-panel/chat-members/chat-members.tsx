@@ -1,4 +1,4 @@
-import React, {useState, useCallback, RefObject} from 'react';
+import React, { useState, useCallback, RefObject } from 'react';
 
 import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -21,10 +21,10 @@ import './chat-members.scss';
 const BLOCK_NAME = 'chat-members';
 
 interface IChatMembersProps {
-  rootRef: RefObject<HTMLDivElement>
+  rootRef: RefObject<HTMLDivElement>;
 }
 
-export const ChatMembers: React.FC<IChatMembersProps> = ({ rootRef}) => {
+export const ChatMembers: React.FC<IChatMembersProps> = ({ rootRef }) => {
   const [searchStr, setSearchStr] = useState<string>('');
   const [membersDisplayed, setMembersDisplayed] = useState(false);
   const { t } = useTranslation();

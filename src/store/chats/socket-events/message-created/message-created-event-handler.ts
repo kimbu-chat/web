@@ -1,3 +1,4 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import {
   ILinkedMessage,
@@ -12,7 +13,6 @@ import {
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { select, put, call } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { MarkChatAsRead } from '@store/chats/features/mark-chat-as-read/mark-chat-as-read';
@@ -48,7 +48,7 @@ import { IMessageCreatedIntegrationEvent } from './message-created-integration-e
 
 export class MessageCreatedEventHandler {
   static get action() {
-    return createAction('MessageCreated')<IMessageCreatedIntegrationEvent>();
+    return createAction<IMessageCreatedIntegrationEvent>('MessageCreated');
   }
 
   static get saga() {

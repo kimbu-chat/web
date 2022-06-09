@@ -1,33 +1,38 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
+import { IVoiceAttachment } from 'kimbu-models';
+
+import { IGroupable } from '@store/chats/models';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IGetVoiceAttachmentsSuccessActionPayload } from './action-payloads/get-voice-attachments-success-action-payload';
+export interface IGetVoiceAttachmentsSuccessActionPayload {
+  chatId: number;
+  recordings: (IVoiceAttachment & IGroupable)[];
+  hasMore: boolean;
+}
 
 export class GetVoiceAttachmentsSuccess {
   static get action() {
-    return createAction(
-      'GET_VOICE_ATTACHMENTS_SUCCESS',
-    )<IGetVoiceAttachmentsSuccessActionPayload>();
+    return createAction<IGetVoiceAttachmentsSuccessActionPayload>('GET_VOICE_ATTACHMENTS_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof GetVoiceAttachmentsSuccess.action>) => {
-        const { recordings, chatId, hasMore } = payload;
+    return (
+      draft: IChatsState,
+      { payload }: ReturnType<typeof GetVoiceAttachmentsSuccess.action>,
+    ) => {
+      const { recordings, chatId, hasMore } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat) {
-          chat.recordings.data.push(...recordings);
-          chat.recordings.hasMore = hasMore;
-          chat.recordings.loading = false;
-        }
+      if (chat) {
+        chat.recordings.data.push(...recordings);
+        chat.recordings.hasMore = hasMore;
+        chat.recordings.loading = false;
+      }
 
-        return draft;
-      },
-    );
+      return draft;
+    };
   }
 }

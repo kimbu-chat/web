@@ -1,6 +1,6 @@
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { doIhaveCallSelector, getIsActiveCallIncomingSelector } from '../../selectors';
@@ -16,7 +16,7 @@ import { IRenegotiationAcceptedIntegrationEvent } from './renegotiation-accepted
 
 export class RenegotiationAcceptedEventHandler {
   static get action() {
-    return createAction('RenegotiationAccepted')<IRenegotiationAcceptedIntegrationEvent>();
+    return createAction<IRenegotiationAcceptedIntegrationEvent>('RenegotiationAccepted');
   }
 
   static get saga() {

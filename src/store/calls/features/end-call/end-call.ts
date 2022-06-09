@@ -1,10 +1,9 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
-import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { resetPeerConnection } from '@store/middlewares/webRTC/reset-peer-connection';
 
@@ -12,11 +11,11 @@ import { ICallsState } from '../../calls-state';
 
 export class EndCall {
   static get action() {
-    return createEmptyAction('END_CALL');
+    return createAction('END_CALL');
   }
 
   static get reducer() {
-    return produce((draft: ICallsState) => {
+    return (draft: ICallsState) => {
       // reset all values that may change durting call to default
       draft.interlocutorId = undefined;
       draft.isInterlocutorBusy = false;
@@ -30,7 +29,7 @@ export class EndCall {
       draft.videoConstraints.isOpened = false;
       draft.isScreenSharingOpened = false;
       return draft;
-    });
+    };
   }
 
   static get saga() {

@@ -3,8 +3,8 @@ import React, { useCallback, useState } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import { Modal, IModalChildrenProps } from '@components/modal';
-import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { IModalChildrenProps, Modal } from '@components/modal';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as DeleteSvg } from '@icons/delete.svg';
 import { Button } from '@shared-components/button';
 import { deactivateAccountAction } from '@store/my-profile/actions';
@@ -22,7 +22,7 @@ export const InitialDeactivateAccountModal: React.FC<
 > = ({ animatedClose }) => {
   const { t } = useTranslation();
 
-  const deactivateAccount = useEmptyActionWithDeferred(deactivateAccountAction);
+  const deactivateAccount = useActionWithDeferred(deactivateAccountAction);
 
   const [deactivating, setDeactivating] = useState(false);
 

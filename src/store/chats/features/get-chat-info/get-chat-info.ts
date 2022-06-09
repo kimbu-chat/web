@@ -1,9 +1,9 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { IChat, IChatInfo, IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { INormalizedChat } from '@store/chats/models';
@@ -19,9 +19,13 @@ import { UnshiftChat } from '../unshift-chat/unshift-chat';
 
 import { GetChatInfoSuccess } from './get-chat-info-success';
 
+export interface IGetChatInfoActionPayload {
+  chatId: number;
+}
+
 export class GetChatInfo {
   static get action() {
-    return createAction('GET_CHAT_INFO')<number>();
+    return createAction<number>('GET_CHAT_INFO');
   }
 
   static get saga() {

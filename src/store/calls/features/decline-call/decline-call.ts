@@ -1,10 +1,9 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
-import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { resetPeerConnection } from '../../../middlewares/webRTC/reset-peer-connection';
@@ -12,11 +11,11 @@ import { ICallsState } from '../../calls-state';
 
 export class DeclineCall {
   static get action() {
-    return createEmptyAction('DECLINE_CALL');
+    return createAction('DECLINE_CALL');
   }
 
   static get reducer() {
-    return produce((draft: ICallsState) => {
+    return (draft: ICallsState) => {
       draft.interlocutorId = undefined;
       draft.isInterlocutorBusy = false;
       draft.amICalling = false;
@@ -29,7 +28,7 @@ export class DeclineCall {
       draft.videoConstraints.isOpened = false;
       draft.isScreenSharingOpened = false;
       return draft;
-    });
+    };
   }
 
   static get saga() {

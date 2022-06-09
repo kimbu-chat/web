@@ -1,24 +1,21 @@
-import produce from 'immer';
-import {createAction} from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
-import {IChatsState} from '../../chats-state';
+import { IChatsState } from '../../chats-state';
 
 export class GetMessagesFailure {
   static get action() {
-    return createAction('GET_MESSAGES_FAILURE')<number>();
+    return createAction<number>('GET_MESSAGES_FAILURE');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof GetMessagesFailure.action>) => {
-        const chatMessages = draft.chats[payload]?.messages;
+    return (draft: IChatsState, { payload }: ReturnType<typeof GetMessagesFailure.action>) => {
+      const chatMessages = draft.chats[payload]?.messages;
 
-        if (chatMessages) {
-          chatMessages.loading = false;
-        }
+      if (chatMessages) {
+        chatMessages.loading = false;
+      }
 
-        return draft;
-      },
-    );
+      return draft;
+    };
   }
 }

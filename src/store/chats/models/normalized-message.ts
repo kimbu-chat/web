@@ -1,4 +1,4 @@
-import { IAttachmentBase, SystemMessageType, MessageLinkType } from 'kimbu-models';
+import { IAttachmentBase, MessageLinkType, SystemMessageType } from 'kimbu-models';
 
 import { IAttachmentToSend } from '@store/chats/models/attachment-to-send';
 

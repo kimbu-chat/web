@@ -1,16 +1,14 @@
-import produce from 'immer';
-
-import { createEmptyAction } from '@store/common/actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { ICallsState } from '../../calls-state';
 
 export class CancelCallSuccess {
   static get action() {
-    return createEmptyAction('CANCEL_CALL_SUCCESS');
+    return createAction('CANCEL_CALL_SUCCESS');
   }
 
   static get reducer() {
-    return produce((draft: ICallsState) => {
+    return (draft: ICallsState) => {
       // reset all values that may change durting call to default
       draft.interlocutorId = undefined;
       draft.isInterlocutorBusy = false;
@@ -24,6 +22,6 @@ export class CancelCallSuccess {
       draft.videoConstraints.isOpened = false;
       draft.isScreenSharingOpened = false;
       return draft;
-    });
+    };
   }
 }

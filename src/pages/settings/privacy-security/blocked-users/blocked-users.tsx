@@ -7,7 +7,7 @@ import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as ArrowSvg } from '@icons/arrow-v.svg';
 import { Button } from '@shared-components/button';
 import { getBlackListAction } from '@store/settings/actions';
-import { getBlockedUsersSelector, getBlockedUsersLoadingSelector } from '@store/settings/selectors';
+import { getBlockedUsersLoadingSelector, getBlockedUsersSelector } from '@store/settings/selectors';
 
 import { BlockedUser } from './blocked-user/blocked-user';
 

@@ -1,7 +1,7 @@
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
-import { createEmptyAction } from '@store/common/actions';
 import {
   getAvatarUploadCancelTokenSource,
   setAvatarUploadCancelTokenSource,
@@ -9,7 +9,7 @@ import {
 
 export class CancelAvatarUploading {
   static get action() {
-    return createEmptyAction('CANCEL_AVATAR_UPLOADING');
+    return createAction('CANCEL_AVATAR_UPLOADING');
   }
 
   static get saga() {

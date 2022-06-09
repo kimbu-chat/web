@@ -36,8 +36,8 @@ export const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
   onReachBottom = noop,
   threshold = 0.0,
   containerRef,
-  triggerMargin= TRIGGER_MARGIN,
-  debounceTime = LOAD_MORE_DEBOUNCE
+  triggerMargin = TRIGGER_MARGIN,
+  debounceTime = LOAD_MORE_DEBOUNCE,
 }) => {
   const backwardsTriggerRef = React.useRef<HTMLDivElement>(null);
   const forwardsTriggerRef = React.useRef<HTMLDivElement>(null);

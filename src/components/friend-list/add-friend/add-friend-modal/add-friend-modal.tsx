@@ -44,8 +44,8 @@ const InitialAddFriendModal: React.FC<IAddFriendModalProps & IModalChildrenProps
 
   const getRequiredUser = useCallback(() => {
     setLoading(true);
-    getUserByPhone({ phone })
-      .then((result: IGetUserByPhoneNumberQueryResult) => {
+    getUserByPhone<IGetUserByPhoneNumberQueryResult>({ phone })
+      .then((result) => {
         setLoading(false);
         if (result) {
           setFoundResult(result);

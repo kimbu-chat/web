@@ -1,11 +1,9 @@
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { replaceInUrl } from '@utils/replace-in-url';
 
@@ -13,23 +11,27 @@ import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { ChatId } from '../../chat-id';
 import { IChatsState } from '../../chats-state';
 
-import { IRemoveChatActionPayload } from './action-payloads/remove-chat-action-payload';
 import { IRemoveChatRequest } from './api-requests/remove-chat-api-request';
 import { RemoveChatSuccess } from './remove-chat-success';
 
+export interface IRemoveChatActionPayload {
+  forEveryone: boolean;
+  chatId: number;
+}
+
 export class RemoveChat {
   static get action() {
-    return createAction('REMOVE_CHAT')<IRemoveChatActionPayload, Meta>();
+    return createDeferredAction<IRemoveChatActionPayload>('REMOVE_CHAT');
   }
 
   static get reducer() {
-    return produce((draft: IChatsState) => {
+    return (draft: IChatsState) => {
       draft.chatInfo = {
         isInfoOpened: false,
       };
 
       return draft;
-    });
+    };
   }
 
   static get saga() {
@@ -46,7 +48,7 @@ export class RemoveChat {
 
         if (status === HTTPStatusCode.OK) {
           yield put(RemoveChatSuccess.action({ chatId }));
-          action.meta.deferred.resolve();
+          action.meta?.deferred?.resolve();
         }
       }
     };

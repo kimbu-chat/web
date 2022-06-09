@@ -1,7 +1,7 @@
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 export class DismissToAddContactSuccess {
   static get action() {
-    return createAction('DISMISS_TO_ADD_CONTACT_SUCCESS')<number>();
+    return createAction<number>('DISMISS_TO_ADD_CONTACT_SUCCESS');
   }
 }

@@ -1,7 +1,6 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { myIdSelector } from '@store/my-profile/selectors';
 import { IUsersState } from '@store/users/users-state';
@@ -12,22 +11,23 @@ import { IUserDeactivatedActionPayload } from './action-payloads/user-deactivate
 
 export class UserDeactivatedEventHandler {
   static get action() {
-    return createAction('UserDeactivated')<IUserDeactivatedActionPayload>();
+    return createAction<IUserDeactivatedActionPayload>('UserDeactivated');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IUsersState, { payload }: ReturnType<typeof UserDeactivatedEventHandler.action>) => {
-        const { userId } = payload;
-        const user = draft.users[userId];
+    return (
+      draft: IUsersState,
+      { payload }: ReturnType<typeof UserDeactivatedEventHandler.action>,
+    ) => {
+      const { userId } = payload;
+      const user = draft.users[userId];
 
-        if (user) {
-          user.deactivated = true;
-        }
+      if (user) {
+        user.deactivated = true;
+      }
 
-        return draft;
-      },
-    );
+      return draft;
+    };
   }
 
   static get saga() {

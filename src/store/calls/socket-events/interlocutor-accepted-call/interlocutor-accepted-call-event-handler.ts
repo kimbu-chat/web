@@ -1,7 +1,6 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { call, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { myIdSelector } from '@store/my-profile/selectors';
 
@@ -9,8 +8,8 @@ import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFac
 import { ICallsState } from '../../calls-state';
 import {
   doIhaveCallSelector,
-  getIsCallAcceptedSelector,
   getIsActiveCallIncomingSelector,
+  getIsCallAcceptedSelector,
 } from '../../selectors';
 import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
 
@@ -18,37 +17,32 @@ import { IInterlocutorAcceptedCallIntegrationEvent } from './interlocutor-accept
 
 export class InterlocutorAcceptedCallEventHandler {
   static get action() {
-    return createAction('CallAccepted')<IInterlocutorAcceptedCallIntegrationEvent>();
+    return createAction<IInterlocutorAcceptedCallIntegrationEvent>('CallAccepted');
   }
 
   static get reducer() {
-    return produce(
-      (
-        draft: ICallsState,
-        { payload }: ReturnType<typeof InterlocutorAcceptedCallEventHandler.action>,
-      ) => {
-        if (
-          (payload.answer && draft.amICalling) ||
-          (draft.amICalled && draft.isActiveCallIncoming)
-        ) {
-          draft.isSpeaking = true;
-          draft.amICalled = false;
-          draft.amICalling = false;
-        } else if (!(draft.isSpeaking || draft.isCallAccepted)) {
-          draft.interlocutorId = undefined;
-          draft.isInterlocutorBusy = false;
-          draft.amICalling = false;
-          draft.amICalled = false;
-          draft.isSpeaking = false;
-          draft.isInterlocutorVideoEnabled = false;
-          draft.videoConstraints.isOpened = false;
-          draft.videoConstraints.isOpened = false;
-          draft.isScreenSharingOpened = false;
-        }
+    return (
+      draft: ICallsState,
+      { payload }: ReturnType<typeof InterlocutorAcceptedCallEventHandler.action>,
+    ) => {
+      if ((payload.answer && draft.amICalling) || (draft.amICalled && draft.isActiveCallIncoming)) {
+        draft.isSpeaking = true;
+        draft.amICalled = false;
+        draft.amICalling = false;
+      } else if (!(draft.isSpeaking || draft.isCallAccepted)) {
+        draft.interlocutorId = undefined;
+        draft.isInterlocutorBusy = false;
+        draft.amICalling = false;
+        draft.amICalled = false;
+        draft.isSpeaking = false;
+        draft.isInterlocutorVideoEnabled = false;
+        draft.videoConstraints.isOpened = false;
+        draft.videoConstraints.isOpened = false;
+        draft.isScreenSharingOpened = false;
+      }
 
-        return draft;
-      },
-    );
+      return draft;
+    };
   }
 
   static get saga() {

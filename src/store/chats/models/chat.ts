@@ -1,7 +1,7 @@
 import {
-  IGroupChat,
   IAttachmentBase,
   IAudioAttachment,
+  IGroupChat,
   IPictureAttachment,
   IVideoAttachment,
   IVoiceAttachment,

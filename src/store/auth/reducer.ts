@@ -1,4 +1,4 @@
-import { createReducer } from 'typesafe-actions';
+import { createReducer } from '@reduxjs/toolkit';
 
 import { RefreshTokenFailure } from '@store/auth/features/refresh-token/refresh-token-failure';
 import { RefreshTokenSuccess } from '@store/auth/features/refresh-token/refresh-token-success';
@@ -20,10 +20,12 @@ const initialState: IAuthState = {
   deviceId: authService.deviceId,
 };
 
-const reducer = createReducer<IAuthState>(initialState)
-  .handleAction(Logout.action, Logout.reducer)
-  .handleAction(RefreshToken.action, RefreshToken.reducer)
-  .handleAction(RefreshTokenSuccess.action, RefreshTokenSuccess.reducer)
-  .handleAction(RefreshTokenFailure.action, RefreshTokenFailure.reducer);
+const reducer = createReducer<IAuthState>(initialState, (builder) =>
+  builder
+    .addCase(Logout.action, Logout.reducer)
+    .addCase(RefreshToken.action, RefreshToken.reducer)
+    .addCase(RefreshTokenSuccess.action, RefreshTokenSuccess.reducer)
+    .addCase(RefreshTokenFailure.action, RefreshTokenFailure.reducer),
+);
 
 export default reducer;

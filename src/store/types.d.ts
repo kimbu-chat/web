@@ -1,22 +1,17 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { compose } from 'redux';
-import { StateType, ActionType } from 'typesafe-actions';
 
-declare module 'typesafe-actions' {
-  export type Store = StateType<typeof import('./index').default>;
-
-  export type RootState = StateType<typeof import('./root-reducer').default>;
-
-  export type RootAction = ActionType<typeof import('./root-action').default>;
-
-  interface Types {
-    RootAction: RootAction;
-  }
-}
+import { store } from '@store/index';
+import { AppRootAction } from '@store/root-action';
+import combinedReducer from '@store/root-reducer';
 
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
     webkitAudioContext: typeof AudioContext;
   }
+  type Store = ReturnType<typeof store>;
+  export type RootState = ReturnType<typeof combinedReducer>;
+  export type AppDispatch = typeof store.dispatch;
+  export type RootAction = AppRootAction;
 }

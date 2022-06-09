@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
 import { IModalChildrenProps, Modal } from '@components/modal';
-import { useEmptyActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { INSTANT_MESSAGING_PATH } from '@routing/routing.constants';
 import { Button } from '@shared-components/button';
 import { leaveGroupChatAction } from '@store/chats/actions';
@@ -25,7 +25,7 @@ const InitialLeaveChatModal: React.FC<ILeaveChatModalProps & IModalChildrenProps
 
   const [loading, setLoading] = useState(false);
 
-  const leaveGroupChat = useEmptyActionWithDeferred(leaveGroupChatAction);
+  const leaveGroupChat = useActionWithDeferred(leaveGroupChatAction);
 
   const deleteGroupChat = useCallback(() => {
     setLoading(true);

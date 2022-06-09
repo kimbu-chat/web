@@ -1,35 +1,34 @@
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { ICreateUserRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { Login } from '@store/login/features/login/login';
-import {
-  authPhoneNumberSelector,
-  confirmationCodeSelector,
-  twoLetterCountryCodeSelector,
-} from '@store/login/selectors';
+import { authPhoneNumberSelector, confirmationCodeSelector } from '@store/login/selectors';
 
 import { LoginSuccess } from '../login/login-success';
 
-import type { IRegisterActionPayload } from './action-payloads/register-action-payload';
 import type { ILoginState } from '@store/login/login-state';
+
+export interface IRegisterActionPayload {
+  lastName: string;
+  firstName: string;
+  nickname: string;
+  avatarId?: number;
+}
 
 export class Register {
   static get action() {
-    return createAction('REGISTER')<IRegisterActionPayload, Meta>();
+    return createDeferredAction<IRegisterActionPayload>('REGISTER');
   }
 
   static get reducer() {
-    return produce((draft: ILoginState) => ({
-      ...draft,
-      loading: true,
-    }));
+    return (draft: ILoginState) => {
+      draft.loading = true;
+    };
   }
 
   static get saga() {
@@ -38,8 +37,6 @@ export class Register {
 
       const phoneNumber = yield select(authPhoneNumberSelector);
 
-      const twoLetterCountryCode = yield select(twoLetterCountryCodeSelector);
-
       const confirmationCode = yield select(confirmationCodeSelector);
 
       yield call(Register.httpRequest.generator, {
@@ -47,13 +44,12 @@ export class Register {
         lastName,
         nickname,
         phoneNumber,
-        twoLetterCountryCode,
         avatarId,
       });
 
       yield put(Login.action({ phoneNumber, code: confirmationCode }));
       yield take(LoginSuccess.action);
-      action.meta.deferred.resolve();
+      action.meta?.deferred?.resolve();
     };
   }
 

@@ -1,24 +1,25 @@
 import { AxiosResponse } from 'axios';
 import { IRemoveUserFromGroupChatRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
-import { put, call, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
+import { call, put, select } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { getSelectedGroupChatIdSelector } from '../../selectors';
 
-import { IRemoveUserFromGroupChatActionPayload } from './action-payloads/remove-user-from-group-chat-payload';
 import { RemoveUserFromGroupChatSuccess } from './remove-user-from-group-chat-success';
+
+export interface IRemoveUserFromGroupChatActionPayload {
+  userId: number;
+}
 
 export class RemoveUserFromGroupChat {
   static get action() {
-    return createAction('REMOVE_USER_FROM_GROUP_CHAT')<
-      IRemoveUserFromGroupChatActionPayload,
-      Meta
-    >();
+    return createDeferredAction<IRemoveUserFromGroupChatActionPayload>(
+      'REMOVE_USER_FROM_GROUP_CHAT',
+    );
   }
 
   static get saga() {
@@ -40,7 +41,7 @@ export class RemoveUserFromGroupChat {
         }),
       );
 
-      action.meta.deferred?.resolve();
+      action.meta?.deferred?.resolve();
     };
   }
 

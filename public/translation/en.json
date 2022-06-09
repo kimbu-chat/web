@@ -22,7 +22,11 @@
     "last_name": "Last name",
     "nick_name": "Nickname",
     "name": "Name",
-    "search_country": "Search country"
+    "search_country": "Search country",
+    "google_auth": {
+      "disabled": "Log in from Google account temporarily disabled, try later",
+      "id_token_invalid": "Invalid ID token, try one more time"
+    }
   },
   "selectEntity": {
     "online": "Online"
@@ -442,5 +446,7 @@
     "incoming_call_interrupted": "Incoming call interrupted"
   },
   "deleted": "DELETED",
-  "unread-messages": "Unread messages ({{count}})"
+  "unread-messages": "Unread messages ({{count}})",
+  "network-error": "Network Error, try later",
+  "something_went_wrong": "Something went wrong, try later"
 }

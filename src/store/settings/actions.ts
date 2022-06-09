@@ -47,23 +47,23 @@ export const userAddedToBlackListEventHandler = UserAddedToBlackListEventHandler
 export type SettingsActions =
   // SettingsActions
   typeof changeLanguageAction &
-  typeof changeNotificationSoundStateAction &
-  typeof changeTypingStrategyAction &
-  typeof getUserSettingsSuccessAction &
-  typeof getUserSettingsAction &
-  typeof changeThemeAction &
-  typeof changeFontSizeAction &
-  typeof changePushNotificationStateAction &
-  typeof changePushNotificationStateSuccessAction &
-  typeof getBlackListSuccessAction &
-  typeof getBlackListAction &
-  typeof blockUserAction &
-  typeof blockUserSuccessAction &
-  typeof unblockUserAction &
-  typeof unblockUserSuccessAction &
-  typeof getSessionListAction &
-  typeof getSessionListSucessAction &
-  typeof terminateSessionAction &
-  typeof terminateSessionSuccessAction &
-  typeof userRemovedFromBlackListEventHandler &
-  typeof userAddedToBlackListEventHandler;
+    typeof changeNotificationSoundStateAction &
+    typeof changeTypingStrategyAction &
+    typeof getUserSettingsSuccessAction &
+    typeof getUserSettingsAction &
+    typeof changeThemeAction &
+    typeof changeFontSizeAction &
+    typeof changePushNotificationStateAction &
+    typeof changePushNotificationStateSuccessAction &
+    typeof getBlackListSuccessAction &
+    typeof getBlackListAction &
+    typeof blockUserAction &
+    typeof blockUserSuccessAction &
+    typeof unblockUserAction &
+    typeof unblockUserSuccessAction &
+    typeof getSessionListAction &
+    typeof getSessionListSucessAction &
+    typeof terminateSessionAction &
+    typeof terminateSessionSuccessAction &
+    typeof userRemovedFromBlackListEventHandler &
+    typeof userAddedToBlackListEventHandler;

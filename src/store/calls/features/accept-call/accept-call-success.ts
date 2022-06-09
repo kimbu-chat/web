@@ -2,7 +2,6 @@ import { createAction } from '@reduxjs/toolkit';
 
 import { ICallsState } from '../../calls-state';
 
-
 export class AcceptCallSuccess {
   static get action() {
     return createAction('ACCEPT_CALL_SUCCESS');

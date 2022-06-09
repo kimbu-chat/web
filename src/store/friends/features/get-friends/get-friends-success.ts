@@ -11,27 +11,27 @@ export class GetFriendsSuccess {
 
   static get reducer() {
     return (draft: IFriendsState, { payload }: ReturnType<typeof GetFriendsSuccess.action>) => {
-        const { friendIds, hasMore, name, initializedByScroll } = payload;
+      const { friendIds, hasMore, name, initializedByScroll } = payload;
 
-        if (initializedByScroll) {
-          if (name?.length) {
-            draft.searchFriends.loading = false;
-            draft.searchFriends.hasMore = hasMore;
-            draft.searchFriends.friendIds = [
-              ...new Set([...draft.searchFriends.friendIds, ...friendIds]),
-            ];
-          } else {
-            draft.friends.loading = false;
-            draft.friends.hasMore = hasMore;
-            draft.friends.friendIds = [...new Set([...draft.friends.friendIds, ...friendIds])];
-          }
-        } else {
+      if (initializedByScroll) {
+        if (name?.length) {
           draft.searchFriends.loading = false;
           draft.searchFriends.hasMore = hasMore;
-          draft.searchFriends.friendIds = friendIds;
+          draft.searchFriends.friendIds = [
+            ...new Set([...draft.searchFriends.friendIds, ...friendIds]),
+          ];
+        } else {
+          draft.friends.loading = false;
+          draft.friends.hasMore = hasMore;
+          draft.friends.friendIds = [...new Set([...draft.friends.friendIds, ...friendIds])];
         }
+      } else {
+        draft.searchFriends.loading = false;
+        draft.searchFriends.hasMore = hasMore;
+        draft.searchFriends.friendIds = friendIds;
+      }
 
-        return draft;
-      };
+      return draft;
+    };
   }
 }

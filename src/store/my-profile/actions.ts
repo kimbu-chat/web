@@ -22,8 +22,7 @@ export const deleteAccountAction = DeleteAccount.action;
 export const sendSmsChangePhone = SendSmsChangePhone.action;
 export const confirmChangePhone = ConfirmChangePhone.action;
 
-export type MyProfileActions = 
-  typeof updateMyProfileAction &
+export type MyProfileActions = typeof updateMyProfileAction &
   typeof checkNicknameAvailabilityAction &
   typeof getMyProfileAction &
   typeof getMyProfileSuccessAction &

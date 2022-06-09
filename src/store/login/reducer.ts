@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { AuthService } from '../../services/auth-service';
+import { AuthService } from '@services/auth-service';
 
 import { ConfirmPhoneFailure } from './features/confirm-phone/confirm-phone-failure';
 import { ConfirmPhoneSuccess } from './features/confirm-phone/confirm-phone-success';
@@ -23,18 +23,21 @@ const initialState: ILoginState = {
   twoLetterCountryCode: '',
   phoneNumber: '',
   isConfirmationCodeWrong: false,
+  googleAuthLoading: false,
   isAuthenticated: Boolean(securityTokens),
 };
 
-const reducer = createReducer<ILoginState>(initialState, builder =>
-  builder.addCase(SendSmsCode.action, SendSmsCode.reducer)
-  .addCase(SendSmsCodeSuccess.action, SendSmsCodeSuccess.reducer)
-  .addCase(ConfirmPhone.action, ConfirmPhone.reducer)
-  .addCase(ConfirmPhoneSuccess.action, ConfirmPhoneSuccess.reducer)
-  .addCase(ConfirmPhoneFailure.action, ConfirmPhoneFailure.reducer)
-  .addCase(Register.action, Register.reducer)
-  .addCase(LoginSuccess.action, LoginSuccess.reducer)
-  .addCase(LoginFromGoogleAccount.action, LoginFromGoogleAccount.reducer)
-  .addCase(LoginFromGoogleAccountSuccess.action, LoginFromGoogleAccountSuccess.reducer));
+const reducer = createReducer<ILoginState>(initialState, (builder) =>
+  builder
+    .addCase(SendSmsCode.action, SendSmsCode.reducer)
+    .addCase(SendSmsCodeSuccess.action, SendSmsCodeSuccess.reducer)
+    .addCase(ConfirmPhone.action, ConfirmPhone.reducer)
+    .addCase(ConfirmPhoneSuccess.action, ConfirmPhoneSuccess.reducer)
+    .addCase(ConfirmPhoneFailure.action, ConfirmPhoneFailure.reducer)
+    .addCase(Register.action, Register.reducer)
+    .addCase(LoginSuccess.action, LoginSuccess.reducer)
+    .addCase(LoginFromGoogleAccount.action, LoginFromGoogleAccount.reducer)
+    .addCase(LoginFromGoogleAccountSuccess.action, LoginFromGoogleAccountSuccess.reducer),
+);
 
 export default reducer;

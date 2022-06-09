@@ -1,4 +1,3 @@
-
 // state-selectors
 
 export const getMyFriendsListSelector = (state: RootState) => state.friends.friends;

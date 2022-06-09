@@ -11,9 +11,9 @@ export class ConfirmPhoneSuccess {
 
   static get reducer() {
     return (draft: ILoginState, { payload }: ReturnType<typeof ConfirmPhoneSuccess.action>) => {
-        draft.loading = false;
-        draft.confirmationCode = payload.confirmationCode;
-        return draft;
-      };
+      draft.loading = false;
+      draft.confirmationCode = payload.confirmationCode;
+      return draft;
+    };
   }
 }

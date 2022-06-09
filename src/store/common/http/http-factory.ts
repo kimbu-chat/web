@@ -4,8 +4,8 @@ import { call, cancelled, put, take } from 'redux-saga/effects';
 
 import { RefreshToken } from '@store/auth/features/refresh-token/refresh-token';
 import { httpRequest } from '@store/common/http/http-request';
-
 import { isNetworkError } from '@utils/error-utils';
+
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
 
 import { checkTokensSaga } from './check-tokens';

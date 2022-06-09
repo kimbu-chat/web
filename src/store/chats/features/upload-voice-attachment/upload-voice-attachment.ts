@@ -34,7 +34,6 @@ export interface IUploadVoiceAttachmentActionPayload {
   // url: string;
 }
 
-
 export class UploadVoiceAttachment {
   static get action() {
     return createAction<IUploadVoiceReferred>('UPLOAD_VOICE_ATTACHMENT');

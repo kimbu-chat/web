@@ -27,17 +27,16 @@ function initializeUsers() {
 
 const initialState: IUsersState = initializeUsers();
 
-const reducer = createReducer<IUsersState>(initialState, builder =>
-  builder.addCase(AddOrUpdateUsers.action, AddOrUpdateUsers.reducer)
+const reducer = createReducer<IUsersState>(initialState, (builder) =>
+  builder
+    .addCase(AddOrUpdateUsers.action, AddOrUpdateUsers.reducer)
 
-  // data maniputating
-  .addCase(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
-  .addCase(UserDeactivatedEventHandler.action, UserDeactivatedEventHandler.reducer)
-  .addCase(UserActivatedEventHandler.action, UserActivatedEventHandler.reducer)
-  .addCase(UserDeletedEventHandler.action, UserDeletedEventHandler.reducer)
-  .addCase(
-    UserPhoneNumberChangedEventHandler.action,
-    UserPhoneNumberChangedEventHandler.reducer,
-  )
-  .addCase(UserStatusChangedEventHandler.action, UserStatusChangedEventHandler.reducer));
+    // data maniputating
+    .addCase(UserEditedEventHandler.action, UserEditedEventHandler.reducer)
+    .addCase(UserDeactivatedEventHandler.action, UserDeactivatedEventHandler.reducer)
+    .addCase(UserActivatedEventHandler.action, UserActivatedEventHandler.reducer)
+    .addCase(UserDeletedEventHandler.action, UserDeletedEventHandler.reducer)
+    .addCase(UserPhoneNumberChangedEventHandler.action, UserPhoneNumberChangedEventHandler.reducer)
+    .addCase(UserStatusChangedEventHandler.action, UserStatusChangedEventHandler.reducer),
+);
 export default reducer;

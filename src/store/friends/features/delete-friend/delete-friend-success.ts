@@ -9,11 +9,11 @@ export class DeleteFriendSuccess {
 
   static get reducer() {
     return (draft: IFriendsState, { payload }: ReturnType<typeof DeleteFriendSuccess.action>) => {
-        const userId = payload;
-        draft.friends.friendIds = draft.friends.friendIds.filter((id) => id !== userId);
-        draft.searchFriends.friendIds = draft.searchFriends.friendIds.filter((id) => id !== userId);
+      const userId = payload;
+      draft.friends.friendIds = draft.friends.friendIds.filter((id) => id !== userId);
+      draft.searchFriends.friendIds = draft.searchFriends.friendIds.filter((id) => id !== userId);
 
-        return draft;
-      };
+      return draft;
+    };
   }
 }

@@ -80,54 +80,57 @@ export function* peerWatcher(): SagaIterator {
     }): SagaIterator {
       const peerConnection = getPeerConnection();
       switch (action.type) {
-        case 'negotiationneeded': {
-          setIsRenegotiationAccepted(false);
+        case 'negotiationneeded':
+          {
+            setIsRenegotiationAccepted(false);
 
-          const interlocutorId = yield select(getCallInterlocutorIdSelector);
+            const interlocutorId = yield select(getCallInterlocutorIdSelector);
 
-          setMakingOffer(true);
-          const offer = yield call(async () =>
-            peerConnection?.createOffer({
-              offerToReceiveAudio: true,
-              offerToReceiveVideo: true,
-            }),
-          );
+            setMakingOffer(true);
+            const offer = yield call(async () =>
+              peerConnection?.createOffer({
+                offerToReceiveAudio: true,
+                offerToReceiveVideo: true,
+              }),
+            );
 
-          yield call(async () => peerConnection?.setLocalDescription(offer));
+            yield call(async () => peerConnection?.setLocalDescription(offer));
 
-          // yield call(waitForAllICE, peerConnection);
+            // yield call(waitForAllICE, peerConnection);
 
-          const isVideoEnabled =
-            (yield select(getIsVideoEnabledSelector)) ||
-            (yield select(getIsScreenSharingEnabledSelector));
-          if (peerConnection?.localDescription) {
-            const request: ISendRenegotiationRequest = {
-              offer: peerConnection.localDescription,
-              interlocutorId,
-              isVideoEnabled,
-            };
+            const isVideoEnabled =
+              (yield select(getIsVideoEnabledSelector)) ||
+              (yield select(getIsScreenSharingEnabledSelector));
+            if (peerConnection?.localDescription) {
+              const request: ISendRenegotiationRequest = {
+                offer: peerConnection.localDescription,
+                interlocutorId,
+                isVideoEnabled,
+              };
 
-            yield call(() => CallsHttpRequests.renegotiate.generator(request));
-            setMakingOffer(false);
+              yield call(() => CallsHttpRequests.renegotiate.generator(request));
+              setMakingOffer(false);
+            }
           }
-        }
           break;
-        case 'audioTrack': {
-          const { track } = action.event as RTCTrackEvent;
+        case 'audioTrack':
+          {
+            const { track } = action.event as RTCTrackEvent;
 
-          assignInterlocutorAudioTrack(track);
+            assignInterlocutorAudioTrack(track);
 
-          yield put(OpenInterlocutorAudioStatus.action());
-        }
+            yield put(OpenInterlocutorAudioStatus.action());
+          }
           break;
         // here we need to listen for this event in order to prevent 'the play request was ....' error;
-        case 'videoTrackUnmuted': {
-          const { track } = action.event as RTCTrackEvent;
+        case 'videoTrackUnmuted':
+          {
+            const { track } = action.event as RTCTrackEvent;
 
-          assignInterlocutorVideoTrack(track);
+            assignInterlocutorVideoTrack(track);
 
-          yield put(OpenInterlocutorVideoStatus.action());
-        }
+            yield put(OpenInterlocutorVideoStatus.action());
+          }
           break;
         case 'connectionstatechange':
           if (peerConnection?.connectionState === 'disconnected') {

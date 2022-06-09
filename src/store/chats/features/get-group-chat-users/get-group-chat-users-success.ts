@@ -10,14 +10,16 @@ export interface IGetGroupChatUsersSuccessActionPayload {
   userIds: number[];
 }
 
-
 export class GetGroupChatUsersSuccess {
   static get action() {
     return createAction<IGetGroupChatUsersSuccessActionPayload>('GET_GROUP_CHAT_USERS_SUCCESS');
   }
 
   static get reducer() {
-    return (draft: IChatsState, { payload }: ReturnType<typeof GetGroupChatUsersSuccess.action>) => {
+    return (
+      draft: IChatsState,
+      { payload }: ReturnType<typeof GetGroupChatUsersSuccess.action>,
+    ) => {
       const { chatId, isFromSearch, userIds, hasMore } = payload;
 
       const chat = getChatByIdDraftSelector(chatId, draft);

@@ -10,8 +10,8 @@ import { IAuthState } from '@store/auth/auth-state';
 import { securityTokensSelector } from '@store/auth/selectors';
 import { httpRequestFactory } from '@store/common/http/http-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
+import { CloseWebsocketConnection } from '@store/internet/features/close-web-socket-connection/close-web-socket-connection';
 import { ChangeUserOnlineStatus } from '@store/my-profile/features/change-user-online-status/change-user-online-status';
-import { CloseWebsocketConnection } from '@store/web-sockets/features/close-web-socket-connection/close-web-socket-connection';
 
 export class Logout {
   static get action() {

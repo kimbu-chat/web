@@ -13,10 +13,10 @@ export class GetMyProfileSuccess {
 
   static get reducer() {
     return (draft: IMyProfileState, { payload }: ReturnType<typeof GetMyProfileSuccess.action>) => {
-        draft.userId = payload.id;
+      draft.userId = payload.id;
 
-        return draft;
-      }
+      return draft;
+    };
   }
 
   static get saga() {

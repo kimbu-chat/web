@@ -5,7 +5,6 @@ import { INormalizedChat } from '@store/chats/models';
 
 import { IChatsState } from '../../chats-state';
 
-
 export type IUnshiftChatActionPayload = { chat: INormalizedChat; addToList: boolean };
 
 export class UnshiftChat {

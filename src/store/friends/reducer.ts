@@ -22,18 +22,20 @@ const initialState: IFriendsState = {
   },
 };
 
-const reducer = createReducer<IFriendsState>(initialState, builder => 
-  builder.addCase(DeleteFriendSuccess.action, DeleteFriendSuccess.reducer)
-  .addCase(AddFriendSuccess.action, AddFriendSuccess.reducer)
-  .addCase(GetFriends.action, GetFriends.reducer)
-  .addCase(GetFriendsSuccess.action, GetFriendsSuccess.reducer)
-  .addCase(ResetSearchFriends.action, ResetSearchFriends.reducer)
+const reducer = createReducer<IFriendsState>(initialState, (builder) =>
+  builder
+    .addCase(DeleteFriendSuccess.action, DeleteFriendSuccess.reducer)
+    .addCase(AddFriendSuccess.action, AddFriendSuccess.reducer)
+    .addCase(GetFriends.action, GetFriends.reducer)
+    .addCase(GetFriendsSuccess.action, GetFriendsSuccess.reducer)
+    .addCase(ResetSearchFriends.action, ResetSearchFriends.reducer)
 
-  // socket-events
-  .addCase(UserContactsRemovedEventHandler.action, UserContactsRemovedEventHandler.reducer)
-  .addCase(
-    UserContactAddedSuccessEventHandler.action,
-    UserContactAddedSuccessEventHandler.reducer,
-  ));
+    // socket-events
+    .addCase(UserContactsRemovedEventHandler.action, UserContactsRemovedEventHandler.reducer)
+    .addCase(
+      UserContactAddedSuccessEventHandler.action,
+      UserContactAddedSuccessEventHandler.reducer,
+    ),
+);
 
 export default reducer;

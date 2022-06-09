@@ -13,5 +13,7 @@ export const twoLetterCountryCodeSelector = (state: RootState): string =>
 
 export const authLoadingSelector = (state: RootState): boolean => state.login.loading;
 
+export const googleAuthLoadingSelector = (state: RootState) => state.login.googleAuthLoading;
+
 export const confirmationCodeWrongSelector = (state: RootState) =>
   state.login.isConfirmationCodeWrong;

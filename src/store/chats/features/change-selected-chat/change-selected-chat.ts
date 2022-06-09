@@ -14,7 +14,11 @@ import { replaceInUrl } from '@utils/replace-in-url';
 
 import { IChatsState } from '../../chats-state';
 import { chatNormalizationSchema } from '../../normalization';
-import { getChatByIdDraftSelector, getChatByIdSelector, getIsFirstChatsLoadSelector } from '../../selectors';
+import {
+  getChatByIdDraftSelector,
+  getChatByIdSelector,
+  getIsFirstChatsLoadSelector,
+} from '../../selectors';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
 import { UnshiftChat } from '../unshift-chat/unshift-chat';
 
@@ -106,9 +110,11 @@ export class ChangeSelectedChat {
 
           const {
             entities: { chats, users },
-          } = normalize<IChat[],
+          } = normalize<
+            IChat[],
             { chats?: Record<number, INormalizedChat>; users: Record<number, IUser> },
-            number[]>(data, chatNormalizationSchema);
+            number[]
+          >(data, chatNormalizationSchema);
 
           yield put(AddOrUpdateUsers.action({ users }));
 

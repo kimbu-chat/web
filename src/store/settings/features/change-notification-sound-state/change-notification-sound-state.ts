@@ -15,7 +15,7 @@ export class ChangeNotificationSoundState {
     return (draft: IUserSettings) => {
       draft.notificationSound = !draft.notificationSound;
       return draft;
-    }
+    };
   }
 
   static get saga() {

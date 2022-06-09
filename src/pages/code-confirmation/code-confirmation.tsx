@@ -14,7 +14,11 @@ import { preloadAuthRoute } from '@routing/routes/auth-routes';
 import { preloadMainRoute } from '@routing/routes/main-routes';
 import { INSTANT_MESSAGING_PATH, SIGN_UP_PATH } from '@routing/routing.constants';
 import { confirmPhoneAction, sendSmsCodeAction } from '@store/login/actions';
-import { authLoadingSelector, authPhoneNumberSelector, confirmationCodeWrongSelector } from '@store/login/selectors';
+import {
+  authLoadingSelector,
+  authPhoneNumberSelector,
+  confirmationCodeWrongSelector,
+} from '@store/login/selectors';
 
 import './code-confirmation.scss';
 

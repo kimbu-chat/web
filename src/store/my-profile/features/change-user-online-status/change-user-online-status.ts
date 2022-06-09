@@ -19,10 +19,13 @@ export class ChangeUserOnlineStatus {
   }
 
   static get reducer() {
-    return (draft: IMyProfileState, { payload }: ReturnType<typeof ChangeUserOnlineStatus.action>) => {
-        draft.isTabActive = payload;
-        return draft;
-      }
+    return (
+      draft: IMyProfileState,
+      { payload }: ReturnType<typeof ChangeUserOnlineStatus.action>,
+    ) => {
+      draft.isTabActive = payload;
+      return draft;
+    };
   }
 
   static get saga() {

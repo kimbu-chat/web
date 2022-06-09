@@ -8,9 +8,12 @@ export class TerminateSessionSuccess {
   }
 
   static get reducer() {
-    return (draft: IUserSettings, { payload }: ReturnType<typeof TerminateSessionSuccess.action>) => {
-        draft.sessionList.sessions = draft.sessionList.sessions.filter(({ id }) => id !== payload);
-        return draft;
-      };
+    return (
+      draft: IUserSettings,
+      { payload }: ReturnType<typeof TerminateSessionSuccess.action>,
+    ) => {
+      draft.sessionList.sessions = draft.sessionList.sessions.filter(({ id }) => id !== payload);
+      return draft;
+    };
   }
 }

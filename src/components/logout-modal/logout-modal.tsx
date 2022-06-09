@@ -10,7 +10,6 @@ import { Button } from '@shared-components/button';
 import './logout-modal.scss';
 import { logoutAction } from '@store/auth/actions';
 
-
 interface ILogoutModalProps {
   onClose: () => void;
 }
@@ -26,7 +25,7 @@ const InitialLogoutModal: React.FC<ILogoutModalProps & IModalChildrenProps> = ({
 
   const logoutRequest = useActionWithDeferred(logoutAction);
 
-  const logout = useCallback(async ()  => {
+  const logout = useCallback(async () => {
     setIsLoggingOut(true);
     await logoutRequest();
   }, [logoutRequest]);

@@ -34,8 +34,8 @@ const LanguageSettings = () => {
   }, [changeLanguage, currentLanguage, i18n]);
 
   return (
-    <div className='language-settings'>
-      <h3 className='language-settings__title'>{t('languageSettings.title')}</h3>
+    <div className="language-settings">
+      <h3 className="language-settings__title">{t('languageSettings.title')}</h3>
       <form>
         <div
           onClick={setEnLang}
@@ -44,12 +44,12 @@ const LanguageSettings = () => {
           }`}>
           <RadioBox
             defaultChecked={currentLanguage === Langs.En}
-            groupName='language'
+            groupName="language"
             content={
               <>
-                <USASvg className='language-settings__icon' />
-                <span className='language-settings__language-name'>English</span>
-                <span className='language-settings__language-country'>
+                <USASvg className="language-settings__icon" />
+                <span className="language-settings__language-name">English</span>
+                <span className="language-settings__language-country">
                   {t('languageSettings.usa-uk')}
                 </span>
               </>
@@ -64,12 +64,12 @@ const LanguageSettings = () => {
           }`}>
           <RadioBox
             defaultChecked={currentLanguage === Langs.Ru}
-            groupName='language'
+            groupName="language"
             content={
               <>
-                <RussiaSvg className='language-settings__icon' />
-                <span className='language-settings__language-name'>Русский</span>
-                <span className='language-settings__language-country'>
+                <RussiaSvg className="language-settings__icon" />
+                <span className="language-settings__language-name">Русский</span>
+                <span className="language-settings__language-country">
                   {t('languageSettings.russia')}
                 </span>
               </>

@@ -16,7 +16,10 @@ export class ChangeChatMutedStatusSuccess {
   }
 
   static get reducer() {
-    return (draft: IChatsState, { payload }: ReturnType<typeof ChangeChatMutedStatusSuccess.action>) => {
+    return (
+      draft: IChatsState,
+      { payload }: ReturnType<typeof ChangeChatMutedStatusSuccess.action>,
+    ) => {
       const { chatId } = payload;
 
       const chat = getChatByIdDraftSelector(chatId, draft);

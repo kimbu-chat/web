@@ -54,7 +54,7 @@ export const InterlocutorInfo = () => {
           )}
         </div>
 
-        {interlocutor && !interlocutor.deleted && (
+        {interlocutor && interlocutor?.phoneNumber && !interlocutor.deleted && (
           <div className={`${BLOCK_NAME}__info-block`}>
             <PhoneSvg className={`${BLOCK_NAME}__info-svg`} />
             <div className={`${BLOCK_NAME}__data-value`}>

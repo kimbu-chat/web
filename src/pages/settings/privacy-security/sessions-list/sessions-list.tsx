@@ -44,7 +44,7 @@ export const SessionsList = () => {
 
         <Button
           loading={loading}
-          type='button'
+          type="button"
           themed
           className={classnames(`${BLOCK_NAME}__header__open`, {
             [`${BLOCK_NAME}__header__open--opened`]: opened,

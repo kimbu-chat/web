@@ -4,7 +4,11 @@ import { useSelector } from 'react-redux';
 
 import { ActiveCall } from '@components/active-call';
 import { IncomingCall } from '@components/incoming-call';
-import { amICalledSelector as isCallingMe, amICallingSelector, doIhaveCallSelector } from '@store/calls/selectors';
+import {
+  amICalledSelector as isCallingMe,
+  amICallingSelector,
+  doIhaveCallSelector,
+} from '@store/calls/selectors';
 
 const Call: React.FC = () => {
   const amICalledSelector = useSelector(isCallingMe);

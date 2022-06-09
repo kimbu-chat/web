@@ -7,11 +7,7 @@ import { useDispatch } from 'react-redux';
 import { withDeferred } from '@utils/with-deffered';
 
 type ActionReturnType = ReturnType<typeof createAction>;
-type ArgumentTypes<F extends ActionReturnType> = F extends (
-    ...args: infer A
-  ) => void
-  ? A
-  : never;
+type ArgumentTypes<F extends ActionReturnType> = F extends (...args: infer A) => void ? A : never;
 
 export function useActionWithDeferred<T extends ActionReturnType>(
   action: T,

@@ -6,8 +6,14 @@ import { useSelector } from 'react-redux';
 import { CheckBox } from '@components/check-box';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { changeNotificationSoundStateAction, changePushNotificationStateAction } from '@store/settings/actions';
-import { areNotificationsEnabledSelector, arePushNotificationsEnabledSelector } from '@store/settings/selectors';
+import {
+  changeNotificationSoundStateAction,
+  changePushNotificationStateAction,
+} from '@store/settings/actions';
+import {
+  areNotificationsEnabledSelector,
+  arePushNotificationsEnabledSelector,
+} from '@store/settings/selectors';
 
 import './notifications-settings.scss';
 
@@ -30,10 +36,10 @@ const NotificationsSettings = () => {
   }, [changePushNotificationState, setPushNotificationsLoading]);
 
   return (
-    <div className='notifications-settings'>
-      <div className='notifications-settings__title'>{t('notificationsSettings.title')}</div>
+    <div className="notifications-settings">
+      <div className="notifications-settings__title">{t('notificationsSettings.title')}</div>
 
-      <div className='notifications-settings__entity'>
+      <div className="notifications-settings__entity">
         <CheckBox
           loading={pushNotificationsLoading}
           onClick={togglePushNotification}
@@ -42,7 +48,7 @@ const NotificationsSettings = () => {
         />
       </div>
 
-      <div className='notifications-settings__entity'>
+      <div className="notifications-settings__entity">
         <CheckBox
           onClick={changeSoundNotificationState}
           isChecked={areSoundNotificationsEnabled}

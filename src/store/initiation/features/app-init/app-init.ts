@@ -5,13 +5,12 @@ import { call, put } from 'redux-saga/effects';
 
 import { AuthService } from '@services/auth-service';
 import { AuthInit } from '@store/auth/features/initiate-auth/initiate-auth';
+import { StartIdleStateChangeWatcher } from '@store/initiation/features/start-idle-state-change-watcher/start-idle-state-change-watcher';
+import { InitSocketConnection } from '@store/internet/features/init-web-socked-connection/init-web-socket-connection';
+import { StartInternetConnectionStateChangeWatcher } from '@store/internet/features/internet-connection-check/start-internet-connection-state-change-watcher';
+import { ChangeUserOnlineStatus } from '@store/my-profile/features/change-user-online-status/change-user-online-status';
 import { GetMyProfile } from '@store/my-profile/features/get-my-profile/get-my-profile';
-
-import { StartInternetConnectionStateChangeWatcher } from '../../../internet/features/internet-connection-check/start-internet-connection-state-change-watcher';
-import { ChangeUserOnlineStatus } from '../../../my-profile/features/change-user-online-status/change-user-online-status';
-import { getUserSettingsAction } from '../../../settings/actions';
-import { InitSocketConnection } from '../../../web-sockets/features/init-web-socked-connection/init-web-socket-connection';
-import { StartIdleStateChangeWatcher } from '../start-idle-state-change-watcher/start-idle-state-change-watcher';
+import { getUserSettingsAction } from '@store/settings/actions';
 
 export class AppInit {
   static get action() {

@@ -109,9 +109,9 @@ const ChatPage: React.FC = () => {
             <CreateMessageInput />
           )}
           {!isDismissed &&
-          !isFriend &&
-          !isCurrentChatBlackListed &&
-          !amIBlackListedByInterlocutor && <NotContact />}
+            !isFriend &&
+            !isCurrentChatBlackListed &&
+            !amIBlackListedByInterlocutor && <NotContact />}
         </div>
         <ChatTopBar />
       </AudioContext.Provider>

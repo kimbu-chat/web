@@ -22,7 +22,9 @@ export interface ICreateGroupChatActionPayload {
 
 export class CreateGroupChat {
   static get action() {
-    return createDeferredAction<ICreateGroupChatActionPayload, INormalizedChat>('CREATE_GROUP_CHAT');
+    return createDeferredAction<ICreateGroupChatActionPayload, INormalizedChat>(
+      'CREATE_GROUP_CHAT',
+    );
   }
 
   static get saga() {

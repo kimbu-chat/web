@@ -6,7 +6,6 @@ import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 import { removeUploadingAttachment } from '../../upload-qeue';
 
-
 export interface IRemoveAttachmentActionPayload {
   attachmentId: number;
 }

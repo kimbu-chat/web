@@ -15,7 +15,10 @@ export class SubmitEditMessageSuccess {
   }
 
   static get reducer() {
-    return (draft: IChatsState, { payload }: ReturnType<typeof SubmitEditMessageSuccess.action>) => {
+    return (
+      draft: IChatsState,
+      { payload }: ReturnType<typeof SubmitEditMessageSuccess.action>,
+    ) => {
       const { chatId, messageId } = payload;
 
       const message = draft.chats[chatId]?.messages.messages[messageId];

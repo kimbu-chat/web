@@ -18,7 +18,10 @@ export class IncomingCallEventHandler {
   }
 
   static get reducer() {
-    return (draft: ICallsState, { payload }: ReturnType<typeof IncomingCallEventHandler.action>) => {
+    return (
+      draft: ICallsState,
+      { payload }: ReturnType<typeof IncomingCallEventHandler.action>,
+    ) => {
       draft.isIncomingCallVideoEnbaled = payload.isVideoEnabled;
       const interlocutor = payload.userInterlocutor;
       draft.interlocutorId = interlocutor.id;

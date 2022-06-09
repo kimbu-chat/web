@@ -14,9 +14,9 @@ export class ChangeTypingStrategy {
 
   static get reducer() {
     return (draft: IUserSettings, { payload }: ReturnType<typeof ChangeTypingStrategy.action>) => {
-        draft.typingStrategy = payload.strategy;
-        return draft;
-      }
+      draft.typingStrategy = payload.strategy;
+      return draft;
+    };
   }
 
   static get saga() {

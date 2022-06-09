@@ -14,10 +14,12 @@ const initialState: IInternetState = {
   isWebSocketConnected: false,
 };
 
-const reducer = createReducer<IInternetState>(initialState, builder => 
-  builder.addCase(InternetConnected.action, InternetConnected.reducer)
-  .addCase(InternetDisconnected.action, InternetDisconnected.reducer)
-  .addCase(WebsocketsConnected.action, WebsocketsConnected.reducer)
-  .addCase(WebsocketsDisconnected.action, WebsocketsDisconnected.reducer));
+const reducer = createReducer<IInternetState>(initialState, (builder) =>
+  builder
+    .addCase(InternetConnected.action, InternetConnected.reducer)
+    .addCase(InternetDisconnected.action, InternetDisconnected.reducer)
+    .addCase(WebsocketsConnected.action, WebsocketsConnected.reducer)
+    .addCase(WebsocketsDisconnected.action, WebsocketsDisconnected.reducer),
+);
 
 export default reducer;

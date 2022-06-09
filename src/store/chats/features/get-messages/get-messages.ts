@@ -24,7 +24,6 @@ import { GetChatsSuccess } from '../get-chats/get-chats-success';
 import { GetMessagesFailure } from './get-messages-failure';
 import { GetMessagesSuccess } from './get-messages-success';
 
-
 export interface IGetMessagesActionPayload {
   initializedByScroll?: boolean;
   searchString?: string;
@@ -108,9 +107,11 @@ export class GetMessages {
           const {
             entities: { messages, users },
             result,
-          } = normalize<IMessage[],
+          } = normalize<
+            IMessage[],
             { messages: Record<number, INormalizedMessage>; users: Record<number, IUser> },
-            number[]>(newMessages, messageArrNormalizationSchema);
+            number[]
+          >(newMessages, messageArrNormalizationSchema);
 
           const messageList = {
             chatId: chat.id,

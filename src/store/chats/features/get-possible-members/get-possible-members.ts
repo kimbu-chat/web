@@ -14,7 +14,6 @@ export interface IPossibleChatMembersActionPayload {
   name?: string;
 }
 
-
 export class GetPossibleMembers {
   static get action() {
     return createDeferredAction<IPossibleChatMembersActionPayload>('GET_POSSIBLE_CHAT_MEMBERS');

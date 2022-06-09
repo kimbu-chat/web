@@ -10,9 +10,9 @@ interface IInfinityDeferredParams<TPayload> {
 }
 
 export function useInfinityDeferred<TPayload, TResponse>({
-                                                           action,
-                                                           limit,
-                                                         }: IInfinityDeferredParams<TPayload>) {
+  action,
+  limit,
+}: IInfinityDeferredParams<TPayload>) {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [data, setData] = useState<TResponse[]>([]);

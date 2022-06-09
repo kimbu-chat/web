@@ -106,8 +106,9 @@ const initialState: IChatsState = {
   chatInfo: { isInfoOpened: false },
 };
 
-const reducer = createReducer<IChatsState>(initialState, builder =>
-  builder.addCase(InterlocutorStoppedTyping.action, InterlocutorStoppedTyping.reducer)
+const reducer = createReducer<IChatsState>(initialState, (builder) =>
+  builder
+    .addCase(InterlocutorStoppedTyping.action, InterlocutorStoppedTyping.reducer)
     .addCase(CreateGroupChatSuccess.action, CreateGroupChatSuccess.reducer)
     .addCase(AddUsersToGroupChatSuccess.action, AddUsersToGroupChatSuccess.reducer)
     .addCase(ChangeChatMutedStatusSuccess.action, ChangeChatMutedStatusSuccess.reducer)
@@ -435,16 +436,14 @@ const reducer = createReducer<IChatsState>(initialState, builder =>
     )
     .addCase(GroupChatEditedEventHandler.action, GroupChatEditedEventHandler.reducer)
     .addCase(GroupChatCreatedEventHandler.action, GroupChatCreatedEventHandler.reducer)
-    .addCase(
-      ChatMutedStatusChangedEventHandler.action,
-      ChatMutedStatusChangedEventHandler.reducer,
-    )
+    .addCase(ChatMutedStatusChangedEventHandler.action, ChatMutedStatusChangedEventHandler.reducer)
     .addCase(MessageEditedEventHandler.action, MessageEditedEventHandler.reducer)
     .addCase(MessageReadEventHandler.action, MessageReadEventHandler.reducer)
     .addCase(ChatClearedEventHandler.action, ChatClearedEventHandler.reducer)
     .addCase(
       MessagesDeletedIntegrationEventHandlerSuccess.action,
       MessagesDeletedIntegrationEventHandlerSuccess.reducer,
-    ));
+    ),
+);
 
 export default reducer;

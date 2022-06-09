@@ -14,20 +14,20 @@ export class ChatMutedStatusChangedEventHandler {
 
   static get reducer() {
     return (
-        draft: IChatsState,
-        { payload }: ReturnType<typeof ChatMutedStatusChangedEventHandler.action>,
-      ) => {
-        const { chatIds, isMuted } = payload;
+      draft: IChatsState,
+      { payload }: ReturnType<typeof ChatMutedStatusChangedEventHandler.action>,
+    ) => {
+      const { chatIds, isMuted } = payload;
 
-        chatIds.forEach((chatId) => {
-          const chat = draft.chats[chatId];
+      chatIds.forEach((chatId) => {
+        const chat = draft.chats[chatId];
 
-          if (chat) {
-            chat.isMuted = isMuted;
-          }
-        });
+        if (chat) {
+          chat.isMuted = isMuted;
+        }
+      });
 
-        return draft;
-      };
+      return draft;
+    };
   }
 }

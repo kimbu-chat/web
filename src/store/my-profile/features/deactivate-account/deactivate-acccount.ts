@@ -4,7 +4,7 @@ import { call } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
 import { Logout } from '@store/auth/features/logout/logout';
-import {createDeferredAction} from "@store/common/actions";
+import { createDeferredAction } from '@store/common/actions';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 
 export class DeactivateAccount {

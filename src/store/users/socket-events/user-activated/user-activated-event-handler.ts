@@ -10,15 +10,18 @@ export class UserActivatedEventHandler {
   }
 
   static get reducer() {
-    return (draft: IUsersState, { payload }: ReturnType<typeof UserActivatedEventHandler.action>) => {
-        const { userId } = payload;
-        const user = draft.users[userId];
+    return (
+      draft: IUsersState,
+      { payload }: ReturnType<typeof UserActivatedEventHandler.action>,
+    ) => {
+      const { userId } = payload;
+      const user = draft.users[userId];
 
-        if (user) {
-          user.deactivated = false;
-        }
-
-        return draft;
+      if (user) {
+        user.deactivated = false;
       }
+
+      return draft;
+    };
   }
 }

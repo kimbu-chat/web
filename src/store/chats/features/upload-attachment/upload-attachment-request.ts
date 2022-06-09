@@ -37,7 +37,6 @@ export interface IUploadAttachmentRequestActionPayload {
   noStateChange?: boolean;
 }
 
-
 export class UploadAttachmentRequest {
   static get action() {
     return createAction<IUploadAttachmentRequestActionPayload>('UPLOAD_ATTACHMENT_REQUEST');
@@ -149,12 +148,12 @@ export class UploadAttachmentRequest {
 
       yield call(() =>
         uploadRequest.generator(data, {
-          * onStart({ cancelTokenSource }): SagaIterator {
+          *onStart({ cancelTokenSource }): SagaIterator {
             yield apply(addUploadingAttachment, addUploadingAttachment, [
               { cancelTokenSource, id: attachmentId },
             ]);
           },
-          * onProgress({ progress, uploadedBytes }): SagaIterator {
+          *onProgress({ progress, uploadedBytes }): SagaIterator {
             yield put(
               UploadAttachmentProgress.action({
                 draftId: chat.draftMessageId,
@@ -165,7 +164,7 @@ export class UploadAttachmentRequest {
               }),
             );
           },
-          * onSuccess(payload: AxiosResponse<IAttachmentBase>): SagaIterator {
+          *onSuccess(payload: AxiosResponse<IAttachmentBase>): SagaIterator {
             removeUploadingAttachment(attachmentId);
             yield put(
               UploadAttachmentSuccess.action({
@@ -176,7 +175,7 @@ export class UploadAttachmentRequest {
               }),
             );
           },
-          * onFailure(): SagaIterator {
+          *onFailure(): SagaIterator {
             removeUploadingAttachment(attachmentId);
             yield put(UploadAttachmentFailure.action({ chatId, attachmentId }));
           },
@@ -187,16 +186,26 @@ export class UploadAttachmentRequest {
 
   static get httpRequest() {
     return {
-      uploadAudioAttachment: httpFilesRequestFactory<AxiosResponse<ICreateAudioAttachmentCommandResult>,
-        FormData>(FILES_API.UPLOAD_AUDIO_ATTACHMENTS, HttpRequestMethod.Post),
-      uploadPictureAttachment: httpFilesRequestFactory<AxiosResponse<ICreatePictureAttachmentCommandResult>,
-        FormData>(FILES_API.UPLOAD_PICTURE_ATTACHMENTS, HttpRequestMethod.Post),
-      uploadFileAttachment: httpFilesRequestFactory<AxiosResponse<ICreateRawAttachmentCommandResult>,
-        FormData>(FILES_API.UPLOAD_RAW_ATTACHMENTS, HttpRequestMethod.Post),
-      uploadVideoAttachment: httpFilesRequestFactory<AxiosResponse<ICreateVideoAttachmentCommandResult>,
-        FormData>(FILES_API.UPLOAD_VIDEO_ATTACHMENTS, HttpRequestMethod.Post),
-      uploadVoiceAttachment: httpFilesRequestFactory<AxiosResponse<ICreateVoiceAttachmentCommandResult>,
-        FormData>(FILES_API.UPLOAD_VOICE_ATTACHMENTS, HttpRequestMethod.Post),
+      uploadAudioAttachment: httpFilesRequestFactory<
+        AxiosResponse<ICreateAudioAttachmentCommandResult>,
+        FormData
+      >(FILES_API.UPLOAD_AUDIO_ATTACHMENTS, HttpRequestMethod.Post),
+      uploadPictureAttachment: httpFilesRequestFactory<
+        AxiosResponse<ICreatePictureAttachmentCommandResult>,
+        FormData
+      >(FILES_API.UPLOAD_PICTURE_ATTACHMENTS, HttpRequestMethod.Post),
+      uploadFileAttachment: httpFilesRequestFactory<
+        AxiosResponse<ICreateRawAttachmentCommandResult>,
+        FormData
+      >(FILES_API.UPLOAD_RAW_ATTACHMENTS, HttpRequestMethod.Post),
+      uploadVideoAttachment: httpFilesRequestFactory<
+        AxiosResponse<ICreateVideoAttachmentCommandResult>,
+        FormData
+      >(FILES_API.UPLOAD_VIDEO_ATTACHMENTS, HttpRequestMethod.Post),
+      uploadVoiceAttachment: httpFilesRequestFactory<
+        AxiosResponse<ICreateVoiceAttachmentCommandResult>,
+        FormData
+      >(FILES_API.UPLOAD_VOICE_ATTACHMENTS, HttpRequestMethod.Post),
     };
   }
 }

@@ -6,7 +6,11 @@ import { myIdSelector } from '@store/my-profile/selectors';
 
 import { getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
 import { ICallsState } from '../../calls-state';
-import { doIhaveCallSelector, getIsActiveCallIncomingSelector, getIsCallAcceptedSelector } from '../../selectors';
+import {
+  doIhaveCallSelector,
+  getIsActiveCallIncomingSelector,
+  getIsCallAcceptedSelector,
+} from '../../selectors';
 import { setIsRenegotiationAccepted } from '../../utils/glare-utils';
 
 import { IInterlocutorAcceptedCallIntegrationEvent } from './interlocutor-accepted-call-integration-event';
@@ -21,10 +25,7 @@ export class InterlocutorAcceptedCallEventHandler {
       draft: ICallsState,
       { payload }: ReturnType<typeof InterlocutorAcceptedCallEventHandler.action>,
     ) => {
-      if (
-        (payload.answer && draft.amICalling) ||
-        (draft.amICalled && draft.isActiveCallIncoming)
-      ) {
+      if ((payload.answer && draft.amICalling) || (draft.amICalled && draft.isActiveCallIncoming)) {
         draft.isSpeaking = true;
         draft.amICalled = false;
         draft.amICalling = false;

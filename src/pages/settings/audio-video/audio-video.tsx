@@ -51,12 +51,12 @@ const AudioVideoSettings = () => {
     <div
       data-active={dataActive}
       data-middle={dataMiddle}
-      className='audio-video__intensity-point'
+      className="audio-video__intensity-point"
     />
   );
 
   const IntensityIndicator: React.FC<IIntensityIndicatorProps> = ({ intensity }) => (
-    <div className='audio-video__intensity-indicator'>
+    <div className="audio-video__intensity-indicator">
       <IntensityPoint dataActive={intensity >= 9} dataMiddle={intensity >= 8} />
       <IntensityPoint dataActive={intensity >= 8} dataMiddle={intensity >= 7} />
       <IntensityPoint dataActive={intensity >= 7} dataMiddle={intensity >= 6} />
@@ -215,13 +215,13 @@ const AudioVideoSettings = () => {
   );
 
   return (
-    <div className='audio-video'>
-      <h3 className='audio-video__title'>{t('audioVideo.title')}</h3>
-      <div className='audio-video__subject-title'>
-        <VideoSvg className='audio-video__subject-icon' />
-        <h5 className='audio-video__subject-text'>{t('audioVideo.video')}</h5>
+    <div className="audio-video">
+      <h3 className="audio-video__title">{t('audioVideo.title')}</h3>
+      <div className="audio-video__subject-title">
+        <VideoSvg className="audio-video__subject-icon" />
+        <h5 className="audio-video__subject-text">{t('audioVideo.video')}</h5>
       </div>
-      <div className='audio-video__dropdown-wrapper'>
+      <div className="audio-video__dropdown-wrapper">
         <Dropdown
           selectedString={
             videoDevices.find(({ deviceId }) => deviceId === activeVideoDevice)?.label ||
@@ -233,12 +233,12 @@ const AudioVideoSettings = () => {
           }))}
         />
       </div>
-      <div className='audio-video__video-area'>
+      <div className="audio-video__video-area">
         {videoOpened && (
           <>
-            <video muted autoPlay playsInline ref={videoRef} className='audio-video__video' />
+            <video muted autoPlay playsInline ref={videoRef} className="audio-video__video" />
             {!requestingVideo && (
-              <Button onClick={stopVideo} type='button' className='audio-video__stop-video'>
+              <Button onClick={stopVideo} type="button" className="audio-video__stop-video">
                 {t('audioVideo.stop-video')}
               </Button>
             )}
@@ -246,26 +246,26 @@ const AudioVideoSettings = () => {
         )}
         {(!videoOpened || requestingVideo) && (
           <>
-            <VideoCameraSvg className='audio-video__video-icon' />
+            <VideoCameraSvg className="audio-video__video-icon" />
             <Button
               loading={requestingVideo}
               onClick={getVideo}
-              type='button'
-              className='audio-video__video-btn'>
+              type="button"
+              className="audio-video__video-btn">
               {t('audioVideo.test-video')}
             </Button>
           </>
         )}
       </div>
       <HorizontalSeparator />
-      <div className='audio-video__intensity-wrapper'>
-        <div className='audio-video__subject-title'>
-          <MicrophoneSvg className='audio-video__subject-icon' />
-          <h5 className='audio-video__subject-text'>{t('audioVideo.microphone')}</h5>
+      <div className="audio-video__intensity-wrapper">
+        <div className="audio-video__subject-title">
+          <MicrophoneSvg className="audio-video__subject-icon" />
+          <h5 className="audio-video__subject-text">{t('audioVideo.microphone')}</h5>
         </div>
         {audioMeasurementAllowed && <IntensityIndicator intensity={microphoneIntensity} />}
       </div>
-      <div className='audio-video__dropdown-wrapper'>
+      <div className="audio-video__dropdown-wrapper">
         <Dropdown
           selectedString={selectedString}
           options={audioDevices.map((device) => ({
@@ -275,18 +275,18 @@ const AudioVideoSettings = () => {
         />
       </div>
       <HorizontalSeparator />
-      <div className='audio-video__intensity-wrapper'>
+      <div className="audio-video__intensity-wrapper">
         <button
-          type='button'
+          type="button"
           onClick={toggleAudio}
-          className='audio-video__subject-title audio-video__subject-title--button'>
+          className="audio-video__subject-title audio-video__subject-title--button">
           {audioPlaying ? (
-            <PauseSvg className='audio-video__subject-icon' />
+            <PauseSvg className="audio-video__subject-icon" />
           ) : (
-            <PlaySvg className='audio-video__subject-icon' />
+            <PlaySvg className="audio-video__subject-icon" />
           )}
           <audio src={incomingCallSound} hidden ref={audioRef} />
-          <h5 className='audio-video__subject-text'>{t('audioVideo.load-speaker')}</h5>
+          <h5 className="audio-video__subject-text">{t('audioVideo.load-speaker')}</h5>
         </button>
         {audioMeasurementAllowed && <IntensityIndicator intensity={audioIntensity} />}
       </div>

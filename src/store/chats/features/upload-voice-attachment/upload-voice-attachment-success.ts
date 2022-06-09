@@ -4,7 +4,6 @@ import { IChatsState } from '@store/chats/chats-state';
 import { MessageState } from '@store/chats/models';
 import { getChatByIdDraftSelector } from '@store/chats/selectors';
 
-
 export interface IUploadVoiceAttachmentSuccessActionPayload {
   oldId: number;
   chatId: number;
@@ -21,7 +20,10 @@ export class UploadVoiceAttachmentSuccess {
   }
 
   static get reducer() {
-    return (draft: IChatsState, { payload }: ReturnType<typeof UploadVoiceAttachmentSuccess.action>) => {
+    return (
+      draft: IChatsState,
+      { payload }: ReturnType<typeof UploadVoiceAttachmentSuccess.action>,
+    ) => {
       const { oldId, attachmentId, messageId, chatId } = payload;
 
       const chat = getChatByIdDraftSelector(chatId, draft);

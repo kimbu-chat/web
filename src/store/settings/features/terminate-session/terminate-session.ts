@@ -7,7 +7,6 @@ import { MAIN_API } from '@common/paths';
 import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
-
 import { TerminateSessionSuccess } from './terminate-session-success';
 
 export class TerminateSession {

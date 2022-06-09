@@ -13,8 +13,10 @@ const initialState: IMyProfileState = {
   isTabActive: true,
 };
 
-const reducer = createReducer<IMyProfileState>(initialState, builder =>
-  builder.addCase(GetMyProfileSuccess.action, GetMyProfileSuccess.reducer)
-  .addCase(ChangeUserOnlineStatus.action, ChangeUserOnlineStatus.reducer));
+const reducer = createReducer<IMyProfileState>(initialState, (builder) =>
+  builder
+    .addCase(GetMyProfileSuccess.action, GetMyProfileSuccess.reducer)
+    .addCase(ChangeUserOnlineStatus.action, ChangeUserOnlineStatus.reducer),
+);
 
 export default reducer;

@@ -1,4 +1,4 @@
-import {createAction} from "@reduxjs/toolkit";
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { IUser } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';

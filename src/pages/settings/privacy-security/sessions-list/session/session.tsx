@@ -38,37 +38,37 @@ export const Session: React.FC<ISessionProps> = ({ session }) => {
   );
 
   return (
-    <div className='session'>
-      <div className='session__data'>
-        <div className='session__data__row'>
-          <div className='session__data__highlighted'>IP</div>
-          <div className='session__data__ordinary'>{session.ipAddress}</div>
+    <div className="session">
+      <div className="session__data">
+        <div className="session__data__row">
+          <div className="session__data__highlighted">IP</div>
+          <div className="session__data__ordinary">{session.ipAddress}</div>
         </div>
 
-        <div className='session__data__row'>
-          <div className='session__data__highlighted'>{session.clientApp}</div>
-          <div className='session__data__ordinary'>{session.os}</div>
+        <div className="session__data__row">
+          <div className="session__data__highlighted">{session.clientApp}</div>
+          <div className="session__data__ordinary">{session.os}</div>
         </div>
 
-        <div className='session__data__row'>
-          <div className='session__data__highlighted'>{t('session.last-acessed')}</div>
-          <div className='session__data__ordinary'>{formatSessionTime(session.lastAccessedAt)}</div>
+        <div className="session__data__row">
+          <div className="session__data__highlighted">{t('session.last-acessed')}</div>
+          <div className="session__data__ordinary">{formatSessionTime(session.lastAccessedAt)}</div>
         </div>
 
-        <div className='session__data__row'>
-          <div className='session__data__highlighted'>{t('session.signed-in')}</div>
-          <div className='session__data__ordinary'>{formatSessionTime(session.signedInAt)}</div>
+        <div className="session__data__row">
+          <div className="session__data__highlighted">{t('session.signed-in')}</div>
+          <div className="session__data__ordinary">{formatSessionTime(session.signedInAt)}</div>
         </div>
       </div>
 
       {Number(currentDeviceId) === session.id ? (
-        <div className='session__current-session'>{t('session.current-session')}</div>
+        <div className="session__current-session">{t('session.current-session')}</div>
       ) : (
         <Button
           loading={revoking}
           onClick={revokeThisSession}
-          className='session__revoke-btn'
-          type='button'>
+          className="session__revoke-btn"
+          type="button">
           {t('session.revoke')}
         </Button>
       )}

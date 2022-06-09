@@ -16,7 +16,10 @@ export class AddUsersToGroupChatSuccess {
   }
 
   static get reducer() {
-    return (draft: IChatsState, { payload }: ReturnType<typeof AddUsersToGroupChatSuccess.action>) => {
+    return (
+      draft: IChatsState,
+      { payload }: ReturnType<typeof AddUsersToGroupChatSuccess.action>,
+    ) => {
       const { chatId, userIds } = payload;
 
       const chat = getChatByIdDraftSelector(chatId, draft);

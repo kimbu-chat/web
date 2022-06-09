@@ -17,7 +17,7 @@ import { useInfinityDeferred } from '@hooks/use-infinity-deferred';
 import { ReactComponent as GroupSvg } from '@icons/group.svg';
 import { Button } from '@shared-components/button';
 import { addUsersToGroupChatAction, getPossibleChatMembersAction } from '@store/chats/actions';
-import {IPossibleChatMembersActionPayload} from "@store/chats/features/get-possible-members/get-possible-members";
+import { IPossibleChatMembersActionPayload } from '@store/chats/features/get-possible-members/get-possible-members';
 import { getInfoChatSelector } from '@store/chats/selectors';
 import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 import './group-chat-add-friend-modal.scss';

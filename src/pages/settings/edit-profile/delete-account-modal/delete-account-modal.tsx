@@ -42,13 +42,13 @@ export const InitialDeleteAccountModal: React.FC<IDeleteAccountModalProps & IMod
 
           <div className={`${BLOCK_NAME}__btn-block`}>
             <Button
-              type='button'
+              type="button"
               onClick={animatedClose}
               className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}>
               {t('deleteAccountModal.cancel')}
             </Button>
             <Button
-              type='button'
+              type="button"
               loading={deleting}
               onClick={submitDeleteing}
               className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}>

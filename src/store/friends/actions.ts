@@ -29,19 +29,19 @@ export const userContactsRemovedEventHandlerAction = UserContactsRemovedEventHan
 export const userContactAddedSuccessEventHandlerAction = UserContactAddedSuccessEventHandler.action;
 export const userContactAddedEventHandlerAction = UserContactAddedEventHandler.action;
 
-export type FriendActions = 
+export type FriendActions =
   // FriendActions
   typeof getFriendsAction &
-  typeof resetSearchFriendsAction &
-  typeof getFriendsSuccessAction &
-  typeof deleteFriendAction &
-  typeof deleteFriendSuccessAction &
-  typeof addFriendAction &
-  typeof addFriendSuccessAction &
-  typeof getUserByPhoneAction &
-  typeof dismissToAddContactAction &
-  typeof dismissToAddContactSuccessAction &
-  // socket-events
-  typeof userContactsRemovedEventHandlerAction &
-  typeof userContactAddedSuccessEventHandlerAction &
-  typeof userContactAddedEventHandlerAction;
+    typeof resetSearchFriendsAction &
+    typeof getFriendsSuccessAction &
+    typeof deleteFriendAction &
+    typeof deleteFriendSuccessAction &
+    typeof addFriendAction &
+    typeof addFriendSuccessAction &
+    typeof getUserByPhoneAction &
+    typeof dismissToAddContactAction &
+    typeof dismissToAddContactSuccessAction &
+    // socket-events
+    typeof userContactsRemovedEventHandlerAction &
+    typeof userContactAddedSuccessEventHandlerAction &
+    typeof userContactAddedEventHandlerAction;

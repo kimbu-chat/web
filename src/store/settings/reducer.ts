@@ -33,22 +33,21 @@ const initialState: IUserSettings = {
   },
 };
 
-const reducer = createReducer<IUserSettings>(initialState, builder =>
-  builder.addCase(ChangeNotificationSoundState.action, ChangeNotificationSoundState.reducer)
-  .addCase(ChangeTypingStrategy.action, ChangeTypingStrategy.reducer)
-  .addCase(ChangeLanguage.action, ChangeLanguage.reducer)
-  .addCase(ChangeTheme.action, ChangeTheme.reducer)
-  .addCase(GetUserSettingsSuccess.action, GetUserSettingsSuccess.reducer)
-  .addCase(ChangeFontSize.action, ChangeFontSize.reducer)
-  .addCase(
-    ChangePushNotificationStateSuccess.action,
-    ChangePushNotificationStateSuccess.reducer,
-  )
-  .addCase(GetBlackListSuccess.action, GetBlackListSuccess.reducer)
-  .addCase(GetBlackList.action, GetBlackList.reducer)
-  .addCase(GetSessionList.action, GetSessionList.reducer)
-  .addCase(UnblockUserSuccess.action, UnblockUserSuccess.reducer)
-  .addCase(GetSessionListSuccess.action, GetSessionListSuccess.reducer)
-  .addCase(TerminateSessionSuccess.action, TerminateSessionSuccess.reducer));
+const reducer = createReducer<IUserSettings>(initialState, (builder) =>
+  builder
+    .addCase(ChangeNotificationSoundState.action, ChangeNotificationSoundState.reducer)
+    .addCase(ChangeTypingStrategy.action, ChangeTypingStrategy.reducer)
+    .addCase(ChangeLanguage.action, ChangeLanguage.reducer)
+    .addCase(ChangeTheme.action, ChangeTheme.reducer)
+    .addCase(GetUserSettingsSuccess.action, GetUserSettingsSuccess.reducer)
+    .addCase(ChangeFontSize.action, ChangeFontSize.reducer)
+    .addCase(ChangePushNotificationStateSuccess.action, ChangePushNotificationStateSuccess.reducer)
+    .addCase(GetBlackListSuccess.action, GetBlackListSuccess.reducer)
+    .addCase(GetBlackList.action, GetBlackList.reducer)
+    .addCase(GetSessionList.action, GetSessionList.reducer)
+    .addCase(UnblockUserSuccess.action, UnblockUserSuccess.reducer)
+    .addCase(GetSessionListSuccess.action, GetSessionListSuccess.reducer)
+    .addCase(TerminateSessionSuccess.action, TerminateSessionSuccess.reducer),
+);
 
 export default reducer;

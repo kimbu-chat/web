@@ -14,7 +14,10 @@ export class InterlocutorStoppedTyping {
   }
 
   static get reducer() {
-    return (draft: IChatsState, { payload }: ReturnType<typeof InterlocutorStoppedTyping.action>) => {
+    return (
+      draft: IChatsState,
+      { payload }: ReturnType<typeof InterlocutorStoppedTyping.action>,
+    ) => {
       const { chatId, interlocutorName } = payload;
 
       const chat = getChatByIdDraftSelector(chatId, draft);

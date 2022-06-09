@@ -14,13 +14,14 @@ export interface IGetVoiceAttachmentsSuccessActionPayload {
 
 export class GetVoiceAttachmentsSuccess {
   static get action() {
-    return createAction<IGetVoiceAttachmentsSuccessActionPayload>(
-      'GET_VOICE_ATTACHMENTS_SUCCESS',
-    );
+    return createAction<IGetVoiceAttachmentsSuccessActionPayload>('GET_VOICE_ATTACHMENTS_SUCCESS');
   }
 
   static get reducer() {
-    return (draft: IChatsState, { payload }: ReturnType<typeof GetVoiceAttachmentsSuccess.action>) => {
+    return (
+      draft: IChatsState,
+      { payload }: ReturnType<typeof GetVoiceAttachmentsSuccess.action>,
+    ) => {
       const { recordings, chatId, hasMore } = payload;
 
       const chat = getChatByIdDraftSelector(chatId, draft);

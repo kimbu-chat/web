@@ -70,8 +70,7 @@ export const interlocutorAcceptedCallEventHandlerAction =
 export const callEndedEventHandlerAction = CallEndedEventHandler.action;
 export const callEndedEventHandlerSuccessAction = CallEndedEventHandlerSuccess.action;
 
-export type CallActions =
-  typeof getCallsAction &
+export type CallActions = typeof getCallsAction &
   typeof getCallsSuccessAction &
   typeof outgoingCallAction &
   typeof changeActiveDeviceIdAction &

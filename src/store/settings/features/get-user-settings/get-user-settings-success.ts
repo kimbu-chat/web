@@ -10,14 +10,19 @@ import { IGetUserSettingsSuccessActionPayload } from './action-payloads/get-user
 
 export class GetUserSettingsSuccess {
   static get action() {
-    return createAction<IGetUserSettingsSuccessActionPayload | undefined>('GET_USER_SETTINGS_SUCCESS');
+    return createAction<IGetUserSettingsSuccessActionPayload | undefined>(
+      'GET_USER_SETTINGS_SUCCESS',
+    );
   }
 
   static get reducer() {
-    return (draft: IUserSettings, { payload }: ReturnType<typeof GetUserSettingsSuccess.action>) => ({
-        ...draft,
-        ...payload,
-      });
+    return (
+      draft: IUserSettings,
+      { payload }: ReturnType<typeof GetUserSettingsSuccess.action>,
+    ) => ({
+      ...draft,
+      ...payload,
+    });
   }
 
   static get saga() {

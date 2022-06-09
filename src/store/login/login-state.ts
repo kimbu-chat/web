@@ -6,6 +6,6 @@ export interface ILoginState {
   isConfirmationCodeWrong: boolean;
   isAuthenticated: boolean;
   googleAuthIdToken?: string;
-  googleAuthLoading?: boolean;
+  googleAuthLoading: boolean;
   loginSource?: 'phone-number' | 'google' | undefined;
 }

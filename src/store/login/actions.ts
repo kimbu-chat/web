@@ -25,8 +25,7 @@ export const registerAction = Register.action;
 export const registerFromGoogleAction = RegisterFromGoogleAccount.action;
 export const loginSuccessAction = LoginSuccess.action;
 
-export type LoginActions =
-  typeof sendSmsCodeAction &
+export type LoginActions = typeof sendSmsCodeAction &
   typeof sendSmsCodeFailureAction &
   typeof sendSmsCodeSuccessAction &
   typeof confirmPhoneAction &

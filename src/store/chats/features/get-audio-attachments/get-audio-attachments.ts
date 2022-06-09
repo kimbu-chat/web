@@ -10,7 +10,11 @@ import { AUDIO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
 import { HTTPStatusCode } from '../../../../common/http-status-code';
 import { IChatsState } from '../../chats-state';
-import { getChatByIdDraftSelector, getInfoChatIdSelector, getSelectedChatAudiosLengthSelector } from '../../selectors';
+import {
+  getChatByIdDraftSelector,
+  getInfoChatIdSelector,
+  getSelectedChatAudiosLengthSelector,
+} from '../../selectors';
 
 import { GetAudioAttachmentsSuccess } from './get-audio-attachments-success';
 

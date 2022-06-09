@@ -53,8 +53,8 @@ export class UploadAttachmentSuccess {
 
   static get saga() {
     return function* uploadAttachmentSuccessSaga({
-                                                   payload,
-                                                 }: ReturnType<typeof UploadAttachmentSuccess.action>): SagaIterator {
+      payload,
+    }: ReturnType<typeof UploadAttachmentSuccess.action>): SagaIterator {
       const { chatId, draftId } = payload;
       const chat = yield select(getChatByIdSelector(chatId));
 

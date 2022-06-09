@@ -3,7 +3,7 @@ import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
-import {createDeferredAction} from "@store/common/actions";
+import { createDeferredAction } from '@store/common/actions';
 import { HttpRequestMethod, httpRequestFactory } from '@store/common/http';
 
 export class DeleteAccount {

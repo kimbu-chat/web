@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
 import { IModalChildrenProps, Modal } from '@components/modal';
-import {useActionWithDeferred} from "@hooks/use-action-with-deferred";
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { INSTANT_MESSAGING_PATH } from '@routing/routing.constants';
 import { Button } from '@shared-components/button';
 import { leaveGroupChatAction } from '@store/chats/actions';

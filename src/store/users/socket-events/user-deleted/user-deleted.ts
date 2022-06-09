@@ -16,15 +16,15 @@ export class UserDeletedEventHandler {
 
   static get reducer() {
     return (draft: IUsersState, { payload }: ReturnType<typeof UserDeletedEventHandler.action>) => {
-        const { userId } = payload;
-        const user = draft.users[userId];
+      const { userId } = payload;
+      const user = draft.users[userId];
 
-        if (user) {
-          user.deleted = true;
-        }
-
-        return draft;
+      if (user) {
+        user.deleted = true;
       }
+
+      return draft;
+    };
   }
 
   static get saga() {

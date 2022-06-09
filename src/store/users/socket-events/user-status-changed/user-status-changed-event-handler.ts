@@ -16,21 +16,21 @@ export class UserStatusChangedEventHandler {
 
   static get reducer() {
     return (
-        draft: IUsersState,
-        { payload }: ReturnType<typeof UserStatusChangedEventHandler.action>,
-      ) => {
-        const { userId } = payload;
-        const user = draft.users[userId];
+      draft: IUsersState,
+      { payload }: ReturnType<typeof UserStatusChangedEventHandler.action>,
+    ) => {
+      const { userId } = payload;
+      const user = draft.users[userId];
 
-        if (!user) {
-          return draft;
-        }
-
-        user.online = payload.online;
-        user.lastOnlineTime = payload.lastOnlineTime;
-
+      if (!user) {
         return draft;
       }
+
+      user.online = payload.online;
+      user.lastOnlineTime = payload.lastOnlineTime;
+
+      return draft;
+    };
   }
 
   static get saga() {

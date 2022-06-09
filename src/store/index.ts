@@ -46,7 +46,7 @@ function* staticRootSaga() {
 }
 
 function createReducer(asyncReducers?: ReducersStore) {
-  if(asyncReducers){
+  if (asyncReducers) {
     return combineReducers({ dummyReducer, ...staticReducers, ...asyncReducers });
   }
   return combineReducers({ dummyReducer, ...staticReducers });

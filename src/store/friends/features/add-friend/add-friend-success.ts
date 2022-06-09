@@ -9,11 +9,11 @@ export class AddFriendSuccess {
 
   static get reducer() {
     return (draft: IFriendsState, { payload }: ReturnType<typeof AddFriendSuccess.action>) => {
-        const { friendIds } = draft.friends;
-        if (!friendIds.some((id) => id === payload)) {
-          friendIds.push(payload);
-        }
-        return draft;
-      };
+      const { friendIds } = draft.friends;
+      if (!friendIds.some((id) => id === payload)) {
+        friendIds.push(payload);
+      }
+      return draft;
+    };
   }
 }

@@ -11,17 +11,17 @@ export class UserPhoneNumberChangedEventHandler {
 
   static get reducer() {
     return (
-        draft: IUsersState,
-        { payload }: ReturnType<typeof UserPhoneNumberChangedEventHandler.action>,
-      ) => {
-        const { userId, phoneNumber } = payload;
-        const user = draft.users[userId];
+      draft: IUsersState,
+      { payload }: ReturnType<typeof UserPhoneNumberChangedEventHandler.action>,
+    ) => {
+      const { userId, phoneNumber } = payload;
+      const user = draft.users[userId];
 
-        if (user) {
-          user.phoneNumber = phoneNumber;
-        }
-
-        return draft;
+      if (user) {
+        user.phoneNumber = phoneNumber;
       }
+
+      return draft;
+    };
   }
 }

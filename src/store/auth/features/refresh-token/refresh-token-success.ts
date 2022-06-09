@@ -7,7 +7,6 @@ import { AuthService } from '@services/auth-service';
 
 import { IAuthState } from '../../auth-state';
 
-
 export type IRefreshTokenSuccessActionPayload = ISecurityTokens & {
   accessTokenExpirationTime: string;
 };

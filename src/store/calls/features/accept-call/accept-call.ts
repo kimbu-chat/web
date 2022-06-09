@@ -15,7 +15,11 @@ import {
 import { deviceUpdateWatcher } from '@store/calls/utils/device-update-watcher';
 import { waitForAllICE } from '@store/calls/utils/glare-utils';
 import { peerWatcher } from '@store/calls/utils/peer-watcher';
-import { getAndSendUserMedia, getMediaDevicesList, preventEternalCamera } from '@store/calls/utils/user-media';
+import {
+  getAndSendUserMedia,
+  getMediaDevicesList,
+  preventEternalCamera,
+} from '@store/calls/utils/user-media';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import {
   createPeerConnection,

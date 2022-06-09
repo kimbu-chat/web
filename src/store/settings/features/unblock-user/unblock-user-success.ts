@@ -9,8 +9,8 @@ export class UnblockUserSuccess {
 
   static get reducer() {
     return (draft: IUserSettings, { payload }: ReturnType<typeof UnblockUserSuccess.action>) => {
-        draft.blackList.users = draft.blackList.users.filter(({ id }) => id !== payload);
-        return draft;
-      };
+      draft.blackList.users = draft.blackList.users.filter(({ id }) => id !== payload);
+      return draft;
+    };
   }
 }

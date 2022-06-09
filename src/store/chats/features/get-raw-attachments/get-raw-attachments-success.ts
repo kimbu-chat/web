@@ -12,14 +12,16 @@ export interface IGetRawAttachmentsSuccessActionPayload {
   hasMore: boolean;
 }
 
-
 export class GetRawAttachmentsSuccess {
   static get action() {
     return createAction<IGetRawAttachmentsSuccessActionPayload>('GET_RAW_ATTACHMENTS_SUCCESS');
   }
 
   static get reducer() {
-    return (draft: IChatsState, { payload }: ReturnType<typeof GetRawAttachmentsSuccess.action>) => {
+    return (
+      draft: IChatsState,
+      { payload }: ReturnType<typeof GetRawAttachmentsSuccess.action>,
+    ) => {
       const { files, chatId, hasMore } = payload;
 
       const chat = getChatByIdDraftSelector(chatId, draft);

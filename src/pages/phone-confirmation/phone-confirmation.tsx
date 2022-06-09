@@ -7,14 +7,19 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { CountryPhoneInput } from '@auth-components/country-phone-input';
+import { CubeLoader } from '@components/cube-loader';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useToggledState } from '@hooks/use-toggled-state';
 import { preloadAuthRoute } from '@routing/routes/auth-routes';
-import { CODE_CONFIRMATION_PATH, SIGN_UP_PATH } from '@routing/routing.constants';
+import {
+  CODE_CONFIRMATION_PATH,
+  INSTANT_MESSAGING_PATH,
+  SIGN_UP_PATH,
+} from '@routing/routing.constants';
 import { Button } from '@shared-components/button';
 import { loginFromGoogleAccountAction, sendSmsCodeAction } from '@store/login/actions';
 import { LoginFromGoogleAccountResult } from '@store/login/features/login-from-google-account/login-from-google-account';
-import { authLoadingSelector } from '@store/login/selectors';
+import { authLoadingSelector, googleAuthLoadingSelector } from '@store/login/selectors';
 import { emitToast } from '@utils/emit-toast';
 
 import AuthWrapper from '../../auth-components/auth-wrapper';
@@ -45,6 +50,8 @@ const PhoneConfirmationPage: React.FC = () => {
 
   const isLoading = useSelector(authLoadingSelector);
 
+  const googleAuthLoading = useSelector(googleAuthLoadingSelector);
+
   const [phone, setPhone] = useState('');
   const [policyDisplayed, , , changePolicyDisplayedState] = useToggledState(false);
 
@@ -69,18 +76,26 @@ const PhoneConfirmationPage: React.FC = () => {
     [history, phone, sendSmsCode],
   );
 
-
-  const handleLoginFromGoogle = useCallback(({ credential }) => {
-    loginFromGoogleAccount({ idToken: credential })
-      .then()
-      .catch((result: LoginFromGoogleAccountResult) => {
-        if (result === LoginFromGoogleAccountResult.UserNotRegistered) {
+  const handleLoginFromGoogle = useCallback(
+    ({ credential }) => {
+      loginFromGoogleAccount({ idToken: credential })
+        .then(() => {
+          history.push(INSTANT_MESSAGING_PATH);
+        })
+        .catch((result: LoginFromGoogleAccountResult) => {
+          if (result === LoginFromGoogleAccountResult.UserNotRegistered) {
             history.push(SIGN_UP_PATH);
-        } else {
+          } else {
             emitToast(googleErrors.get(result), { type: 'error' });
-        }
-      });
-  }, [history, loginFromGoogleAccount]);
+          }
+        });
+    },
+    [history, loginFromGoogleAccount],
+  );
+
+  if (googleAuthLoading) {
+    return <CubeLoader />;
+  }
 
   return (
     <AuthWrapper>
@@ -92,13 +107,13 @@ const PhoneConfirmationPage: React.FC = () => {
         </p>
         <div className={`${BLOCK_NAME}__login-form`}>
           <CountryPhoneInput onChange={setPhone} value={phone} />
-          <Button type='submit' loading={isLoading} className={`${BLOCK_NAME}__login-button`}>
+          <Button type="submit" loading={isLoading} className={`${BLOCK_NAME}__login-button`}>
             {t('loginPage.next')}
           </Button>
         </div>
         <div className={`${BLOCK_NAME}__social-title`}>Sign in with:</div>
         <GoogleLogin
-          ux_mode='popup'
+          ux_mode="popup"
           onSuccess={handleLoginFromGoogle}
           onError={() => {
             // eslint-disable-next-line no-console

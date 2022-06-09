@@ -14,13 +14,14 @@ export interface IGetVideoAttachmentsSuccessActionPayload {
 
 export class GetVideoAttachmentsSuccess {
   static get action() {
-    return createAction<IGetVideoAttachmentsSuccessActionPayload>(
-      'GET_VIDEO_ATTACHMENTS_SUCCESS',
-    );
+    return createAction<IGetVideoAttachmentsSuccessActionPayload>('GET_VIDEO_ATTACHMENTS_SUCCESS');
   }
 
   static get reducer() {
-    return (draft: IChatsState, { payload }: ReturnType<typeof GetVideoAttachmentsSuccess.action>) => {
+    return (
+      draft: IChatsState,
+      { payload }: ReturnType<typeof GetVideoAttachmentsSuccess.action>,
+    ) => {
       const { videos, chatId, hasMore } = payload;
 
       const chat = getChatByIdDraftSelector(chatId, draft);

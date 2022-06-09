@@ -1,7 +1,6 @@
-import {ActionCreatorWithPreparedPayload} from "@reduxjs/toolkit";
+import { ActionCreatorWithPreparedPayload } from '@reduxjs/toolkit';
 import curryRight from 'lodash/curryRight';
 import { Dispatch } from 'redux';
-
 
 export const withDeferred = curryRight(
   (action: ActionCreatorWithPreparedPayload<unknown[], unknown>, dispatch: Dispatch) =>

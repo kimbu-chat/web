@@ -38,8 +38,7 @@ export const useCountry = () => {
           CountryService.initializeOrUpdate(countryOfResidence);
         }
         // eslint-disable-next-line no-empty
-      } catch {
-      }
+      } catch {}
     })();
 
     return () => {

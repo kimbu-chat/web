@@ -34,8 +34,8 @@ export const BlockedUsers = () => {
   }, [opened, setOpened, getBlockedUsers]);
 
   return (
-    <div className='blocked-users'>
-      <div onClick={loadBlockedUsers} className='blocked-users__header'>
+    <div className="blocked-users">
+      <div onClick={loadBlockedUsers} className="blocked-users__header">
         <span>
           {t('blockedUsers.title', {
             count: blockedUsers.length === 0 ? undefined : blockedUsers.length,
@@ -43,7 +43,7 @@ export const BlockedUsers = () => {
         </span>
 
         <Button
-          type='button'
+          type="button"
           themed
           loading={loading}
           className={`blocked-users__header__open ${
@@ -53,9 +53,9 @@ export const BlockedUsers = () => {
           <ArrowSvg />
         </Button>
       </div>
-      <div className='blocked-users__details'>{t('blockedUsers.details')}</div>
+      <div className="blocked-users__details">{t('blockedUsers.details')}</div>
       {opened && (
-        <div className='blocked-users__content'>
+        <div className="blocked-users__content">
           {blockedUsers.map((user) => (
             <BlockedUser key={user.id} user={user} />
           ))}

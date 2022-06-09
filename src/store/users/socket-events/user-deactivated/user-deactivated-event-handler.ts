@@ -15,16 +15,19 @@ export class UserDeactivatedEventHandler {
   }
 
   static get reducer() {
-    return (draft: IUsersState, { payload }: ReturnType<typeof UserDeactivatedEventHandler.action>) => {
-        const { userId } = payload;
-        const user = draft.users[userId];
+    return (
+      draft: IUsersState,
+      { payload }: ReturnType<typeof UserDeactivatedEventHandler.action>,
+    ) => {
+      const { userId } = payload;
+      const user = draft.users[userId];
 
-        if (user) {
-          user.deactivated = true;
-        }
-
-        return draft;
+      if (user) {
+        user.deactivated = true;
       }
+
+      return draft;
+    };
   }
 
   static get saga() {

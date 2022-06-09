@@ -4,7 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
-import {createDeferredAction} from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { LoginFromGoogleAccountSuccess } from '@store/login/features/login-from-google-account/login-from-google-account-success';
 import { LoginFromGoogleAccount } from '@store/login/features/login-from-google-account/login-from-google-account';
@@ -41,7 +41,7 @@ export class RegisterFromGoogleAccount {
 
       yield call(RegisterFromGoogleAccount.httpRequest.generator, request);
 
-      yield put(LoginFromGoogleAccount.action({ idToken }, ));
+      yield put(LoginFromGoogleAccount.action({ idToken }));
       yield take(LoginFromGoogleAccountSuccess.action);
       action.meta?.deferred?.resolve();
     };

@@ -17,7 +17,9 @@ export interface IRemoveUserFromGroupChatActionPayload {
 
 export class RemoveUserFromGroupChat {
   static get action() {
-    return createDeferredAction<IRemoveUserFromGroupChatActionPayload>('REMOVE_USER_FROM_GROUP_CHAT');
+    return createDeferredAction<IRemoveUserFromGroupChatActionPayload>(
+      'REMOVE_USER_FROM_GROUP_CHAT',
+    );
   }
 
   static get saga() {

@@ -12,7 +12,6 @@ export interface IGetChatInfoSuccessActionPayload {
   pictureAttachmentsCount: number;
 }
 
-
 export class GetChatInfoSuccess {
   static get action() {
     return createAction<IGetChatInfoSuccessActionPayload>('GET_CHAT_INFO_SUCCESS');

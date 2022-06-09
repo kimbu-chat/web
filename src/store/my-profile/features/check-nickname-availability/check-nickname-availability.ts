@@ -11,7 +11,9 @@ import { ICheckNicknameAvailabilityActionPayload } from './action-payloads/check
 
 export class CheckNicknameAvailability {
   static get action() {
-    return createDeferredAction<ICheckNicknameAvailabilityActionPayload, boolean>('CHECK_NICKNAME_AVAILABILITY');
+    return createDeferredAction<ICheckNicknameAvailabilityActionPayload, boolean>(
+      'CHECK_NICKNAME_AVAILABILITY',
+    );
   }
 
   static get saga() {

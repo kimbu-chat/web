@@ -12,7 +12,6 @@ export interface IMessagesReadIntegrationEvent {
   userReaderId: number;
 }
 
-
 export class MessageReadEventHandler {
   static get action() {
     return createAction<IMessagesReadIntegrationEvent>('MessagesRead');
@@ -20,30 +19,30 @@ export class MessageReadEventHandler {
 
   static get reducer() {
     return (draft: IChatsState, { payload }: ReturnType<typeof MessageReadEventHandler.action>) => {
-        // chat update
-        const { lastReadMessageId, chatId, userReaderId } = payload;
+      // chat update
+      const { lastReadMessageId, chatId, userReaderId } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat) {
-          chat.interlocutorLastReadMessageId = lastReadMessageId;
+      if (chat) {
+        chat.interlocutorLastReadMessageId = lastReadMessageId;
 
-          const profileService = new MyProfileService();
-          const currentUserId = profileService.myProfile.id;
+        const profileService = new MyProfileService();
+        const currentUserId = profileService.myProfile.id;
 
-          if (userReaderId === currentUserId) {
-            chat.unreadMessagesCount = 0;
-          }
-
-          draft.chats[chatId]?.messages.messageIds.forEach((messageId) => {
-            const message = draft.chats[chatId]?.messages.messages[messageId];
-            if (message && messageId <= lastReadMessageId) {
-              message.state = MessageState.READ;
-            }
-          });
+        if (userReaderId === currentUserId) {
+          chat.unreadMessagesCount = 0;
         }
 
-        return draft;
-      };
+        draft.chats[chatId]?.messages.messageIds.forEach((messageId) => {
+          const message = draft.chats[chatId]?.messages.messages[messageId];
+          if (message && messageId <= lastReadMessageId) {
+            message.state = MessageState.READ;
+          }
+        });
+      }
+
+      return draft;
+    };
   }
 }

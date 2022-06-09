@@ -14,13 +14,14 @@ export interface IGetPhotoAttachmentsSuccessActionPayload {
 
 export class GetPhotoAttachmentsSuccess {
   static get action() {
-    return createAction<IGetPhotoAttachmentsSuccessActionPayload>(
-      'GET_PHOTO_ATTACHMENTS_SUCCESS',
-    );
+    return createAction<IGetPhotoAttachmentsSuccessActionPayload>('GET_PHOTO_ATTACHMENTS_SUCCESS');
   }
 
   static get reducer() {
-    return (draft: IChatsState, { payload }: ReturnType<typeof GetPhotoAttachmentsSuccess.action>) => {
+    return (
+      draft: IChatsState,
+      { payload }: ReturnType<typeof GetPhotoAttachmentsSuccess.action>,
+    ) => {
       const { photos, chatId, hasMore } = payload;
 
       const chat = getChatByIdDraftSelector(chatId, draft);

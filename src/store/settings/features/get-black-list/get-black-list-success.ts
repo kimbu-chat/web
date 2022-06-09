@@ -10,9 +10,9 @@ export class GetBlackListSuccess {
 
   static get reducer() {
     return (draft: IUserSettings, { payload }: ReturnType<typeof GetBlackListSuccess.action>) => {
-        draft.blackList.users = payload;
-        draft.blackList.isLoading = false;
-        return draft;
-      };
+      draft.blackList.users = payload;
+      draft.blackList.isLoading = false;
+      return draft;
+    };
   }
 }

@@ -11,7 +11,11 @@ import { Loader } from '@components/loader';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { INSTANT_MESSAGING_PATH } from '@routing/routing.constants';
 import { registerAction, registerFromGoogleAction } from '@store/login/actions';
-import { authLoadingSelector, authPhoneNumberSelector, loginSourceSelector } from '@store/login/selectors';
+import {
+  authLoadingSelector,
+  authPhoneNumberSelector,
+  loginSourceSelector,
+} from '@store/login/selectors';
 import { checkNicknameAvailabilityAction } from '@store/my-profile/actions';
 import { validateNickname } from '@utils/validate-nick-name';
 
@@ -30,7 +34,9 @@ const SignUpPage: React.FC = () => {
   const [error, setError] = useState<string>();
   const [firstNameError, setFirstNameError] = useState<string>();
 
-  const register = useActionWithDeferred(loginSource === 'google' ? registerFromGoogleAction: registerAction);
+  const register = useActionWithDeferred(
+    loginSource === 'google' ? registerFromGoogleAction : registerAction,
+  );
 
   const checkNicknameAvailability = useActionWithDeferred(checkNicknameAvailabilityAction);
   const isLoading = useSelector(authLoadingSelector);
@@ -101,14 +107,14 @@ const SignUpPage: React.FC = () => {
           maxLength={30}
         />
         <InputWithError
-          prefix='@'
+          prefix="@"
           label={t('loginPage.nick_name')}
           className={`${BLOCK_NAME}__input`}
           onChange={onNicknameChange}
           error={error}
         />
         <button
-          type='submit'
+          type="submit"
           disabled={!firstName && !nickname}
           aria-label={t('loginPage.next')}
           className={`${BLOCK_NAME}__login-button`}>

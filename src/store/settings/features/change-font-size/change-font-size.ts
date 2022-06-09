@@ -14,14 +14,14 @@ export class ChangeFontSize {
 
   static get reducer() {
     return (draft: IUserSettings, { payload }: ReturnType<typeof ChangeFontSize.action>) => {
-        if (!isFontSizeAllowed(payload)) {
-          return draft;
-        }
-
-        draft.fontSize = payload;
-
+      if (!isFontSizeAllowed(payload)) {
         return draft;
       }
+
+      draft.fontSize = payload;
+
+      return draft;
+    };
   }
 
   static get saga() {

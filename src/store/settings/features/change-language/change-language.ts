@@ -14,9 +14,9 @@ export class ChangeLanguage {
 
   static get reducer() {
     return (draft: IUserSettings, { payload }: ReturnType<typeof ChangeLanguage.action>) => {
-        draft.language = payload.language;
-        return draft;
-      }
+      draft.language = payload.language;
+      return draft;
+    };
   }
 
   static get saga() {

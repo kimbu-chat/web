@@ -46,7 +46,6 @@ import {
 import { MessageCreatedEventHandlerSuccess } from './message-created-event-handler-success';
 import { IMessageCreatedIntegrationEvent } from './message-created-integration-event';
 
-
 export class MessageCreatedEventHandler {
   static get action() {
     return createAction<IMessageCreatedIntegrationEvent>('MessageCreated');

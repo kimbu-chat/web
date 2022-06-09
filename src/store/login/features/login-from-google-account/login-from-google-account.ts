@@ -12,7 +12,7 @@ import { apply, call, put } from 'redux-saga/effects';
 import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
 import { AuthService } from '@services/auth-service';
-import {createDeferredAction} from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { authRequestFactory } from '@store/common/http/auth-request-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 import { LoginFromGoogleAccountSuccess } from '@store/login/features/login-from-google-account/login-from-google-account-success';
@@ -47,7 +47,6 @@ const mapError = (error: AxiosError): LoginFromGoogleAccountResult => {
     return LoginFromGoogleAccountResult.GoogleAuthDisabled;
   }
 
-
   if (status === HTTPStatusCode.UnprocessableEntity) {
     if (errorData.code === ApplicationErrorCode.GoogleAuthDisabled) {
       return LoginFromGoogleAccountResult.GoogleAuthDisabled;
@@ -62,7 +61,9 @@ const mapError = (error: AxiosError): LoginFromGoogleAccountResult => {
 
 export class LoginFromGoogleAccount {
   static get action() {
-    return createDeferredAction<ILoginFromGoogleAccountActionPayload, LoginFromGoogleAccountResult>('LOGIN_FROM_GOOGLE_ACCOUNT');
+    return createDeferredAction<ILoginFromGoogleAccountActionPayload, LoginFromGoogleAccountResult>(
+      'LOGIN_FROM_GOOGLE_ACCOUNT',
+    );
   }
 
   static get reducer() {
@@ -74,9 +75,7 @@ export class LoginFromGoogleAccount {
   }
 
   static get saga() {
-    return function* sendSmsPhoneConfirmationCodeSaga(
-      action: ReturnType<typeof LoginFromGoogleAccount.action>,
-    ): SagaIterator {
+    return function* saga(action: ReturnType<typeof LoginFromGoogleAccount.action>): SagaIterator {
       try {
         const { httpRequest } = LoginFromGoogleAccount;
 
@@ -99,7 +98,10 @@ export class LoginFromGoogleAccount {
         yield put(LoginFromGoogleAccountSuccess.action());
 
         if (action.meta) {
-          yield call([action, action.meta?.deferred?.resolve], LoginFromGoogleAccountResult.Success);
+          yield call(
+            [action, action.meta?.deferred?.resolve],
+            LoginFromGoogleAccountResult.Success,
+          );
         }
       } catch (e) {
         const error = e as AxiosError;

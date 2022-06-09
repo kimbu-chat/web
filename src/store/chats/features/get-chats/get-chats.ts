@@ -24,7 +24,6 @@ export interface IGetChatsActionPayload {
   name?: string;
 }
 
-
 export class GetChats {
   static get action() {
     return createAction<IGetChatsActionPayload>('GET_CHATS');
@@ -84,12 +83,14 @@ export class GetChats {
       const {
         entities: { chats: normalizedChats, users },
         result,
-      } = normalize<IChat[],
+      } = normalize<
+        IChat[],
         {
           chats?: Record<number, INormalizedChat>;
           users: Record<number, IUser>;
         },
-        number[]>(data, chatArrNormalizationSchema);
+        number[]
+      >(data, chatArrNormalizationSchema);
 
       const chatList: IGetChatsSuccessActionPayload = {
         chats: normalizedChats || {},

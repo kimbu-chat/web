@@ -11,33 +11,26 @@ export class UserEditedEventHandler {
 
   static get reducer() {
     return (draft: IUsersState, { payload }: ReturnType<typeof UserEditedEventHandler.action>) => {
-        const {
-          userId,
-          firstName,
-          lastName,
-          nickname,
-          avatarId,
-          avatarUrl,
-          avatarPreviewUrl,
-        } = payload;
+      const { userId, firstName, lastName, nickname, avatarId, avatarUrl, avatarPreviewUrl } =
+        payload;
 
-        const user = draft.users[userId];
+      const user = draft.users[userId];
 
-        if (!user) {
-          return draft;
-        }
-
-        user.firstName = firstName;
-        user.lastName = lastName;
-        user.nickname = nickname;
-
-        user.avatar = {
-          id: avatarId,
-          url: avatarUrl,
-          previewUrl: avatarPreviewUrl,
-        };
-
+      if (!user) {
         return draft;
       }
+
+      user.firstName = firstName;
+      user.lastName = lastName;
+      user.nickname = nickname;
+
+      user.avatar = {
+        id: avatarId,
+        url: avatarUrl,
+        previewUrl: avatarPreviewUrl,
+      };
+
+      return draft;
+    };
   }
 }

@@ -10,7 +10,10 @@ export class CallEndedEventHandlerSuccess {
   }
 
   static get reducer() {
-    return (draft: ICallsState, { payload }: ReturnType<typeof CallEndedEventHandlerSuccess.action>) => {
+    return (
+      draft: ICallsState,
+      { payload }: ReturnType<typeof CallEndedEventHandlerSuccess.action>,
+    ) => {
       if (payload) {
         if (!draft.callList.callIds.includes(payload.id)) {
           draft.callList.callIds.unshift(payload.id);

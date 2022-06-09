@@ -14,8 +14,7 @@ export const userPhoneNumberChangedEventHandler = UserPhoneNumberChangedEventHan
 export const userEditedEventHandlerAction = UserEditedEventHandler.action;
 export const userActivatedEventHandler = UserActivatedEventHandler.action;
 
-export type UsersActions =
-  typeof addOrUpdateUsers &
+export type UsersActions = typeof addOrUpdateUsers &
   typeof userStatusChangedEventHandler &
   typeof userEditedEventHandlerAction &
   typeof userDeletedEventHandler &

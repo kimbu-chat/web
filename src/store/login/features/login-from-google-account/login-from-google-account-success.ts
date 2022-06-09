@@ -1,5 +1,5 @@
 import { SagaIterator } from '@redux-saga/core';
-import {createAction} from "@reduxjs/toolkit";
+import { createAction } from '@reduxjs/toolkit';
 import { spawn } from 'redux-saga/effects';
 
 import { subscribeToPushNotifications } from '@store/notifications/actions';
@@ -14,7 +14,7 @@ export class LoginFromGoogleAccountSuccess {
   static get reducer() {
     return (draft: ILoginState) => {
       draft.googleAuthLoading = false;
-
+      draft.isAuthenticated = true;
       return draft;
     };
   }

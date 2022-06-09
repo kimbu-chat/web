@@ -22,9 +22,7 @@ export class DeleteMessageSuccess {
 
       if (chat) {
         messageIds.forEach((msgIdToDelete) => {
-          draft.selectedMessageIds = draft.selectedMessageIds.filter(
-            (id) => id !== msgIdToDelete,
-          );
+          draft.selectedMessageIds = draft.selectedMessageIds.filter((id) => id !== msgIdToDelete);
 
           if (messagesForChat) {
             messagesForChat.messageIds = messagesForChat.messageIds.filter(

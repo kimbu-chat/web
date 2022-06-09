@@ -10,9 +10,9 @@ export class GetSessionListSuccess {
 
   static get reducer() {
     return (draft: IUserSettings, { payload }: ReturnType<typeof GetSessionListSuccess.action>) => {
-        draft.sessionList.sessions = payload;
-        draft.sessionList.isLoading = false;
-        return draft;
-      }
+      draft.sessionList.sessions = payload;
+      draft.sessionList.isLoading = false;
+      return draft;
+    };
   }
 }

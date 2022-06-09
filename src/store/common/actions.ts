@@ -11,7 +11,7 @@ export type Meta<TData = Record<string, unknown>, TException = unknown> = {
 
 type PrepareActionFnType<TPayload, TMetaPayload = unknown> = (
   payload: TPayload,
-  meta?: Meta<TMetaPayload, unknown>
+  meta?: Meta<TMetaPayload, unknown>,
 ) => {
   meta: Meta<TMetaPayload, unknown> | undefined;
   payload: TPayload;
@@ -19,7 +19,7 @@ type PrepareActionFnType<TPayload, TMetaPayload = unknown> = (
 
 function prepareActionFn<TPayload, TMetaPayload = unknown>(
   payload: TPayload,
-  meta?: Meta<TMetaPayload, unknown> | undefined
+  meta?: Meta<TMetaPayload, unknown> | undefined,
 ) {
   return {
     meta,
@@ -31,8 +31,6 @@ export function createDeferredAction<
   TPayload,
   TMetaPayload = unknown,
   TType extends string = string,
->(
-  type: TType,
-) {
+>(type: TType) {
   return createAction<PrepareActionFnType<TPayload, TMetaPayload>, TType>(type, prepareActionFn);
 }

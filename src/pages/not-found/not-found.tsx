@@ -17,9 +17,9 @@ const NotFound = () => {
 
   return (
     <div className={BLOCK_NAME}>
-      <img alt='Not Found' src={NotFoundBackgroundPNG} className={`${BLOCK_NAME}__bg`} />
+      <img alt="Not Found" src={NotFoundBackgroundPNG} className={`${BLOCK_NAME}__bg`} />
       <div className={`${BLOCK_NAME}__wrapper`}>
-        <img alt='Not Found' src={SadSmilePNG} className={`${BLOCK_NAME}__svg`} />
+        <img alt="Not Found" src={SadSmilePNG} className={`${BLOCK_NAME}__svg`} />
         <div className={`${BLOCK_NAME}__title`}>{t('notFound.title')}</div>
         <div className={`${BLOCK_NAME}__description`}>{t('notFound.description')}</div>
         <Link to={HOME_PAGE_PATH}>

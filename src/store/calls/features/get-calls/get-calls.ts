@@ -70,9 +70,11 @@ export class GetCalls {
         const {
           entities: { calls, users },
           result,
-        } = normalize<ICall[],
+        } = normalize<
+          ICall[],
           { calls: Record<number, INormalizedCall>; users: Record<number, IUser> },
-          number[]>(data, callArrNormalizationSchema);
+          number[]
+        >(data, callArrNormalizationSchema);
 
         yield put(
           GetCallsSuccess.action({ callIds: result, calls, hasMore, name, initializedByScroll }),

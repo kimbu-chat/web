@@ -63,16 +63,15 @@ const Appearance: React.FC = () => {
   };
 
   return (
-    <div className='appearance'>
-      <h3 className='appearance__title'>{t('appearance.title')}</h3>
-      <h3 className='appearance__theme'>{t('appearance.choose-theme')}</h3>
-      <div className='appearance__theme-box'>
+    <div className="appearance">
+      <h3 className="appearance__title">{t('appearance.title')}</h3>
+      <h3 className="appearance__theme">{t('appearance.choose-theme')}</h3>
+      <div className="appearance__theme-box">
         {[-1, -2, -3, -4, -5, -6, -7, -8, -9].map((messageId) => (
-          <div key={messageId} className='appearance__theme-box__msg-wrapper'>
+          <div key={messageId} className="appearance__theme-box__msg-wrapper">
             <MessageItem
               // eslint-disable-next-line
-              observeIntersection={() => () => {
-              }}
+              observeIntersection={() => () => {}}
               needToShowCreator={messageId === -1}
               selectedChatId={APPEARANCE_CHAT_ID}
               messageId={messageId}
@@ -80,26 +79,26 @@ const Appearance: React.FC = () => {
           </div>
         ))}
       </div>
-      <div className='appearance__theme-select'>
+      <div className="appearance__theme-select">
         <RadioBox
-          groupName='theme'
+          groupName="theme"
           onClick={goToDarkTheme}
           defaultChecked={currentTheme === Theme.DARK}
           content={t('appearance.dark')}
         />
       </div>
-      <div className='appearance__theme-select'>
+      <div className="appearance__theme-select">
         <RadioBox
-          groupName='theme'
+          groupName="theme"
           onClick={goToLightTheme}
           defaultChecked={currentTheme === Theme.LIGHT}
           content={t('appearance.light')}
         />
       </div>
       <HorizontalSeparator />
-      <h3 className='appearance__font-size-title'>{t('appearance.font-size')}</h3>
+      <h3 className="appearance__font-size-title">{t('appearance.font-size')}</h3>
 
-      <div className='appearance__font-sizes'>
+      <div className="appearance__font-sizes">
         <Slider
           handleStyle={handleStyle}
           railStyle={railStyle}

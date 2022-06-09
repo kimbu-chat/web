@@ -8,7 +8,10 @@ import { MAIN_API } from '@common/paths';
 import { httpRequestFactory } from '@store/common/http/http-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
 
-import { createPeerConnection, getPeerConnection } from '../../../middlewares/webRTC/peerConnectionFactory';
+import {
+  createPeerConnection,
+  getPeerConnection,
+} from '../../../middlewares/webRTC/peerConnectionFactory';
 import { ICallsState } from '../../calls-state';
 import { InputType } from '../../common/enums/input-type';
 import { getIsVideoEnabledSelector } from '../../selectors';
@@ -17,7 +20,11 @@ import { InterlocutorAcceptedCallEventHandler } from '../../socket-events/interl
 import { deviceUpdateWatcher } from '../../utils/device-update-watcher';
 import { setIsRenegotiationAccepted, waitForAllICE } from '../../utils/glare-utils';
 import { peerWatcher } from '../../utils/peer-watcher';
-import { getAndSendUserMedia, getMediaDevicesList, preventEternalCamera } from '../../utils/user-media';
+import {
+  getAndSendUserMedia,
+  getMediaDevicesList,
+  preventEternalCamera,
+} from '../../utils/user-media';
 import { CancelCall } from '../cancel-call/cancel-call';
 import { DeclineCall } from '../decline-call/decline-call';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';

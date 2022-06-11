@@ -49,7 +49,7 @@ export class RegisterFromGoogleAccount {
 
   static get httpRequest() {
     return authRequestFactory<AxiosResponse, ICreateUserFromGoogleAccountRequest>(
-      MAIN_API.REGISTER_FROM_GOOGLE,
+      MAIN_API.REGISTER_FROM_GOOGLE_ACCOUNT,
       HttpRequestMethod.Post,
     );
   }

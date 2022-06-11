@@ -6,7 +6,7 @@ export const MAIN_API = {
   LOGOUT: `${REACT_APP_MAIN_API}/api/users/logout`,
   REFRESH_TOKENS: `${REACT_APP_MAIN_API}/api/users/refresh-tokens`,
   REGISTER: `${REACT_APP_MAIN_API}/api/users/`,
-  REGISTER_FROM_GOOGLE: `${REACT_APP_MAIN_API}/api/users/google`,
+  REGISTER_FROM_GOOGLE_ACCOUNT: `${REACT_APP_MAIN_API}/api/users/google`,
   SEND_SMS_CODE: `${REACT_APP_MAIN_API}/api/users/send-sms-confirmation-code`,
   LOGIN_FROM_GOOGLE_ACCOUNT: `${REACT_APP_MAIN_API}/api/users/google/tokens`,
   ACCEPT_CALL: `${REACT_APP_MAIN_API}/api/calls/accept-call`,

@@ -3,7 +3,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { spawn } from 'redux-saga/effects';
 
 import { ILoginState } from '@store/login/login-state';
-import { subscribeToPushNotifications } from '@store/notifications/actions';
+import { subscribeToPushNotifications } from '@store/login/shared/subscribe-to-push-notifications';
 
 export class LoginSuccess {
   static get action() {

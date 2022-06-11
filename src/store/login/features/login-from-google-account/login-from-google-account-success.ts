@@ -2,7 +2,7 @@ import { SagaIterator } from '@redux-saga/core';
 import { createAction } from '@reduxjs/toolkit';
 import { spawn } from 'redux-saga/effects';
 
-import { subscribeToPushNotifications } from '@store/notifications/actions';
+import { subscribeToPushNotifications } from '@store/login/shared/subscribe-to-push-notifications';
 
 import { ILoginState } from '../../login-state';
 

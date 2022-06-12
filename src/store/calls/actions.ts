@@ -41,4 +41,3 @@ export const resetSearchCallsAction = ResetSearchCalls.action;
 export const renegotiationAcceptedEventHandlerAction = RenegotiationAcceptedEventHandler.action;
 export const interlocutorAcceptedCallEventHandlerAction =
   InterlocutorAcceptedCallEventHandler.action;
-

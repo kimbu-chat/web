@@ -29,7 +29,7 @@ type ReducersStore = {
   [key in StoreKeys]?: CustomReducer;
 };
 
-type InjectorReduxStore = Store<ReducersStore, RootAction> & {
+type InjectorReduxStore = Store<ReducersStore, Action> & {
   dispatch: Dispatch;
   injectReducer: (key: StoreKeys, asyncReducer: CustomReducer) => void;
   injectSaga: <S extends Saga>(key: StoreKeys, saga: S) => void;
@@ -87,7 +87,7 @@ function configureStore(): InjectorReduxStore {
   const store: any = createStore(createReducer(), enchancers);
   store.asyncReducers = {};
 
-  store.injectReducer = (key: StoreKeys, asyncReducer: Reducer<RootState, RootAction>) => {
+  store.injectReducer = (key: StoreKeys, asyncReducer: Reducer<RootState, Action>) => {
     store.asyncReducers[key] = asyncReducer;
     store.replaceReducer(createReducer(store.asyncReducers));
   };
@@ -95,7 +95,7 @@ function configureStore(): InjectorReduxStore {
   store.injectSaga = createSagaInjector(sagaMiddleware.run, staticRootSaga);
 
   store.inject = <S extends Saga>(
-    injector: [StoreKeys, Reducer<RootState, RootAction> | undefined, S | undefined][],
+    injector: [StoreKeys, Reducer<RootState, Action> | undefined, S | undefined][],
   ) => {
     injector.forEach((inj) => {
       if (inj[1]) {

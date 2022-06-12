@@ -2,7 +2,6 @@
 import { compose } from 'redux';
 
 import { store } from '@store/index';
-import { AppRootAction } from '@store/root-action';
 import combinedReducer from '@store/root-reducer';
 
 declare global {
@@ -13,5 +12,4 @@ declare global {
   type Store = ReturnType<typeof store>;
   export type RootState = ReturnType<typeof combinedReducer>;
   export type AppDispatch = typeof store.dispatch;
-  export type RootAction = AppRootAction;
 }

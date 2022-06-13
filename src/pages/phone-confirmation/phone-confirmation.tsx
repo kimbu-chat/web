@@ -33,9 +33,9 @@ const loadPrivacyPolicy = () => import('@auth-components/privacy-policy');
 const LazyPrivacyPolicy = React.lazy(loadPrivacyPolicy);
 
 const googleErrors = new Map<LoginFromGoogleAccountResult, string>([
-  [LoginFromGoogleAccountResult.GoogleAuthDisabled, 'google_auth.disabled'],
+  [LoginFromGoogleAccountResult.GoogleAuthDisabled, 'googleAuth.disabled'],
   [LoginFromGoogleAccountResult.NetworkError, 'network-error'],
-  [LoginFromGoogleAccountResult.IdTokenInvalid, 'google_auth_disabled.id_token_invalid'],
+  [LoginFromGoogleAccountResult.IdTokenInvalid, 'googleAuth_disabled.id_token_invalid'],
   [LoginFromGoogleAccountResult.UnknownError, 'something_went_wrong'],
 ]);
 

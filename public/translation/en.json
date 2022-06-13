@@ -23,10 +23,10 @@
     "nick_name": "Nickname",
     "name": "Name",
     "search_country": "Search country",
-    "google_auth": {
-      "disabled": "Log in from Google account temporarily disabled, try later",
-      "id_token_invalid": "Invalid ID token, try one more time"
-    }
+  },
+  "googleAuth": {
+    "disabled": "Log in from Google account temporarily disabled, try later",
+    "id_token_invalid": "Invalid ID token, try one more time"
   },
   "selectEntity": {
     "online": "Online"

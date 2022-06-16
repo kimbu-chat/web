@@ -93,6 +93,10 @@ const PhoneConfirmationPage: React.FC = () => {
     [history, loginFromGoogleAccount, t],
   );
 
+  const handleGoogleAuthError = useCallback(() => {
+    emitToast(t('something_went_wrong'), { type: 'error' });
+  }, [t]);
+
   if (googleAuthLoading) {
     return <CubeLoader />;
   }
@@ -115,10 +119,7 @@ const PhoneConfirmationPage: React.FC = () => {
         <GoogleLogin
           ux_mode="popup"
           onSuccess={handleLoginFromGoogle}
-          onError={() => {
-            // eslint-disable-next-line no-console
-            console.log('Login Failed');
-          }}
+          onError={handleGoogleAuthError}
         />
 
         <p className={`${BLOCK_NAME}__conditions`}>

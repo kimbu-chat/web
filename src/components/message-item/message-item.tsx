@@ -228,15 +228,15 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
             <div className={`${BLOCK_NAME}__time`}>
               {getShortTimeAmPm(message?.creationDateTime)}
             </div>
-              <MessageItemActions
-                visible={isMenuVisible}
-                messageId={messageId}
-                isEditAllowed={
-                  isCurrentUserMessageCreator &&
-                  !(message?.linkedMessageType === MessageLinkType.Forward) &&
-                  !message.attachments?.some(({ type }) => type === AttachmentType.Voice)
-                }
-              />
+            <MessageItemActions
+              visible={isMenuVisible}
+              messageId={messageId}
+              isEditAllowed={
+                isCurrentUserMessageCreator &&
+                !(message?.linkedMessageType === MessageLinkType.Forward) &&
+                !message.attachments?.some(({ type }) => type === AttachmentType.Voice)
+              }
+            />
           </div>
         </div>
       </>

@@ -2,10 +2,9 @@ import { AxiosResponse } from 'axios';
 import { IAvatar } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { apply, call } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { FILES_API } from '@common/paths';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { HttpRequestMethod } from '@store/common/http';
 import { httpFilesRequestFactory } from '@store/common/http/http-file-factory';
 import { setAvatarUploadCancelTokenSource } from '@store/my-profile/my-profile-utils';
@@ -15,7 +14,7 @@ import { IUploadAvatarActionPayload } from './upload-avatar-action-payload';
 
 export class UploadAvatar {
   static get action() {
-    return createAction('UPLOAD_AVATAR')<IUploadAvatarActionPayload, Meta<IAvatar>>();
+    return createDeferredAction<IUploadAvatarActionPayload, IAvatar>('UPLOAD_AVATAR');
   }
 
   static get saga() {
@@ -45,7 +44,7 @@ export class UploadAvatar {
             yield apply(setAvatarUploadCancelTokenSource, setAvatarUploadCancelTokenSource, [
               undefined,
             ]);
-            action.meta.deferred.resolve(payload.data);
+            action.meta?.deferred?.resolve(payload.data);
           },
           *onProgress(payload): SagaIterator {
             if (onProgress) {
@@ -56,7 +55,7 @@ export class UploadAvatar {
             yield apply(setAvatarUploadCancelTokenSource, setAvatarUploadCancelTokenSource, [
               undefined,
             ]);
-            action.meta.deferred.reject();
+            action.meta?.deferred?.reject();
           },
         }),
       );

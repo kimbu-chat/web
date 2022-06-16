@@ -1,9 +1,9 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { IUser, IMessage } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { select, put, call } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { INormalizedMessage } from '@store/chats/models';
@@ -19,7 +19,7 @@ import { IMessagesDeletedIntegrationEvent } from './messages-deleted-integration
 
 export class MessagesDeletedIntegrationEventHandler {
   static get action() {
-    return createAction('MessagesDeleted')<IMessagesDeletedIntegrationEvent>();
+    return createAction<IMessagesDeletedIntegrationEvent>('MessagesDeleted');
   }
 
   static get saga() {

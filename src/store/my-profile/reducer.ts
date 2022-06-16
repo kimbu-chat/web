@@ -1,4 +1,4 @@
-import { createReducer } from 'typesafe-actions';
+import { createReducer } from '@reduxjs/toolkit';
 
 import { MyProfileService } from '../../services/my-profile-service';
 
@@ -7,14 +7,16 @@ import { GetMyProfileSuccess } from './features/get-my-profile/get-my-profile-su
 import { IMyProfileState } from './my-profile-state';
 
 const authService = new MyProfileService();
-// const myPro
+
 const initialState: IMyProfileState = {
   userId: authService.myProfile?.id,
   isTabActive: true,
 };
 
-const reducer = createReducer<IMyProfileState>(initialState)
-  .handleAction(GetMyProfileSuccess.action, GetMyProfileSuccess.reducer)
-  .handleAction(ChangeUserOnlineStatus.action, ChangeUserOnlineStatus.reducer);
+const reducer = createReducer<IMyProfileState>(initialState, (builder) =>
+  builder
+    .addCase(GetMyProfileSuccess.action, GetMyProfileSuccess.reducer)
+    .addCase(ChangeUserOnlineStatus.action, ChangeUserOnlineStatus.reducer),
+);
 
 export default reducer;

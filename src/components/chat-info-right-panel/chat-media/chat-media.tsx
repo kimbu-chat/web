@@ -1,4 +1,4 @@
-import React, {RefObject, useCallback, useState} from 'react';
+import React, { RefObject, useCallback, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -97,7 +97,9 @@ export const ChatMedia: React.FC<ChatMediaProps> = ({ observeIntersection, rootR
                   <OpenArrowSvg />
                 </div>
               </button>
-              {pictureDisplayed && <PhotoList observeIntersection={observeIntersection} rootRef={rootRef} />}
+              {pictureDisplayed && (
+                <PhotoList observeIntersection={observeIntersection} rootRef={rootRef} />
+              )}
             </div>
           )}
           {videoAttachmentsCount > 0 && (

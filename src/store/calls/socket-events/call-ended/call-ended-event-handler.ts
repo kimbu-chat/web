@@ -1,9 +1,9 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import { IUser, ICall } from 'kimbu-models';
+import { ICall, IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
-import { select, put, call } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
+import { call, put, select } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
 import { INormalizedCall } from '@store/calls/common/models';
@@ -23,7 +23,7 @@ import { ICallEndedIntegrationEvent } from './call-ended-integration-event';
 
 export class CallEndedEventHandler {
   static get action() {
-    return createAction('CallEnded')<ICallEndedIntegrationEvent>();
+    return createAction<ICallEndedIntegrationEvent>('CallEnded');
   }
 
   static get saga() {

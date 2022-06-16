@@ -7,8 +7,3 @@ import { UnSubscribeFromPushNotifications } from './features/un-subscribe-from-p
  */
 export const subscribeToPushNotifications = SubscribeToPushNotifications.action;
 export const unSubscribeFromPushNotifications = UnSubscribeFromPushNotifications.action;
-
-export const NotificationsActions = {
-  subscribeToPushNotifications,
-  unSubscribeFromPushNotifications,
-};

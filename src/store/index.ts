@@ -1,13 +1,13 @@
+import { Reducer } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
-import { Reducer, RootAction, RootState } from 'typesafe-actions';
-
-import { centrifugeInvokeMiddleware } from './middlewares/websockets/centrifuge';
+import { createStore, applyMiddleware, compose, combineReducers, Action } from 'redux';
 
 import type { RootReducer } from './root-reducer';
 import type { Saga, Task } from 'redux-saga';
 import type { Store, Dispatch } from 'redux';
+
+// export type RootState = ReturnType<typeof combinedReducer>
 
 export enum StoreKeys {
   AUTH = 'auth',
@@ -23,13 +23,13 @@ export enum StoreKeys {
   LOCATION = 'location',
 }
 
-type CustomReducer = Reducer<RootState, RootAction>;
+type CustomReducer = Reducer<RootState, Action>;
 
 type ReducersStore = {
   [key in StoreKeys]?: CustomReducer;
 };
 
-type InjectorReduxStore = Store<ReducersStore, RootAction> & {
+type InjectorReduxStore = Store<ReducersStore, Action> & {
   dispatch: Dispatch;
   injectReducer: (key: StoreKeys, asyncReducer: CustomReducer) => void;
   injectSaga: <S extends Saga>(key: StoreKeys, saga: S) => void;
@@ -46,7 +46,10 @@ function* staticRootSaga() {
 }
 
 function createReducer(asyncReducers?: ReducersStore) {
-  return combineReducers({ dummyReducer, ...staticReducers, ...asyncReducers });
+  if (asyncReducers) {
+    return combineReducers({ dummyReducer, ...staticReducers, ...asyncReducers });
+  }
+  return combineReducers({ dummyReducer, ...staticReducers });
 }
 
 function createSagaInjector(
@@ -80,11 +83,11 @@ function configureStore(): InjectorReduxStore {
       ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
       : compose;
   const sagaMiddleware = createSagaMiddleware();
-  const enchancers = composeEnchancers(applyMiddleware(sagaMiddleware, centrifugeInvokeMiddleware));
+  const enchancers = composeEnchancers(applyMiddleware(sagaMiddleware));
   const store: any = createStore(createReducer(), enchancers);
   store.asyncReducers = {};
 
-  store.injectReducer = (key: StoreKeys, asyncReducer: Reducer<RootState, RootAction>) => {
+  store.injectReducer = (key: StoreKeys, asyncReducer: Reducer<RootState, Action>) => {
     store.asyncReducers[key] = asyncReducer;
     store.replaceReducer(createReducer(store.asyncReducers));
   };
@@ -92,7 +95,7 @@ function configureStore(): InjectorReduxStore {
   store.injectSaga = createSagaInjector(sagaMiddleware.run, staticRootSaga);
 
   store.inject = <S extends Saga>(
-    injector: [StoreKeys, Reducer<RootState, RootAction> | undefined, S | undefined][],
+    injector: [StoreKeys, Reducer<RootState, Action> | undefined, S | undefined][],
   ) => {
     injector.forEach((inj) => {
       if (inj[1]) {

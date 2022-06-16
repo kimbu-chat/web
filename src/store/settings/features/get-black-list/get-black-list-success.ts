@@ -1,21 +1,18 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { IUser } from 'kimbu-models';
-import { createAction } from 'typesafe-actions';
 
 import { IUserSettings } from '../../user-settings-state';
 
 export class GetBlackListSuccess {
   static get action() {
-    return createAction('GET_BLACK_LIST_SUCCESS')<IUser[]>();
+    return createAction<IUser[]>('GET_BLACK_LIST_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IUserSettings, { payload }: ReturnType<typeof GetBlackListSuccess.action>) => {
-        draft.blackList.users = payload;
-        draft.blackList.isLoading = false;
-        return draft;
-      },
-    );
+    return (draft: IUserSettings, { payload }: ReturnType<typeof GetBlackListSuccess.action>) => {
+      draft.blackList.users = payload;
+      draft.blackList.isLoading = false;
+      return draft;
+    };
   }
 }

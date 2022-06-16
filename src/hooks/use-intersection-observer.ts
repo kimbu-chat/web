@@ -1,4 +1,4 @@
-import { useEffect, RefObject, useState, useRef, useCallback } from 'react';
+import { RefObject, useCallback, useEffect, useRef, useState } from 'react';
 
 import throttle from 'lodash/fp/throttle';
 import noop from 'lodash/noop';

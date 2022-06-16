@@ -1,11 +1,10 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { IGetPictureAttachmentsRequest, IPictureAttachment } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
-import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { PHOTO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
@@ -17,11 +16,11 @@ import { GetPhotoAttachmentsSuccess } from './get-photo-attachments-success';
 
 export class GetPhotoAttachments {
   static get action() {
-    return createEmptyAction('GET_PHOTO_ATTACHMENTS');
+    return createAction('GET_PHOTO_ATTACHMENTS');
   }
 
   static get reducer() {
-    return produce((draft: IChatsState) => {
+    return (draft: IChatsState) => {
       const chat =
         draft.chats[draft.chatInfo.chatId || -1] || draft.chats[draft?.selectedChatId || -1];
 
@@ -30,7 +29,7 @@ export class GetPhotoAttachments {
       }
 
       return draft;
-    });
+    };
   }
 
   static get saga() {

@@ -27,7 +27,7 @@ module.exports = {
     },
     ecmaVersion: 12,
   },
-  plugins: ['react', '@typescript-eslint', 'react-hooks', 'import'],
+  plugins: ['react', '@typescript-eslint', 'react-hooks', 'import', "unused-imports"],
   rules: {
     ...a11yOff,
     'react/jsx-props-no-spreading': 'off',
@@ -41,6 +41,8 @@ module.exports = {
         extensions: ['.tsx'],
       },
     ],
+    'no-unused-vars': 'off', // or "@typescript-eslint/no-unused-vars": "off",
+    'unused-imports/no-unused-imports': "error",
     'import/order': [
       'error',
       {
@@ -116,5 +118,5 @@ module.exports = {
         'react/prop-types': 'off',
       },
     },
-  ], 
+  ],
 };

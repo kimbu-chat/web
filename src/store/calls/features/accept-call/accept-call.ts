@@ -1,9 +1,8 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { IAcceptCallRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, spawn } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { InputType } from '@store/calls/common/enums/input-type';
@@ -24,34 +23,38 @@ import {
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import {
   createPeerConnection,
-  getPeerConnection,
   getInterlocutorOffer,
+  getPeerConnection,
 } from '@store/middlewares/webRTC/peerConnectionFactory';
 
 import { ICallsState } from '../../calls-state';
 import { GotDevicesInfo } from '../got-devices-info/got-devices-info';
 
 import { AcceptCallSuccess } from './accept-call-success';
-import { IAcceptCallActionPayload } from './action-payloads/accept-call-action-payload';
+
+export interface IAcceptCallActionPayload {
+  videoEnabled: boolean;
+  audioEnabled: boolean;
+}
 
 export class AcceptCall {
   static get action() {
-    return createAction('ACCEPT_CALL')<IAcceptCallActionPayload>();
+    return createAction<IAcceptCallActionPayload>('ACCEPT_CALL');
   }
 
   static get reducer() {
-    return produce((draft: ICallsState, { payload }: ReturnType<typeof AcceptCall.action>) => {
+    return (draft: ICallsState, { payload }: ReturnType<typeof AcceptCall.action>) => {
       draft.audioConstraints = { ...draft.audioConstraints, isOpened: payload.audioEnabled };
       draft.videoConstraints = { ...draft.videoConstraints, isOpened: payload.videoEnabled };
 
-      /* 
-         We need to hide incoming call when other clients(mobile apps, web clients, etc) 
-         of same user get "CallAccepted" event and "isCallAccepted" is false. 
+      /*
+         We need to hide incoming call when other clients(mobile apps, web clients, etc)
+         of same user get "CallAccepted" event and "isCallAccepted" is false.
       */
       draft.isCallAccepted = true;
 
       return draft;
-    });
+    };
   }
 
   static get saga() {

@@ -1,5 +1,3 @@
-import { RootState } from 'typesafe-actions';
-
 // state-selectors
 
 export const getMyFriendsListSelector = (state: RootState) => state.friends.friends;

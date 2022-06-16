@@ -1,33 +1,36 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
+import { IAvatar } from 'kimbu-models';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IEditGroupChatSuccessActionPayload } from './action-payloads/edit-group-chat-success-action-payload';
+export interface IEditGroupChatSuccessActionPayload {
+  chatId: number;
+  name: string;
+  description?: string;
+  avatar?: IAvatar;
+}
 
 export class EditGroupChatSuccess {
   static get action() {
-    return createAction('EDIT_GROUP_CHAT_SUCCESS')<IEditGroupChatSuccessActionPayload>();
+    return createAction<IEditGroupChatSuccessActionPayload>('EDIT_GROUP_CHAT_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof EditGroupChatSuccess.action>) => {
-        const { chatId, name, description, avatar } = payload;
+    return (draft: IChatsState, { payload }: ReturnType<typeof EditGroupChatSuccess.action>) => {
+      const { chatId, name, description, avatar } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat && chat.groupChat) {
-          chat.groupChat.name = name;
-          chat.groupChat.description = description;
+      if (chat && chat.groupChat) {
+        chat.groupChat.name = name;
+        chat.groupChat.description = description;
 
-          if (chat.groupChat.avatar?.id !== avatar?.id) {
-            chat.groupChat.avatar = avatar;
-          }
+        if (chat.groupChat.avatar?.id !== avatar?.id) {
+          chat.groupChat.avatar = avatar;
         }
-        return draft;
-      },
-    );
+      }
+      return draft;
+    };
   }
 }

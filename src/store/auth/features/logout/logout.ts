@@ -1,5 +1,5 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { SagaIterator } from 'redux-saga';
 import { apply, call, put, select } from 'redux-saga/effects';
 
@@ -8,22 +8,20 @@ import { AuthService } from '@services/auth-service';
 import { MyProfileService } from '@services/my-profile-service';
 import { IAuthState } from '@store/auth/auth-state';
 import { securityTokensSelector } from '@store/auth/selectors';
-import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory } from '@store/common/http/http-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
+import { CloseWebsocketConnection } from '@store/internet/features/close-web-socket-connection/close-web-socket-connection';
 import { ChangeUserOnlineStatus } from '@store/my-profile/features/change-user-online-status/change-user-online-status';
-import { CloseWebsocketConnection } from '@store/web-sockets/features/close-web-socket-connection/close-web-socket-connection';
 
 export class Logout {
   static get action() {
-    return createEmptyAction('LOGOUT');
+    return createAction('LOGOUT');
   }
 
   static get reducer() {
-    return produce((draft: IAuthState) => ({
-      ...draft,
-      loading: true,
-    }));
+    return (draft: IAuthState) => {
+      draft.loading = true;
+    };
   }
 
   static get saga() {
@@ -31,7 +29,7 @@ export class Logout {
       const securityTokens = yield select(securityTokensSelector);
 
       if (securityTokens) {
-        yield call(() => ChangeUserOnlineStatus.httpRequest.generator({ isOnline: false }));
+        yield put(ChangeUserOnlineStatus.action(false));
         yield put(CloseWebsocketConnection.action());
         yield call(() => Logout.httpRequest.generator());
       }

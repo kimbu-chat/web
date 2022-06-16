@@ -1,14 +1,13 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
-import { IUser, IMessage, IGetMessagesRequest } from 'kimbu-models';
+import { IGetMessagesRequest, IMessage, IUser } from 'kimbu-models';
 import { size } from 'lodash';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
-import { put, call, select, take } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
+import { call, put, select, take } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
-import { MessageState, INormalizedMessage } from '@store/chats/models';
+import { INormalizedMessage, MessageState } from '@store/chats/models';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AddOrUpdateUsers } from '@store/users/features/add-or-update-users/add-or-update-users';
 import { MESSAGES_LIMIT } from '@utils/pagination-limits';
@@ -22,17 +21,21 @@ import {
 } from '../../selectors';
 import { GetChatsSuccess } from '../get-chats/get-chats-success';
 
-import { IGetMessagesActionPayload } from './action-payloads/get-messages-action-payload';
 import { GetMessagesFailure } from './get-messages-failure';
 import { GetMessagesSuccess } from './get-messages-success';
 
+export interface IGetMessagesActionPayload {
+  initializedByScroll?: boolean;
+  searchString?: string;
+}
+
 export class GetMessages {
   static get action() {
-    return createAction('GET_MESSAGES')<IGetMessagesActionPayload>();
+    return createAction<IGetMessagesActionPayload>('GET_MESSAGES');
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof GetMessages.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof GetMessages.action>) => {
       if (draft.selectedChatId) {
         const chat = draft.chats[draft.selectedChatId];
 
@@ -53,7 +56,7 @@ export class GetMessages {
         }
       }
       return draft;
-    });
+    };
   }
 
   static get saga() {

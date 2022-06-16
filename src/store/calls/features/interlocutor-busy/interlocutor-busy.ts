@@ -1,19 +1,17 @@
-import produce from 'immer';
-
-import { createEmptyAction } from '@store/common/actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { ICallsState } from '../../calls-state';
 
 export class InterlocutorBusy {
   static get action() {
-    return createEmptyAction('INTERLOCUTOR_BUSY');
+    return createAction('INTERLOCUTOR_BUSY');
   }
 
   static get reducer() {
-    return produce((draft: ICallsState) => {
+    return (draft: ICallsState) => {
       draft.isInterlocutorBusy = true;
 
       return draft;
-    });
+    };
   }
 }

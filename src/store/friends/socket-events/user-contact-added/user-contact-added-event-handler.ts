@@ -1,8 +1,8 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { IUser } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { put, select, call } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
@@ -15,7 +15,7 @@ import { UserContactAddedSuccessEventHandler } from './user-contact-added-succes
 
 export class UserContactAddedEventHandler {
   static get action() {
-    return createAction('UserContactAdded')<IUserContactAddedIntegrationEvent>();
+    return createAction<IUserContactAddedIntegrationEvent>('UserContactAdded');
   }
 
   static get saga() {

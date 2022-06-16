@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -20,9 +20,9 @@ import {
 } from '@store/calls/actions';
 import { InputType } from '@store/calls/common/enums/input-type';
 import {
-  getVideoConstraintsSelector,
   getAudioConstraintsSelector,
   getAudioDevicesSelector,
+  getVideoConstraintsSelector,
   getVideoDevicesSelector,
 } from '@store/calls/selectors';
 import { playSoundSafely } from '@utils/current-music';

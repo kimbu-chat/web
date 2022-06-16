@@ -1,32 +1,37 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
+import { IVideoAttachment } from 'kimbu-models';
+
+import { IGroupable } from '@store/chats/models';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 
-import { IGetVideoAttachmentsSuccessActionPayload } from './action-payloads/get-video-attachments-success-action-payload';
+export interface IGetVideoAttachmentsSuccessActionPayload {
+  chatId: number;
+  videos: (IVideoAttachment & IGroupable)[];
+  hasMore: boolean;
+}
 
 export class GetVideoAttachmentsSuccess {
   static get action() {
-    return createAction(
-      'GET_VIDEO_ATTACHMENTS_SUCCESS',
-    )<IGetVideoAttachmentsSuccessActionPayload>();
+    return createAction<IGetVideoAttachmentsSuccessActionPayload>('GET_VIDEO_ATTACHMENTS_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof GetVideoAttachmentsSuccess.action>) => {
-        const { videos, chatId, hasMore } = payload;
+    return (
+      draft: IChatsState,
+      { payload }: ReturnType<typeof GetVideoAttachmentsSuccess.action>,
+    ) => {
+      const { videos, chatId, hasMore } = payload;
 
-        const chat = getChatByIdDraftSelector(chatId, draft);
+      const chat = getChatByIdDraftSelector(chatId, draft);
 
-        if (chat) {
-          chat.videos.data.push(...videos);
-          chat.videos.hasMore = hasMore;
-          chat.videos.loading = false;
-        }
-        return draft;
-      },
-    );
+      if (chat) {
+        chat.videos.data.push(...videos);
+        chat.videos.hasMore = hasMore;
+        chat.videos.loading = false;
+      }
+      return draft;
+    };
   }
 }

@@ -1,18 +1,16 @@
-import produce from 'immer';
-
-import { createEmptyAction } from '@store/common/actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { ICallsState } from '../../calls-state';
 
 export class OpenInterlocutorAudioStatus {
   static get action() {
-    return createEmptyAction('OPEN_INTERLOCUTOR_AUDIO_STATUS');
+    return createAction('OPEN_INTERLOCUTOR_AUDIO_STATUS');
   }
 
   static get reducer() {
-    return produce((draft: ICallsState) => {
+    return (draft: ICallsState) => {
       draft.isInterlocutorAudioEnabled = true;
       return draft;
-    });
+    };
   }
 }

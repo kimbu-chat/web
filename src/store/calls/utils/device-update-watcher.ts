@@ -8,7 +8,7 @@ import { DeclineCall } from '../features/decline-call/decline-call';
 import { KillDeviceUpdateWatcher } from '../features/device-watcher/kill-device-update-watcher';
 import { GotDevicesInfo } from '../features/got-devices-info/got-devices-info';
 import { SwitchDevice } from '../features/switch-device/switch-device';
-import { getAudioDevicesSelector, doIhaveCallSelector } from '../selectors';
+import { doIhaveCallSelector, getAudioDevicesSelector } from '../selectors';
 import { CallEndedEventHandler } from '../socket-events/call-ended/call-ended-event-handler';
 
 import { getMediaDevicesList } from './user-media';

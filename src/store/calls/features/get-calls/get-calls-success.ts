@@ -1,5 +1,4 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { ICallsState } from '../../calls-state';
 
@@ -7,11 +6,11 @@ import { IGetCallsSuccessActionPayload } from './action-payloads/get-calls-succe
 
 export class GetCallsSuccess {
   static get action() {
-    return createAction('GET_CALLS_SUCCESS')<IGetCallsSuccessActionPayload>();
+    return createAction<IGetCallsSuccessActionPayload>('GET_CALLS_SUCCESS');
   }
 
   static get reducer() {
-    return produce((draft: ICallsState, { payload }: ReturnType<typeof GetCallsSuccess.action>) => {
+    return (draft: ICallsState, { payload }: ReturnType<typeof GetCallsSuccess.action>) => {
       const { calls, hasMore, initializedByScroll, name, callIds } = payload;
 
       if (initializedByScroll) {
@@ -34,6 +33,6 @@ export class GetCallsSuccess {
       }
 
       return draft;
-    });
+    };
   }
 }

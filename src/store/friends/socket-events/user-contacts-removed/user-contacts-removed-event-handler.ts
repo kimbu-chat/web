@@ -1,5 +1,4 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { IFriendsState } from '../../friends-state';
 
@@ -7,24 +6,22 @@ import { IUserContactsRemovedIntegrationEvent } from './user-contacts-removed-in
 
 export class UserContactsRemovedEventHandler {
   static get action() {
-    return createAction('UserContactsRemoved')<IUserContactsRemovedIntegrationEvent>();
+    return createAction<IUserContactsRemovedIntegrationEvent>('UserContactsRemoved');
   }
 
   static get reducer() {
-    return produce(
-      (
-        draft: IFriendsState,
-        { payload }: ReturnType<typeof UserContactsRemovedEventHandler.action>,
-      ) => {
-        const { userIds } = payload;
+    return (
+      draft: IFriendsState,
+      { payload }: ReturnType<typeof UserContactsRemovedEventHandler.action>,
+    ) => {
+      const { userIds } = payload;
 
-        draft.friends.friendIds = draft.friends.friendIds.filter((id) => !userIds.includes(id));
-        draft.searchFriends.friendIds = draft.searchFriends.friendIds?.filter(
-          (id) => !userIds.includes(id),
-        );
+      draft.friends.friendIds = draft.friends.friendIds.filter((id) => !userIds.includes(id));
+      draft.searchFriends.friendIds = draft.searchFriends.friendIds?.filter(
+        (id) => !userIds.includes(id),
+      );
 
-        return draft;
-      },
-    );
+      return draft;
+    };
   }
 }

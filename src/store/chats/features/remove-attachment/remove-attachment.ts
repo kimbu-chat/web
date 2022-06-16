@@ -1,38 +1,37 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { apply } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector } from '../../selectors';
 import { removeUploadingAttachment } from '../../upload-qeue';
 
-import { IRemoveAttachmentActionPayload } from './action-payloads/remove-attachment-action-payload';
+export interface IRemoveAttachmentActionPayload {
+  attachmentId: number;
+}
 
 export class RemoveAttachment {
   static get action() {
-    return createAction('REMOVE_ATTACHMENT')<IRemoveAttachmentActionPayload>();
+    return createAction<IRemoveAttachmentActionPayload>('REMOVE_ATTACHMENT');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof RemoveAttachment.action>) => {
-        const { attachmentId } = payload;
+    return (draft: IChatsState, { payload }: ReturnType<typeof RemoveAttachment.action>) => {
+      const { attachmentId } = payload;
 
-        if (draft.selectedChatId) {
-          const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+      if (draft.selectedChatId) {
+        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
-          if (chat && chat.draftMessageId) {
-            const draftAttachments = chat.messages.messages[chat.draftMessageId].attachments;
-            chat.messages.messages[chat.draftMessageId].attachments = draftAttachments.filter(
-              (attachment) => attachment.id !== attachmentId,
-            );
-          }
+        if (chat && chat.draftMessageId) {
+          const draftAttachments = chat.messages.messages[chat.draftMessageId].attachments;
+          chat.messages.messages[chat.draftMessageId].attachments = draftAttachments.filter(
+            (attachment) => attachment.id !== attachmentId,
+          );
         }
+      }
 
-        return draft;
-      },
-    );
+      return draft;
+    };
   }
 
   static get saga() {

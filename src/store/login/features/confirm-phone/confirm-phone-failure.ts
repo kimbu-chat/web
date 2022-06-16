@@ -1,19 +1,17 @@
-import produce from 'immer';
-
-import { createEmptyAction } from '@store/common/actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { ILoginState } from '../../login-state';
 
 export class ConfirmPhoneFailure {
   static get action() {
-    return createEmptyAction('CONFIRM_PHONE_FAILURE');
+    return createAction('CONFIRM_PHONE_FAILURE');
   }
 
   static get reducer() {
-    return produce((draft: ILoginState) => {
+    return (draft: ILoginState) => {
       draft.loading = false;
       draft.isConfirmationCodeWrong = true;
       return draft;
-    });
+    };
   }
 }

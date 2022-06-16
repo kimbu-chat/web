@@ -4,8 +4,8 @@ import { call, cancelled, put, take } from 'redux-saga/effects';
 
 import { RefreshToken } from '@store/auth/features/refresh-token/refresh-token';
 import { httpRequest } from '@store/common/http/http-request';
+import { isNetworkError } from '@utils/error-utils';
 
-import { isNetworkError } from '../../../utils/error-utils';
 import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
 
 import { checkTokensSaga } from './check-tokens';
@@ -47,7 +47,6 @@ export const httpRequestFactory = <TResponse, TBody = unknown>(
       } catch (e: any) {
         const error = e as AxiosError;
 
-        // emitToast(error.message, { type: 'error' });
         if (!isNetworkError(e) && error?.response?.status === 401) {
           yield put(RefreshToken.action());
 

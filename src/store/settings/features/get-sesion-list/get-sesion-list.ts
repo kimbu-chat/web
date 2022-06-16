@@ -1,12 +1,11 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { ISession } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
 import { deviceIdSelector } from '@store/auth/selectors';
-import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { IUserSettings } from '../../user-settings-state';
@@ -15,14 +14,14 @@ import { GetSessionListSuccess } from './get-sesion-list-success';
 
 export class GetSessionList {
   static get action() {
-    return createEmptyAction('GET_SESSION_LIST');
+    return createAction('GET_SESSION_LIST');
   }
 
   static get reducer() {
-    return produce((draft: IUserSettings) => {
+    return (draft: IUserSettings) => {
       draft.sessionList.isLoading = true;
       return draft;
-    });
+    };
   }
 
   static get saga() {

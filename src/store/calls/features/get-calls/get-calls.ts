@@ -1,10 +1,9 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
-import { IUser, ICall, IGetCallsRequest, IPaginationParams } from 'kimbu-models';
+import { ICall, IGetCallsRequest, IPaginationParams, IUser } from 'kimbu-models';
 import { normalize } from 'normalizr';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { INormalizedCall } from '@store/calls/common/models';
@@ -22,11 +21,11 @@ import { GetCallsSuccess } from './get-calls-success';
 
 export class GetCalls {
   static get action() {
-    return createAction('GET_CALLS')<IGetCallsActionPayload>();
+    return createAction<IGetCallsActionPayload>('GET_CALLS');
   }
 
   static get reducer() {
-    return produce((draft: ICallsState, { payload }: ReturnType<typeof GetCalls.action>) => {
+    return (draft: ICallsState, { payload }: ReturnType<typeof GetCalls.action>) => {
       if (!payload.name?.length && !payload.initializedByScroll) {
         draft.searchCallList.callIds = [];
         draft.searchCallList.hasMore = true;
@@ -40,7 +39,7 @@ export class GetCalls {
       }
 
       return draft;
-    });
+    };
   }
 
   static get saga() {

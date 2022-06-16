@@ -9,7 +9,7 @@ import { HorizontalSeparator } from '@components/horizontal-separator';
 import { MessageItem } from '@components/message-item';
 import { RadioBox } from '@components/radio-box';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
-import { changeThemeAction, changeFontSizeAction } from '@store/settings/actions';
+import { changeFontSizeAction, changeThemeAction } from '@store/settings/actions';
 import { Theme } from '@store/settings/features/models';
 import { getCurrentFontSizeSelector, getCurrentThemeSelector } from '@store/settings/selectors';
 

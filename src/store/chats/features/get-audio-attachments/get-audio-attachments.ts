@@ -1,11 +1,10 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import { IAudioAttachment, IGetAudioAttachmentsRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
-import { put, call, select } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
-import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { AUDIO_ATTACHMENTS_LIMIT } from '@utils/pagination-limits';
 
@@ -21,11 +20,11 @@ import { GetAudioAttachmentsSuccess } from './get-audio-attachments-success';
 
 export class GetAudioAttachments {
   static get action() {
-    return createEmptyAction('GET_AUDIO_ATTACHMENTS');
+    return createAction('GET_AUDIO_ATTACHMENTS');
   }
 
   static get reducer() {
-    return produce((draft: IChatsState) => {
+    return (draft: IChatsState) => {
       if (draft.selectedChatId) {
         const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
 
@@ -35,7 +34,7 @@ export class GetAudioAttachments {
       }
 
       return draft;
-    });
+    };
   }
 
   static get saga() {

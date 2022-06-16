@@ -1,31 +1,30 @@
-import produce from 'immer';
-import { createAction } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { IChatsState } from '../../chats-state';
 
-import { ILeaveGroupChatSuccessActionPayload } from './action-payloads/leave-group-chat-success-action-payload';
+export interface ILeaveGroupChatSuccessActionPayload {
+  chatId: number;
+}
 
 export class LeaveGroupChatSuccess {
   static get action() {
-    return createAction('LEAVE_GROUP_CHAT_SUCCESS')<ILeaveGroupChatSuccessActionPayload>();
+    return createAction<ILeaveGroupChatSuccessActionPayload>('LEAVE_GROUP_CHAT_SUCCESS');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof LeaveGroupChatSuccess.action>) => {
-        const { chatId } = payload;
+    return (draft: IChatsState, { payload }: ReturnType<typeof LeaveGroupChatSuccess.action>) => {
+      const { chatId } = payload;
 
-        draft.chatList.chatIds = draft.chatList.chatIds.filter((id) => id !== chatId);
+      draft.chatList.chatIds = draft.chatList.chatIds.filter((id) => id !== chatId);
 
-        delete draft.chats[chatId];
+      delete draft.chats[chatId];
 
-        if (draft.selectedChatId === chatId) {
-          draft.selectedChatId = undefined;
-        }
-        // TODO: handle user deleteing
+      if (draft.selectedChatId === chatId) {
+        draft.selectedChatId = undefined;
+      }
+      // TODO: handle user deleteing
 
-        return draft;
-      },
-    );
+      return draft;
+    };
   }
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import classNames from 'classnames';
 import parsePhoneNumberFromString from 'libphonenumber-js';
@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import useInterval from 'use-interval';
 
 import { LabeledInput } from '@components/labeled-input';
-import { Modal, IModalChildrenProps } from '@components/modal';
+import { IModalChildrenProps, Modal } from '@components/modal';
 import { PhoneInputGroup } from '@components/phone-input-group';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';

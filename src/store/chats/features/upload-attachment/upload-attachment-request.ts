@@ -1,17 +1,16 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
-import produce from 'immer';
 import {
-  IAttachmentBase,
   AttachmentType,
+  IAttachmentBase,
   ICreateAudioAttachmentCommandResult,
-  ICreateRawAttachmentCommandResult,
-  ICreateVoiceAttachmentCommandResult,
   ICreatePictureAttachmentCommandResult,
+  ICreateRawAttachmentCommandResult,
   ICreateVideoAttachmentCommandResult,
+  ICreateVoiceAttachmentCommandResult,
 } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
-import { put, call, select, apply } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
+import { apply, call, put, select } from 'redux-saga/effects';
 
 import { MAX_FILE_SIZE_MB } from '@common/constants';
 import { FILES_API } from '@common/paths';
@@ -23,64 +22,70 @@ import { IChatsState } from '../../chats-state';
 import { getChatByIdDraftSelector, getChatByIdSelector } from '../../selectors';
 import { addUploadingAttachment, removeUploadingAttachment } from '../../upload-qeue';
 
-import { IUploadAttachmentRequestActionPayload } from './action-payloads/upload-attachment-request-action-payload';
 import { UploadAttachmentFailure } from './upload-attachment-failure';
 import { UploadAttachmentProgress } from './upload-attachment-progress';
 import { UploadAttachmentSuccess } from './upload-attachment-success';
 
 import type { IFilesRequestGenerator } from '@store/common/http';
 
+export interface IUploadAttachmentRequestActionPayload {
+  chatId?: number;
+  type: AttachmentType;
+  attachmentId: number;
+  file: File;
+  waveFormJson?: string;
+  noStateChange?: boolean;
+}
+
 export class UploadAttachmentRequest {
   static get action() {
-    return createAction('UPLOAD_ATTACHMENT_REQUEST')<IUploadAttachmentRequestActionPayload>();
+    return createAction<IUploadAttachmentRequestActionPayload>('UPLOAD_ATTACHMENT_REQUEST');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentRequest.action>) => {
-        const { type, attachmentId, file, waveFormJson, noStateChange } = payload;
+    return (draft: IChatsState, { payload }: ReturnType<typeof UploadAttachmentRequest.action>) => {
+      const { type, attachmentId, file, waveFormJson, noStateChange } = payload;
 
-        if (noStateChange) {
-          return draft;
-        }
-
-        if (file.size / 1048576 > MAX_FILE_SIZE_MB) {
-          return draft;
-        }
-
-        if (!draft.selectedChatId) {
-          return draft;
-        }
-
-        const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
-
-        if (!chat.draftMessageId) {
-          return draft;
-        }
-
-        const draftMessage = chat.messages.messages[chat?.draftMessageId];
-
-        if (chat) {
-          if (!draftMessage.attachments) {
-            draftMessage.attachments = [];
-          }
-
-          const attachmentToAdd: IAttachmentToSend = {
-            id: attachmentId,
-            byteSize: file.size,
-            type,
-            success: false,
-            progress: 0,
-            file,
-            waveFormJson,
-          };
-
-          draftMessage.attachments.push(attachmentToAdd);
-        }
-
+      if (noStateChange) {
         return draft;
-      },
-    );
+      }
+
+      if (file.size / 1048576 > MAX_FILE_SIZE_MB) {
+        return draft;
+      }
+
+      if (!draft.selectedChatId) {
+        return draft;
+      }
+
+      const chat = getChatByIdDraftSelector(draft.selectedChatId, draft);
+
+      if (!chat.draftMessageId) {
+        return draft;
+      }
+
+      const draftMessage = chat.messages.messages[chat?.draftMessageId];
+
+      if (chat) {
+        if (!draftMessage.attachments) {
+          draftMessage.attachments = [];
+        }
+
+        const attachmentToAdd: IAttachmentToSend = {
+          id: attachmentId,
+          byteSize: file.size,
+          type,
+          success: false,
+          progress: 0,
+          file,
+          waveFormJson,
+        };
+
+        draftMessage.attachments.push(attachmentToAdd);
+      }
+
+      return draft;
+    };
   }
 
   static get saga() {

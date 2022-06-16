@@ -1,7 +1,6 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { apply } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { SettingsService } from '@services/settings-service';
 import { IUserSettings } from '@store/settings/user-settings-state';
@@ -10,16 +9,14 @@ import { IChangeTypingStrategyActionPayload } from './action-payloads/change-typ
 
 export class ChangeTypingStrategy {
   static get action() {
-    return createAction('CHANGE_TYPING_STRATEGY')<IChangeTypingStrategyActionPayload>();
+    return createAction<IChangeTypingStrategyActionPayload>('CHANGE_TYPING_STRATEGY');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IUserSettings, { payload }: ReturnType<typeof ChangeTypingStrategy.action>) => {
-        draft.typingStrategy = payload.strategy;
-        return draft;
-      },
-    );
+    return (draft: IUserSettings, { payload }: ReturnType<typeof ChangeTypingStrategy.action>) => {
+      draft.typingStrategy = payload.strategy;
+      return draft;
+    };
   }
 
   static get saga() {

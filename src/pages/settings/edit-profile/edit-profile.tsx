@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef, lazy, Suspense, useEffect } from 'react';
+import React, { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 
 import { AttachmentType, IAvatar } from 'kimbu-models';
 import { parsePhoneNumber } from 'libphonenumber-js';
@@ -19,9 +19,9 @@ import { loadPhotoEditor } from '@routing/module-loader';
 import { Button } from '@shared-components/button';
 import { IAvatarSelectedData } from '@store/common/models';
 import {
-  uploadAvatarRequestAction,
-  updateMyProfileAction,
   checkNicknameAvailabilityAction,
+  updateMyProfileAction,
+  uploadAvatarRequestAction,
 } from '@store/my-profile/actions';
 import { myProfileSelector } from '@store/my-profile/selectors';
 import { validateNickname } from '@utils/validate-nick-name';
@@ -274,15 +274,22 @@ const EditProfile = () => {
           disabled={error !== NicknameState.ALLOWED_NICKNAME || isLoading || !firstName.length}>
           {t('editProfile.save-changes')}
         </Button>
-        <HorizontalSeparator />
-        <h2 className="edit-profile__title">{t('editProfile.phone-number')}</h2>
-        <div className="edit-profile__phone">
-          {myProfile?.phoneNumber && parsePhoneNumber(myProfile?.phoneNumber).formatInternational()}
-        </div>
-        <div className="edit-profile__details">{t('editProfile.phone-details')}</div>
-        <button onClick={displayEditPhoneModal} type="button" className="edit-profile__btn">
-          {t('editProfile.change-number')}
-        </button>
+
+        {myProfile?.phoneNumber && (
+          <>
+            <HorizontalSeparator />
+            <h2 className="edit-profile__title">{t('editProfile.phone-number')}</h2>
+            <div className="edit-profile__phone">
+              {myProfile?.phoneNumber &&
+                parsePhoneNumber(myProfile?.phoneNumber).formatInternational()}
+            </div>
+            <div className="edit-profile__details">{t('editProfile.phone-details')}</div>
+            <button onClick={displayEditPhoneModal} type="button" className="edit-profile__btn">
+              {t('editProfile.change-number')}
+            </button>
+          </>
+        )}
+
         <HorizontalSeparator />
         <h2 className="edit-profile__title">{t('editProfile.account-actions')}</h2>
         <div className="edit-profile__details edit-profile__details--deactivate">

@@ -3,7 +3,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
-import { createEmptyDefferedAction } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { replaceInUrl } from '@utils/replace-in-url';
 
@@ -13,9 +13,13 @@ import { getSelectedChatIdSelector } from '../../selectors';
 
 import { LeaveGroupChatSuccess } from './leave-group-chat-success';
 
+export interface ILeaveGroupChatActionPayload {
+  chatId: number;
+}
+
 export class LeaveGroupChat {
   static get action() {
-    return createEmptyDefferedAction('LEAVE_SELECTED_GROUP_CHAT');
+    return createDeferredAction('LEAVE_SELECTED_GROUP_CHAT');
   }
 
   static get saga() {
@@ -32,7 +36,7 @@ export class LeaveGroupChat {
 
         if (status === HTTPStatusCode.OK) {
           yield put(LeaveGroupChatSuccess.action({ chatId }));
-          action.meta.deferred.resolve();
+          action.meta?.deferred?.resolve();
         }
       }
     };

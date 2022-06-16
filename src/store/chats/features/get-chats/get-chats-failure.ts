@@ -1,20 +1,18 @@
-import produce from 'immer';
-
-import { createEmptyAction } from '@store/common/actions';
+import { createAction } from '@reduxjs/toolkit';
 
 import { IChatsState } from '../../chats-state';
 
 export class GetChatsFailure {
   static get action() {
-    return createEmptyAction('GET_CHATS_FAILURE');
+    return createAction('GET_CHATS_FAILURE');
   }
 
   static get reducer() {
-    return produce((draft: IChatsState) => {
+    return (draft: IChatsState) => {
       draft.chatList.loading = false;
       draft.searchChatList.loading = false;
 
       return draft;
-    });
+    };
   }
 }

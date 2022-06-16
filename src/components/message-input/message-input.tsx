@@ -26,7 +26,7 @@ import {
   submitEditMessageAction,
   uploadAttachmentRequestAction,
 } from '@store/chats/actions';
-import { ICreateMessageActionPayload } from '@store/chats/features/create-message/action-payloads/create-message-action-payload';
+import { ICreateMessageActionPayload } from '@store/chats/features/create-message/create-message';
 import { IAttachmentCreation, MessageState } from '@store/chats/models';
 import {
   getMessageToEditSelector,

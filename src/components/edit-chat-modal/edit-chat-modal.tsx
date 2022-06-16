@@ -16,7 +16,7 @@ import { ReactComponent as TopAvatarLine } from '@icons/top-avatar-line.svg';
 import { loadPhotoEditor } from '@routing/module-loader';
 import { Button } from '@shared-components/button';
 import { editGroupChatAction } from '@store/chats/actions';
-import { IEditGroupChatActionPayload } from '@store/chats/features/edit-group-chat/action-payloads/edit-group-chat-action-payload';
+import { IEditGroupChatActionPayload } from '@store/chats/features/edit-group-chat/edit-group-chat';
 import { getSelectedGroupChatSelector } from '@store/chats/selectors';
 import { IAvatarSelectedData } from '@store/common/models';
 import {

@@ -1,4 +1,4 @@
-import { createReducer } from 'typesafe-actions';
+import { createReducer } from '@reduxjs/toolkit';
 
 import { InternetConnected } from './features/internet-connection-check/internet-connected';
 import { InternetDisconnected } from './features/internet-connection-check/internet-disconnected';
@@ -14,10 +14,12 @@ const initialState: IInternetState = {
   isWebSocketConnected: false,
 };
 
-const reducer = createReducer<IInternetState>(initialState)
-  .handleAction(InternetConnected.action, InternetConnected.reducer)
-  .handleAction(InternetDisconnected.action, InternetDisconnected.reducer)
-  .handleAction(WebsocketsConnected.action, WebsocketsConnected.reducer)
-  .handleAction(WebsocketsDisconnected.action, WebsocketsDisconnected.reducer);
+const reducer = createReducer<IInternetState>(initialState, (builder) =>
+  builder
+    .addCase(InternetConnected.action, InternetConnected.reducer)
+    .addCase(InternetDisconnected.action, InternetDisconnected.reducer)
+    .addCase(WebsocketsConnected.action, WebsocketsConnected.reducer)
+    .addCase(WebsocketsDisconnected.action, WebsocketsDisconnected.reducer),
+);
 
 export default reducer;

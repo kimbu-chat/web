@@ -1,1 +1,1 @@
-export { default } from './phone-confirmation';
+export { default } from './phone-confirmation-wrapper';

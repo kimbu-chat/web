@@ -1,7 +1,6 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
 import { apply } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { SettingsService } from '@services/settings-service';
 import { IUserSettings } from '@store/settings/user-settings-state';
@@ -10,21 +9,19 @@ import { AllowedFontSize, isFontSizeAllowed } from '../models/allowed-font-size'
 
 export class ChangeFontSize {
   static get action() {
-    return createAction('CHANGE_FONT_SIZE')<AllowedFontSize>();
+    return createAction<AllowedFontSize>('CHANGE_FONT_SIZE');
   }
 
   static get reducer() {
-    return produce(
-      (draft: IUserSettings, { payload }: ReturnType<typeof ChangeFontSize.action>) => {
-        if (!isFontSizeAllowed(payload)) {
-          return draft;
-        }
-
-        draft.fontSize = payload;
-
+    return (draft: IUserSettings, { payload }: ReturnType<typeof ChangeFontSize.action>) => {
+      if (!isFontSizeAllowed(payload)) {
         return draft;
-      },
-    );
+      }
+
+      draft.fontSize = payload;
+
+      return draft;
+    };
   }
 
   static get saga() {

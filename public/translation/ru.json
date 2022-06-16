@@ -23,7 +23,12 @@
     "last_name": "Фамилия",
     "nick_name": "Никнейм",
     "name": "Имя",
-    "search_country": "Поиск страны"
+    "search_country": "Поиск страны",
+    "social": "Войти через:"
+  },
+  "googleAuth": {
+    "disabled": "Вход через Гугл аккаунт временно отключен, попробуйте еще раз позже",
+    "id_token_invalid": "Неверный ID token, попробуйте еще раз позже"
   },
   "selectEntity": {
     "online": "Онлайн"
@@ -444,5 +449,7 @@
     "incoming_call_interrupted": "Входящий вызов был прерван"
   },
   "deleted": "УДАЛЁН",
-  "unread-messages": "Непрочитанные сообщения ({{count}})"
+  "unread-messages": "Непрочитанные сообщения ({{count}})",
+  "network-error": "Ошибка сети, попробуйте позже",
+  "something_went_wrong": "Что-то пошло не так, попробуйте позже"
 }

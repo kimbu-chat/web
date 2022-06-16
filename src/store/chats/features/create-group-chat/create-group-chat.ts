@@ -1,25 +1,30 @@
 import { AxiosResponse } from 'axios';
-import { ICreateGroupChatRequest, ICreateGroupChatResponse } from 'kimbu-models';
+import { IAvatar, ICreateGroupChatRequest, ICreateGroupChatResponse } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { INormalizedChat, InterlocutorType } from '@store/chats/models';
-import { Meta } from '@store/common/actions';
+import { createDeferredAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { ChatId } from '../../chat-id';
 
-import { ICreateGroupChatActionPayload } from './action-payloads/create-group-chat-action-payload';
 import { CreateGroupChatSuccess } from './create-group-chat-success';
+
+export interface ICreateGroupChatActionPayload {
+  name: string;
+  description?: string;
+  userIds: number[];
+  currentUserId: number;
+  avatar?: IAvatar;
+}
 
 export class CreateGroupChat {
   static get action() {
-    return createAction('CREATE_GROUP_CHAT')<
-      ICreateGroupChatActionPayload,
-      Meta<INormalizedChat>
-    >();
+    return createDeferredAction<ICreateGroupChatActionPayload, INormalizedChat>(
+      'CREATE_GROUP_CHAT',
+    );
   }
 
   static get saga() {
@@ -105,7 +110,7 @@ export class CreateGroupChat {
       };
 
       yield put(CreateGroupChatSuccess.action(chat));
-      action.meta.deferred?.resolve(chat);
+      action.meta?.deferred?.resolve(chat);
     };
   }
 

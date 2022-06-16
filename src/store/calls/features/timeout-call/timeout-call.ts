@@ -1,10 +1,10 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
 import { getCallInterlocutorIdSelector } from '@store/calls/selectors';
-import { createEmptyAction } from '@store/common/actions';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { resetPeerConnection } from '@store/middlewares/webRTC/reset-peer-connection';
 
@@ -12,7 +12,7 @@ import { CancelCallSuccess } from '../cancel-call/cancel-call-success';
 
 export class TimeoutCall {
   static get action() {
-    return createEmptyAction('TIMEOUT_CALL');
+    return createAction('TIMEOUT_CALL');
   }
 
   static get saga() {

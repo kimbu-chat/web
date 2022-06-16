@@ -13,6 +13,11 @@
     flex-direction: row;
   }
 
+  &__social-title {
+    margin-bottom: 24px;
+    margin-top: 24px;
+  }
+
   &__login-button {
     display: flex;
     align-items: center;

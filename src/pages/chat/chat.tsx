@@ -10,17 +10,17 @@ import { DragIndicator } from '@components/drag-indicator/drag-indicator';
 import { CreateMessageInput } from '@components/message-input';
 import { MessageList } from '@components/message-list';
 import { NotContact } from '@components/not-contact';
-import { CurrentAudio, AudioContext } from '@contexts/audioContext';
+import { AudioContext, CurrentAudio } from '@contexts/audioContext';
 import { useDragDrop } from '@hooks/use-drag-drop';
 import { loadEmojiPicker } from '@routing/module-loader';
 import {
   amIBlackListedByInterlocutorSelector,
+  getSelectedChatIdSelector,
   isCurrentChatBlackListedSelector,
-  isCurrentChatDismissedAddToContactsSelector,
   isCurrentChatContactSelector,
+  isCurrentChatDismissedAddToContactsSelector,
   isCurrentChatUserDeactivatedSelector,
   isCurrentChatUserDeletedSelector,
-  getSelectedChatIdSelector,
 } from '@store/chats/selectors';
 
 import './chat.scss';

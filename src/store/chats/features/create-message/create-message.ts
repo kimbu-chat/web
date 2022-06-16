@@ -1,14 +1,18 @@
+import { createAction } from '@reduxjs/toolkit';
 import { AxiosResponse, CancelTokenSource } from 'axios';
-import produce from 'immer';
-import { ICreateMessageRequest, ICreateMessageResponse } from 'kimbu-models';
+import { ICreateMessageRequest, ICreateMessageResponse, MessageLinkType } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { MAIN_API } from '@common/paths';
 import { DiscardDraftMessage } from '@store/chats/features/create-draft-message/discard-draft-message';
 import { MessageAttachmentsUploaded } from '@store/chats/features/upload-attachment/message-attachments-uploaded';
-import { IAttachmentToSend, INormalizedChat, MessageState } from '@store/chats/models';
+import {
+  IAttachmentToSend,
+  INormalizedChat,
+  INormalizedMessage,
+  MessageState,
+} from '@store/chats/models';
 import {
   getChatByIdSelector,
   getMessageSelector,
@@ -19,16 +23,21 @@ import { addMessageSendingRequest } from '@utils/cancel-send-message-request';
 
 import { IChatsState } from '../../chats-state';
 
-import { ICreateMessageActionPayload } from './action-payloads/create-message-action-payload';
 import { CreateMessageSuccess } from './create-message-success';
+
+export interface ICreateMessageActionPayload {
+  linkedMessage?: INormalizedMessage;
+  linkedMessageType?: MessageLinkType;
+  text: string;
+}
 
 export class CreateMessage {
   static get action() {
-    return createAction('CREATE_MESSAGE')<ICreateMessageActionPayload>();
+    return createAction<ICreateMessageActionPayload>('CREATE_MESSAGE');
   }
 
   static get reducer() {
-    return produce((draft: IChatsState, { payload }: ReturnType<typeof CreateMessage.action>) => {
+    return (draft: IChatsState, { payload }: ReturnType<typeof CreateMessage.action>) => {
       const chat = draft.chats[draft.selectedChatId as number];
       const { text, linkedMessage, linkedMessageType } = payload;
 
@@ -53,7 +62,7 @@ export class CreateMessage {
         chat.messages.messageIds.unshift(chat.draftMessageId);
       }
       return draft;
-    });
+    };
   }
 
   static get saga() {

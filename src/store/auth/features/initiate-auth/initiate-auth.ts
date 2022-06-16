@@ -1,8 +1,7 @@
-import produce from 'immer';
+import { createAction } from '@reduxjs/toolkit';
 import { ISecurityTokens } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { apply } from 'redux-saga/effects';
-import { createAction } from 'typesafe-actions';
 
 import { AuthService } from '../../../../services/auth-service';
 import { IAuthState } from '../../auth-state';
@@ -14,17 +13,16 @@ interface AuthInitPayload {
 
 export class AuthInit {
   static get action() {
-    return createAction('AUTH_INIT')<AuthInitPayload>();
+    return createAction<AuthInitPayload>('AUTH_INIT');
   }
 
   static get reducer() {
-    return produce((draft: IAuthState, { payload }: ReturnType<typeof AuthInit.action>) => ({
-      ...draft,
-      isAuthenticated: true,
-      loading: false,
-      securityTokens: payload.securityTokens,
-      deviceId: payload.deviceId,
-    }));
+    return (draft: IAuthState, { payload }: ReturnType<typeof AuthInit.action>) => {
+      draft.isAuthenticated = true;
+      draft.loading = false;
+      draft.securityTokens = payload.securityTokens;
+      draft.deviceId = payload.deviceId;
+    };
   }
 
   static get saga() {

@@ -1,7 +1,7 @@
-import { createEmptyAction } from '@store/common/actions';
+import { createAction } from '@reduxjs/toolkit';
 
 export class SendSmsCodeFailure {
   static get action() {
-    return createEmptyAction('SEND_PHONE_CONFIRMATION_CODE_FAILURE');
+    return createAction('SEND_PHONE_CONFIRMATION_CODE_FAILURE');
   }
 }

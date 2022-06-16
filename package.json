@@ -92,7 +92,7 @@
     "husky": "7.0.1",
     "kimbu-models": "https://github.com/kimbu-chat/frontend-types.git#0.6.0",
     "lint-staged": "11.1.2",
-    "prettier": "2.3.2",
+    "prettier": "2.7.0",
     "run-script-os": "1.1.6",
     "sass": "1.38.0",
     "serve": "12.0.0",

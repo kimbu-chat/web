@@ -22,11 +22,11 @@
     "last_name": "Last name",
     "nick_name": "Nickname",
     "name": "Name",
-    "search_country": "Search country",
+    "search_country": "Search country"
   },
   "googleAuth": {
     "disabled": "Log in from Google account temporarily disabled, try later",
-    "id_token_invalid": "Invalid ID token, try one more time"
+    "id_token_invalid": "Invalid ID token, try later"
   },
   "selectEntity": {
     "online": "Online"

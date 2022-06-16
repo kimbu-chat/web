@@ -23,11 +23,11 @@
     "last_name": "Фамилия",
     "nick_name": "Никнейм",
     "name": "Имя",
-    "search_country": "Поиск страны",
+    "search_country": "Поиск страны"
   },
   "googleAuth": {
     "disabled": "Вход через Гугл аккаунт временно отключен, попробуйте еще раз позже",
-    "id_token_invalid": "Неверный ID token, попробуйте еще раз"
+    "id_token_invalid": "Неверный ID token, попробуйте еще раз позже"
   },
   "selectEntity": {
     "online": "Онлайн"

@@ -22,7 +22,8 @@
     "last_name": "Last name",
     "nick_name": "Nickname",
     "name": "Name",
-    "search_country": "Search country"
+    "search_country": "Search country",
+    "social": "Sign in with:"
   },
   "googleAuth": {
     "disabled": "Log in from Google account temporarily disabled, try later",

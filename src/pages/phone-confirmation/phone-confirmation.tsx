@@ -115,7 +115,7 @@ const PhoneConfirmationPage: React.FC = () => {
             {t('loginPage.next')}
           </Button>
         </div>
-        <div className={`${BLOCK_NAME}__social-title`}>Or Sign In With:</div>
+        <div className={`${BLOCK_NAME}__social-title`}>{t('loginPage.social')}</div>
         <GoogleLogin
           ux_mode="popup"
           onSuccess={handleLoginFromGoogle}

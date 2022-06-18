@@ -9,6 +9,7 @@ import { LoginFromGoogleAccountSuccess } from './features/login-from-google-acco
 import { LoginFromGoogleAccount } from './features/login-from-google-account/login-from-google-account';
 import { LoginSuccess } from './features/login/login-success';
 import { Register } from './features/register/register';
+import {SendSmsCodeFailure} from "./features/send-sms-code/send-sms-code-failure";
 import { SendSmsCodeSuccess } from './features/send-sms-code/send-sms-code-success';
 import { SendSmsCode } from './features/send-sms-code/send-sms-code';
 
@@ -31,6 +32,7 @@ const reducer = createReducer<ILoginState>(initialState, (builder) =>
   builder
     .addCase(SendSmsCode.action, SendSmsCode.reducer)
     .addCase(SendSmsCodeSuccess.action, SendSmsCodeSuccess.reducer)
+    .addCase(SendSmsCodeFailure.action, SendSmsCodeFailure.reducer)
     .addCase(ConfirmPhone.action, ConfirmPhone.reducer)
     .addCase(ConfirmPhoneSuccess.action, ConfirmPhoneSuccess.reducer)
     .addCase(ConfirmPhoneFailure.action, ConfirmPhoneFailure.reducer)

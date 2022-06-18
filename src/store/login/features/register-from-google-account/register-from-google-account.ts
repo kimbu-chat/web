@@ -36,7 +36,6 @@ export class RegisterFromGoogleAccount {
         nickname,
         avatarId,
         googleIdToken: idToken,
-        googleRefreshToken: '',
       };
 
       yield call(RegisterFromGoogleAccount.httpRequest.generator, request);

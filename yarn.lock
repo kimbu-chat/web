@@ -8679,9 +8679,9 @@ killable@^1.0.1:
   resolved "https://registry.yarnpkg.com/killable/-/killable-1.0.1.tgz#4c8ce441187a061c7474fb87ca08e2a638194892"
   integrity sha512-LzqtLKlUwirEUyl/nicirVmNiPvYs7l5n8wOPP7fyJVpUPkvCnW/vuiXGpylGUlnPDnB7311rARzAt3Mhswpjg==
 
-"kimbu-models@https://github.com/kimbu-chat/frontend-types.git#0.6.0":
+"kimbu-models@https://github.com/kimbu-chat/frontend-types.git#0.6.2":
   version "1.0.0"
-  resolved "https://github.com/kimbu-chat/frontend-types.git#f52d6d20b31ea7ca176caa43f569a2e3e6dd2058"
+  resolved "https://github.com/kimbu-chat/frontend-types.git#10ebafecb15deefbdbd06d0a74b7861ae121633c"
 
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"

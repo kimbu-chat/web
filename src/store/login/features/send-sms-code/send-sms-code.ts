@@ -1,13 +1,13 @@
-import { AxiosResponse } from 'axios';
-import { ISendSmsCodeRequest } from 'kimbu-models';
+import { AxiosResponse} from 'axios';
+import { ISendSmsCodeRequest} from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
-import { HTTPStatusCode } from '@common/http-status-code';
 import { MAIN_API } from '@common/paths';
 import { createDeferredAction } from '@store/common/actions';
 import { authRequestFactory } from '@store/common/http/auth-request-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
+import {mapAxiosErrorToApplicationError} from "@utils/error-utils";
 
 import { ISendSmsCodeActionPayload } from './action-payloads/send-sms-code-action-payload';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
@@ -33,23 +33,25 @@ export class SendSmsCode {
     return function* sendSmsPhoneConfirmationCodeSaga(
       action: ReturnType<typeof SendSmsCode.action>,
     ): SagaIterator {
-      const { status }: AxiosResponse<string> = SendSmsCode.httpRequest.call(
-        yield call(() =>
-          SendSmsCode.httpRequest.generator({
-            phoneNumber: action.payload.phoneNumber,
-          }),
-        ),
-      );
 
-      if (status !== HTTPStatusCode.OK) {
-        yield put(SendSmsCodeFailure.action());
-        action.meta?.deferred?.reject();
-        return;
+      try {
+        SendSmsCode.httpRequest.call(
+          yield call(() =>
+            SendSmsCode.httpRequest.generator({
+              phoneNumber: action.payload.phoneNumber,
+            }),
+          ),
+        );
+
+        yield put(SendSmsCodeSuccess.action());
+
+        yield call(() => action.meta?.deferred?.resolve());
       }
-
-      yield put(SendSmsCodeSuccess.action());
-
-      yield call(() => action.meta?.deferred?.resolve());
+      catch (e){
+        yield put(SendSmsCodeFailure.action());
+        const applicationError = mapAxiosErrorToApplicationError(e)
+        yield call(() => action.meta?.deferred?.reject(applicationError));
+      }
     };
   }
 

@@ -23,7 +23,8 @@
     "nick_name": "Nickname",
     "name": "Name",
     "search_country": "Search country",
-    "social": "Sign in with:"
+    "social": "Sign in with:",
+    "log_in_by_phone_number_disabled": "Log in by phone number temporarily disabled."
   },
   "googleAuth": {
     "disabled": "Log in from Google account temporarily disabled, try later",

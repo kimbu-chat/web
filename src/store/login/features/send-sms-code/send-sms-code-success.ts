@@ -10,7 +10,6 @@ export class SendSmsCodeSuccess {
   static get reducer() {
     return (draft: ILoginState) => {
       draft.loading = false;
-
       return draft;
     };
   }

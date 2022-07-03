@@ -72,4 +72,4 @@ jobs:
         message: |
           Run the following command for manual ${{ github.repository }} deployment
 
-          helm upgrade --install $GITHUB_REPOSITORY_NAME_PART_SLUG helm/chart/ -f helm/values-develop.yaml --set image.tag=$DOCKER_IMAGE_TAG --atomic --timeout 180s
+          helm upgrade --install ${{ env.GITHUB_REPOSITORY_NAME_PART_SLUG }} helm/chart/ -f helm/values-develop.yaml --set image.tag=${{ env.DOCKER_IMAGE_TAG }} --atomic --timeout 180s

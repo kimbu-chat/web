@@ -1,11 +1,24 @@
 # kimbu-chat/web
 
-## TODO
-- [ ] cleanup github container images
+## Setup
+
+1. Install latest version of NodeJS
+2. Install YARN
+
+## Run
+
+1. Run your IDE with administrative previlegies
+2. In the root directory run ```yarn install```
+3. Copy file `.env.example` to `.env`
+4. Remove comments and empty lines from `.evn` file
+5. Run `yarn start`
 
 ## Notes
 
 Messenger test cases: https://app.qase.io/project/RW
+
+## TODO
+- [ ] cleanup github container images
 
 ## Setup
 

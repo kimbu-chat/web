@@ -7,13 +7,11 @@
 
 ## Run
 
-```
 1. Run your IDE with administrative previlegies
 2. In the root directory run ```yarn install```
 3. Copy file `.env.example` to `.env`
 4. Remove comments and empty lines from `.evn` file
 5. Run `yarn start`
-```
 
 ## Notes
 

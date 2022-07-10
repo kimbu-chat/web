@@ -15,5 +15,5 @@
 
 ## Tests
 
-Test cases: https://app.qase.io/project/RW
+Test cases: https://app.qase.io/project/kimbu
 

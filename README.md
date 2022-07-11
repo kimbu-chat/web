@@ -9,9 +9,8 @@
 
 1. Run your IDE with administrative previlegies(required to generate cert for localhost)
 2. Run ```yarn install```
-3. Copy file `.env.example` to `.env`
-4. Remove comments and empty lines from `.evn` file
-5. Run `yarn start`
+3. Copy file `.env.*.example` to `.env`
+4. Run `yarn start`
 
 ## Tests
 

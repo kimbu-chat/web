@@ -1,8 +1,11 @@
 # Kimbu
 ![GitHub](https://img.shields.io/github/license/kimbu-chat/web)
+<<<<<<< HEAD
 ![GitHub issues](https://img.shields.io/github/issues/kimbu-chat/web)
 ![build](https://github.com/kimbu-chat/web/actions/workflows/build-deploy-prod.yml/badge.svg)
 
+=======
+>>>>>>> 3a744602... Update README.md
 ![GitHub issues](https://img.shields.io/github/issues/kimbu-chat/web)
 ![build](https://github.com/kimbu-chat/web/actions/workflows/build-deploy-prod.yml/badge.svg)
 

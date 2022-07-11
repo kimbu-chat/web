@@ -3,6 +3,9 @@
 ![GitHub issues](https://img.shields.io/github/issues/kimbu-chat/web)
 ![build](https://github.com/kimbu-chat/web/actions/workflows/build-deploy-prod.yml/badge.svg)
 
+![GitHub issues](https://img.shields.io/github/issues/kimbu-chat/web)
+![build](https://github.com/kimbu-chat/web/actions/workflows/build-deploy-prod.yml/badge.svg)
+
 ## Development
 
 1. Install Node.js

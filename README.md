@@ -1,4 +1,4 @@
-# Kimbu
+# Kimbu Chat
 ![GitHub](https://img.shields.io/github/license/kimbu-chat/web)
 ![GitHub issues](https://img.shields.io/github/issues/kimbu-chat/web)
 ![build](https://github.com/kimbu-chat/web/actions/workflows/build-deploy-prod.yml/badge.svg)

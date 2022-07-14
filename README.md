@@ -24,7 +24,6 @@
 * User and group chat search.
 * Global search.
 * Message status notifications: message delivery to server; received and read notifications; typing notifications.
-* Most recent message preview in contact list.
 * User Online statuses.
 * Video or/and audio calling.
 * Emoji.

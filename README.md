@@ -38,6 +38,10 @@
 * Full sync across devices.
 * Clear history for everyone/myself.
 
+## Maintainers
+
+This project is maintained by [Artyom Avanesov](https://github.com/remotenode), [Maksim Varvashevich](https://github.com/maksim-v) and [Yury Muski](https://github.com/yurymuski).      
+
 ## Tests
 
 Test cases: https://app.qase.io/project/kimbu

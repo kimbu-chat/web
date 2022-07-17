@@ -20,7 +20,7 @@
     "axios": "0.24.0",
     "centrifuge": "2.8.2",
     "classnames": "2.3.1",
-    "dayjs": "1.10.6",
+    "dayjs": "1.11.3",
     "emoji-data-ios": "github:korenskoy/emoji-data-ios#1a4532f",
     "firebase": "8.9.1",
     "i18next": "20.4.0",

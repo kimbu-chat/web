@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 import classnames from 'classnames';
 import { MessageLinkType, SystemMessageType } from 'kimbu-models';
@@ -46,55 +46,56 @@ const truncateOptions = {
 
 const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const { t } = useTranslation();
+
   const chat = useSelector(getChatSelector(chatId));
   const chatLastMessage = useSelector(getChatLastMessageSelector(chatId));
   const lastMessageUserCreator = useSelector(getChatLastMessageUser(chatId));
   const interlocutor = useSelector(getUserSelector(chat?.interlocutorId));
-
   const currentUserId = useSelector(myIdSelector);
   const typingString = useSelector(getTypingStringSelector(t, chatId));
-
   const messagesSearchString = useSelector(getSelectedChatMessagesSearchStringSelector);
 
   const chatLastMessageRef = useRef(chatLastMessage);
   const lastMessageUserCreatorRef = useRef(lastMessageUserCreator);
   const isLastMessageCreatorCurrentUserRef = useRef<null | boolean>(null);
-  const lastActivityDateRef = useRef<null | string>(null);
+  const lastActivityDateRef = useRef<null | undefined | string>(null);
 
   const isLastMessageCreatorCurrentUser: boolean = lastMessageUserCreator?.id === currentUserId;
-
   const messageUserCreator = messagesSearchString
     ? lastMessageUserCreatorRef.current
     : lastMessageUserCreator;
 
-  useEffect(() => {
-    if (messagesSearchString) return;
-    lastMessageUserCreatorRef.current = lastMessageUserCreator;
+  lastMessageUserCreatorRef.current = useMemo(() => {
+    if (messagesSearchString) {
+      return lastMessageUserCreatorRef.current;
+    }
+    return lastMessageUserCreator;
   }, [lastMessageUserCreator, messagesSearchString]);
 
-  useEffect(() => {
-    if (messagesSearchString) return;
-
-    if (
-      chatLastMessage?.creationDateTime &&
-      checkIfDatesAreDifferentDate(new Date(chatLastMessage.creationDateTime), new Date())
-    ) {
-      lastActivityDateRef.current = getDayMonthYear(chatLastMessage.creationDateTime);
-    } else if (chatLastMessage) {
-      lastActivityDateRef.current = getShortTimeAmPm(
-        chatLastMessage.creationDateTime,
-      ).toLowerCase();
+  lastActivityDateRef.current = useMemo(() => {
+    if (messagesSearchString || !chatLastMessage || !chatLastMessage.creationDateTime) {
+      return lastActivityDateRef.current;
     }
+
+    if (checkIfDatesAreDifferentDate(new Date(chatLastMessage.creationDateTime), new Date())) {
+      return getDayMonthYear(chatLastMessage.creationDateTime);
+    }
+
+    return getShortTimeAmPm(chatLastMessage.creationDateTime).toLowerCase();
   }, [chatLastMessage, messagesSearchString]);
 
-  useEffect(() => {
-    if (messagesSearchString || !chatLastMessage) return;
-    chatLastMessageRef.current = chatLastMessage;
+  chatLastMessageRef.current = useMemo(() => {
+    if (messagesSearchString || !chatLastMessage) {
+      return chatLastMessageRef.current;
+    }
+    return chatLastMessage;
   }, [chatLastMessage, messagesSearchString]);
 
-  useEffect(() => {
-    if (messagesSearchString || !lastMessageUserCreator) return;
-    isLastMessageCreatorCurrentUserRef.current = lastMessageUserCreator?.id === currentUserId;
+  isLastMessageCreatorCurrentUserRef.current = useMemo(() => {
+    if (messagesSearchString || !lastMessageUserCreator) {
+      return isLastMessageCreatorCurrentUserRef.current;
+    }
+    return lastMessageUserCreator?.id === currentUserId;
   }, [currentUserId, lastMessageUserCreator, messagesSearchString]);
 
   const messageText = useMemo((): string => {
@@ -123,7 +124,10 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     }
 
     if (messageToProcess) {
-      if (messageToProcess.systemMessageType !== SystemMessageType.None) {
+      if (
+        messageToProcess.systemMessageType &&
+        messageToProcess.systemMessageType !== SystemMessageType.None
+      ) {
         return truncate(
           constructSystemMessageText(
             // TODO: replace this logic

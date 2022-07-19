@@ -61,12 +61,9 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const lastActivityDateRef = useRef<null | undefined | string>(null);
 
   const isLastMessageCreatorCurrentUser: boolean = lastMessageUserCreator?.id === currentUserId;
-  const messageUserCreator = messagesSearchString
-    ? lastMessageUserCreatorRef.current
-    : lastMessageUserCreator;
 
   lastMessageUserCreatorRef.current = useMemo(() => {
-    if (messagesSearchString) {
+    if (messagesSearchString || !lastMessageUserCreator) {
       return lastMessageUserCreatorRef.current;
     }
     return lastMessageUserCreator;
@@ -134,7 +131,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
             messageToProcess,
             t,
             currentUserId,
-            messageUserCreator,
+            lastMessageUserCreatorRef.current,
           ),
           truncateOptions,
         );
@@ -145,7 +142,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
           return truncate(`${t('chatFromList.you')}: ${messageToProcess.text}`, truncateOptions);
         }
         return truncate(
-          `${messageUserCreator?.firstName}: ${messageToProcess.text}`,
+          `${lastMessageUserCreatorRef.current?.firstName}: ${messageToProcess.text}`,
           truncateOptions,
         );
       }
@@ -155,7 +152,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
 
     return '';
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chat?.groupChat, currentUserId, lastMessageUserCreator, t]);
+  }, [chat.groupChat, currentUserId, chatLastMessage, lastMessageUserCreator, t]);
 
   // TODO: Make this logic common across chat item and message item
   const messageStatIconMap = {

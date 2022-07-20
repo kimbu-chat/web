@@ -11,13 +11,13 @@ import { ReactComponent as EditSVG } from '@icons/edit.svg';
 import { ReactComponent as ForwardSvg } from '@icons/forward.svg';
 import { ReactComponent as ReplySVG } from '@icons/reply.svg';
 import { editMessageAction, replyToMessageAction } from '@store/chats/actions';
-
 import './message-item-actions.scss';
 
 interface IMessageItemActionsProps {
   messageId: number;
   isEditAllowed: boolean;
   visible?: boolean;
+  isMessageStateInQueued: boolean;
 }
 
 const BLOCK_NAME = 'message-item-actions';
@@ -26,6 +26,7 @@ const MessageItemActions: React.FC<IMessageItemActionsProps> = ({
   messageId,
   isEditAllowed,
   visible,
+  isMessageStateInQueued,
 }) => {
   const replyToMessage = useActionWithDispatch(replyToMessageAction);
   const editMessage = useActionWithDispatch(editMessageAction);
@@ -47,22 +48,29 @@ const MessageItemActions: React.FC<IMessageItemActionsProps> = ({
   return (
     <>
       <div className={classnames(BLOCK_NAME, { [`${BLOCK_NAME}__visible`]: visible })}>
-        {isEditAllowed && (
+        {isEditAllowed && !isMessageStateInQueued && (
           <button type="button" onClick={editSelectedMessage} className={`${BLOCK_NAME}__action`}>
             <EditSVG />
           </button>
         )}
 
-        <button
-          type="button"
-          onClick={displayForwardMessagesModal}
-          className={`${BLOCK_NAME}__action`}>
-          <ForwardSvg />
-        </button>
+        {!isMessageStateInQueued && (
+          <button
+            type="button"
+            onClick={displayForwardMessagesModal}
+            className={`${BLOCK_NAME}__action`}>
+            <ForwardSvg />
+          </button>
+        )}
 
-        <button type="button" onClick={replyToSelectedMessage} className={`${BLOCK_NAME}__action`}>
-          <ReplySVG />
-        </button>
+        {!isMessageStateInQueued && (
+          <button
+            type="button"
+            onClick={replyToSelectedMessage}
+            className={`${BLOCK_NAME}__action`}>
+            <ReplySVG />
+          </button>
+        )}
 
         <button
           type="button"

@@ -236,6 +236,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 !(message?.linkedMessageType === MessageLinkType.Forward) &&
                 !message.attachments?.some(({ type }) => type === AttachmentType.Voice)
               }
+              isMessageStateInQueued={message.state === MessageState.QUEUED}
             />
           </div>
         </div>

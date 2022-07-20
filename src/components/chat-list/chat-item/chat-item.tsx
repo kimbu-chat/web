@@ -59,6 +59,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const lastMessageUserCreatorRef = useRef(lastMessageUserCreator);
   const isLastMessageCreatorCurrentUserRef = useRef<null | boolean>(null);
   const lastActivityDateRef = useRef<null | undefined | string>(null);
+  const messageStatusRef = useRef<React.ReactElement | undefined | null>(null);
 
   const isLastMessageCreatorCurrentUser: boolean = lastMessageUserCreator?.id === currentUserId;
 
@@ -66,6 +67,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     if (messagesSearchString || !lastMessageUserCreator) {
       return lastMessageUserCreatorRef.current;
     }
+
     return lastMessageUserCreator;
   }, [lastMessageUserCreator, messagesSearchString]);
 
@@ -85,6 +87,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     if (messagesSearchString || !chatLastMessage) {
       return chatLastMessageRef.current;
     }
+
     return chatLastMessage;
   }, [chatLastMessage, messagesSearchString]);
 
@@ -92,6 +95,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     if (messagesSearchString || !lastMessageUserCreator) {
       return isLastMessageCreatorCurrentUserRef.current;
     }
+
     return lastMessageUserCreator?.id === currentUserId;
   }, [currentUserId, lastMessageUserCreator, messagesSearchString]);
 
@@ -154,28 +158,33 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chat.groupChat, currentUserId, chatLastMessage, lastMessageUserCreator, t]);
 
-  // TODO: Make this logic common across chat item and message item
-  const messageStatIconMap = {
-    [MessageState.QUEUED]: <MessageQueuedSvg />,
-    [MessageState.SENT]: <MessageSentSvg />,
-    [MessageState.READ]: <MessageReadSvg />,
-    [MessageState.ERROR]: <MessageErrorSvg />,
-    [MessageState.DELETED]: undefined,
-    [MessageState.LOCALMESSAGE]: undefined,
-    [MessageState.DRAFT]: undefined,
-  };
+  messageStatusRef.current = useMemo(() => {
+    // TODO: Make this logic common across chat item and message item
+    const messageStatusIconMap = {
+      [MessageState.QUEUED]: <MessageQueuedSvg />,
+      [MessageState.SENT]: <MessageSentSvg />,
+      [MessageState.READ]: <MessageReadSvg />,
+      [MessageState.ERROR]: <MessageErrorSvg />,
+      [MessageState.DELETED]: undefined,
+      [MessageState.LOCALMESSAGE]: undefined,
+      [MessageState.DRAFT]: undefined,
+    };
 
-  let messageStatus;
-  if (
-    !(
+    if (
       chatLastMessage?.systemMessageType !== SystemMessageType.None ||
-      !isLastMessageCreatorCurrentUser
-    )
-  ) {
-    if (chatLastMessage.state) {
-      messageStatus = messageStatIconMap[chatLastMessage.state];
+      !isLastMessageCreatorCurrentUser ||
+      messagesSearchString
+    ) {
+      return messageStatusRef.current;
     }
-  }
+
+    return chatLastMessage?.state && messageStatusIconMap[chatLastMessage.state];
+  }, [
+    chatLastMessage?.state,
+    chatLastMessage?.systemMessageType,
+    isLastMessageCreatorCurrentUser,
+    messagesSearchString,
+  ]);
 
   return (
     <NavLink
@@ -191,7 +200,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
       <div className={`${BLOCK_NAME}__contents`}>
         <div className={`${BLOCK_NAME}__heading`}>
           <div className={`${BLOCK_NAME}__name`}>{getChatInterlocutor(interlocutor, chat, t)}</div>
-          <div className={`${BLOCK_NAME}__status`}>{messageStatus}</div>
+          <div className={`${BLOCK_NAME}__status`}>{messageStatusRef.current}</div>
           <div className={`${BLOCK_NAME}__time`}>{lastActivityDateRef.current}</div>
         </div>
         <div className={`${BLOCK_NAME}__last-message`}>

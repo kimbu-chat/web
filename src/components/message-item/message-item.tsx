@@ -57,7 +57,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
     const linkedMessageUserCreator = useSelector(
       getUserSelector(message?.linkedMessage?.userCreatorId),
     );
-    const isMessageStateInQueued = message.state === MessageState.QUEUED;
+    const isMessageQueued = message.state === MessageState.QUEUED;
 
     const [justCreated, setJustCreated] = useState(false);
 
@@ -91,13 +91,13 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
     const selectThisMessage = useCallback(
       (event?: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
-        if(isMessageStateInQueued) {
+        if(isMessageQueued) {
           return
         }
         event?.stopPropagation();
         selectMessage({ messageId });
       },
-      [messageId, selectMessage, isMessageStateInQueued],
+      [messageId, selectMessage, isMessageQueued],
     );
 
     const getMessageIcon = (): ReactElement => {
@@ -186,7 +186,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               onClick={selectThisMessage}
               className={classNames(`${BLOCK_NAME}__checkbox`, {
                 [`${BLOCK_NAME}__checkbox--unselected`]: !isSelected,
-                [`${BLOCK_NAME}__checkbox--hidden`]: isMessageStateInQueued,
+                [`${BLOCK_NAME}__checkbox--hidden`]: isMessageQueued,
               })}>
               <SelectSvg />
             </button>
@@ -241,7 +241,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 !(message?.linkedMessageType === MessageLinkType.Forward) &&
                 !message.attachments?.some(({ type }) => type === AttachmentType.Voice)
               }
-              isMessageStateInQueued={isMessageStateInQueued}
+              isMessageQueued={isMessageQueued}
             />
           </div>
         </div>

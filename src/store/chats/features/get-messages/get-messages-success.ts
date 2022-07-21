@@ -40,14 +40,24 @@ export class GetMessagesSuccess {
           chatMessages.messages = { ...messages, ...chatMessages.messages };
         } else {
           const draftMessageId = draft.chats[chatId]?.draftMessageId;
+          const lastMessageId = draft.chats[chatId]?.lastMessageId;
           let draftMessage;
+          let lastMessage;
 
           if (draftMessageId) {
             draftMessage = draft.chats[chatId]?.messages.messages[draftMessageId];
           }
 
+          if (lastMessageId) {
+            lastMessage = draft.chats[chatId]?.messages.messages[lastMessageId];
+          }
+
           chatMessages.messageIds = messageIds;
-          chatMessages.messages = { ...messages, [`${draftMessageId}`]: draftMessage };
+          chatMessages.messages = {
+            ...messages,
+            [`${draftMessageId}`]: draftMessage,
+            [`${lastMessageId}`]: lastMessage,
+          };
         }
       }
 

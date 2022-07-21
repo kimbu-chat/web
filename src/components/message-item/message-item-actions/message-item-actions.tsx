@@ -17,7 +17,7 @@ interface IMessageItemActionsProps {
   messageId: number;
   isEditAllowed: boolean;
   visible?: boolean;
-  isMessageStateInQueued: boolean;
+  isMessageQueued: boolean;
 }
 
 const BLOCK_NAME = 'message-item-actions';
@@ -26,7 +26,7 @@ const MessageItemActions: React.FC<IMessageItemActionsProps> = ({
   messageId,
   isEditAllowed,
   visible,
-  isMessageStateInQueued,
+  isMessageQueued,
 }) => {
   const replyToMessage = useActionWithDispatch(replyToMessageAction);
   const editMessage = useActionWithDispatch(editMessageAction);
@@ -48,13 +48,13 @@ const MessageItemActions: React.FC<IMessageItemActionsProps> = ({
   return (
     <>
       <div className={classnames(BLOCK_NAME, { [`${BLOCK_NAME}__visible`]: visible })}>
-        {isEditAllowed && !isMessageStateInQueued && (
+        {isEditAllowed && !isMessageQueued && (
           <button type="button" onClick={editSelectedMessage} className={`${BLOCK_NAME}__action`}>
             <EditSVG />
           </button>
         )}
 
-        {!isMessageStateInQueued && (
+        {!isMessageQueued && (
           <button
             type="button"
             onClick={displayForwardMessagesModal}
@@ -63,7 +63,7 @@ const MessageItemActions: React.FC<IMessageItemActionsProps> = ({
           </button>
         )}
 
-        {!isMessageStateInQueued && (
+        {!isMessageQueued && (
           <button
             type="button"
             onClick={replyToSelectedMessage}

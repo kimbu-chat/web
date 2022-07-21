@@ -91,10 +91,13 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
     const selectThisMessage = useCallback(
       (event?: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
+        if(isMessageStateInQueued) {
+          return
+        }
         event?.stopPropagation();
         selectMessage({ messageId });
       },
-      [messageId, selectMessage],
+      [messageId, selectMessage, isMessageStateInQueued],
     );
 
     const getMessageIcon = (): ReactElement => {

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
 
 import classnames from 'classnames';
 import { MessageLinkType, SystemMessageType } from 'kimbu-models';
@@ -21,7 +21,6 @@ import {
   getChatSelector,
   getChatLastMessageUser,
   getChatLastMessageSelector,
-  getSelectedChatMessagesSearchStringSelector,
 } from '@store/chats/selectors';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
@@ -53,62 +52,19 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const interlocutor = useSelector(getUserSelector(chat?.interlocutorId));
   const currentUserId = useSelector(myIdSelector);
   const typingString = useSelector(getTypingStringSelector(t, chatId));
-  const messagesSearchString = useSelector(getSelectedChatMessagesSearchStringSelector);
-
-  const chatLastMessageRef = useRef(chatLastMessage);
-  const lastMessageUserCreatorRef = useRef(lastMessageUserCreator);
-  const isLastMessageCreatorCurrentUserRef = useRef<null | boolean>(null);
-  const lastActivityDateRef = useRef<null | undefined | string>(null);
-  const messageStatusRef = useRef<React.ReactElement | undefined | null>(null);
 
   const isLastMessageCreatorCurrentUser: boolean = lastMessageUserCreator?.id === currentUserId;
-
-  lastMessageUserCreatorRef.current = useMemo(() => {
-    if (messagesSearchString || !lastMessageUserCreator) {
-      return lastMessageUserCreatorRef.current;
-    }
-
-    return lastMessageUserCreator;
-  }, [lastMessageUserCreator, messagesSearchString]);
-
-  lastActivityDateRef.current = useMemo(() => {
-    if (messagesSearchString || !chatLastMessage || !chatLastMessage.creationDateTime) {
-      return lastActivityDateRef.current;
-    }
-
-    if (checkIfDatesAreDifferentDate(new Date(chatLastMessage.creationDateTime), new Date())) {
-      return getDayMonthYear(chatLastMessage.creationDateTime);
-    }
-
-    return getShortTimeAmPm(chatLastMessage.creationDateTime).toLowerCase();
-  }, [chatLastMessage, messagesSearchString]);
-
-  chatLastMessageRef.current = useMemo(() => {
-    if (messagesSearchString || !chatLastMessage) {
-      return chatLastMessageRef.current;
-    }
-
-    return chatLastMessage;
-  }, [chatLastMessage, messagesSearchString]);
-
-  isLastMessageCreatorCurrentUserRef.current = useMemo(() => {
-    if (messagesSearchString || !lastMessageUserCreator) {
-      return isLastMessageCreatorCurrentUserRef.current;
-    }
-
-    return lastMessageUserCreator?.id === currentUserId;
-  }, [currentUserId, lastMessageUserCreator, messagesSearchString]);
 
   const messageText = useMemo((): string => {
     let messageToProcess;
 
     if (
-      chatLastMessageRef.current?.linkedMessageType === MessageLinkType.Forward &&
-      chatLastMessageRef.current?.linkedMessage !== null
+      chatLastMessage?.linkedMessageType === MessageLinkType.Forward &&
+      chatLastMessage?.linkedMessage !== null
     ) {
-      messageToProcess = chatLastMessageRef.current?.linkedMessage;
+      messageToProcess = chatLastMessage?.linkedMessage;
     } else {
-      messageToProcess = chatLastMessageRef.current;
+      messageToProcess = chatLastMessage;
     }
 
     if (messageToProcess && !messageToProcess.text) {
@@ -116,10 +72,10 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     }
 
     if (
-      chatLastMessageRef.current?.linkedMessageType &&
-      !chatLastMessageRef.current?.linkedMessage &&
-      !chatLastMessageRef.current?.text &&
-      !size(chatLastMessageRef.current?.attachments)
+      chatLastMessage?.linkedMessageType &&
+      !chatLastMessage?.linkedMessage &&
+      !chatLastMessage?.text &&
+      !size(chatLastMessage?.attachments)
     ) {
       return t('linkedMessage.message-deleted');
     }
@@ -135,18 +91,18 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
             messageToProcess,
             t,
             currentUserId,
-            lastMessageUserCreatorRef.current,
+            lastMessageUserCreator,
           ),
           truncateOptions,
         );
       }
 
       if (chat.groupChat) {
-        if (isLastMessageCreatorCurrentUserRef.current) {
+        if (isLastMessageCreatorCurrentUser) {
           return truncate(`${t('chatFromList.you')}: ${messageToProcess.text}`, truncateOptions);
         }
         return truncate(
-          `${lastMessageUserCreatorRef.current?.firstName}: ${messageToProcess.text}`,
+          `${lastMessageUserCreator?.firstName}: ${messageToProcess.text}`,
           truncateOptions,
         );
       }
@@ -155,36 +111,43 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     }
 
     return '';
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chat.groupChat, currentUserId, chatLastMessage, lastMessageUserCreator, t]);
+  }, [
+    chatLastMessage,
+    t,
+    chat.groupChat,
+    currentUserId,
+    lastMessageUserCreator,
+    isLastMessageCreatorCurrentUser,
+  ]);
 
-  messageStatusRef.current = useMemo(() => {
-    // TODO: Make this logic common across chat item and message item
-    const messageStatusIconMap = {
-      [MessageState.QUEUED]: <MessageQueuedSvg />,
-      [MessageState.SENT]: <MessageSentSvg />,
-      [MessageState.READ]: <MessageReadSvg />,
-      [MessageState.ERROR]: <MessageErrorSvg />,
-      [MessageState.DELETED]: undefined,
-      [MessageState.LOCALMESSAGE]: undefined,
-      [MessageState.DRAFT]: undefined,
-    };
+  // TODO: Make this logic common across chat item and message item
+  const messageStatusIconMap = {
+    [MessageState.QUEUED]: <MessageQueuedSvg />,
+    [MessageState.SENT]: <MessageSentSvg />,
+    [MessageState.READ]: <MessageReadSvg />,
+    [MessageState.ERROR]: <MessageErrorSvg />,
+    [MessageState.DELETED]: undefined,
+    [MessageState.LOCALMESSAGE]: undefined,
+    [MessageState.DRAFT]: undefined,
+  };
 
-    if (
-      chatLastMessage?.systemMessageType !== SystemMessageType.None ||
-      !isLastMessageCreatorCurrentUser ||
-      messagesSearchString
-    ) {
-      return messageStatusRef.current;
+  let lastActivityDate;
+  let messageStatus;
+
+  if (chatLastMessage) {
+    if (checkIfDatesAreDifferentDate(new Date(chatLastMessage.creationDateTime), new Date())) {
+      lastActivityDate = getDayMonthYear(chatLastMessage.creationDateTime);
+    } else {
+      lastActivityDate = getShortTimeAmPm(chatLastMessage.creationDateTime).toLowerCase();
     }
 
-    return chatLastMessage?.state && messageStatusIconMap[chatLastMessage.state];
-  }, [
-    chatLastMessage?.state,
-    chatLastMessage?.systemMessageType,
-    isLastMessageCreatorCurrentUser,
-    messagesSearchString,
-  ]);
+    if (
+      chatLastMessage.systemMessageType === SystemMessageType.None &&
+      isLastMessageCreatorCurrentUser
+    ) {
+      messageStatus = chatLastMessage?.state && messageStatusIconMap[chatLastMessage.state];
+    }
+  }
 
   return (
     <NavLink
@@ -200,8 +163,8 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
       <div className={`${BLOCK_NAME}__contents`}>
         <div className={`${BLOCK_NAME}__heading`}>
           <div className={`${BLOCK_NAME}__name`}>{getChatInterlocutor(interlocutor, chat, t)}</div>
-          <div className={`${BLOCK_NAME}__status`}>{messageStatusRef.current}</div>
-          <div className={`${BLOCK_NAME}__time`}>{lastActivityDateRef.current}</div>
+          <div className={`${BLOCK_NAME}__status`}>{messageStatus}</div>
+          <div className={`${BLOCK_NAME}__time`}>{lastActivityDate}</div>
         </div>
         <div className={`${BLOCK_NAME}__last-message`}>
           {typingString || renderText(messageText)}

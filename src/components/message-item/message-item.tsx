@@ -187,6 +187,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               className={classNames(`${BLOCK_NAME}__checkbox`, {
                 [`${BLOCK_NAME}__checkbox--unselected`]: !isSelected,
                 [`${BLOCK_NAME}__checkbox--hidden`]: isMessageQueued,
+>>>>>>> 9638a02a... added a hidden property of checkbox
               })}>
               <SelectSvg />
             </button>

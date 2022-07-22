@@ -40,6 +40,7 @@ import { focusEditableElement } from '@utils/focus-editable-element';
 import { getAttachmentType } from '@utils/get-file-extension';
 import { insertHtmlInSelection } from '@utils/insert-html-in-selection';
 import { parseMessageInput } from '@utils/parse-message-input';
+import placeCaretAtEnd from '@utils/place-caret-at-end';
 import { setRecordAudioStream } from '@utils/record-audio-stream';
 import renderText from '@utils/render-text/render-text';
 import { isSelectionInsideInput } from '@utils/selection';
@@ -122,6 +123,16 @@ const CreateMessageInput = () => {
     (textToInsert: string) => {
       const selection = window.getSelection();
       const messageInput = messageInputRef.current;
+
+      if (
+        messageInput &&
+        !(
+          selection?.focusNode === messageInput ||
+          selection?.focusNode?.parentElement === messageInput
+        )
+      ) {
+        placeCaretAtEnd(messageInput);
+      }
 
       if (messageInput) {
         const newHtml = renderText(textToInsert, ['escape_html', 'emoji_html', 'br_html'])

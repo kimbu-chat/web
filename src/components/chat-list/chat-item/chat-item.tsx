@@ -120,6 +120,16 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     isLastMessageCreatorCurrentUser,
   ]);
 
+  const getMessageDateTime = useMemo(() => {
+    if (!chatLastMessage) return '';
+
+    if (checkIfDatesAreDifferentDate(new Date(chatLastMessage.creationDateTime), new Date())) {
+      return getDayMonthYear(chatLastMessage.creationDateTime);
+    }
+
+    return getShortTimeAmPm(chatLastMessage.creationDateTime).toLowerCase();
+  }, [chatLastMessage]);
+
   // TODO: Make this logic common across chat item and message item
   const messageStatusIconMap = {
     [MessageState.QUEUED]: <MessageQueuedSvg />,
@@ -131,16 +141,8 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     [MessageState.DRAFT]: undefined,
   };
 
-  let lastActivityDate;
   let messageStatus;
-
   if (chatLastMessage) {
-    if (checkIfDatesAreDifferentDate(new Date(chatLastMessage.creationDateTime), new Date())) {
-      lastActivityDate = getDayMonthYear(chatLastMessage.creationDateTime);
-    } else {
-      lastActivityDate = getShortTimeAmPm(chatLastMessage.creationDateTime).toLowerCase();
-    }
-
     if (
       chatLastMessage.systemMessageType === SystemMessageType.None &&
       isLastMessageCreatorCurrentUser
@@ -164,7 +166,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
         <div className={`${BLOCK_NAME}__heading`}>
           <div className={`${BLOCK_NAME}__name`}>{getChatInterlocutor(interlocutor, chat, t)}</div>
           <div className={`${BLOCK_NAME}__status`}>{messageStatus}</div>
-          <div className={`${BLOCK_NAME}__time`}>{lastActivityDate}</div>
+          <div className={`${BLOCK_NAME}__time`}>{getMessageDateTime}</div>
         </div>
         <div className={`${BLOCK_NAME}__last-message`}>
           {typingString || renderText(messageText)}

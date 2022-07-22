@@ -43,6 +43,17 @@ const truncateOptions = {
   omission: '...',
 };
 
+// TODO: Make this logic common across chat item and message item
+const messageStatusIconMap = {
+  [MessageState.QUEUED]: <MessageQueuedSvg />,
+  [MessageState.SENT]: <MessageSentSvg />,
+  [MessageState.READ]: <MessageReadSvg />,
+  [MessageState.ERROR]: <MessageErrorSvg />,
+  [MessageState.DELETED]: undefined,
+  [MessageState.LOCALMESSAGE]: undefined,
+  [MessageState.DRAFT]: undefined,
+};
+
 const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const { t } = useTranslation();
 
@@ -120,7 +131,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     isLastMessageCreatorCurrentUser,
   ]);
 
-  const getMessageDateTime = useMemo(() => {
+  const messageDateTime = useMemo(() => {
     if (!chatLastMessage) return '';
 
     if (checkIfDatesAreDifferentDate(new Date(chatLastMessage.creationDateTime), new Date())) {
@@ -133,17 +144,6 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   }, [chatLastMessage?.creationDateTime]);
 
   const messageStatus = useMemo(() => {
-    // TODO: Make this logic common across chat item and message item
-    const messageStatusIconMap = {
-      [MessageState.QUEUED]: <MessageQueuedSvg />,
-      [MessageState.SENT]: <MessageSentSvg />,
-      [MessageState.READ]: <MessageReadSvg />,
-      [MessageState.ERROR]: <MessageErrorSvg />,
-      [MessageState.DELETED]: undefined,
-      [MessageState.LOCALMESSAGE]: undefined,
-      [MessageState.DRAFT]: undefined,
-    };
-
     if (
       !chatLastMessage ||
       !chatLastMessage.state ||
@@ -173,7 +173,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
         <div className={`${BLOCK_NAME}__heading`}>
           <div className={`${BLOCK_NAME}__name`}>{getChatInterlocutor(interlocutor, chat, t)}</div>
           <div className={`${BLOCK_NAME}__status`}>{messageStatus}</div>
-          <div className={`${BLOCK_NAME}__time`}>{getMessageDateTime}</div>
+          <div className={`${BLOCK_NAME}__time`}>{messageDateTime}</div>
         </div>
         <div className={`${BLOCK_NAME}__last-message`}>
           {typingString || renderText(messageText)}

@@ -128,28 +128,35 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     }
 
     return getShortTimeAmPm(chatLastMessage.creationDateTime).toLowerCase();
-  }, [chatLastMessage]);
 
-  // TODO: Make this logic common across chat item and message item
-  const messageStatusIconMap = {
-    [MessageState.QUEUED]: <MessageQueuedSvg />,
-    [MessageState.SENT]: <MessageSentSvg />,
-    [MessageState.READ]: <MessageReadSvg />,
-    [MessageState.ERROR]: <MessageErrorSvg />,
-    [MessageState.DELETED]: undefined,
-    [MessageState.LOCALMESSAGE]: undefined,
-    [MessageState.DRAFT]: undefined,
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatLastMessage?.creationDateTime]);
 
-  let messageStatus;
-  if (chatLastMessage) {
+  const messageStatus = useMemo(() => {
+    // TODO: Make this logic common across chat item and message item
+    const messageStatusIconMap = {
+      [MessageState.QUEUED]: <MessageQueuedSvg />,
+      [MessageState.SENT]: <MessageSentSvg />,
+      [MessageState.READ]: <MessageReadSvg />,
+      [MessageState.ERROR]: <MessageErrorSvg />,
+      [MessageState.DELETED]: undefined,
+      [MessageState.LOCALMESSAGE]: undefined,
+      [MessageState.DRAFT]: undefined,
+    };
+
     if (
-      chatLastMessage.systemMessageType === SystemMessageType.None &&
-      isLastMessageCreatorCurrentUser
+      !chatLastMessage ||
+      !chatLastMessage.state ||
+      chatLastMessage.systemMessageType !== SystemMessageType.None ||
+      !isLastMessageCreatorCurrentUser
     ) {
-      messageStatus = chatLastMessage?.state && messageStatusIconMap[chatLastMessage.state];
+      return '';
     }
-  }
+
+    return messageStatusIconMap[chatLastMessage.state];
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatLastMessage?.systemMessageType, chatLastMessage?.state, isLastMessageCreatorCurrentUser]);
 
   return (
     <NavLink

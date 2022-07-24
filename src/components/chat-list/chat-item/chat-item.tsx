@@ -10,12 +10,12 @@ import { NavLink } from 'react-router-dom';
 
 import { Avatar } from '@components/avatar';
 import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
-import { ReactComponent as MessageQeuedSvg } from '@icons/message-queued.svg';
+import { ReactComponent as MessageQueuedSvg } from '@icons/message-queued.svg';
 import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
 import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import Ripple from '@shared-components/ripple';
-import { INormalizedMessage, MessageState } from '@store/chats/models';
+import { MessageState } from '@store/chats/models';
 import {
   getTypingStringSelector,
   getChatSelector,
@@ -38,24 +38,45 @@ interface IChatItemProps {
 
 const BLOCK_NAME = 'chat-item';
 
+const truncateOptions = {
+  length: 53,
+  omission: '...',
+};
+
+// TODO: Make this logic common across chat item and message item
+const messageStatusIconMap = {
+  [MessageState.QUEUED]: <MessageQueuedSvg />,
+  [MessageState.SENT]: <MessageSentSvg />,
+  [MessageState.READ]: <MessageReadSvg />,
+  [MessageState.ERROR]: <MessageErrorSvg />,
+  [MessageState.DELETED]: undefined,
+  [MessageState.LOCALMESSAGE]: undefined,
+  [MessageState.DRAFT]: undefined,
+};
+
 const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const { t } = useTranslation();
+
   const chat = useSelector(getChatSelector(chatId));
   const chatLastMessage = useSelector(getChatLastMessageSelector(chatId));
   const lastMessageUserCreator = useSelector(getChatLastMessageUser(chatId));
   const interlocutor = useSelector(getUserSelector(chat?.interlocutorId));
-
   const currentUserId = useSelector(myIdSelector);
   const typingString = useSelector(getTypingStringSelector(t, chatId));
 
-  const isMessageCreatorCurrentUser: boolean = lastMessageUserCreator?.id === currentUserId;
+  const isLastMessageCreatorCurrentUser: boolean = lastMessageUserCreator?.id === currentUserId;
 
   const messageText = useMemo((): string => {
-    const messageToProcess =
+    let messageToProcess;
+
+    if (
       chatLastMessage?.linkedMessageType === MessageLinkType.Forward &&
       chatLastMessage?.linkedMessage !== null
-        ? chatLastMessage?.linkedMessage
-        : chatLastMessage;
+    ) {
+      messageToProcess = chatLastMessage?.linkedMessage;
+    } else {
+      messageToProcess = chatLastMessage;
+    }
 
     if (messageToProcess && !messageToProcess.text) {
       return t('chatFromList.media');
@@ -72,64 +93,70 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
 
     if (messageToProcess) {
       if (
-        messageToProcess &&
-        (messageToProcess as INormalizedMessage).systemMessageType &&
-        (messageToProcess as INormalizedMessage).systemMessageType !== SystemMessageType.None
+        messageToProcess.systemMessageType &&
+        messageToProcess.systemMessageType !== SystemMessageType.None
       ) {
         return truncate(
           constructSystemMessageText(
             // TODO: replace this logic
-            messageToProcess as INormalizedMessage,
+            messageToProcess,
             t,
-            currentUserId as number,
+            currentUserId,
             lastMessageUserCreator,
           ),
-          {
-            length: 53,
-            omission: '...',
-          },
+          truncateOptions,
         );
       }
 
-      if (chat?.groupChat) {
-        if (isMessageCreatorCurrentUser) {
-          return truncate(`${t('chatFromList.you')}: ${messageToProcess?.text}`, {
-            length: 53,
-            omission: '...',
-          });
+      if (chat.groupChat) {
+        if (isLastMessageCreatorCurrentUser) {
+          return truncate(`${t('chatFromList.you')}: ${messageToProcess.text}`, truncateOptions);
         }
-        return truncate(`${lastMessageUserCreator?.firstName}: ${messageToProcess?.text}`, {
-          length: 53,
-          omission: '...',
-        });
+        return truncate(
+          `${lastMessageUserCreator?.firstName}: ${messageToProcess.text}`,
+          truncateOptions,
+        );
       }
 
-      return truncate(messageToProcess?.text, {
-        length: 53,
-        omission: '...',
-      });
+      return truncate(messageToProcess.text, truncateOptions);
     }
 
     return '';
   }, [
-    chat?.groupChat,
     chatLastMessage,
-    currentUserId,
-    isMessageCreatorCurrentUser,
-    lastMessageUserCreator,
     t,
+    chat.groupChat,
+    currentUserId,
+    lastMessageUserCreator,
+    isLastMessageCreatorCurrentUser,
   ]);
 
-  // TODO: Make this logic common across chat item and message item
-  const messageStatIconMap = {
-    [MessageState.QUEUED]: <MessageQeuedSvg />,
-    [MessageState.SENT]: <MessageSentSvg />,
-    [MessageState.READ]: <MessageReadSvg />,
-    [MessageState.ERROR]: <MessageErrorSvg />,
-    [MessageState.DELETED]: undefined,
-    [MessageState.LOCALMESSAGE]: undefined,
-    [MessageState.DRAFT]: undefined,
-  };
+  const messageDateTime = useMemo(() => {
+    if (!chatLastMessage) return '';
+
+    if (checkIfDatesAreDifferentDate(new Date(chatLastMessage.creationDateTime), new Date())) {
+      return getDayMonthYear(chatLastMessage.creationDateTime);
+    }
+
+    return getShortTimeAmPm(chatLastMessage.creationDateTime).toLowerCase();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatLastMessage?.creationDateTime]);
+
+  const messageStatus = useMemo(() => {
+    if (
+      !chatLastMessage ||
+      !chatLastMessage.state ||
+      chatLastMessage.systemMessageType !== SystemMessageType.None ||
+      !isLastMessageCreatorCurrentUser
+    ) {
+      return '';
+    }
+
+    return messageStatusIconMap[chatLastMessage.state];
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chatLastMessage?.systemMessageType, chatLastMessage?.state, isLastMessageCreatorCurrentUser]);
 
   return (
     <NavLink
@@ -139,28 +166,14 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
       {interlocutor && (
         <Avatar className={`${BLOCK_NAME}__avatar`} size={48} user={interlocutor} statusBadge />
       )}
-
       {chat?.groupChat && (
         <Avatar className={`${BLOCK_NAME}__avatar`} size={48} groupChat={chat?.groupChat} />
       )}
       <div className={`${BLOCK_NAME}__contents`}>
         <div className={`${BLOCK_NAME}__heading`}>
           <div className={`${BLOCK_NAME}__name`}>{getChatInterlocutor(interlocutor, chat, t)}</div>
-          <div className={`${BLOCK_NAME}__status`}>
-            {!(
-              chatLastMessage?.systemMessageType !== SystemMessageType.None ||
-              !isMessageCreatorCurrentUser
-            ) &&
-              chatLastMessage.state &&
-              messageStatIconMap[chatLastMessage.state]}
-          </div>
-          <div className={`${BLOCK_NAME}__time`}>
-            {chatLastMessage &&
-              chatLastMessage.creationDateTime &&
-              (checkIfDatesAreDifferentDate(new Date(chatLastMessage.creationDateTime), new Date())
-                ? getDayMonthYear(chatLastMessage.creationDateTime)
-                : getShortTimeAmPm(chatLastMessage.creationDateTime).toLowerCase())}
-          </div>
+          <div className={`${BLOCK_NAME}__status`}>{messageStatus}</div>
+          <div className={`${BLOCK_NAME}__time`}>{messageDateTime}</div>
         </div>
         <div className={`${BLOCK_NAME}__last-message`}>
           {typingString || renderText(messageText)}
@@ -179,6 +192,6 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   );
 });
 
-ChatItem.displayName = 'ChatFromList';
+ChatItem.displayName = 'ChatItem';
 
 export { ChatItem as ChatFromList };

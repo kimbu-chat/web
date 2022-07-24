@@ -40,6 +40,10 @@
       opacity: 1;
     }
 
+    &:hover .message__checkbox--hidden {
+      visibility: hidden;
+    }
+
     &--incoming {
       --msg-bg: var(--dt-kingBlue-wt-grayLight);
 

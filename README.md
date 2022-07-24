@@ -3,6 +3,15 @@
 ![GitHub issues](https://img.shields.io/github/issues/kimbu-chat/web)
 ![build](https://github.com/kimbu-chat/web/actions/workflows/build-deploy-prod.yml/badge.svg)
 
+
+## Test Accounts:
+
+1. +355 69 999 9999 (Albania)
+2. +355 69 888 8888 (Albania)
+3. +355 69 777 7777 (Albania)
+4. +355 69 666 6666 (Albania)
+5. +355 69 555 5555 (Albania)
+
 ## Development
 
 1. Install Node.js

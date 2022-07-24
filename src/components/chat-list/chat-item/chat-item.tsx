@@ -132,30 +132,25 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   ]);
 
   const messageDateTime = useMemo(() => {
-    if (!chatLastMessage) return '';
+    if (!chatLastMessage?.creationDateTime) return '';
 
     if (checkIfDatesAreDifferentDate(new Date(chatLastMessage.creationDateTime), new Date())) {
       return getDayMonthYear(chatLastMessage.creationDateTime);
     }
 
     return getShortTimeAmPm(chatLastMessage.creationDateTime).toLowerCase();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatLastMessage?.creationDateTime]);
 
   const messageStatus = useMemo(() => {
     if (
-      !chatLastMessage ||
-      !chatLastMessage.state ||
-      chatLastMessage.systemMessageType !== SystemMessageType.None ||
+      !chatLastMessage?.state ||
+      chatLastMessage?.systemMessageType !== SystemMessageType.None ||
       !isLastMessageCreatorCurrentUser
     ) {
       return '';
     }
 
     return messageStatusIconMap[chatLastMessage.state];
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatLastMessage?.systemMessageType, chatLastMessage?.state, isLastMessageCreatorCurrentUser]);
 
   return (

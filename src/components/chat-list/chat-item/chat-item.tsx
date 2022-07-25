@@ -9,13 +9,9 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { Avatar } from '@components/avatar';
-import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
-import { ReactComponent as MessageQueuedSvg } from '@icons/message-queued.svg';
-import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
-import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
+import { MessageStatus } from '@components/message-status';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import Ripple from '@shared-components/ripple';
-import { MessageState } from '@store/chats/models';
 import {
   getTypingStringSelector,
   getChatSelector,
@@ -41,17 +37,6 @@ const BLOCK_NAME = 'chat-item';
 const truncateOptions = {
   length: 53,
   omission: '...',
-};
-
-// TODO: Make this logic common across chat item and message item
-const messageStatusIconMap = {
-  [MessageState.QUEUED]: <MessageQueuedSvg />,
-  [MessageState.SENT]: <MessageSentSvg />,
-  [MessageState.READ]: <MessageReadSvg />,
-  [MessageState.ERROR]: <MessageErrorSvg />,
-  [MessageState.DELETED]: undefined,
-  [MessageState.LOCALMESSAGE]: undefined,
-  [MessageState.DRAFT]: undefined,
 };
 
 const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
@@ -141,18 +126,6 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     return getShortTimeAmPm(chatLastMessage.creationDateTime).toLowerCase();
   }, [chatLastMessage?.creationDateTime]);
 
-  const messageStatus = useMemo(() => {
-    if (
-      !chatLastMessage?.state ||
-      chatLastMessage?.systemMessageType !== SystemMessageType.None ||
-      !isLastMessageCreatorCurrentUser
-    ) {
-      return '';
-    }
-
-    return messageStatusIconMap[chatLastMessage.state];
-  }, [chatLastMessage?.systemMessageType, chatLastMessage?.state, isLastMessageCreatorCurrentUser]);
-
   return (
     <NavLink
       to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chat?.id])}
@@ -167,7 +140,9 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
       <div className={`${BLOCK_NAME}__contents`}>
         <div className={`${BLOCK_NAME}__heading`}>
           <div className={`${BLOCK_NAME}__name`}>{getChatInterlocutor(interlocutor, chat, t)}</div>
-          <div className={`${BLOCK_NAME}__status`}>{messageStatus}</div>
+          <div className={`${BLOCK_NAME}__status`}>
+            <MessageStatus message={chatLastMessage} />
+          </div>
           <div className={`${BLOCK_NAME}__time`}>{messageDateTime}</div>
         </div>
         <div className={`${BLOCK_NAME}__last-message`}>

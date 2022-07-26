@@ -211,7 +211,9 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               )}
             </div>
             <div className={`${BLOCK_NAME}__state`}>
-              <MessageStatus message={message} />
+              <MessageStatus
+                message={message.state ? message : { ...message, state: MessageState.SENT }}
+              />
             </div>
             <div className={`${BLOCK_NAME}__time`}>
               {getShortTimeAmPm(message?.creationDateTime)}

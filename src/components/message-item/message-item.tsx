@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import classNames from 'classnames';
 import { AttachmentType, IUser, MessageLinkType, SystemMessageType } from 'kimbu-models';
@@ -9,11 +9,9 @@ import { Avatar } from '@components/avatar';
 import { ForwardedMessage } from '@components/message-item/forwarded-message';
 import { SystemMessage } from '@components/message-item/system-message';
 import { normalizeAttachments } from '@components/message-item/utilities';
+import { MessageStatus } from '@components/message-status';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
-import { ReactComponent as MessageQeuedSvg } from '@icons/message-queued.svg';
-import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
-import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
 import { ReactComponent as SelectSvg } from '@icons/select.svg';
 import { changeChatInfoOpenedAction, selectMessageAction } from '@store/chats/actions';
 import { ChatId } from '@store/chats/chat-id';
@@ -91,8 +89,8 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
     const selectThisMessage = useCallback(
       (event?: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
-        if(isMessageQueued) {
-          return
+        if (isMessageQueued) {
+          return;
         }
         event?.stopPropagation();
         selectMessage({ messageId });
@@ -100,22 +98,13 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
       [messageId, selectMessage, isMessageQueued],
     );
 
-    const getMessageIcon = (): ReactElement => {
-      let icon;
-
-      switch (message?.state) {
-        case MessageState.READ:
-          icon = <MessageReadSvg className={`${BLOCK_NAME}__state`} />;
-          break;
-        case MessageState.QUEUED:
-          icon = <MessageQeuedSvg className={`${BLOCK_NAME}__state`} />;
-          break;
-        default:
-          icon = <MessageSentSvg className={`${BLOCK_NAME}__state`} />;
+    const messageStatus = useMemo(() => {
+      if (message?.systemMessageType !== SystemMessageType.None || !isCurrentUserMessageCreator) {
+        return <></>;
       }
 
-      return icon;
-    };
+      return <MessageStatus state={message.state ? message.state : MessageState.SENT} />;
+    }, [message?.systemMessageType, message.state, isCurrentUserMessageCreator]);
 
     const rootAttachments = normalizeAttachments(message.attachments);
 
@@ -229,7 +218,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 </div>
               )}
             </div>
-            {isCurrentUserMessageCreator && getMessageIcon()}
+            <div className={`${BLOCK_NAME}__state`}>{messageStatus}</div>
             <div className={`${BLOCK_NAME}__time`}>
               {getShortTimeAmPm(message?.creationDateTime)}
             </div>

@@ -126,6 +126,18 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
     return getShortTimeAmPm(chatLastMessage.creationDateTime).toLowerCase();
   }, [chatLastMessage?.creationDateTime]);
 
+  const messageStatus = useMemo(() => {
+    if (
+      !chatLastMessage?.state ||
+      chatLastMessage?.systemMessageType !== SystemMessageType.None ||
+      !isLastMessageCreatorCurrentUser
+    ) {
+      return <></>;
+    }
+
+    return <MessageStatus state={chatLastMessage.state} />;
+  }, [chatLastMessage?.systemMessageType, chatLastMessage?.state, isLastMessageCreatorCurrentUser]);
+
   return (
     <NavLink
       to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chat?.id])}
@@ -140,9 +152,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
       <div className={`${BLOCK_NAME}__contents`}>
         <div className={`${BLOCK_NAME}__heading`}>
           <div className={`${BLOCK_NAME}__name`}>{getChatInterlocutor(interlocutor, chat, t)}</div>
-          <div className={`${BLOCK_NAME}__status`}>
-            <MessageStatus message={chatLastMessage} />
-          </div>
+          <div className={`${BLOCK_NAME}__status`}>{messageStatus}</div>
           <div className={`${BLOCK_NAME}__time`}>{messageDateTime}</div>
         </div>
         <div className={`${BLOCK_NAME}__last-message`}>

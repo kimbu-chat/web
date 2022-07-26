@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import classNames from 'classnames';
 import { AttachmentType, IUser, MessageLinkType, SystemMessageType } from 'kimbu-models';
@@ -97,6 +97,14 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
       },
       [messageId, selectMessage, isMessageQueued],
     );
+
+    const messageStatus = useMemo(() => {
+      if (message?.systemMessageType !== SystemMessageType.None || !isCurrentUserMessageCreator) {
+        return <></>;
+      }
+
+      return <MessageStatus state={message.state ? message.state : MessageState.SENT} />;
+    }, [message?.systemMessageType, message.state, isCurrentUserMessageCreator]);
 
     const rootAttachments = normalizeAttachments(message.attachments);
 
@@ -210,11 +218,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
                 </div>
               )}
             </div>
-            <div className={`${BLOCK_NAME}__state`}>
-              <MessageStatus
-                message={message.state ? message : { ...message, state: MessageState.SENT }}
-              />
-            </div>
+            <div className={`${BLOCK_NAME}__state`}>{messageStatus}</div>
             <div className={`${BLOCK_NAME}__time`}>
               {getShortTimeAmPm(message?.creationDateTime)}
             </div>

@@ -94,8 +94,8 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
 
           delete messagesForChat?.messages[msgIdToDelete || -1];
         });
-        if (messageIds.includes(draft.chats[chatId]?.lastMessageId || -1)) {
-          chat.lastMessageId = chatNewLastMessage?.id;
+        if (messageIds.includes(draft.chats[chatId]?.lastMessageId || -1) && chatNewLastMessage) {
+          chat.lastMessageId = chatNewLastMessage.id;
         }
 
         if (lastMessage?.linkedMessage) {

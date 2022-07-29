@@ -12,7 +12,11 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { replaceInUrl } from '@utils/replace-in-url';
 
 import { AddOrUpdateUsers } from '../../../users/features/add-or-update-users/add-or-update-users';
-import { getChatLastMessageIdSelector, getChatMessagesLengthSelector } from '../../selectors';
+import {
+  getChatLastMessageIdSelector,
+  getChatMessagesLengthSelector,
+  getSelectedChatMessagesSearchStringSelector,
+} from '../../selectors';
 
 import { MessagesDeletedIntegrationEventHandlerSuccess } from './messages-deleted-integration-event-handler-success';
 import { IMessagesDeletedIntegrationEvent } from './messages-deleted-integration-event';
@@ -28,9 +32,10 @@ export class MessagesDeletedIntegrationEventHandler {
     ): SagaIterator {
       const { chatId, messageIds } = action.payload;
       const lastMessageId = yield select(getChatLastMessageIdSelector(chatId));
-      const messageListIsEmpty = (yield select(getChatMessagesLengthSelector(chatId))) === 0;
+      const isMessageListEmpty = (yield select(getChatMessagesLengthSelector(chatId))) === 0;
+      const isSearchStringEmpty = !(yield select(getSelectedChatMessagesSearchStringSelector));
 
-      if (lastMessageId && messageListIsEmpty) {
+      if ((lastMessageId && isMessageListEmpty) || !isSearchStringEmpty) {
         const { data }: AxiosResponse<IMessage> =
           MessagesDeletedIntegrationEventHandler.httpRequest.call(
             yield call(() => MessagesDeletedIntegrationEventHandler.httpRequest.generator(chatId)),

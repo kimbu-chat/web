@@ -279,6 +279,10 @@ export const getChatHasMessageWithIdSelector =
     state.chats.chats[chatId]?.messages.messages[messageId] !== undefined;
 
 // IChatsState selectors
+export const getSelectedChatMessagesSearchStringDraftSelector = (
+  draft: IChatsState,
+): string | undefined => draft.chats[draft?.selectedChatId || -1]?.messages.searchString;
+
 export const getChatExistsDraftSelector = (chatId: number, draft: IChatsState): boolean =>
   chatId !== null && Boolean(draft.chats[chatId]);
 

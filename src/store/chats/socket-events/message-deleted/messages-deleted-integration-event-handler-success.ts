@@ -4,7 +4,11 @@ import { AttachmentType } from 'kimbu-models';
 import { IChatsState } from '@store/chats/chats-state';
 import { INormalizedMessage } from '@store/chats/models';
 
-import { getChatByIdDraftSelector, getChatLastMessageDraftSelector } from '../../selectors';
+import {
+  getChatByIdDraftSelector,
+  getChatLastMessageDraftSelector,
+  getSelectedChatMessagesSearchStringDraftSelector,
+} from '../../selectors';
 
 export interface IMessagesDeletedIntegrationEventHandlerSuccessActionPayload {
   chatId: number;
@@ -29,6 +33,7 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
       const chat = getChatByIdDraftSelector(chatId, draft);
       const lastMessage = getChatLastMessageDraftSelector(chatId, draft);
       const messagesForChat = draft.chats[chatId]?.messages;
+      const isSearchStringEmpty = !getSelectedChatMessagesSearchStringDraftSelector(draft);
 
       if (chat) {
         messageIds.forEach((msgIdToDelete) => {
@@ -96,6 +101,14 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
         });
         if (messageIds.includes(draft.chats[chatId]?.lastMessageId || -1) && chatNewLastMessage) {
           chat.lastMessageId = chatNewLastMessage.id;
+        }
+
+        if (!isSearchStringEmpty && chatNewLastMessage) {
+          chat.lastMessageId = chatNewLastMessage?.id;
+          messagesForChat.messages = {
+            ...messagesForChat.messages,
+            [chatNewLastMessage.id]: chatNewLastMessage,
+          };
         }
 
         if (lastMessage?.linkedMessage) {

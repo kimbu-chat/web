@@ -99,8 +99,11 @@ export class MessagesDeletedIntegrationEventHandlerSuccess {
 
           delete messagesForChat?.messages[msgIdToDelete || -1];
         });
-        if (messageIds.includes(draft.chats[chatId]?.lastMessageId || -1) && chatNewLastMessage) {
-          chat.lastMessageId = chatNewLastMessage.id;
+        const newLastMessage =
+          chatNewLastMessage || messagesForChat?.messages[messagesForChat?.messageIds[0] || -1];
+
+        if (messageIds.includes(draft.chats[chatId]?.lastMessageId || -1) && newLastMessage) {
+          chat.lastMessageId = newLastMessage.id;
         }
 
         if (!isSearchStringEmpty && chatNewLastMessage) {

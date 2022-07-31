@@ -37,7 +37,7 @@ export class GetMessagesSuccess {
 
         if (initializedByScroll) {
           chatMessages.messageIds = [...new Set([...chatMessages.messageIds, ...messageIds])];
-          chatMessages.messages = { ...messages, ...chatMessages.messages };
+          chatMessages.messages = { ...chatMessages.messages, ...messages };
         } else {
           const draftMessageId = draft.chats[chatId]?.draftMessageId;
           const lastMessageId = draft.chats[chatId]?.lastMessageId;

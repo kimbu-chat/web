@@ -132,7 +132,7 @@ const CreateMessageInput = () => {
           const selectionRange = selection.getRangeAt(0);
           if (isSelectionInsideInput(selectionRange, MESSAGE_INPUT_ID)) {
             insertHtmlInSelection(newHtml);
-            messageInput.dispatchEvent(new Event('input', { bubbles: true }));
+            if(textToInsert) messageInput.dispatchEvent(new Event('input', { bubbles: true }));
             return;
           }
         }

@@ -22,6 +22,7 @@ import {
   isCurrentChatUserDeactivatedSelector,
   isCurrentChatUserDeletedSelector,
 } from '@store/chats/selectors';
+import { onKeyDown } from '@utils/on-key-down';
 
 import './chat.scss';
 
@@ -118,5 +119,7 @@ const ChatPage: React.FC = () => {
     </>
   );
 };
+
+document.addEventListener('keydown', onKeyDown);
 
 export default ChatPage;

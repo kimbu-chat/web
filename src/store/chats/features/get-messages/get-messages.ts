@@ -15,7 +15,6 @@ import { MESSAGES_LIMIT } from '@utils/pagination-limits';
 import { IChatsState } from '../../chats-state';
 import { messageArrNormalizationSchema } from '../../normalization';
 import {
-  getChatLastMessageSelector,
   getIsFirstChatsLoadSelector,
   getSelectedChatMessagesSearchStringSelector,
   getSelectedChatSelector,
@@ -71,7 +70,6 @@ export class GetMessages {
       }
 
       const chat = yield select(getSelectedChatSelector);
-      const lastMessage = yield select(getChatLastMessageSelector(chat.id));
 
       if (!chat) {
         return;
@@ -98,7 +96,7 @@ export class GetMessages {
             yield call(() => GetMessages.httpRequest.generator(request)),
           );
 
-          const newMessages = [...data, lastMessage].map((message) => ({
+          const newMessages = data.map((message) => ({
             ...message,
             state:
               chat.interlocutorLastReadMessageId && chat.interlocutorLastReadMessageId >= message.id

@@ -63,8 +63,8 @@ export const chatNormalizationSchema = new schema.Entity<INormalizedChat>(
         messages: chat.lastMessage
           ? {
               messages: {
-                [chat?.lastMessage?.id]: {
-                  ...chat?.lastMessage,
+                [chat.lastMessage.id]: {
+                  ...chat.lastMessage,
                   state:
                     chat.interlocutorLastReadMessageId &&
                     chat.interlocutorLastReadMessageId >= chat.lastMessage.id
@@ -72,7 +72,7 @@ export const chatNormalizationSchema = new schema.Entity<INormalizedChat>(
                       : MessageState.SENT,
                 } as unknown as INormalizedMessage,
               },
-              messageIds: [chat?.lastMessage.id],
+              messageIds: [chat.lastMessage.id],
               loading: false,
               hasMore: true,
             }

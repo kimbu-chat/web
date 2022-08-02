@@ -36,10 +36,14 @@ export class MessagesDeletedIntegrationEventHandler {
       const isSearchStringEmpty = !(yield select(getSelectedChatMessagesSearchStringSelector));
 
       if ((lastMessageId && isMessageListEmpty) || !isSearchStringEmpty) {
-        const { data }: AxiosResponse<IMessage> =
+        const { data }: AxiosResponse<IMessage | string> =
           MessagesDeletedIntegrationEventHandler.httpRequest.call(
             yield call(() => MessagesDeletedIntegrationEventHandler.httpRequest.generator(chatId)),
           );
+
+        if (!data) {
+          return;
+        }
 
         const {
           entities: { messages, users },

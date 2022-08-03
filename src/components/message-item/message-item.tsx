@@ -91,13 +91,21 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
     const selectThisMessage = useCallback(
       (event?: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
+<<<<<<< HEAD
         if(isMessageQueued) {
+=======
+        if(isMessageStateInQueued) {
+>>>>>>> dca65841... was a problem, when select unsent message after any other
           return
         }
         event?.stopPropagation();
         selectMessage({ messageId });
       },
+<<<<<<< HEAD
       [messageId, selectMessage, isMessageQueued],
+=======
+      [messageId, selectMessage, isMessageStateInQueued],
+>>>>>>> dca65841... was a problem, when select unsent message after any other
     );
 
     const getMessageIcon = (): ReactElement => {

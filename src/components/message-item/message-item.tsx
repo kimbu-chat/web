@@ -91,21 +91,13 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
 
     const selectThisMessage = useCallback(
       (event?: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>) => {
-<<<<<<< HEAD
         if(isMessageQueued) {
-=======
-        if(isMessageStateInQueued) {
->>>>>>> dca65841... was a problem, when select unsent message after any other
           return
         }
         event?.stopPropagation();
         selectMessage({ messageId });
       },
-<<<<<<< HEAD
       [messageId, selectMessage, isMessageQueued],
-=======
-      [messageId, selectMessage, isMessageStateInQueued],
->>>>>>> dca65841... was a problem, when select unsent message after any other
     );
 
     const getMessageIcon = (): ReactElement => {
@@ -195,7 +187,6 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               className={classNames(`${BLOCK_NAME}__checkbox`, {
                 [`${BLOCK_NAME}__checkbox--unselected`]: !isSelected,
                 [`${BLOCK_NAME}__checkbox--hidden`]: isMessageQueued,
->>>>>>> 9638a02a... added a hidden property of checkbox
               })}>
               <SelectSvg />
             </button>

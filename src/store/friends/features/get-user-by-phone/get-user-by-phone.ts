@@ -27,12 +27,14 @@ export class GetUserByPhone {
           .filter((x) => x !== ' ' && x !== '+')
           .join('');
 
-        const { data } = GetUserByPhone.httpRequest.call(
+        const response = GetUserByPhone.httpRequest.call(
           yield call(() => GetUserByPhone.httpRequest.generator({ phone: parsedPhone })),
         );
 
-        action.meta?.deferred?.resolve(data);
-      } catch {
+        if (response.status === 204) throw new Error('204 has been returned');
+
+        action.meta?.deferred?.resolve(response.data);
+      } catch(e) {
         action.meta?.deferred?.reject();
       }
     };

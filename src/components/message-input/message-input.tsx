@@ -187,9 +187,8 @@ const CreateMessageInput = () => {
   ]);
 
   useEffect(() => {
-
     if (messageInputRef.current) {
-      if(editingMessage?.text || editingMessage?.text === '') {
+      if (editingMessage?.text || editingMessage?.text === '') {
         messageInputRef.current.innerHTML = '';
 
         insertTextAndUpdateCursor(editingMessage.text);

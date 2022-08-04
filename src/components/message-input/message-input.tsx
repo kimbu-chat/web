@@ -187,12 +187,12 @@ const CreateMessageInput = () => {
   ]);
 
   useEffect(() => {
-    const newText = editingMessage?.text || '';
-
     if (messageInputRef.current) {
-      messageInputRef.current.innerHTML = '';
+      if (editingMessage?.text || editingMessage?.text === '') {
+        messageInputRef.current.innerHTML = '';
 
-      insertTextAndUpdateCursor(newText);
+        insertTextAndUpdateCursor(editingMessage.text);
+      }
     }
     setRemovedAttachments(undefined);
   }, [editingMessage?.text, insertTextAndUpdateCursor]);

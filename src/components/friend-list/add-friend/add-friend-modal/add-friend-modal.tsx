@@ -47,13 +47,11 @@ const InitialAddFriendModal: React.FC<IAddFriendModalProps & IModalChildrenProps
     getUserByPhone<IGetUserByPhoneNumberQueryResult>({ phone })
       .then((result) => {
         setLoading(false);
-        if (result) {
-          setFoundResult(result);
-        }
+        setFoundResult(result);
       })
       .catch(() => {
         setLoading(false);
-        setError(true)
+        setError(true);
       });
   }, [phone, setFoundResult, getUserByPhone]);
 

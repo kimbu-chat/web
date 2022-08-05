@@ -31,10 +31,10 @@ export class GetUserByPhone {
           yield call(() => GetUserByPhone.httpRequest.generator({ phone: parsedPhone })),
         );
 
-        if (response.status === 204) throw new Error('204 has been returned');
+        if (response.status === 204) action.meta?.deferred?.reject();
 
         action.meta?.deferred?.resolve(response.data);
-      } catch(e) {
+      } catch {
         action.meta?.deferred?.reject();
       }
     };

@@ -25,6 +25,7 @@ const EffectImage: React.FC<EffectImageWithIntersecting> = ({
   isIntersecting,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+
   return (
     <>
       {thumb && (

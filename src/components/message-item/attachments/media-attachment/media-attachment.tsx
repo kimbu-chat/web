@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { AttachmentType, IPictureAttachment, IVideoAttachment } from 'kimbu-models';
+import { AttachmentType, IVideoAttachment } from 'kimbu-models';
 
 import { MediaModal } from '@components/image-modal';
 import ProgressiveImage from '@components/progressive-image';
@@ -44,8 +44,8 @@ export const MediaAttachment: React.FC<IMediaAttachmentProps> = ({
         {(currentAttachment?.type === AttachmentType.Picture ||
           currentAttachment?.fileName?.endsWith('.gif')) && (
           <ProgressiveImage
-            thumb={(currentAttachment as IPictureAttachment).previewUrl}
-            src={currentAttachment?.url || previewUrl}
+            thumb={previewUrl}
+            src={currentAttachment?.url}
             alt={currentAttachment.fileName || ''}
             width={280}
             height={210}

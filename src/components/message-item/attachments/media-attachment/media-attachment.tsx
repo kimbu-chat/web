@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { AttachmentType, IPictureAttachment, IVideoAttachment } from 'kimbu-models';
 
@@ -14,13 +14,13 @@ import type { ObserveFn } from '@hooks/use-intersection-observer';
 
 import './media-attachment.scss';
 
-interface IMessageMediaAttachmentProps {
+interface IMediaAttachmentProps {
   attachmentId: number;
   attachmentsArr: INamedAttachment[];
   observeIntersection: ObserveFn;
 }
 
-export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
+export const MediaAttachment: React.FC<IMediaAttachmentProps> = ({
   attachmentId,
   attachmentsArr,
   observeIntersection,
@@ -28,10 +28,16 @@ export const MessageMediaAttachment: React.FC<IMessageMediaAttachmentProps> = ({
   const [bigMediaDisplayed, displayBigMedia, hideBigMedia] = useToggledState(false);
 
   const currentAttachment = attachmentsArr.find(({ id }) => id === attachmentId);
-  let previewUrl = '';
-  if (currentAttachment && 'file' in currentAttachment) {
-    previewUrl = URL.createObjectURL((currentAttachment as IAttachmentToSend)?.file);
-  }
+  const { file } = currentAttachment as unknown as IAttachmentToSend;
+
+  const previewUrl = useMemo(() => {
+    if (file) {
+      return URL.createObjectURL(file);
+    }
+
+    return '';
+  }, [file]);
+
   return (
     <>
       <div onClick={displayBigMedia} className="media-attachment">

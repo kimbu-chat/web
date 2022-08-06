@@ -47,13 +47,12 @@ const InitialAddFriendModal: React.FC<IAddFriendModalProps & IModalChildrenProps
     getUserByPhone<IGetUserByPhoneNumberQueryResult>({ phone })
       .then((result) => {
         setLoading(false);
-        if (result) {
-          setFoundResult(result);
-        } else {
-          setError(true);
-        }
+        setFoundResult(result);
       })
-      .catch(() => setError(true));
+      .catch(() => {
+        setLoading(false);
+        setError(true);
+      });
   }, [phone, setFoundResult, getUserByPhone]);
 
   const addRequiredUser = useCallback(() => {

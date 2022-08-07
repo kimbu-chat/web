@@ -36,19 +36,19 @@ const ChatControlPanel: React.FC<IChatControlPanelProps> = React.memo(
     }, [onClose]);
 
     const openCreateGroupChat = useCallback(() => {
-        onCreateGroupChat();
-        onClose()
-    }, [onCreateGroupChat, onClose])
+      onCreateGroupChat();
+      onClose();
+    }, [onCreateGroupChat, onClose]);
 
     const openCreateNewChat = useCallback(() => {
-        onCreateNewChat();
-        onClose()
-    }, [onCreateNewChat, onClose])
+      onCreateNewChat();
+      onClose();
+    }, [onCreateNewChat, onClose]);
 
     const openCreateAddFriend = useCallback(() => {
-        onCreateAddFriend();
-        onClose()
-    }, [onCreateAddFriend, onClose])
+      onCreateAddFriend();
+      onClose();
+    }, [onCreateAddFriend, onClose]);
 
     return (
       <div className={BLOCK_NAME} onClick={onClose}>

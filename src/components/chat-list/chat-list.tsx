@@ -58,9 +58,9 @@ const ChatList = React.memo(() => {
     setChatControlPanelIsOpen((oldState) => !oldState);
   }, [setChatControlPanelIsOpen]);
 
-  const [createGroupChatDisplayed, displayGroupChat, hideGroupChat] = useToggledState(false)
-  const [createNewMessageDisplayed, displayNewMessage, hideNewMessage] = useToggledState(false)
-  const [createAddFriendDisplayed, displayAddFriend, hideAddFriend] = useToggledState(false)
+  const [createGroupChatDisplayed, displayGroupChat, hideGroupChat] = useToggledState(false);
+  const [createNewMessageDisplayed, displayNewMessage, hideNewMessage] = useToggledState(false);
+  const [createAddFriendDisplayed, displayAddFriend, hideAddFriend] = useToggledState(false);
 
   const [searchString, setSearchString] = useState('');
   const changeSearchString = useCallback(
@@ -142,15 +142,10 @@ const ChatList = React.memo(() => {
       </div>
 
       {createGroupChatDisplayed && (
-        <CreateGroupChatModal
-          animationMode={AnimationMode.ENABLED}
-          onClose={hideGroupChat}
-        />
+        <CreateGroupChatModal animationMode={AnimationMode.ENABLED} onClose={hideGroupChat} />
       )}
 
-      {createNewMessageDisplayed && (
-        <AddFriendModal onClose={hideNewMessage} />
-      )}
+      {createNewMessageDisplayed && <AddFriendModal onClose={hideNewMessage} />}
 
       {createAddFriendDisplayed && <NewChatModal onClose={hideAddFriend} />}
     </>

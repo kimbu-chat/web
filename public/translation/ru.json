@@ -158,7 +158,10 @@
     "add-users": "Добавить в чат",
     "actions": "Действия",
     "remove-chat": "Удалить чат",
-    "search": "Поиск"
+    "search": "Поиск",
+    "create-group-chat": "Создать Групповой Чат",
+    "new-direct-message": "Отправить Личное Сообщение",
+    "add-new-contact": "Добавить Новый Контак"
   },
   "removeChatModal": {
     "title": "Удалить чат",

@@ -11462,10 +11462,10 @@ react-draggable@4.4.3:
     classnames "^2.2.5"
     prop-types "^15.6.0"
 
-react-easy-crop@3.5.2:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/react-easy-crop/-/react-easy-crop-3.5.2.tgz#1fc65249e82db407c8c875159589a8029a9b7a06"
-  integrity sha512-cwSGO/wk42XDpEyrdAcnQ6OJetVDZZO2ry1i19+kSGZQ750aN06RU9y9z95B5QI6sW3SnaWQRKv5r5GSqVV//g==
+react-easy-crop@4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/react-easy-crop/-/react-easy-crop-4.4.2.tgz#e2d614fc24db940e1fa24a2c9add6fb1963680d4"
+  integrity sha512-ciRvUTeLgWm/U9YoG8NtxJ4l78cti6HPDlFLs7M84/CQlPu5/S4e8dKNp0V1zGqmeatJnpU5whjj+rS0NBqfiw==
   dependencies:
     normalize-wheel "^1.0.1"
     tslib "2.0.1"
@@ -13549,7 +13549,7 @@ tslib@2.0.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.1.tgz#410eb0d113e5b6356490eec749603725b021b43e"
   integrity sha512-SgIkNheinmEBgx1IUNirK0TUD4X9yjjBRTqqjggWCU3pUEqIk3/Uwl3yRixYKT6WjQuGiwDv4NomL3wqRCj+CQ==
 
-tslib@2.2.0, tslib@^2.0.3, tslib@^2.1.0:
+tslib@2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.2.0.tgz#fb2c475977e35e241311ede2693cee1ec6698f5c"
   integrity sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w==
@@ -13559,7 +13559,7 @@ tslib@^1.8.1, tslib@^1.9.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2:
+tslib@^2, tslib@^2.0.3, tslib@^2.1.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==

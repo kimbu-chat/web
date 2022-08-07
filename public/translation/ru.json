@@ -161,7 +161,7 @@
     "search": "Поиск",
     "create-group-chat": "Создать Групповой Чат",
     "new-direct-message": "Отправить Личное Сообщение",
-    "add-new-contact": "Добавить Новый Контак"
+    "add-new-contact": "Добавить Новый Контакт"
   },
   "removeChatModal": {
     "title": "Удалить чат",

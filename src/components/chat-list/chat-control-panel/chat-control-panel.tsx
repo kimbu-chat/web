@@ -35,20 +35,27 @@ const ChatControlPanel: React.FC<IChatControlPanelProps> = React.memo(
       };
     }, [onClose]);
 
-    const closePanelAndOpenModal = useCallback(
-      (openModal: () => void) => {
-        openModal();
-        onClose();
-      },
-      [onClose],
-    );
+    const openCreateGroupChat = useCallback(() => {
+        onCreateGroupChat();
+        onClose()
+    }, [onCreateGroupChat, onClose])
+
+    const openCreateNewChat = useCallback(() => {
+        onCreateNewChat();
+        onClose()
+    }, [onCreateNewChat, onClose])
+
+    const openCreateAddFriend = useCallback(() => {
+        onCreateAddFriend();
+        onClose()
+    }, [onCreateAddFriend, onClose])
 
     return (
       <div className={BLOCK_NAME} onClick={onClose}>
         <div className={`${BLOCK_NAME}__items`} onClick={stopPropagation}>
           <button
             type="button"
-            onClick={() => closePanelAndOpenModal(onCreateGroupChat)}
+            onClick={openCreateGroupChat}
             className={`${BLOCK_NAME}__items__item`}>
             <GroupSvg className={`${BLOCK_NAME}__items__item-logo`} />
             <span className={`${BLOCK_NAME}__items__item-title`}>
@@ -57,7 +64,7 @@ const ChatControlPanel: React.FC<IChatControlPanelProps> = React.memo(
           </button>
           <button
             type="button"
-            onClick={() => closePanelAndOpenModal(onCreateNewChat)}
+            onClick={openCreateNewChat}
             className={`${BLOCK_NAME}__items__item`}>
             <SendSvg className={`${BLOCK_NAME}__items__item-logo`} />
             <span className={`${BLOCK_NAME}__items__item-title`}>
@@ -66,7 +73,7 @@ const ChatControlPanel: React.FC<IChatControlPanelProps> = React.memo(
           </button>
           <button
             type="button"
-            onClick={() => closePanelAndOpenModal(onCreateAddFriend)}
+            onClick={openCreateAddFriend}
             className={`${BLOCK_NAME}__items__item`}>
             <AddContactSvg className={`${BLOCK_NAME}__items__item-logo`} />
             <span className={`${BLOCK_NAME}__items__item-title`}>

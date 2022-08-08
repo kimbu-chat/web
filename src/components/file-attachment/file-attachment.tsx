@@ -3,18 +3,27 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classnames from 'classnames';
 import { IAttachmentBase } from 'kimbu-models';
 
+import { Loader, LoaderSize } from '@components/loader';
 import { ReactComponent as DownloadSvg } from '@icons/download.svg';
 import { ReactComponent as ProgressSVG } from '@icons/ic-progress.svg';
 import { fileDownload } from '@utils/file-download';
 import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';
-
 import './file-attachment.scss';
 
 const BLOCK_NAME = 'file-attachment';
 
-type FileAttachmentProps = IAttachmentBase & { fileName?: string; className?: string };
+type FileAttachmentProps = IAttachmentBase & {
+  fileName?: string;
+  className?: string;
+};
 
-function FileAttachment<T extends FileAttachmentProps>({ fileName, byteSize, url, className }: T) {
+function FileAttachment<T extends FileAttachmentProps>({
+  fileName,
+  byteSize,
+  url,
+  className,
+  success,
+}: T) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloaded, setDownloaded] = useState(0);
 
@@ -55,7 +64,7 @@ function FileAttachment<T extends FileAttachmentProps>({ fileName, byteSize, url
         </div>
       ) : (
         <div onClick={download} className={`${BLOCK_NAME}__download`}>
-          <DownloadSvg />
+          {success === false ? <Loader size={LoaderSize.SMALL} /> : <DownloadSvg />}
         </div>
       )}
       <div className={`${BLOCK_NAME}__data`}>

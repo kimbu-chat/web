@@ -2,6 +2,7 @@ import {
   AttachmentType,
   IAttachmentBase,
   IAudioAttachment,
+  IFileAttachment,
   IPictureAttachment,
   IVideoAttachment,
   IVoiceAttachment,
@@ -31,7 +32,12 @@ export function normalizeAttachments(
           if ((currentAttachment as INamedAttachment).fileName?.endsWith('.gif')) {
             accum.media.push(currentAttachment as IPictureAttachment);
           } else {
-            accum.files.push(currentAttachment);
+            accum.files.push({
+              ...currentAttachment,
+              fileName: (currentAttachment as IFileAttachment).fileName
+                ? (currentAttachment as IFileAttachment).fileName
+                : (currentAttachment as IFileAttachment).file?.name,
+            } as IFileAttachment);
           }
 
           break;

@@ -134,7 +134,10 @@
     "add-users": "Add participants",
     "actions": "Actions",
     "remove-chat": "Remove chat",
-    "search": "Search"
+    "search": "Search",
+    "create-group-chat": "Create Group Chat",
+    "new-direct-message": "New Direct Message",
+    "add-new-contact": "Add New Contact"
   },
   "removeChatModal": {
     "title": "Remove chat",

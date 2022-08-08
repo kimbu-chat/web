@@ -1,14 +1,17 @@
 import React, { useEffect, useCallback, useState, useMemo, useRef } from 'react';
 
+import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { CreateGroupChatModal } from '@components/create-group-chat-modal';
+import { AddFriendModal } from '@components/friend-list/add-friend/add-friend-modal/add-friend-modal';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { CenteredLoader, LoaderSize } from '@components/loader';
-import { NewMessageModal } from '@components/new-message-modal';
+import { NewChatModal } from '@components/new-chat-modal';
 import { SearchBox } from '@components/search-box';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as CreateChatSvg } from '@icons/create-chat.svg';
 import { AnimationMode } from '@shared-components/with-background/with-background';
 import {
@@ -18,6 +21,7 @@ import {
 } from '@store/chats/actions';
 import { getChatsListSelector, getSearchChatsListSelector } from '@store/chats/selectors';
 
+import { ChatControlPanel } from './chat-control-panel/chat-control-panel';
 import { ChatFromList } from './chat-item/chat-item';
 
 import './chat-list.scss';
@@ -49,15 +53,14 @@ const ChatList = React.memo(() => {
     }
   }, [changeSelectedChat, selectedChatId]);
 
-  const [newChatDisplayed, setNewChatDisplayed] = useState(false);
-  const changeNewChatDisplayedState = useCallback(() => {
-    setNewChatDisplayed((oldState) => !oldState);
-  }, [setNewChatDisplayed]);
+  const [chatControlPanelIsOpen, setChatControlPanelIsOpen] = useState(false);
+  const changeChatControlPanelIsOpen = useCallback(() => {
+    setChatControlPanelIsOpen((oldState) => !oldState);
+  }, [setChatControlPanelIsOpen]);
 
-  const [createGroupChatDisplayed, setCreateGroupChatDisplayed] = useState(false);
-  const changeCreateGroupChatDisplayedState = useCallback(() => {
-    setCreateGroupChatDisplayed((oldState) => !oldState);
-  }, []);
+  const [createGroupChatDisplayed, displayGroupChat, hideGroupChat] = useToggledState(false);
+  const [createNewMessageDisplayed, displayNewMessage, hideNewMessage] = useToggledState(false);
+  const [createAddFriendDisplayed, displayAddFriend, hideAddFriend] = useToggledState(false);
 
   const [searchString, setSearchString] = useState('');
   const changeSearchString = useCallback(
@@ -106,12 +109,24 @@ const ChatList = React.memo(() => {
           />
           <button
             type="button"
-            onClick={changeNewChatDisplayedState}
+            onClick={changeChatControlPanelIsOpen}
             className={`${BLOCK_NAME}__search-top__create-chat-btn`}>
             <CreateChatSvg />
           </button>
         </div>
-        <div className={BLOCK_NAME} ref={containerRef}>
+        <div
+          className={classNames(BLOCK_NAME, {
+            [`${BLOCK_NAME}__panel-visible`]: chatControlPanelIsOpen,
+          })}
+          ref={containerRef}>
+          {chatControlPanelIsOpen && (
+            <ChatControlPanel
+              onClose={changeChatControlPanelIsOpen}
+              onCreateGroupChat={displayGroupChat}
+              onCreateAddFriend={displayAddFriend}
+              onCreateNewChat={displayNewMessage}
+            />
+          )}
           {searchChatsList.loading || (chatsList.loading && !chatsList.chatIds.length) ? (
             <CenteredLoader size={LoaderSize.LARGE} />
           ) : (
@@ -125,19 +140,14 @@ const ChatList = React.memo(() => {
           )}
         </div>
       </div>
-      {newChatDisplayed && (
-        <NewMessageModal
-          displayCreateGroupChat={changeCreateGroupChatDisplayedState}
-          onClose={changeNewChatDisplayedState}
-        />
-      )}
 
       {createGroupChatDisplayed && (
-        <CreateGroupChatModal
-          animationMode={AnimationMode.CLOSE}
-          onClose={changeCreateGroupChatDisplayedState}
-        />
+        <CreateGroupChatModal animationMode={AnimationMode.ENABLED} onClose={hideGroupChat} />
       )}
+
+      {createNewMessageDisplayed && <AddFriendModal onClose={hideNewMessage} />}
+
+      {createAddFriendDisplayed && <NewChatModal onClose={hideAddFriend} />}
     </>
   );
 });

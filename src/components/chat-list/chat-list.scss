@@ -7,6 +7,10 @@
   scroll-behavior: smooth;
   position: relative;
 
+  &__panel-visible {
+    overflow: hidden; 
+  }
+
   &__search-top {
     align-items: center;
     background: var(--dt-dark-wt-white);

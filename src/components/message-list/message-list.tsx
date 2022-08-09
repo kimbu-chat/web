@@ -16,6 +16,8 @@ import { MessageItem } from '@components/message-item';
 import { SelectedMessagesData } from '@components/selected-messages-data';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useIntersectionObserver } from '@hooks/use-intersection-observer';
+import { useToggledState } from '@hooks/use-toggled-state';
+import { ReactComponent as ScrollBottom } from '@icons/scroll-to-bottom.svg';
 import { getMessagesAction, markChatAsReadAction } from '@store/chats/actions';
 import {
   getMessagesIdsByChatIdSelector,
@@ -26,6 +28,7 @@ import {
   getSelectedChatUnreadMessagesCountSelector,
   getSelectedChatMessagesSelector,
   getSelectedChatMessagesSearchStringSelector,
+  getSelectedChatLastMessageIdSelector,
 } from '@store/chats/selectors';
 import { checkIfDatesAreDifferentDate } from '@utils/date-utils';
 
@@ -47,6 +50,7 @@ const MessageList = () => {
   const { t } = useTranslation();
 
   const rootRef = useRef<HTMLDivElement>(null);
+  const refToScroll = useRef<HTMLDivElement>(null);
   const animationEnabled = useRef(false);
 
   const { observe: observeIntersectionForMedia } = useIntersectionObserver({
@@ -63,6 +67,9 @@ const MessageList = () => {
   const areMessagesLoading = useSelector(getMessagesLoadingSelector);
   const hasMoreMessages = useSelector(getHasMoreMessagesMessagesSelector);
   const messagesSearchString = useSelector(getSelectedChatMessagesSearchStringSelector);
+  const lastMessageId = useSelector(getSelectedChatLastMessageIdSelector);
+
+  const [isVisibleScrollBtn, displayScrollBtn, hideScrollBtn] = useToggledState(false);
 
   useEffect(() => {
     animationEnabled.current = !messagesIds?.length;
@@ -125,13 +132,33 @@ const MessageList = () => {
 
   useEffect(loadMore, [loadMore, selectedChatId]);
 
+  const onScroll = useCallback(() => {
+    if (refToScroll.current)
+      refToScroll.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, []);
+
+  const onScrollChange = useCallback(
+    (e: React.UIEvent<HTMLElement>) => {
+      const scrollPosTop = Math.abs(e.currentTarget.scrollTop);
+
+      if (rootRef.current) {
+        if (scrollPosTop >= rootRef.current.offsetHeight && !isVisibleScrollBtn) {
+          displayScrollBtn();
+        } else if (scrollPosTop <= rootRef.current.offsetHeight && isVisibleScrollBtn) {
+          hideScrollBtn();
+        }
+      }
+    },
+    [displayScrollBtn, hideScrollBtn, isVisibleScrollBtn],
+  );
+
   if (!selectedChatId) {
     return <Welcome />;
   }
 
   return (
     <div className={`${BLOCK_NAME}__messages-list`}>
-      <div className={`${BLOCK_NAME}__messages-container`} ref={rootRef}>
+      <div className={`${BLOCK_NAME}__messages-container`} ref={rootRef} onScroll={onScrollChange}>
         {!areMessagesLoading &&
           areMessagesLoading !== undefined &&
           !hasMoreMessages &&
@@ -154,6 +181,7 @@ const MessageList = () => {
                   <div key={pack.date} className={`${BLOCK_NAME}__messages-group`}>
                     {pack.messages.map((messageId, index) => (
                       <MessageItem
+                        refToScroll={messageId === lastMessageId ? refToScroll : null}
                         observeIntersection={observeIntersectionForMedia}
                         animated={animationEnabled.current}
                         selectedChatId={selectedChatId}
@@ -185,6 +213,10 @@ const MessageList = () => {
               </>
             )}
       </div>
+
+      {isVisibleScrollBtn && (
+        <ScrollBottom onClick={onScroll} className={`${BLOCK_NAME}__scroll-to-bottom`} />
+      )}
     </div>
   );
 };

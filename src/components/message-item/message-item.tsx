@@ -39,6 +39,7 @@ interface IMessageItemProps {
   isSelected?: boolean;
   animated?: boolean;
   observeIntersection: ObserveFn;
+  refToScroll?: React.RefObject<HTMLDivElement> | null;
 }
 
 const BLOCK_NAME = 'message';
@@ -46,7 +47,15 @@ const BLOCK_NAME = 'message';
 const linkedMessageTypes = [MessageLinkType.Forward, MessageLinkType.Reply];
 
 const MessageItem: React.FC<IMessageItemProps> = React.memo(
-  ({ messageId, selectedChatId, needToShowCreator, isSelected, observeIntersection, animated }) => {
+  ({
+    messageId,
+    selectedChatId,
+    needToShowCreator,
+    isSelected,
+    observeIntersection,
+    animated,
+    refToScroll,
+  }) => {
     const [isMenuVisible, setMenuVisible] = useState(false);
     const isSelectState = useSelector(getIsSelectMessagesStateSelector);
     const myId = useSelector(myIdSelector);
@@ -153,7 +162,8 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
             [`${BLOCK_NAME}__container--incoming`]: !isCurrentUserMessageCreator,
           })}
           onClick={isSelectState ? selectThisMessage : undefined}
-          id={`message-${messageId}`}>
+          id={`message-${messageId}`}
+          ref={refToScroll}>
           {needToShowCreator && (
             <p
               onClick={displayMessageCreatorInfo}

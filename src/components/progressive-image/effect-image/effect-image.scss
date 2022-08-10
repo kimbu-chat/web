@@ -13,7 +13,6 @@
   &__thumb {
     transition: visibility 0ms ease 400ms, transform 0ms ease 400ms;
     visibility: visible;
-    filter: brightness(30%);
   }
 
   &__loader {

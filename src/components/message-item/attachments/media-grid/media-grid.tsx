@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 
+import { IAttachmentToSend } from '@store/chats/models';
 import { INamedAttachment } from '@store/chats/models/named-attachment';
 
 import { MediaAttachment } from '../media-attachment/media-attachment';
@@ -13,18 +14,55 @@ interface IMediaGridProps {
   observeIntersection: ObserveFn;
 }
 
-const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection }) => (
-  <div className={`media-grid ${media.length === 1 ? 'media-grid--1' : ''}`}>
-    {media.map((mediaElement) => (
-      <MediaAttachment
-        observeIntersection={observeIntersection}
-        key={mediaElement.id}
-        attachmentId={mediaElement.id}
-        attachmentsArr={media}
-      />
-    ))}
-  </div>
-);
+const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection }) => {
+  const mediaListRef = useRef<INamedAttachment[] | null>(null);
+
+  useEffect(() => {
+    if (!mediaListRef.current) {
+      mediaListRef.current = media;
+      return;
+    }
+
+    if (media.some((attch, i) => attch.byteSize !== mediaListRef.current?.[i]?.byteSize)) {
+      mediaListRef.current = media;
+      return;
+    }
+
+    if (
+      media.some(
+        (attch, i) =>
+          (attch as unknown as IAttachmentToSend).progress !==
+          (mediaListRef.current?.[i] as unknown as IAttachmentToSend)?.progress,
+      )
+    ) {
+      mediaListRef.current = mediaListRef.current.map((attach, i) => ({
+        ...attach,
+        progress: (media[i] as unknown as IAttachmentToSend)?.progress,
+      }));
+    }
+  }, [media]);
+
+  const mediaList = useMemo(() => {
+    if (!mediaListRef.current) {
+      return media;
+    }
+
+    return mediaListRef.current;
+  }, [media]);
+
+  return (
+    <div className={`media-grid ${media.length === 1 ? 'media-grid--1' : ''}`}>
+      {mediaList.map((mediaElement) => (
+        <MediaAttachment
+          observeIntersection={observeIntersection}
+          key={mediaElement.id}
+          attachmentId={mediaElement.id}
+          attachmentsArr={mediaList}
+        />
+      ))}
+    </div>
+  );
+};
 
 MediaGrid.displayName = 'MediaGrid';
 

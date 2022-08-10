@@ -49,6 +49,7 @@ export const MediaAttachment: React.FC<IMediaAttachmentProps> = ({
             alt={currentAttachment.fileName || ''}
             width={280}
             height={210}
+            currentAttachment={currentAttachment}
             observeIntersection={observeIntersection}
           />
           // <img

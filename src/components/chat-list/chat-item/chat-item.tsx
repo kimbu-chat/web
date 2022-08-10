@@ -9,13 +9,9 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { Avatar } from '@components/avatar';
-import { ReactComponent as MessageErrorSvg } from '@icons/message-error.svg';
-import { ReactComponent as MessageQueuedSvg } from '@icons/message-queued.svg';
-import { ReactComponent as MessageReadSvg } from '@icons/message-read.svg';
-import { ReactComponent as MessageSentSvg } from '@icons/message-sent.svg';
+import { MessageStatus } from '@components/message-status';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import Ripple from '@shared-components/ripple';
-import { MessageState } from '@store/chats/models';
 import {
   getTypingStringSelector,
   getChatSelector,
@@ -41,17 +37,6 @@ const BLOCK_NAME = 'chat-item';
 const truncateOptions = {
   length: 53,
   omission: '...',
-};
-
-// TODO: Make this logic common across chat item and message item
-const messageStatusIconMap = {
-  [MessageState.QUEUED]: <MessageQueuedSvg />,
-  [MessageState.SENT]: <MessageSentSvg />,
-  [MessageState.READ]: <MessageReadSvg />,
-  [MessageState.ERROR]: <MessageErrorSvg />,
-  [MessageState.DELETED]: undefined,
-  [MessageState.LOCALMESSAGE]: undefined,
-  [MessageState.DRAFT]: undefined,
 };
 
 const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
@@ -132,30 +117,25 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   ]);
 
   const messageDateTime = useMemo(() => {
-    if (!chatLastMessage) return '';
+    if (!chatLastMessage?.creationDateTime) return '';
 
     if (checkIfDatesAreDifferentDate(new Date(chatLastMessage.creationDateTime), new Date())) {
       return getDayMonthYear(chatLastMessage.creationDateTime);
     }
 
     return getShortTimeAmPm(chatLastMessage.creationDateTime).toLowerCase();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatLastMessage?.creationDateTime]);
 
   const messageStatus = useMemo(() => {
     if (
-      !chatLastMessage ||
-      !chatLastMessage.state ||
-      chatLastMessage.systemMessageType !== SystemMessageType.None ||
+      !chatLastMessage?.state ||
+      chatLastMessage?.systemMessageType !== SystemMessageType.None ||
       !isLastMessageCreatorCurrentUser
     ) {
-      return '';
+      return <></>;
     }
 
-    return messageStatusIconMap[chatLastMessage.state];
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return <MessageStatus state={chatLastMessage.state} />;
   }, [chatLastMessage?.systemMessageType, chatLastMessage?.state, isLastMessageCreatorCurrentUser]);
 
   return (

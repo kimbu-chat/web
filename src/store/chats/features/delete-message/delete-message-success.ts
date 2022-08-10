@@ -2,7 +2,10 @@ import { createAction } from '@reduxjs/toolkit';
 import { AttachmentType } from 'kimbu-models';
 
 import { IChatsState } from '../../chats-state';
-import { getChatByIdDraftSelector } from '../../selectors';
+import {
+  getChatByIdDraftSelector,
+  getSelectedChatMessagesSearchStringDraftSelector,
+} from '../../selectors';
 
 export interface IDeleteMessageSuccessActionPayload {
   messageIds: number[];
@@ -19,6 +22,7 @@ export class DeleteMessageSuccess {
       const { chatId, messageIds } = payload;
       const chat = getChatByIdDraftSelector(chatId, draft);
       const messagesForChat = draft.chats[chatId]?.messages;
+      const isSearchStringEmpty = !getSelectedChatMessagesSearchStringDraftSelector(draft);
 
       if (chat) {
         messageIds.forEach((msgIdToDelete) => {
@@ -73,7 +77,11 @@ export class DeleteMessageSuccess {
 
         const newLastMessage = messagesForChat?.messages[messagesForChat?.messageIds[0] || -1];
 
-        if (messageIds.includes(draft.chats[chatId]?.lastMessageId || -1) && newLastMessage) {
+        if (
+          messageIds.includes(draft.chats[chatId]?.lastMessageId || -1) &&
+          newLastMessage &&
+          isSearchStringEmpty
+        ) {
           chat.lastMessageId = newLastMessage.id;
         }
       }

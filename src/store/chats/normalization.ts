@@ -1,7 +1,12 @@
 import { IChat, IMessage, ILinkedMessage, IUser } from 'kimbu-models';
 import { schema } from 'normalizr';
 
-import { INormalizedChat, INormalizedLinkedMessage, INormalizedMessage } from '@store/chats/models';
+import {
+  INormalizedChat,
+  INormalizedLinkedMessage,
+  INormalizedMessage,
+  MessageState,
+} from '@store/chats/models';
 
 import { ChatId } from './chat-id';
 
@@ -58,9 +63,16 @@ export const chatNormalizationSchema = new schema.Entity<INormalizedChat>(
         messages: chat.lastMessage
           ? {
               messages: {
-                [chat?.lastMessage?.id]: chat?.lastMessage as unknown as INormalizedMessage,
+                [chat.lastMessage.id]: {
+                  ...chat.lastMessage,
+                  state:
+                    chat.interlocutorLastReadMessageId &&
+                    chat.interlocutorLastReadMessageId >= chat.lastMessage.id
+                      ? MessageState.READ
+                      : MessageState.SENT,
+                } as unknown as INormalizedMessage,
               },
-              messageIds: [chat?.lastMessage.id],
+              messageIds: [chat.lastMessage.id],
               loading: false,
               hasMore: true,
             }

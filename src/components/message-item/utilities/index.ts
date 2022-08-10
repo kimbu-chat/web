@@ -2,7 +2,6 @@ import {
   AttachmentType,
   IAttachmentBase,
   IAudioAttachment,
-  IFileAttachment,
   IPictureAttachment,
   IVideoAttachment,
   IVoiceAttachment,
@@ -17,6 +16,13 @@ export type NormalizeAccumulator = {
   media: (IVideoAttachment | IPictureAttachment)[];
   audios: IAudioAttachment[];
   recordings: (IVoiceAttachment & { clientId?: number })[];
+};
+
+export type IFileAttachment = IAttachmentBase & {
+  fileName: string;
+  file?: {
+    name: string;
+  };
 };
 
 export function normalizeAttachments(

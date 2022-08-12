@@ -5,7 +5,6 @@
   height: calc(100vh - 64px);
   overflow-y: auto;
   scroll-behavior: smooth;
-  position: relative;
 
   &__panel-visible {
     overflow: hidden; 
@@ -16,6 +15,7 @@
     background: var(--dt-dark-wt-white);
     display: flex;
     justify-content: flex-start;
+    position: relative;
 
     &__search-container {
       height: 32px;

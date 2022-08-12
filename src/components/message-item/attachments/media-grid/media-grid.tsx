@@ -29,15 +29,19 @@ const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection }) =>
     }
 
     if (
-      media.some(
-        (attch, i) =>
-          (attch as unknown as IAttachmentToSend).progress !==
-          (mediaListRef.current?.[i] as unknown as IAttachmentToSend)?.progress,
-      )
+      media.some((attch, i) => {
+        const { progress: mediaProgress } = attch as unknown as IAttachmentToSend;
+        const { progress: mediaRefProgress } = mediaListRef.current?.[
+          i
+        ] as unknown as IAttachmentToSend;
+
+        return mediaProgress !== mediaRefProgress || attch.url !== mediaListRef.current?.[i]?.url;
+      })
     ) {
       mediaListRef.current = mediaListRef.current.map((attach, i) => ({
         ...attach,
         progress: (media[i] as unknown as IAttachmentToSend)?.progress,
+        url: media[i].url,
       }));
     }
   }, [media]);

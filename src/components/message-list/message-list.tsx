@@ -33,6 +33,8 @@ import { checkIfDatesAreDifferentDate } from '@utils/date-utils';
 
 import { Welcome } from '../welcome/welcome';
 
+import type { ScrollAnchorType } from '@components/message-item/message-item';
+
 import './message-list.scss';
 
 const BLOCK_NAME = 'chat';
@@ -40,11 +42,6 @@ const BLOCK_NAME = 'chat';
 type ISeparatedMessagesPack = {
   date: string;
   messages: number[];
-};
-
-export type ScrollAnchorType = {
-  id: number;
-  autoScroll: boolean;
 };
 
 const MessageList = () => {

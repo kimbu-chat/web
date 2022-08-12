@@ -9,7 +9,6 @@ import { Avatar } from '@components/avatar';
 import { ForwardedMessage } from '@components/message-item/forwarded-message';
 import { SystemMessage } from '@components/message-item/system-message';
 import { normalizeAttachments } from '@components/message-item/utilities';
-import { ScrollAnchorType } from '@components/message-list/message-list';
 import { MessageStatus } from '@components/message-status';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
@@ -43,6 +42,11 @@ interface IMessageItemProps {
   onAddAnchors?: (anchors: ScrollAnchorType[]) => void;
   ref: HTMLDivElement;
 }
+
+export type ScrollAnchorType = {
+  id: number;
+  autoScroll: boolean;
+};
 
 const BLOCK_NAME = 'message';
 

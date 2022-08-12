@@ -4,7 +4,6 @@ import classnames from 'classnames';
 import noop from 'lodash/noop';
 
 import { useIsIntersecting, ObserveFn } from '@hooks/use-intersection-observer';
-import { INamedAttachment } from '@store/chats/models/named-attachment';
 
 import Image from './effect-image/effect-image';
 
@@ -18,7 +17,7 @@ interface ImageContainerProps extends EffectImageProps {
   width: number;
   height: number;
   className?: string;
-  currentAttachment?: INamedAttachment;
+  progress?: number;
   onClick?: () => void;
   onIsVisible?: () => void;
   observeIntersection: ObserveFn;
@@ -31,7 +30,7 @@ const ProgressiveImage: React.FC<ImageContainerProps> = ({
   alt,
   thumb,
   src,
-  currentAttachment,
+  progress,
   className,
   observeIntersection,
 }) => {
@@ -49,7 +48,7 @@ const ProgressiveImage: React.FC<ImageContainerProps> = ({
         src={src}
         thumb={thumb}
         alt={alt}
-        currentAttachment={currentAttachment}
+        progress={progress}
         isIntersecting={isIntersecting}
       />
     </div>

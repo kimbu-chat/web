@@ -49,7 +49,7 @@ export const MediaAttachment: React.FC<IMediaAttachmentProps> = ({
             alt={currentAttachment.fileName || ''}
             width={280}
             height={210}
-            currentAttachment={currentAttachment}
+            progress={(currentAttachment as unknown as IAttachmentToSend).progress}
             observeIntersection={observeIntersection}
           />
           // <img

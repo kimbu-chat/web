@@ -15,6 +15,7 @@ const BLOCK_NAME = 'file-attachment';
 type FileAttachmentProps = IAttachmentBase & {
   fileName?: string;
   className?: string;
+  success?: boolean;
 };
 
 function FileAttachment<T extends FileAttachmentProps>({

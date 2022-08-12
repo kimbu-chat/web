@@ -4,8 +4,6 @@ import classnames from 'classnames';
 
 import { Loader, LoaderSize } from '@components/loader';
 import './effect-image.scss';
-import { IAttachmentToSend } from '@store/chats/models';
-import { INamedAttachment } from '@store/chats/models/named-attachment';
 
 const BLOCK_NAME = 'effect-image';
 
@@ -13,7 +11,7 @@ export type EffectImageProps = {
   alt?: string;
   thumb?: string;
   src?: string;
-  currentAttachment?: INamedAttachment;
+  progress?: number;
 };
 
 interface EffectImageWithIntersecting extends EffectImageProps {
@@ -25,11 +23,11 @@ const EffectImage: React.FC<EffectImageWithIntersecting> = ({
   thumb,
   src,
   isIntersecting,
-  currentAttachment,
+  progress,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const isUploaded = (currentAttachment as unknown as IAttachmentToSend)?.progress === 100;
+  const isUploaded = progress === 100;
 
   return (
     <>

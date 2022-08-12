@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 
 import dayjs from 'dayjs';
 import { SystemMessageType } from 'kimbu-models';
@@ -12,7 +12,7 @@ import {
 } from '@common/constants';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { CenteredLoader, LoaderSize } from '@components/loader';
-import { MessageItem } from '@components/message-item';
+import { MemorizedMessageItem } from '@components/message-item';
 import { SelectedMessagesData } from '@components/selected-messages-data';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useIntersectionObserver } from '@hooks/use-intersection-observer';
@@ -28,7 +28,6 @@ import {
   getSelectedChatUnreadMessagesCountSelector,
   getSelectedChatMessagesSelector,
   getSelectedChatMessagesSearchStringSelector,
-  getSelectedChatLastMessageIdSelector,
 } from '@store/chats/selectors';
 import { checkIfDatesAreDifferentDate } from '@utils/date-utils';
 
@@ -41,6 +40,11 @@ const BLOCK_NAME = 'chat';
 type ISeparatedMessagesPack = {
   date: string;
   messages: number[];
+};
+
+export type ScrollAnchorType = {
+  id: number;
+  autoScroll: boolean;
 };
 
 const MessageList = () => {
@@ -67,9 +71,10 @@ const MessageList = () => {
   const areMessagesLoading = useSelector(getMessagesLoadingSelector);
   const hasMoreMessages = useSelector(getHasMoreMessagesMessagesSelector);
   const messagesSearchString = useSelector(getSelectedChatMessagesSearchStringSelector);
-  const lastMessageId = useSelector(getSelectedChatLastMessageIdSelector);
 
   const [isVisibleScrollBtn, displayScrollBtn, hideScrollBtn] = useToggledState(false);
+
+  const [anchorsToScroll, setAnchorsToScroll] = useState<ScrollAnchorType[]>([]);
 
   useEffect(() => {
     animationEnabled.current = !messagesIds?.length;
@@ -133,9 +138,39 @@ const MessageList = () => {
   useEffect(loadMore, [loadMore, selectedChatId]);
 
   const onScroll = useCallback(() => {
-    if (refToScroll.current)
-      refToScroll.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    const currentScrollAnchor = anchorsToScroll[0];
+
+    if (rootRef.current) {
+      if (refToScroll.current && currentScrollAnchor.autoScroll) {
+        rootRef.current.scrollTo(
+          0,
+          refToScroll.current.offsetTop -
+            rootRef.current.offsetHeight / 2 +
+            refToScroll.current.offsetHeight / 2,
+        );
+      } else if (!refToScroll.current && !currentScrollAnchor) {
+        rootRef.current.scrollTo(0, rootRef.current.offsetHeight);
+      }
+    }
+  }, [anchorsToScroll]);
+
+  const addAnchors = useCallback((anchors: ScrollAnchorType[]) => {
+    setAnchorsToScroll(() => [...anchors]);
   }, []);
+
+  const removeLastAnchor = useCallback(() => {
+    setAnchorsToScroll((oldState) => {
+      const returnArray = [...oldState.slice(1)];
+
+      if (returnArray.length) {
+        returnArray[0].autoScroll = true;
+      }
+
+      return returnArray;
+    });
+  }, []);
+
+  useEffect(onScroll, [anchorsToScroll, onScroll]);
 
   const onScrollChange = useCallback(
     (e: React.UIEvent<HTMLElement>) => {
@@ -148,8 +183,12 @@ const MessageList = () => {
           hideScrollBtn();
         }
       }
+
+      if (scrollPosTop === 0 && anchorsToScroll.length) {
+        setAnchorsToScroll([]);
+      }
     },
-    [displayScrollBtn, hideScrollBtn, isVisibleScrollBtn],
+    [displayScrollBtn, hideScrollBtn, isVisibleScrollBtn, anchorsToScroll.length],
   );
 
   if (!selectedChatId) {
@@ -180,8 +219,9 @@ const MessageList = () => {
                 {separatedMessagesPacks.map((pack) => (
                   <div key={pack.date} className={`${BLOCK_NAME}__messages-group`}>
                     {pack.messages.map((messageId, index) => (
-                      <MessageItem
-                        refToScroll={messageId === lastMessageId ? refToScroll : null}
+                      <MemorizedMessageItem
+                        ref={anchorsToScroll[0]?.id === messageId ? refToScroll : null}
+                        onAddAnchors={addAnchors}
                         observeIntersection={observeIntersectionForMedia}
                         animated={animationEnabled.current}
                         selectedChatId={selectedChatId}
@@ -215,7 +255,7 @@ const MessageList = () => {
       </div>
 
       {isVisibleScrollBtn && (
-        <ScrollBottom onClick={onScroll} className={`${BLOCK_NAME}__scroll-to-bottom`} />
+        <ScrollBottom onClick={removeLastAnchor} className={`${BLOCK_NAME}__scroll-to-bottom`} />
       )}
     </div>
   );

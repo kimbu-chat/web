@@ -9,6 +9,7 @@ import { Avatar } from '@components/avatar';
 import { ForwardedMessage } from '@components/message-item/forwarded-message';
 import { SystemMessage } from '@components/message-item/system-message';
 import { normalizeAttachments } from '@components/message-item/utilities';
+import { ScrollAnchorType } from '@components/message-list/message-list';
 import { MessageStatus } from '@components/message-status';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as CrayonSvg } from '@icons/crayon.svg';
@@ -39,23 +40,27 @@ interface IMessageItemProps {
   isSelected?: boolean;
   animated?: boolean;
   observeIntersection: ObserveFn;
-  refToScroll?: React.RefObject<HTMLDivElement> | null;
+  onAddAnchors?: (anchors: ScrollAnchorType[]) => void;
+  ref: HTMLDivElement;
 }
 
 const BLOCK_NAME = 'message';
 
 const linkedMessageTypes = [MessageLinkType.Forward, MessageLinkType.Reply];
 
-const MessageItem: React.FC<IMessageItemProps> = React.memo(
-  ({
-    messageId,
-    selectedChatId,
-    needToShowCreator,
-    isSelected,
-    observeIntersection,
-    animated,
-    refToScroll,
-  }) => {
+const MessageItem = React.forwardRef<HTMLDivElement, IMessageItemProps>(
+  (
+    {
+      messageId,
+      selectedChatId,
+      needToShowCreator,
+      isSelected,
+      observeIntersection,
+      animated,
+      onAddAnchors,
+    },
+    ref,
+  ) => {
     const [isMenuVisible, setMenuVisible] = useState(false);
     const isSelectState = useSelector(getIsSelectMessagesStateSelector);
     const myId = useSelector(myIdSelector);
@@ -84,6 +89,15 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
       : message;
 
     const isCurrentUserMessageCreator = message?.userCreatorId === myId;
+
+    const scrollToForward = useCallback(() => {
+      if (isLinkedMessage && onAddAnchors) {
+        onAddAnchors([
+          { id: messageToProcess.id, autoScroll: true },
+          { id: message.id, autoScroll: false },
+        ]);
+      }
+    }, [onAddAnchors, isLinkedMessage, messageToProcess.id, message.id]);
 
     const { t } = useTranslation();
 
@@ -162,8 +176,8 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
             [`${BLOCK_NAME}__container--incoming`]: !isCurrentUserMessageCreator,
           })}
           onClick={isSelectState ? selectThisMessage : undefined}
-          id={`message-${messageId}`}
-          ref={refToScroll}>
+          ref={ref}
+          id={`message-${messageId}`}>
           {needToShowCreator && (
             <p
               onClick={displayMessageCreatorInfo}
@@ -217,7 +231,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               )}
 
               {(isLinkedMessage || message?.text) && (
-                <div className={`${BLOCK_NAME}__content`}>
+                <div className={`${BLOCK_NAME}__content`} onClick={scrollToForward}>
                   {isLinkedMessage &&
                     linkedMessageByType[message.linkedMessageType as MessageLinkType]()}
                   {message?.text && (
@@ -249,6 +263,8 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
   },
 );
 
-MessageItem.displayName = 'MessageItem';
+const MemorizedMessageItem = React.memo(MessageItem);
 
-export { MessageItem };
+MemorizedMessageItem.displayName = 'MemorizedMessageItem';
+
+export { MemorizedMessageItem };

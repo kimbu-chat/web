@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import { APPEARANCE_CHAT_ID } from '@common/constants';
 import { HorizontalSeparator } from '@components/horizontal-separator';
-import { MessageItem } from '@components/message-item';
+import { MemorizedMessageItem } from '@components/message-item';
 import { RadioBox } from '@components/radio-box';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { changeFontSizeAction, changeThemeAction } from '@store/settings/actions';
@@ -69,7 +69,7 @@ const Appearance: React.FC = () => {
       <div className="appearance__theme-box">
         {[-1, -2, -3, -4, -5, -6, -7, -8, -9].map((messageId) => (
           <div key={messageId} className="appearance__theme-box__msg-wrapper">
-            <MessageItem
+            <MemorizedMessageItem
               // eslint-disable-next-line
               observeIntersection={() => () => {}}
               needToShowCreator={messageId === -1}

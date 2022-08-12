@@ -39,14 +39,32 @@ interface IMessageItemProps {
   isSelected?: boolean;
   animated?: boolean;
   observeIntersection: ObserveFn;
+  onAddAnchors?: (anchors: ScrollAnchorType[]) => void;
+  ref: HTMLDivElement;
 }
+
+export type ScrollAnchorType = {
+  id: number;
+  autoScroll: boolean;
+};
 
 const BLOCK_NAME = 'message';
 
 const linkedMessageTypes = [MessageLinkType.Forward, MessageLinkType.Reply];
 
-const MessageItem: React.FC<IMessageItemProps> = React.memo(
-  ({ messageId, selectedChatId, needToShowCreator, isSelected, observeIntersection, animated }) => {
+const MessageItem = React.forwardRef<HTMLDivElement, IMessageItemProps>(
+  (
+    {
+      messageId,
+      selectedChatId,
+      needToShowCreator,
+      isSelected,
+      observeIntersection,
+      animated,
+      onAddAnchors,
+    },
+    ref,
+  ) => {
     const [isMenuVisible, setMenuVisible] = useState(false);
     const isSelectState = useSelector(getIsSelectMessagesStateSelector);
     const myId = useSelector(myIdSelector);
@@ -75,6 +93,15 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
       : message;
 
     const isCurrentUserMessageCreator = message?.userCreatorId === myId;
+
+    const scrollToForward = useCallback(() => {
+      if (isLinkedMessage && onAddAnchors) {
+        onAddAnchors([
+          { id: messageToProcess.id, autoScroll: true },
+          { id: message.id, autoScroll: false },
+        ]);
+      }
+    }, [onAddAnchors, isLinkedMessage, messageToProcess.id, message.id]);
 
     const { t } = useTranslation();
 
@@ -153,6 +180,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
             [`${BLOCK_NAME}__container--incoming`]: !isCurrentUserMessageCreator,
           })}
           onClick={isSelectState ? selectThisMessage : undefined}
+          ref={ref}
           id={`message-${messageId}`}>
           {needToShowCreator && (
             <p
@@ -207,7 +235,7 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
               )}
 
               {(isLinkedMessage || message?.text) && (
-                <div className={`${BLOCK_NAME}__content`}>
+                <div className={`${BLOCK_NAME}__content`} onClick={scrollToForward}>
                   {isLinkedMessage &&
                     linkedMessageByType[message.linkedMessageType as MessageLinkType]()}
                   {message?.text && (
@@ -239,6 +267,8 @@ const MessageItem: React.FC<IMessageItemProps> = React.memo(
   },
 );
 
-MessageItem.displayName = 'MessageItem';
+const MemorizedMessageItem = React.memo(MessageItem);
 
-export { MessageItem };
+MemorizedMessageItem.displayName = 'MemorizedMessageItem';
+
+export { MemorizedMessageItem };

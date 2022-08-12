@@ -113,20 +113,21 @@ const ChatList = React.memo(() => {
             className={`${BLOCK_NAME}__search-top__create-chat-btn`}>
             <CreateChatSvg />
           </button>
-        </div>
-        <div
-          className={classNames(BLOCK_NAME, {
-            [`${BLOCK_NAME}__panel-visible`]: chatControlPanelIsOpen,
-          })}
-          ref={containerRef}>
           {chatControlPanelIsOpen && (
             <ChatControlPanel
+              height={containerRef.current?.scrollHeight}
               onClose={changeChatControlPanelIsOpen}
               onCreateGroupChat={displayGroupChat}
               onCreateAddFriend={displayAddFriend}
               onCreateNewChat={displayNewMessage}
             />
           )}
+        </div>
+        <div
+          className={classNames(BLOCK_NAME, {
+            [`${BLOCK_NAME}__panel-visible`]: chatControlPanelIsOpen,
+          })}
+          ref={containerRef}>
           {searchChatsList.loading || (chatsList.loading && !chatsList.chatIds.length) ? (
             <CenteredLoader size={LoaderSize.LARGE} />
           ) : (
@@ -145,9 +146,9 @@ const ChatList = React.memo(() => {
         <CreateGroupChatModal animationMode={AnimationMode.ENABLED} onClose={hideGroupChat} />
       )}
 
-      {createNewMessageDisplayed && <AddFriendModal onClose={hideNewMessage} />}
+      {createAddFriendDisplayed && <AddFriendModal onClose={hideAddFriend} />}
 
-      {createAddFriendDisplayed && <NewChatModal onClose={hideAddFriend} />}
+      {createNewMessageDisplayed && <NewChatModal onClose={hideNewMessage} />}
     </>
   );
 });

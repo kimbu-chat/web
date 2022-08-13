@@ -48,7 +48,6 @@ export class ChangeSelectedChat {
         if (oldChatMessages) {
           if (oldChatMessages.searchString?.length) {
             oldChatMessages.searchString = '';
-            oldChatMessages.messages = {};
             oldChatMessages.messageIds = [];
             oldChatMessages.hasMore = true;
           } else if (chat && (oldChatMessages?.messageIds.length || 0) > MESSAGES_LIMIT) {

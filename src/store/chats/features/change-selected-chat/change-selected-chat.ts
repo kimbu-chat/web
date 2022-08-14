@@ -44,11 +44,12 @@ export class ChangeSelectedChat {
       if (oldChatId) {
         const chat = getChatByIdDraftSelector(oldChatId, draft);
         const oldChatMessages = draft.chats[oldChatId]?.messages;
-
+        const lastMessageId = draft.chats[oldChatId]?.lastMessageId;
+        
         if (oldChatMessages) {
-          if (oldChatMessages.searchString?.length) {
+          if (oldChatMessages.searchString?.length && lastMessageId) {
             oldChatMessages.searchString = '';
-            oldChatMessages.messageIds = [];
+            oldChatMessages.messageIds = [lastMessageId];
             oldChatMessages.hasMore = true;
           } else if (chat && (oldChatMessages?.messageIds.length || 0) > MESSAGES_LIMIT) {
             const messageIdsToDelete = oldChatMessages.messageIds.slice(

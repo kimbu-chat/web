@@ -198,7 +198,8 @@ const MessageList = () => {
         {!areMessagesLoading &&
           areMessagesLoading !== undefined &&
           !hasMoreMessages &&
-          !messagesIds?.length && (
+          !messagesIds?.length &&
+          !messagesSearchString && (
             <div className={`${BLOCK_NAME}__messages-list__empty`}>
               <p>{t('chat.empty')}</p>
             </div>

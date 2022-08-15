@@ -56,8 +56,7 @@ const PhotoList: React.FC<PhotoListProps> = ({ observeIntersection, rootRef }) =
         className="chat-photo__photo-container"
         onReachBottom={loadMore}
         hasMore={photoForSelectedChat?.hasMore}
-        threshold={0.3}
-        isLoading={photoForSelectedChat?.loading}>
+        threshold={0.3}>
         {photosWithSeparators &&
           separateGroupable<IPictureAttachment>({
             groupableItems: photosWithSeparators,

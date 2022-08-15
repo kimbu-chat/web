@@ -75,8 +75,7 @@ export const CallList = () => {
           <InfiniteScroll
             containerRef={containerRef}
             onReachBottom={loadMore}
-            hasMore={searchString.length ? searchCallsList.hasMore : callsList.hasMore}
-            isLoading={searchString.length ? searchCallsList.loading : callsList.loading}>
+            hasMore={searchString.length ? searchCallsList.hasMore : callsList.hasMore}>
             {renderedCalls}
           </InfiniteScroll>
         )}

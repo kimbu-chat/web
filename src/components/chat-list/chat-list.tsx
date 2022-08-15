@@ -132,8 +132,7 @@ const ChatList = React.memo(() => {
             <InfiniteScroll
               containerRef={containerRef}
               onReachBottom={loadMore}
-              hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}
-              isLoading={searchString.length ? searchChatsList.loading : chatsList.loading}>
+              hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}>
               {renderedChats}
             </InfiniteScroll>
           )}

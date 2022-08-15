@@ -45,7 +45,7 @@ export class ChangeScreenShareStatus {
             tracks.screenSharingTrack.removeEventListener('ended', onEnd);
           }
         };
-      }, buffers.expanding(100));
+      }, buffers.expanding<boolean>(100));
     }
 
     function* trackEndedWatcher(): SagaIterator {

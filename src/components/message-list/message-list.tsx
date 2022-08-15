@@ -91,7 +91,8 @@ const MessageList = () => {
   }, [getMessages, messagesSearchString]);
 
   const formatDateForSeparator = useCallback(
-    (date) => dayjs.utc(date).local().format(DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR).toString(),
+    (date: string) =>
+      dayjs.utc(date).local().format(DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR).toString(),
     [],
   );
 
@@ -211,8 +212,7 @@ const MessageList = () => {
                 containerRef={rootRef}
                 onReachBottom={loadMore}
                 hasMore={hasMoreMessages}
-                className={`${BLOCK_NAME}__messages-list__scroll`}
-                isLoading={areMessagesLoading}>
+                className={`${BLOCK_NAME}__messages-list__scroll`}>
                 {separatedMessagesPacks.map((pack) => (
                   <div key={pack.date} className={`${BLOCK_NAME}__messages-group`}>
                     {pack.messages.map((messageId, index) => (

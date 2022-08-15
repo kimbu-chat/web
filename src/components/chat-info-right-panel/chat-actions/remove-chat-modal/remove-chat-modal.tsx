@@ -21,9 +21,7 @@ interface IRemoveChatModalProps {
 
 const BLOCK_NAME = 'remove-chat-modal';
 
-const InitialRemoveChatModal: React.FC<IRemoveChatModalProps & IModalChildrenProps> = ({
-  animatedClose,
-}) => {
+const InitialRemoveChatModal: React.FC<IModalChildrenProps> = ({ animatedClose }) => {
   const { t } = useTranslation();
 
   const history = useHistory();
@@ -87,7 +85,7 @@ const InitialRemoveChatModal: React.FC<IRemoveChatModalProps & IModalChildrenPro
 const RemoveChatModal: React.FC<IRemoveChatModalProps> = ({ onClose, ...props }) => (
   <Modal closeModal={onClose}>
     {(animatedClose: () => void) => (
-      <InitialRemoveChatModal {...props} onClose={onClose} animatedClose={animatedClose} />
+      <InitialRemoveChatModal {...props} animatedClose={animatedClose} />
     )}
   </Modal>
 );

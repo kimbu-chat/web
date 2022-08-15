@@ -16,54 +16,53 @@ interface IDeleteAccountModalProps {
 
 const BLOCK_NAME = 'delete-account-modal';
 
-export const InitialDeleteAccountModal: React.FC<IDeleteAccountModalProps & IModalChildrenProps> =
-  ({ animatedClose }) => {
-    const { t } = useTranslation();
+export const InitialDeleteAccountModal: React.FC<IModalChildrenProps> = ({ animatedClose }) => {
+  const { t } = useTranslation();
 
-    const deactivateAccount = useActionWithDeferred(deleteAccountAction);
+  const deactivateAccount = useActionWithDeferred(deleteAccountAction);
 
-    const [deleting, setDeleting] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
-    const submitDeleteing = useCallback(() => {
-      setDeleting(true);
-      deactivateAccount();
-    }, [setDeleting, deactivateAccount]);
+  const submitDeleting = useCallback(() => {
+    setDeleting(true);
+    deactivateAccount();
+  }, [setDeleting, deactivateAccount]);
 
-    return (
-      <>
-        <Modal.Header>
-          <>
-            <DeleteSvg className={`${BLOCK_NAME}__icon`} />
-            <span> {t('deleteAccountModal.title')} </span>
-          </>
-        </Modal.Header>
-        <div className={BLOCK_NAME}>
-          <div className={`${BLOCK_NAME}__сontent`}>{t('deleteAccountModal.confirm-content')}</div>
+  return (
+    <>
+      <Modal.Header>
+        <>
+          <DeleteSvg className={`${BLOCK_NAME}__icon`} />
+          <span> {t('deleteAccountModal.title')} </span>
+        </>
+      </Modal.Header>
+      <div className={BLOCK_NAME}>
+        <div className={`${BLOCK_NAME}__content`}>{t('deleteAccountModal.confirm-content')}</div>
 
-          <div className={`${BLOCK_NAME}__btn-block`}>
-            <Button
-              type="button"
-              onClick={animatedClose}
-              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}>
-              {t('deleteAccountModal.cancel')}
-            </Button>
-            <Button
-              type="button"
-              loading={deleting}
-              onClick={submitDeleteing}
-              className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}>
-              {t('deleteAccountModal.confirm')}
-            </Button>
-          </div>
+        <div className={`${BLOCK_NAME}__btn-block`}>
+          <Button
+            type="button"
+            onClick={animatedClose}
+            className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}>
+            {t('deleteAccountModal.cancel')}
+          </Button>
+          <Button
+            type="button"
+            loading={deleting}
+            onClick={submitDeleting}
+            className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--confirm`)}>
+            {t('deleteAccountModal.confirm')}
+          </Button>
         </div>
-      </>
-    );
-  };
+      </div>
+    </>
+  );
+};
 
 const DeleteAccountModal: React.FC<IDeleteAccountModalProps> = ({ onClose, ...props }) => (
   <Modal closeModal={onClose}>
     {(animatedClose: () => void) => (
-      <InitialDeleteAccountModal {...props} onClose={onClose} animatedClose={animatedClose} />
+      <InitialDeleteAccountModal {...props} animatedClose={animatedClose} />
     )}
   </Modal>
 );

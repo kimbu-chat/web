@@ -20,11 +20,7 @@ export const FriendList = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { hasMore: hasMoreFriends, friendIds, loading: friendsLoading } = friendsList;
-  const {
-    hasMore: hasMoreSearchFriends,
-    friendIds: searchFriendIds,
-    loading: searchFriendsLoading,
-  } = searchFriendsList;
+  const { hasMore: hasMoreSearchFriends, friendIds: searchFriendIds } = searchFriendsList;
 
   const loadFriends = useActionWithDispatch(getFriendsAction);
   const resetSearchFriends = useActionWithDispatch(resetSearchFriendsAction);
@@ -82,8 +78,7 @@ export const FriendList = () => {
           <InfiniteScroll
             containerRef={containerRef}
             onReachBottom={loadMore}
-            hasMore={searchString.length ? hasMoreSearchFriends : hasMoreFriends}
-            isLoading={searchString.length ? searchFriendsLoading : friendsLoading}>
+            hasMore={searchString.length ? hasMoreSearchFriends : hasMoreFriends}>
             {renderedFriends}
           </InfiniteScroll>
         )}

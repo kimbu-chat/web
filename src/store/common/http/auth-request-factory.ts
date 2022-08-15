@@ -1,8 +1,8 @@
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
-import { HttpRequestMethod } from './http-request-method';
 import { httpRequest } from './http-request';
+import { HttpRequestMethod } from './http-request-method';
 
 import type { HttpHeaders, IRequestGenerator, UrlGenerator } from './types';
 

@@ -26,8 +26,8 @@ import { ChangeChatMutedStatusSuccess } from './features/change-chat-muted-statu
 import { ChangeSelectedChat } from './features/change-selected-chat/change-selected-chat';
 import { ClearChatHistorySuccess } from './features/clear-chat-history/clear-chat-history-success';
 import { CreateGroupChatSuccess } from './features/create-group-chat/create-group-chat-success';
-import { CreateMessageSuccess } from './features/create-message/create-message-success';
 import { CreateMessage } from './features/create-message/create-message';
+import { CreateMessageSuccess } from './features/create-message/create-message-success';
 import { DeleteMessageSuccess } from './features/delete-message/delete-message-success';
 import { EditGroupChatSuccess } from './features/edit-group-chat/edit-group-chat-success';
 import { EditMessage } from './features/edit-message/edit-message';
@@ -37,27 +37,37 @@ import { SubmitEditMessageSuccess } from './features/edit-message/sumbit-edit-me
 import { ForwardMessages } from './features/forward-messages/forward-messages';
 import { GetAudioAttachmentsSuccess } from './features/get-audio-attachments/get-audio-attachments-success';
 import { GetChatInfoSuccess } from './features/get-chat-info/get-chat-info-success';
+import { GetChats } from './features/get-chats/get-chats';
 import { GetChatsFailure } from './features/get-chats/get-chats-failure';
 import { GetChatsSuccess } from './features/get-chats/get-chats-success';
+<<<<<<< HEAD
 import { GetChats } from './features/get-chats/get-chats';
+=======
+import { GetGroupChatUsers } from './features/get-group-chat-users/get-group-chat-users';
+import { GetGroupChatUsersSuccess } from './features/get-group-chat-users/get-group-chat-users-success';
+import { GetMessages } from './features/get-messages/get-messages';
+>>>>>>> 57bf2ca9 (fix(#1137): fix typescript errors related to react and react-dom upgrades)
 import { GetMessagesFailure } from './features/get-messages/get-messages-failure';
 import { GetMessagesSuccess } from './features/get-messages/get-messages-success';
-import { GetMessages } from './features/get-messages/get-messages';
-import { GetPhotoAttachmentsSuccess } from './features/get-photo-attachments/get-photo-attachments-success';
 import { GetPhotoAttachments } from './features/get-photo-attachments/get-photo-attachments';
-import { GetRawAttachmentsSuccess } from './features/get-raw-attachments/get-raw-attachments-success';
+import { GetPhotoAttachmentsSuccess } from './features/get-photo-attachments/get-photo-attachments-success';
 import { GetRawAttachments } from './features/get-raw-attachments/get-raw-attachments';
-import { GetVideoAttachmentsSuccess } from './features/get-video-attachments/get-video-attachments-success';
+import { GetRawAttachmentsSuccess } from './features/get-raw-attachments/get-raw-attachments-success';
 import { GetVideoAttachments } from './features/get-video-attachments/get-video-attachments';
-import { GetVoiceAttachmentsSuccess } from './features/get-voice-attachments/get-voice-attachments-success';
+import { GetVideoAttachmentsSuccess } from './features/get-video-attachments/get-video-attachments-success';
 import { GetVoiceAttachments } from './features/get-voice-attachments/get-voice-attachments';
+import { GetVoiceAttachmentsSuccess } from './features/get-voice-attachments/get-voice-attachments-success';
 import { LeaveGroupChatSuccess } from './features/leave-group-chat/leave-group-chat-success';
 import { MarkChatAsReadSuccess } from './features/mark-chat-as-read/mark-chat-as-read-success';
 import { MessageTyping } from './features/message-typing/message-typing';
 import { RemoveAllAttachments } from './features/remove-attachment/remove-all-attachments';
 import { RemoveAttachment } from './features/remove-attachment/remove-attachment';
-import { RemoveChatSuccess } from './features/remove-chat/remove-chat-success';
 import { RemoveChat } from './features/remove-chat/remove-chat';
+<<<<<<< HEAD
+=======
+import { RemoveChatSuccess } from './features/remove-chat/remove-chat-success';
+import { RemoveUserFromGroupChatSuccess } from './features/remove-user-from-group-chat/remove-user-from-group-chat-success';
+>>>>>>> 57bf2ca9 (fix(#1137): fix typescript errors related to react and react-dom upgrades)
 import { ReplyToMessage } from './features/reply-to-message/reply-to-message';
 import { ResetReplyToMessage } from './features/reply-to-message/reset-reply-to-message';
 import { ResetSearchChats } from './features/reset-search-chats/reset-search-chats';
@@ -68,8 +78,8 @@ import { UploadAttachmentFailure } from './features/upload-attachment/upload-att
 import { UploadAttachmentProgress } from './features/upload-attachment/upload-attachment-progress';
 import { UploadAttachmentRequest } from './features/upload-attachment/upload-attachment-request';
 import { UploadAttachmentSuccess } from './features/upload-attachment/upload-attachment-success';
-import { UploadVoiceAttachmentSuccess } from './features/upload-voice-attachment/upload-voice-attachment-success';
 import { UploadVoiceAttachment } from './features/upload-voice-attachment/upload-voice-attachment';
+import { UploadVoiceAttachmentSuccess } from './features/upload-voice-attachment/upload-voice-attachment-success';
 import { getChatByIdDraftSelector } from './selectors';
 import { ChatClearedEventHandler } from './socket-events/chat-cleared/chat-cleared-event-handler';
 import { ChatMutedStatusChangedEventHandler } from './socket-events/chat-mute-status-changed/chat-mute-status-changed-event-handler';

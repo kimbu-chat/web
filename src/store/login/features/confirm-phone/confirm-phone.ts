@@ -8,8 +8,8 @@ import { createDeferredAction } from '@store/common/actions';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { ILoginState } from '../../login-state';
-import { LoginSuccess } from '../login/login-success';
 import { Login } from '../login/login';
+import { LoginSuccess } from '../login/login-success';
 
 import { IConfirmPhoneActionPayload } from './action-payloads/confirm-phone-action-payload';
 import { ConfirmPhoneFailure } from './confirm-phone-failure';

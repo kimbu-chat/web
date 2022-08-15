@@ -1,11 +1,11 @@
 import { Reducer } from '@reduxjs/toolkit';
+import { createStore, applyMiddleware, compose, combineReducers, Action } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
-import { createStore, applyMiddleware, compose, combineReducers, Action } from 'redux';
 
 import type { RootReducer } from './root-reducer';
-import type { Saga, Task } from 'redux-saga';
 import type { Store, Dispatch } from 'redux';
+import type { Saga, Task } from 'redux-saga';
 
 // export type RootState = ReturnType<typeof combinedReducer>
 

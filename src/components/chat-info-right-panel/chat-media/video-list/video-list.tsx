@@ -49,8 +49,7 @@ export const VideoList: React.FC<IVideoListProps> = ({ rootRef }) => {
         containerRef={rootRef}
         className="chat-video__scroll"
         onReachBottom={loadMore}
-        hasMore={videosForSelectedChat?.hasMore}
-        isLoading={videosForSelectedChat?.loading}>
+        hasMore={videosForSelectedChat?.hasMore}>
         {videosWithSeparators &&
           separateGroupable<IVideoAttachment>({
             groupableItems: videosWithSeparators,

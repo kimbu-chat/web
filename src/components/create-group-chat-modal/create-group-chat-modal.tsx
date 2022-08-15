@@ -25,10 +25,13 @@ import { UserSelect } from './user-select/user-select';
 
 import './create-group-chat-modal.scss';
 
+interface IInitialCreateGroupChatModalProps {
+  preSelectedUserIds?: number[];
+}
+
 interface ICreateGroupChatModalProps {
   onClose: () => void;
   animationMode?: AnimationMode;
-  preSelectedUserIds?: number[];
 }
 
 enum GroupChatCreationStage {
@@ -38,10 +41,9 @@ enum GroupChatCreationStage {
 
 const BLOCK_NAME = 'create-group-chat';
 
-const InitialCreateGroupChatModal: React.FC<ICreateGroupChatModalProps & IModalChildrenProps> = ({
-  animatedClose,
-  preSelectedUserIds,
-}) => {
+const InitialCreateGroupChatModal: React.FC<
+  IInitialCreateGroupChatModalProps & IModalChildrenProps
+> = ({ animatedClose, preSelectedUserIds }) => {
   const { t } = useTranslation();
 
   const currentUserId = useSelector(myIdSelector);
@@ -62,9 +64,9 @@ const InitialCreateGroupChatModal: React.FC<ICreateGroupChatModalProps & IModalC
   );
 
   const [selectedUserIds, setSelectedUserIds] = useState<number[]>(preSelectedUserIds || []);
-  const [currentStage, setCurrrentStage] = useState(GroupChatCreationStage.UserSelecting);
+  const [currentStage, setCurrentStage] = useState(GroupChatCreationStage.UserSelecting);
   const [creationLoading, setCreationLoading] = useState(false);
-  const [avararUploadResponse, setAvatarUploadResponse] = useState<IAvatar>();
+  const [avatarUploadResponse, setAvatarUploadResponse] = useState<IAvatar>();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
@@ -89,7 +91,7 @@ const InitialCreateGroupChatModal: React.FC<ICreateGroupChatModalProps & IModalC
         currentUserId,
         userIds: selectedUserIds,
         description,
-        avatar: avararUploadResponse,
+        avatar: avatarUploadResponse,
       };
 
       submitGroupChatCreation<IChat>(groupChatToCreate).then((payload) => {
@@ -99,7 +101,7 @@ const InitialCreateGroupChatModal: React.FC<ICreateGroupChatModalProps & IModalC
     }
   }, [
     animatedClose,
-    avararUploadResponse,
+    avatarUploadResponse,
     currentUserId,
     description,
     history,
@@ -109,8 +111,8 @@ const InitialCreateGroupChatModal: React.FC<ICreateGroupChatModalProps & IModalC
   ]);
 
   const goToGroupChatCreationStage = useCallback(() => {
-    setCurrrentStage(GroupChatCreationStage.GroupChatCreating);
-  }, [setCurrrentStage]);
+    setCurrentStage(GroupChatCreationStage.GroupChatCreating);
+  }, [setCurrentStage]);
 
   return (
     <>
@@ -169,14 +171,12 @@ const InitialCreateGroupChatModal: React.FC<ICreateGroupChatModalProps & IModalC
   );
 };
 
-const CreateGroupChatModal: React.FC<ICreateGroupChatModalProps> = ({
-  onClose,
-  animationMode,
-  ...props
-}) => (
+const CreateGroupChatModal: React.FC<
+  ICreateGroupChatModalProps & IInitialCreateGroupChatModalProps
+> = ({ onClose, animationMode, ...props }) => (
   <Modal animationMode={animationMode} closeModal={onClose}>
     {(animatedClose: () => void) => (
-      <InitialCreateGroupChatModal {...props} onClose={onClose} animatedClose={animatedClose} />
+      <InitialCreateGroupChatModal {...props} animatedClose={animatedClose} />
     )}
   </Modal>
 );

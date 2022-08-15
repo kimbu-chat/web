@@ -17,9 +17,7 @@ interface IDeactivateAccountModalProps {
 
 const BLOCK_NAME = 'deactivate-account-modal';
 
-export const InitialDeactivateAccountModal: React.FC<
-  IDeactivateAccountModalProps & IModalChildrenProps
-> = ({ animatedClose }) => {
+export const InitialDeactivateAccountModal: React.FC<IModalChildrenProps> = ({ animatedClose }) => {
   const { t } = useTranslation();
 
   const deactivateAccount = useActionWithDeferred(deactivateAccountAction);
@@ -67,7 +65,7 @@ export const InitialDeactivateAccountModal: React.FC<
 const DeactivateAccountModal: React.FC<IDeactivateAccountModalProps> = ({ onClose, ...props }) => (
   <Modal closeModal={onClose}>
     {(animatedClose: () => void) => (
-      <InitialDeactivateAccountModal {...props} onClose={onClose} animatedClose={animatedClose} />
+      <InitialDeactivateAccountModal {...props} animatedClose={animatedClose} />
     )}
   </Modal>
 );

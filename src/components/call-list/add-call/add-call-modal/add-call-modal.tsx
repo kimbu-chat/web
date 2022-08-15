@@ -20,9 +20,7 @@ interface IAddCallModalProps {
   onClose: () => void;
 }
 
-const InitialAddCallModal: React.FC<IAddCallModalProps & IModalChildrenProps> = ({
-  animatedClose,
-}) => {
+const InitialAddCallModal: React.FC<IModalChildrenProps> = ({ animatedClose }) => {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -38,12 +36,8 @@ const InitialAddCallModal: React.FC<IAddCallModalProps & IModalChildrenProps> = 
     [resetSearchFriends],
   );
 
-  const { hasMore: hasMoreFriends, friendIds, loading: friendsLoading } = friendsList;
-  const {
-    hasMore: hasMoreSearchFriends,
-    friendIds: searchFriendIds,
-    loading: searchFriendsLoading,
-  } = searchFriendsList;
+  const { hasMore: hasMoreFriends, friendIds } = friendsList;
+  const { hasMore: hasMoreSearchFriends, friendIds: searchFriendIds } = searchFriendsList;
 
   const loadFriends = useActionWithDispatch(getFriendsAction);
   const callInterlocutor = useActionWithDispatch(outgoingCallAction);
@@ -118,8 +112,7 @@ const InitialAddCallModal: React.FC<IAddCallModalProps & IModalChildrenProps> = 
           containerRef={containerRef}
           className="add-call-modal__friends-block 1"
           onReachBottom={loadMore}
-          hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
-          isLoading={name.length ? searchFriendsLoading : friendsLoading}>
+          hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}>
           {selectEntities}
         </InfiniteScroll>
       </div>
@@ -130,7 +123,7 @@ const InitialAddCallModal: React.FC<IAddCallModalProps & IModalChildrenProps> = 
 const AddCallModal: React.FC<IAddCallModalProps> = ({ onClose, ...props }) => (
   <Modal closeModal={onClose}>
     {(animatedClose: () => void) => (
-      <InitialAddCallModal {...props} onClose={onClose} animatedClose={animatedClose} />
+      <InitialAddCallModal {...props} animatedClose={animatedClose} />
     )}
   </Modal>
 );

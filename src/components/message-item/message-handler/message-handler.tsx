@@ -9,6 +9,7 @@ import { INormalizedLinkedMessage } from '@store/chats/models';
 
 interface IMessageHandler {
   linkedMessage: INormalizedLinkedMessage;
+  children: React.ReactNode;
 }
 
 export const MessageHandler: React.FC<IMessageHandler> = ({ children, linkedMessage }) => {

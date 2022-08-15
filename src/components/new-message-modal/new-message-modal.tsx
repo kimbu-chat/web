@@ -22,14 +22,17 @@ import { replaceInUrl } from '@utils/replace-in-url';
 
 import './new-message-modal.scss';
 
+interface IInitialNewMessageModalProps {
+  displayCreateGroupChat: () => void;
+}
+
 interface INewMessageModalProps {
   onClose: () => void;
-  displayCreateGroupChat: () => void;
 }
 
 const BLOCK_NAME = 'new-message-modal';
 
-const InitialNewMessageModal: React.FC<INewMessageModalProps & IModalChildrenProps> = ({
+const InitialNewMessageModal: React.FC<IInitialNewMessageModalProps & IModalChildrenProps> = ({
   animatedClose,
   displayCreateGroupChat,
 }) => {
@@ -42,12 +45,8 @@ const InitialNewMessageModal: React.FC<INewMessageModalProps & IModalChildrenPro
   const friendsList = useSelector(getMyFriendsListSelector);
   const searchFriendsList = useSelector(getMySearchFriendsListSelector);
 
-  const { hasMore: hasMoreFriends, friendIds, loading: friendsLoading } = friendsList;
-  const {
-    hasMore: hasMoreSearchFriends,
-    friendIds: searchFriendIds,
-    loading: searchFriendsLoading,
-  } = searchFriendsList;
+  const { hasMore: hasMoreFriends, friendIds } = friendsList;
+  const { hasMore: hasMoreSearchFriends, friendIds: searchFriendIds } = searchFriendsList;
 
   const loadFriends = useActionWithDispatch(getFriendsAction);
   const resetSearchFriends = useActionWithDispatch(resetSearchFriendsAction);
@@ -136,8 +135,7 @@ const InitialNewMessageModal: React.FC<INewMessageModalProps & IModalChildrenPro
           containerRef={containerRef}
           className={`${BLOCK_NAME}__friends-block`}
           onReachBottom={loadMore}
-          hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
-          isLoading={name.length ? searchFriendsLoading : friendsLoading}>
+          hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}>
           {selectEntities}
         </InfiniteScroll>
       </div>
@@ -145,10 +143,13 @@ const InitialNewMessageModal: React.FC<INewMessageModalProps & IModalChildrenPro
   );
 };
 
-const NewMessageModal: React.FC<INewMessageModalProps> = ({ onClose, ...props }) => (
+const NewMessageModal: React.FC<INewMessageModalProps & IInitialNewMessageModalProps> = ({
+  onClose,
+  ...props
+}) => (
   <Modal closeModal={onClose}>
     {(animatedClose: () => void) => (
-      <InitialNewMessageModal {...props} onClose={onClose} animatedClose={animatedClose} />
+      <InitialNewMessageModal {...props} animatedClose={animatedClose} />
     )}
   </Modal>
 );

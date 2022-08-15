@@ -84,7 +84,6 @@ export const ChatMembers: React.FC<IChatMembersProps> = ({ rootRef }) => {
             className={`${BLOCK_NAME}__members-list`}
             onReachBottom={loadMore}
             hasMore={membersListForGroupChat?.hasMore}
-            isLoading={membersListForGroupChat?.loading}
             threshold={0.3}>
             {membersListForGroupChat?.memberIds?.map((memberId: number) => (
               <Member key={memberId} memberId={memberId} ownerId={userCreatorId} />

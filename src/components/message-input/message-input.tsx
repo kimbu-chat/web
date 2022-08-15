@@ -285,15 +285,15 @@ const CreateMessageInput = () => {
   ).current;
 
   const onType = useCallback(
-    (event) => {
-      setText(event.target.innerHTML);
+    (event: React.FormEvent | Mousetrap.ExtendedKeyboardEvent) => {
+      setText((event.target as Element).innerHTML);
 
-      throttledNotifyAboutTyping(event.target.innerHTML);
+      throttledNotifyAboutTyping((event.target as Element).innerHTML);
     },
     [setText, throttledNotifyAboutTyping],
   );
 
-  const onKeyDown = useCallback((event) => {
+  const onKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
     const isSpecial = inputUtils.isSpecial(event);
     const isNavigational = inputUtils.isNavigational(event);
     let hasSelection = false;
@@ -311,7 +311,7 @@ const CreateMessageInput = () => {
       return true;
     }
 
-    if (event.target.innerHTML.length >= INPUT_MAX_LENGTH && !hasSelection) {
+    if ((event.target as Element)?.innerHTML.length >= INPUT_MAX_LENGTH && !hasSelection) {
       event.preventDefault();
       return false;
     }

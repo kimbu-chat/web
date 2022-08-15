@@ -6,10 +6,10 @@ import { ChangeNotificationSoundState } from './features/change-notification-sou
 import { ChangePushNotificationStateSuccess } from './features/change-push-notification-state/change-push-notification-state-success';
 import { ChangeTheme } from './features/change-theme/change-theme';
 import { ChangeTypingStrategy } from './features/change-typing-strategy/change-typing-strategy';
-import { GetBlackListSuccess } from './features/get-black-list/get-black-list-success';
 import { GetBlackList } from './features/get-black-list/get-black-list';
-import { GetSessionListSuccess } from './features/get-sesion-list/get-sesion-list-success';
+import { GetBlackListSuccess } from './features/get-black-list/get-black-list-success';
 import { GetSessionList } from './features/get-sesion-list/get-sesion-list';
+import { GetSessionListSuccess } from './features/get-sesion-list/get-sesion-list-success';
 import { GetUserSettingsSuccess } from './features/get-user-settings/get-user-settings-success';
 import { Langs, Theme, TypingStrategy } from './features/models';
 import { TerminateSessionSuccess } from './features/terminate-session/terminate-session-success';

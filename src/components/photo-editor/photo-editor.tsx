@@ -44,10 +44,13 @@ const railStyle: React.CSSProperties = {
   height: '10px',
 };
 
-interface IPhotoEditorProps {
+interface IInitialPhotoEditorProps {
   imageUrl: string;
-  hideChangePhoto: () => void;
   onSubmit?: (data: IAvatarSelectedData) => Promise<void>;
+}
+
+interface IPhotoEditorProps {
+  hideChangePhoto: () => void;
 }
 
 interface ICrop {
@@ -57,7 +60,7 @@ interface ICrop {
 
 const BLOCK_NAME = 'photo-editor';
 
-const InitialPhotoEditor: React.FC<IPhotoEditorProps & IModalChildrenProps> = ({
+const InitialPhotoEditor: React.FC<IInitialPhotoEditorProps & IModalChildrenProps> = ({
   imageUrl,
   onSubmit,
   animatedClose,
@@ -83,7 +86,7 @@ const InitialPhotoEditor: React.FC<IPhotoEditorProps & IModalChildrenProps> = ({
   );
 
   const onCropComplete = useCallback(
-    (_croppedArea, croppedAreaPixelsToSet) => {
+    (_croppedArea: Area, croppedAreaPixelsToSet: Area) => {
       if (
         croppedAreaPixels?.width !== croppedAreaPixelsToSet.width ||
         croppedAreaPixels?.height !== croppedAreaPixelsToSet.height ||
@@ -220,15 +223,12 @@ const InitialPhotoEditor: React.FC<IPhotoEditorProps & IModalChildrenProps> = ({
   );
 };
 
-const PhotoEditor: React.FC<IPhotoEditorProps> = ({ hideChangePhoto, ...props }) => (
+const PhotoEditor: React.FC<IPhotoEditorProps & IInitialPhotoEditorProps> = ({
+  hideChangePhoto,
+  ...props
+}) => (
   <Modal closeModal={hideChangePhoto}>
-    {(animatedClose: () => void) => (
-      <InitialPhotoEditor
-        {...props}
-        hideChangePhoto={hideChangePhoto}
-        animatedClose={animatedClose}
-      />
-    )}
+    {(animatedClose: () => void) => <InitialPhotoEditor {...props} animatedClose={animatedClose} />}
   </Modal>
 );
 

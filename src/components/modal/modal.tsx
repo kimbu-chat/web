@@ -15,10 +15,14 @@ export type IModalChildrenProps = {
 };
 
 interface IModalProps {
-  children: React.ReactNode;
+  children: (animatedClose: () => void) => JSX.Element;
   closeModal: () => void;
   unclickableBackground?: boolean;
   animationMode?: AnimationMode;
+}
+
+interface IHeaderProps {
+  children: React.ReactNode;
 }
 
 const BLOCK_NAME = 'modal';
@@ -54,7 +58,7 @@ function MainModal({
   );
 }
 
-const Header: React.FC = ({ children }) => (
+const Header: React.FC<IHeaderProps> = ({ children }) => (
   <header className={`${BLOCK_NAME}__header`}>
     <div className={`${BLOCK_NAME}__title`}>{children}</div>
   </header>

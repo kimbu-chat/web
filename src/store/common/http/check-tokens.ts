@@ -3,8 +3,8 @@ import { SagaIterator } from 'redux-saga';
 import { select, put, take } from 'redux-saga/effects';
 
 import { REQUEST_TIMEOUT } from '@common/constants';
-import { RefreshTokenSuccess } from '@store/auth/features/refresh-token/refresh-token-success';
 import { RefreshToken } from '@store/auth/features/refresh-token/refresh-token';
+import { RefreshTokenSuccess } from '@store/auth/features/refresh-token/refresh-token-success';
 import { securityTokensSelector } from '@store/auth/selectors';
 
 export function* checkTokensSaga(): SagaIterator {

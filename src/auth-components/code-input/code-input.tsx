@@ -12,18 +12,28 @@ type CodeInputProps = {
   resending?: boolean;
 };
 
+type Code = {
+  code: string;
+  id: number;
+};
+
 const DEFAULT_CODE_LENGTH = 4;
 
 const BLOCK_NAME = 'code-input';
 
+const initializeCode = (length: number): Code[] =>
+  Array(length)
+    .fill('')
+    .map((x, i) => ({ code: '', id: i }));
+
 export const CodeInput = forwardRef<HTMLDivElement, CodeInputProps>(
   ({ length = DEFAULT_CODE_LENGTH, onComplete, loading, error, resending }, ref) => {
-    const [code, setCode] = useState([...Array(length)].map(() => ''));
+    const [code, setCode] = useState(initializeCode(length));
     const inputs = useRef<(HTMLInputElement | null)[]>([]);
 
     useEffect(() => {
       if (resending) {
-        setCode([...Array(length)].map(() => ''));
+        setCode(initializeCode(length));
       }
     }, [resending, length]);
 
@@ -31,20 +41,20 @@ export const CodeInput = forwardRef<HTMLDivElement, CodeInputProps>(
       const num = e.target.value;
       if (/[^0-9]/.test(num)) return;
       const newCode = [...code];
-      newCode[slot] = num;
+      newCode[slot].code = num;
       setCode(newCode);
       if (slot !== length - 1) {
         inputs.current[slot + 1]?.focus();
       }
-      if (newCode.every((numb) => numb !== '')) {
-        onComplete(newCode.join(''));
+      if (newCode.every(({ code: numb }) => numb !== '')) {
+        onComplete(newCode.map((codeElem) => codeElem.code).join(''));
       }
     };
 
     const onKeyUp = (e: React.KeyboardEvent<HTMLInputElement>, slot: number) => {
-      if (e.code === 'Backspace' && !code[slot] && slot !== 0) {
+      if (e.code === 'Backspace' && !code[slot].code && slot !== 0) {
         const newCode = [...code];
-        newCode[slot - 1] = '';
+        newCode[slot - 1].code = '';
         setCode(newCode);
         inputs.current[slot - 1]?.focus();
       }
@@ -53,28 +63,28 @@ export const CodeInput = forwardRef<HTMLDivElement, CodeInputProps>(
     return (
       <div className={BLOCK_NAME} ref={ref}>
         <div className={`${BLOCK_NAME}__container`}>
-          {code.map((num, idx) => (
+          {code.map(({ code: num, id }) => (
             <div
               className={classnames(
                 `${BLOCK_NAME}__input-container`,
                 error && `${BLOCK_NAME}__input-container--error`,
               )}
-              key={idx.toString()}>
+              key={id.toString()}>
               <input
                 autoComplete="new-password"
                 className={classnames(
                   `${BLOCK_NAME}__input`,
-                  !code[idx] && `${BLOCK_NAME}__input--with-border`,
+                  !code[id] && `${BLOCK_NAME}__input--with-border`,
                   error && `${BLOCK_NAME}__input--error`,
                 )}
                 type="text"
                 inputMode="numeric"
                 maxLength={1}
                 value={num}
-                autoFocus={!code[0].length && idx === 0}
+                autoFocus={!code[0].code.length && id === 0}
                 readOnly={loading}
-                onChange={(e) => processInput(e, idx)}
-                onKeyUp={(e) => onKeyUp(e, idx)}
+                onChange={(e) => processInput(e, id)}
+                onKeyUp={(e) => onKeyUp(e, id)}
                 ref={(reference) => inputs.current.push(reference)}
               />
             </div>

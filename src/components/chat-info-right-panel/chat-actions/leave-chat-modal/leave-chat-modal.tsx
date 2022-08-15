@@ -17,9 +17,7 @@ interface ILeaveChatModalProps {
 
 const BLOCK_NAME = 'leave-chat-modal';
 
-const InitialLeaveChatModal: React.FC<ILeaveChatModalProps & IModalChildrenProps> = ({
-  animatedClose,
-}) => {
+const InitialLeaveChatModal: React.FC<IModalChildrenProps> = ({ animatedClose }) => {
   const { t } = useTranslation();
   const history = useHistory();
 
@@ -60,7 +58,7 @@ const InitialLeaveChatModal: React.FC<ILeaveChatModalProps & IModalChildrenProps
 const LeaveChatModal: React.FC<ILeaveChatModalProps> = ({ hide, ...props }) => (
   <Modal closeModal={hide}>
     {(animatedClose: () => void) => (
-      <InitialLeaveChatModal {...props} hide={hide} animatedClose={animatedClose} />
+      <InitialLeaveChatModal {...props} animatedClose={animatedClose} />
     )}
   </Modal>
 );

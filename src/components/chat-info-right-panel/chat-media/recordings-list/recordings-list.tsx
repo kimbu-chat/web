@@ -42,8 +42,7 @@ export const RecordingsList: React.FC<IRecordingsListProps> = ({ rootRef }) => {
           triggerMargin={200}
           containerRef={rootRef}
           onReachBottom={loadMore}
-          hasMore={recordingsForSelectedChat?.hasMore}
-          isLoading={recordingsForSelectedChat?.loading}>
+          hasMore={recordingsForSelectedChat?.hasMore}>
           {recordingsWithSeparators &&
             separateGroupable<IVoiceAttachment>({
               groupableItems: recordingsWithSeparators,

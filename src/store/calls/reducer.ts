@@ -1,8 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import { ICallsState } from './calls-state';
-import { AcceptCallSuccess } from './features/accept-call/accept-call-success';
 import { AcceptCall } from './features/accept-call/accept-call';
+import { AcceptCallSuccess } from './features/accept-call/accept-call-success';
 import { CancelCallSuccess } from './features/cancel-call/cancel-call-success';
 import { ChangeActiveDeviceId } from './features/change-active-device-id/change-active-device-id';
 import { OpenInterlocutorAudioStatus } from './features/change-interlocutor-media-status/open-interlocutor-audio-status';
@@ -15,8 +15,8 @@ import { OpenAudioStatus } from './features/change-user-media-status/open-audio-
 import { OpenVideoStatus } from './features/change-user-media-status/open-video-status';
 import { DeclineCall } from './features/decline-call/decline-call';
 import { EndCall } from './features/end-call/end-call';
-import { GetCallsSuccess } from './features/get-calls/get-calls-success';
 import { GetCalls } from './features/get-calls/get-calls';
+import { GetCallsSuccess } from './features/get-calls/get-calls-success';
 import { GotDevicesInfo } from './features/got-devices-info/got-devices-info';
 import { InterlocutorBusy } from './features/interlocutor-busy/interlocutor-busy';
 import { OutgoingCall } from './features/outgoing-call/outgoing-call';

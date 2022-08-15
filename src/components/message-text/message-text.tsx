@@ -12,6 +12,7 @@ export enum MessageTextState {
 interface IMessageTextProps {
   state?: MessageTextState;
   className?: string;
+  children: React.ReactNode;
 }
 
 const BLOCK_NAME = 'message-text';

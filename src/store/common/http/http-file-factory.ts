@@ -6,8 +6,8 @@ import { call, cancelled, put, take, takeEvery } from 'redux-saga/effects';
 import { emitToast } from '@utils/emit-toast';
 
 import { isNetworkError } from '../../../utils/error-utils';
-import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
 import { RefreshToken } from '../../auth/features/refresh-token/refresh-token';
+import { RefreshTokenSuccess } from '../../auth/features/refresh-token/refresh-token-success';
 
 import { checkTokensSaga } from './check-tokens';
 import { getAuthHeader } from './common';
@@ -52,7 +52,7 @@ function createUploadFileChannel(requestConfig: AxiosRequestConfig) {
     onStart();
 
     return noop;
-  }, buffers.expanding(0));
+  }, buffers.expanding<{ progress: number; uploadedBytes: number } | { err: string } | { response: AxiosResponse } | { start: boolean }>(0));
 }
 
 function* uploadFileSaga(

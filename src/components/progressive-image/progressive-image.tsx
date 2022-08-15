@@ -16,7 +16,6 @@ const BLOCK_NAME = 'progressive-image';
 interface ImageContainerProps extends EffectImageProps {
   width: number;
   height: number;
-  onIsVisible?: () => void;
   onClick?: () => void;
   className?: string;
   observeIntersection: ObserveFn;

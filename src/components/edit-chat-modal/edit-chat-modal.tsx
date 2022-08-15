@@ -34,9 +34,7 @@ export interface IEditChatModalProps {
   onClose: () => void;
 }
 
-const InitialEditChatModal: React.FC<IEditChatModalProps & IModalChildrenProps> = ({
-  animatedClose,
-}) => {
+const InitialEditChatModal: React.FC<IModalChildrenProps> = ({ animatedClose }) => {
   const { t } = useTranslation();
 
   const selectedGroupChat: IGroupChat | undefined = useSelector(
@@ -213,7 +211,7 @@ const InitialEditChatModal: React.FC<IEditChatModalProps & IModalChildrenProps> 
 const EditChatModal: React.FC<IEditChatModalProps> = ({ onClose, ...props }) => (
   <Modal closeModal={onClose}>
     {(animatedClose: () => void) => (
-      <InitialEditChatModal {...props} onClose={onClose} animatedClose={animatedClose} />
+      <InitialEditChatModal {...props} animatedClose={animatedClose} />
     )}
   </Modal>
 );

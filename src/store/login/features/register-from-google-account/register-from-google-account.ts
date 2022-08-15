@@ -6,8 +6,8 @@ import { call, put, select, take } from 'redux-saga/effects';
 import { MAIN_API } from '@common/paths';
 import { createDeferredAction } from '@store/common/actions';
 import { authRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { LoginFromGoogleAccountSuccess } from '@store/login/features/login-from-google-account/login-from-google-account-success';
 import { LoginFromGoogleAccount } from '@store/login/features/login-from-google-account/login-from-google-account';
+import { LoginFromGoogleAccountSuccess } from '@store/login/features/login-from-google-account/login-from-google-account-success';
 import { googleIdTokenSelector } from '@store/login/selectors';
 
 export interface IRegisterFromGoogleActionPayload {

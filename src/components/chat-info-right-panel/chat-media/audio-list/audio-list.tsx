@@ -49,7 +49,6 @@ export const AudioList: React.FC<IAudioListProps> = ({ rootRef }) => {
           containerRef={rootRef}
           onReachBottom={loadMore}
           hasMore={audiosForSelectedChat?.hasMore}
-          isLoading={audiosForSelectedChat?.loading}
           threshold={0.3}>
           {audiosWithSeparators &&
             separateGroupable<IAudioAttachment>({

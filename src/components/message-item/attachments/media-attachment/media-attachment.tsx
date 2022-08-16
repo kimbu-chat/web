@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { AttachmentType, IVideoAttachment } from 'kimbu-models';
 
@@ -44,6 +44,10 @@ export const MediaAttachment: React.FC<IMediaAttachmentProps> = ({
 
     return [undefined, undefined];
   }, [currentAttachment]);
+
+  useEffect(() => {
+    if (previewUrl && fileUrl) URL.revokeObjectURL(previewUrl);
+  }, [fileUrl, previewUrl]);
 
   return (
     <>

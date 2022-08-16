@@ -16,7 +16,7 @@ import './media-attachment.scss';
 
 interface IMediaAttachmentProps {
   attachmentId: number;
-  attachmentsArr: INamedAttachment[];
+  attachmentsArr: (INamedAttachment | IAttachmentToSend)[];
   observeIntersection: ObserveFn;
 }
 
@@ -28,28 +28,34 @@ export const MediaAttachment: React.FC<IMediaAttachmentProps> = ({
   const [bigMediaDisplayed, displayBigMedia, hideBigMedia] = useToggledState(false);
 
   const currentAttachment = attachmentsArr.find(({ id }) => id === attachmentId);
-  const { file } = currentAttachment as unknown as IAttachmentToSend;
 
-  const previewUrl = useMemo(() => {
-    if (file) {
-      return URL.createObjectURL(file);
+  const [fileProgress, previewUrl] = useMemo(() => {
+    if (currentAttachment && 'file' in currentAttachment) {
+      return [currentAttachment.progress, URL.createObjectURL(currentAttachment.file)];
     }
 
-    return '';
-  }, [file]);
+    return [undefined, undefined];
+  }, [currentAttachment]);
+
+  const [fileName, fileUrl] = useMemo(() => {
+    if (currentAttachment && 'fileName' in currentAttachment) {
+      return [currentAttachment.fileName, currentAttachment.url];
+    }
+
+    return [undefined, undefined];
+  }, [currentAttachment]);
 
   return (
     <>
       <div onClick={displayBigMedia} className="media-attachment">
-        {(currentAttachment?.type === AttachmentType.Picture ||
-          currentAttachment?.fileName?.endsWith('.gif')) && (
+        {(currentAttachment?.type === AttachmentType.Picture || fileName?.endsWith('.gif')) && (
           <ProgressiveImage
             thumb={previewUrl}
-            src={currentAttachment?.url}
-            alt={currentAttachment.fileName || ''}
+            src={fileUrl}
+            alt={fileName || ''}
             width={280}
             height={210}
-            progress={(currentAttachment as unknown as IAttachmentToSend).progress}
+            progress={fileProgress}
             observeIntersection={observeIntersection}
           />
           // <img
@@ -74,9 +80,9 @@ export const MediaAttachment: React.FC<IMediaAttachmentProps> = ({
           </>
         )}
       </div>
-      {bigMediaDisplayed && (
+      {bigMediaDisplayed && currentAttachment && 'url' in currentAttachment && (
         <MediaModal
-          attachmentsArr={attachmentsArr}
+          attachmentsArr={attachmentsArr as INamedAttachment[]}
           attachmentId={attachmentId}
           onClose={hideBigMedia}
         />

@@ -7,6 +7,7 @@ import {
   IVideoAttachment,
 } from 'kimbu-models';
 
+import ProgressPreloader from '@components/progress-preloader/progress-preloader';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as CloseSVG } from '@icons/close-x.svg';
 import { ReactComponent as FileSVG } from '@icons/file.svg';
@@ -98,14 +99,9 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = ({
         <MicrophoneSvg className="message-input-attachment__type-icon" />
       )}
 
-      <div
-        style={{ width: `${newAttachment.progress}%` }}
-        className={`message-input-attachment__progress ${
-          attachment.type === AttachmentType.Picture || attachment.type === AttachmentType.Video
-            ? 'message-input-attachment__progress--photo'
-            : ''
-        }`}
-      />
+      {(attachment.type === AttachmentType.Picture || attachment.type === AttachmentType.Video) && (
+        <ProgressPreloader progress={newAttachment.progress} />
+      )}
 
       <div className="message-input-attachment__data">
         <div className="message-input-attachment__title">

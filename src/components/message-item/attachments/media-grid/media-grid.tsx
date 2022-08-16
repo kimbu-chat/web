@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { IAttachmentToSend } from '@store/chats/models';
 import { INamedAttachment } from '@store/chats/models/named-attachment';
@@ -10,12 +10,42 @@ import type { ObserveFn } from '@hooks/use-intersection-observer';
 import './media-grid.scss';
 
 interface IMediaGridProps {
-  media: INamedAttachment[];
+  media: (INamedAttachment | IAttachmentToSend)[];
   observeIntersection: ObserveFn;
 }
 
 const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection }) => {
-  const mediaListRef = useRef<INamedAttachment[] | null>(null);
+  const mediaListRef = useRef<null | (INamedAttachment | IAttachmentToSend)[]>(null);
+
+  const isAttachmentsProgressEquals = useCallback((attachment, index) => {
+    const attachmentRef = mediaListRef.current && mediaListRef.current[index];
+    let attachmentProgress;
+    let attachmentRefProgress;
+
+    if ('progress' in attachment) {
+      attachmentProgress = attachment.progress;
+    }
+    if (attachmentRef && 'progress' in attachmentRef) {
+      attachmentRefProgress = attachmentRef.progress;
+    }
+
+    return attachmentProgress !== attachmentRefProgress;
+  }, []);
+
+  const isAttachmentsUrlEquals = useCallback((attachment, index) => {
+    const attachmentRef = mediaListRef.current && mediaListRef.current[index];
+    let attachmentUrl;
+    let attachmentRefUrl;
+
+    if ('url' in attachment) {
+      attachmentUrl = attachment.url;
+    }
+    if (attachmentRef && 'url' in attachmentRef) {
+      attachmentRefUrl = attachmentRef.url;
+    }
+
+    return attachmentUrl !== attachmentRefUrl;
+  }, []);
 
   useEffect(() => {
     if (!mediaListRef.current) {
@@ -28,23 +58,14 @@ const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection }) =>
       return;
     }
 
-    if (
-      media.some((attch, i) => {
-        const { progress: mediaProgress } = attch as unknown as IAttachmentToSend;
-        const { progress: mediaRefProgress } = mediaListRef.current?.[
-          i
-        ] as unknown as IAttachmentToSend;
-
-        return mediaProgress !== mediaRefProgress || attch.url !== mediaListRef.current?.[i]?.url;
-      })
-    ) {
-      mediaListRef.current = mediaListRef.current.map((attach, i) => ({
-        ...attach,
-        progress: (media[i] as unknown as IAttachmentToSend)?.progress,
-        url: media[i].url,
+    if (media.some(isAttachmentsUrlEquals) || media.some(isAttachmentsProgressEquals)) {
+      mediaListRef.current = mediaListRef.current.map((attachment, i) => ({
+        ...attachment,
+        progress: (media[i] as IAttachmentToSend).progress,
+        url: (media[i] as INamedAttachment).url,
       }));
     }
-  }, [media]);
+  }, [isAttachmentsProgressEquals, isAttachmentsUrlEquals, media]);
 
   const mediaList = useMemo(() => {
     if (!mediaListRef.current) {

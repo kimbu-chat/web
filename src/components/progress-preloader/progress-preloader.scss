@@ -13,4 +13,31 @@
       background-color: var(--upload-photo-progress);
     }
   }
+
+  &__data {
+    z-index: 5;
+  }
+
+  &__title {
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 300;
+    line-height: 14px;
+    max-width: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__size {
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 300;
+    line-height: 14px;
+    margin-top: 3px;
+    max-width: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }

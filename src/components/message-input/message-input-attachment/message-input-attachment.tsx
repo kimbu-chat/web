@@ -1,11 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import {
-  AttachmentType,
-  IAttachmentBase,
-  IPictureAttachment,
-  IVideoAttachment,
-} from 'kimbu-models';
+import { AttachmentType, IAttachmentBase, IPictureAttachment, IVideoAttachment } from 'kimbu-models';
 
 import ProgressPreloader from '@components/progress-preloader/progress-preloader';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -18,7 +13,6 @@ import { ReactComponent as MicrophoneSvg } from '@icons/voice.svg';
 import { removeAttachmentAction } from '@store/chats/actions';
 import { IAttachmentCreation, IAttachmentToSend } from '@store/chats/models';
 import { INamedAttachment } from '@store/chats/models/named-attachment';
-import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';
 
 import './message-input-attachment.scss';
 
@@ -28,11 +22,7 @@ interface IMessageInputAttachmentProps {
   removeSelectedAttachment?: (attachmentToRemove: IAttachmentCreation) => void;
 }
 
-export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = ({
-  attachment,
-  isFromEdit,
-  removeSelectedAttachment,
-}) => {
+export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = ({ attachment, isFromEdit, removeSelectedAttachment }) => {
   const removeAttachment = useActionWithDispatch(removeAttachmentAction);
   const newAttachment = attachment as IAttachmentToSend;
   const [previewUrl, setPreviewUr] = useState<string>('');
@@ -64,17 +54,11 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = ({
 
   return (
     <div className="message-input-attachment">
-      {attachment.type === AttachmentType.Raw && (
-        <FileSVG className="message-input-attachment__type-icon" />
-      )}
+      {attachment.type === AttachmentType.Raw && <FileSVG className="message-input-attachment__type-icon" />}
       {attachment.type === AttachmentType.Video && (
         <>
           {(attachment as unknown as IVideoAttachment).firstFrameUrl && (
-            <img
-              src={(attachment as unknown as IVideoAttachment).firstFrameUrl}
-              alt=""
-              className="message-input-attachment__bg"
-            />
+            <img src={(attachment as unknown as IVideoAttachment).firstFrameUrl} alt="" className="message-input-attachment__bg" />
           )}
           <VideoSVG className="message-input-attachment__type-icon" />
         </>
@@ -82,38 +66,24 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = ({
       {attachment.type === AttachmentType.Picture && (
         <>
           {((attachment as unknown as IPictureAttachment).previewUrl || previewUrl) && (
-            <img
-              src={(attachment as unknown as IPictureAttachment).previewUrl || previewUrl}
-              alt=""
-              className="message-input-attachment__bg"
-            />
+            <img src={(attachment as unknown as IPictureAttachment).previewUrl || previewUrl} alt="" className="message-input-attachment__bg" />
           )}
           <PhotoSVG className="message-input-attachment__type-icon" />
         </>
       )}
-      {attachment.type === AttachmentType.Audio && (
-        <PlaySVG className="message-input-attachment__type-icon" />
-      )}
+      {attachment.type === AttachmentType.Audio && <PlaySVG className="message-input-attachment__type-icon" />}
 
-      {attachment.type === AttachmentType.Voice && (
-        <MicrophoneSvg className="message-input-attachment__type-icon" />
-      )}
+      {attachment.type === AttachmentType.Voice && <MicrophoneSvg className="message-input-attachment__type-icon" />}
 
-      <ProgressPreloader progress={newAttachment.progress} type={attachment.type} />
+      <ProgressPreloader
+        progress={newAttachment.progress}
+        type={attachment.type}
+        fileName={(attachment as unknown as INamedAttachment).fileName}
+        byteSize={attachment.byteSize}
+        uploadedBytes={newAttachment.uploadedBytes}
+      />
 
-      <div className="message-input-attachment__data">
-        <div className="message-input-attachment__title">
-          {(attachment as unknown as INamedAttachment).fileName}
-        </div>
-        <div className="message-input-attachment__size">{`${getRawAttachmentSizeUnit(
-          newAttachment.uploadedBytes || attachment.byteSize,
-        )}/${getRawAttachmentSizeUnit(attachment.byteSize)}}`}</div>
-      </div>
-
-      <button
-        type="button"
-        onClick={removeThisAttachment}
-        className="message-input-attachment__close">
+      <button type="button" onClick={removeThisAttachment} className="message-input-attachment__close">
         <CloseSVG />
       </button>
     </div>

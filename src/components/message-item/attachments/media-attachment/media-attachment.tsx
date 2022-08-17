@@ -20,11 +20,7 @@ interface IMediaAttachmentProps {
   observeIntersection: ObserveFn;
 }
 
-export const MediaAttachment: React.FC<IMediaAttachmentProps> = ({
-  attachmentId,
-  attachmentsArr,
-  observeIntersection,
-}) => {
+export const MediaAttachment: React.FC<IMediaAttachmentProps> = ({ attachmentId, attachmentsArr, observeIntersection }) => {
   const [bigMediaDisplayed, displayBigMedia, hideBigMedia] = useToggledState(false);
 
   const currentAttachment = attachmentsArr.find(({ id }) => id === attachmentId);
@@ -60,6 +56,9 @@ export const MediaAttachment: React.FC<IMediaAttachmentProps> = ({
             width={280}
             height={210}
             progress={fileProgress}
+            byteSize={currentAttachment?.byteSize}
+            fileName={(currentAttachment as INamedAttachment).fileName}
+            uploadedBytes={(currentAttachment as IAttachmentToSend).uploadedBytes}
             observeIntersection={observeIntersection}
           />
           // <img
@@ -71,25 +70,15 @@ export const MediaAttachment: React.FC<IMediaAttachmentProps> = ({
 
         {currentAttachment?.type === AttachmentType.Video && (
           <>
-            <img
-              src={(currentAttachment as IVideoAttachment).firstFrameUrl}
-              alt=""
-              className="media-attachment__img"
-            />
+            <img src={(currentAttachment as IVideoAttachment).firstFrameUrl} alt="" className="media-attachment__img" />
             <div className="media-attachment__blur" />
             <PlaySvg className="media-attachment__svg" />
-            <div className="media-attachment__duration">
-              {getMinutesSeconds((currentAttachment as IVideoAttachment).duration)}
-            </div>{' '}
+            <div className="media-attachment__duration">{getMinutesSeconds((currentAttachment as IVideoAttachment).duration)}</div>{' '}
           </>
         )}
       </div>
       {bigMediaDisplayed && currentAttachment && 'url' in currentAttachment && (
-        <MediaModal
-          attachmentsArr={attachmentsArr as INamedAttachment[]}
-          attachmentId={attachmentId}
-          onClose={hideBigMedia}
-        />
+        <MediaModal attachmentsArr={attachmentsArr as INamedAttachment[]} attachmentId={attachmentId} onClose={hideBigMedia} />
       )}
     </>
   );

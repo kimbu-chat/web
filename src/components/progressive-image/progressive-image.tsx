@@ -5,7 +5,7 @@ import noop from 'lodash/noop';
 
 import { useIsIntersecting, ObserveFn } from '@hooks/use-intersection-observer';
 
-import Image from './effect-image/effect-image';
+import EffectImage from './effect-image/effect-image';
 
 import type { EffectImageProps } from './effect-image/effect-image';
 
@@ -18,6 +18,9 @@ interface ImageContainerProps extends EffectImageProps {
   height: number;
   className?: string;
   progress?: number;
+  fileName?: string;
+  byteSize?: number;
+  uploadedBytes?: number;
   onClick?: () => void;
   onIsVisible?: () => void;
   observeIntersection: ObserveFn;
@@ -26,12 +29,15 @@ interface ImageContainerProps extends EffectImageProps {
 const ProgressiveImage: React.FC<ImageContainerProps> = ({
   width,
   height,
-  onClick = noop,
   alt,
   thumb,
   src,
   progress,
   className,
+  byteSize,
+  fileName,
+  uploadedBytes,
+  onClick = noop,
   observeIntersection,
 }) => {
   const ref = React.useRef<HTMLDivElement>(null);
@@ -39,12 +45,11 @@ const ProgressiveImage: React.FC<ImageContainerProps> = ({
   const isIntersecting = useIsIntersecting(ref, observeIntersection);
 
   return (
-    <div
-      onClick={onClick}
-      ref={ref}
-      className={classnames(BLOCK_NAME, className)}
-      style={{ height, width }}>
-      <Image
+    <div onClick={onClick} ref={ref} className={classnames(BLOCK_NAME, className)} style={{ height, width }}>
+      <EffectImage
+        fileName={fileName}
+        byteSize={byteSize}
+        uploadedBytes={uploadedBytes}
         src={src}
         thumb={thumb}
         alt={alt}

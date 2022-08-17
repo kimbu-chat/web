@@ -1,11 +1,4 @@
-import {
-  AttachmentType,
-  IAttachmentBase,
-  IAudioAttachment,
-  IPictureAttachment,
-  IVideoAttachment,
-  IVoiceAttachment,
-} from 'kimbu-models';
+import { AttachmentType, IAttachmentBase, IAudioAttachment, IPictureAttachment, IVideoAttachment, IVoiceAttachment } from 'kimbu-models';
 import size from 'lodash/size';
 
 import { IAttachmentToSend } from '@store/chats/models';
@@ -20,14 +13,12 @@ export type NormalizeAccumulator = {
 
 export type IFileAttachment = IAttachmentBase & {
   fileName: string;
-  file?: {
+  file: {
     name: string;
   };
 };
 
-export function normalizeAttachments(
-  attachments: (IAttachmentBase | IAttachmentToSend)[] = [],
-): NormalizeAccumulator | null {
+export function normalizeAttachments(attachments: (IAttachmentBase | IAttachmentToSend)[] = []): NormalizeAccumulator | null {
   if (!size(attachments)) {
     return null;
   }
@@ -42,13 +33,18 @@ export function normalizeAttachments(
               ...currentAttachment,
               fileName: (currentAttachment as IFileAttachment).fileName
                 ? (currentAttachment as IFileAttachment).fileName
-                : (currentAttachment as IFileAttachment).file?.name,
+                : (currentAttachment as IFileAttachment).file.name,
             } as IFileAttachment);
           }
 
           break;
         case AttachmentType.Picture:
-          accum.media.push(currentAttachment as IPictureAttachment);
+          accum.media.push({
+            ...(currentAttachment as IPictureAttachment & IAttachmentToSend),
+            fileName: (currentAttachment as IPictureAttachment).fileName
+              ? (currentAttachment as IPictureAttachment).fileName
+              : (currentAttachment as IPictureAttachment & IAttachmentToSend).file.name,
+          });
 
           break;
         case AttachmentType.Video:

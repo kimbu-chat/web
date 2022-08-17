@@ -8,11 +8,11 @@ import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';
 import './progress-preloader.scss';
 
 interface IProgressPreloader {
-  progress: number;
+  progress?: number;
   type: AttachmentType;
-  fileName: string;
+  fileName?: string;
   uploadedBytes?: number;
-  byteSize: number;
+  byteSize?: number;
   size?: LoaderSize.SMALL | LoaderSize.LARGE;
 }
 
@@ -32,7 +32,9 @@ const ProgressPreloader: React.FC<IProgressPreloader> = ({ progress, type, fileN
       />
       <div className={`${BLOCK_NAME}__data`}>
         <div className={fileNameClassName}>{fileName}</div>
-        <div className={byteSizeClassName}>{`${getRawAttachmentSizeUnit(uploadedBytes || byteSize)}/${getRawAttachmentSizeUnit(byteSize)}`}</div>
+        <div className={byteSizeClassName}>
+          {byteSize && `${getRawAttachmentSizeUnit(uploadedBytes || byteSize)}/${getRawAttachmentSizeUnit(byteSize)}`}
+        </div>
       </div>
     </>
   );

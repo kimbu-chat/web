@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 
 import classnames from 'classnames';
-
-import { Loader, LoaderSize } from '@components/loader';
 import './effect-image.scss';
+import { AttachmentType } from 'kimbu-models';
+
+import { LoaderSize } from '@components/loader';
+import ProgressPreloader from '@components/progress-preloader/progress-preloader';
 
 const BLOCK_NAME = 'effect-image';
 
@@ -12,19 +14,16 @@ export type EffectImageProps = {
   thumb?: string;
   src?: string;
   progress?: number;
+  fileName?: string;
+  byteSize?: number;
+  uploadedBytes?: number;
 };
 
 interface EffectImageWithIntersecting extends EffectImageProps {
   isIntersecting: boolean;
 }
 
-const EffectImage: React.FC<EffectImageWithIntersecting> = ({
-  alt,
-  thumb,
-  src,
-  isIntersecting,
-  progress,
-}) => {
+const EffectImage: React.FC<EffectImageWithIntersecting> = ({ alt, thumb, src, isIntersecting, progress, byteSize, fileName, uploadedBytes }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const isUploaded = progress === 100;
@@ -44,7 +43,14 @@ const EffectImage: React.FC<EffectImageWithIntersecting> = ({
           />
           {isIntersecting && isUploaded === false && (
             <div className={`${BLOCK_NAME}__loader`}>
-              <Loader size={LoaderSize.MEDIUM} />
+              <ProgressPreloader
+                progress={progress}
+                type={AttachmentType.Picture}
+                fileName={fileName}
+                byteSize={byteSize}
+                uploadedBytes={uploadedBytes}
+                size={LoaderSize.LARGE}
+              />
             </div>
           )}
         </>

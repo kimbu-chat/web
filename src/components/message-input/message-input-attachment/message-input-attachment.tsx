@@ -99,9 +99,7 @@ export const MessageInputAttachment: React.FC<IMessageInputAttachmentProps> = ({
         <MicrophoneSvg className="message-input-attachment__type-icon" />
       )}
 
-      {(attachment.type === AttachmentType.Picture || attachment.type === AttachmentType.Video) && (
-        <ProgressPreloader progress={newAttachment.progress} />
-      )}
+      <ProgressPreloader progress={newAttachment.progress} type={attachment.type} />
 
       <div className="message-input-attachment__data">
         <div className="message-input-attachment__title">

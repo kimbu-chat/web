@@ -5,6 +5,7 @@ import { CancelCall } from './features/cancel-call/cancel-call';
 import { ChangeScreenShareStatus } from './features/change-screen-share-status/change-screen-share-status';
 import { ChangeMediaStatus } from './features/change-user-media-status/change-media-status';
 import { DeclineCall } from './features/decline-call/decline-call';
+import { DeleteCall } from './features/delete-call/delete-call';
 import { SpawnDeviceUpdateWatcher } from './features/device-watcher/spawn-device-update-watcher';
 import { EndCall } from './features/end-call/end-call';
 import { GetCalls } from './features/get-calls/get-calls';
@@ -32,6 +33,7 @@ export function* callsSaga() {
     takeLeading(ChangeMediaStatus.action, ChangeMediaStatus.saga),
     takeLatest(GetCalls.action, GetCalls.saga),
     takeLatest(SpawnDeviceUpdateWatcher.action, SpawnDeviceUpdateWatcher.saga),
+    takeEvery(DeleteCall.action, DeleteCall.saga),
 
     // socket-events
     takeLatest(IncomingCallEventHandler.action, IncomingCallEventHandler.saga),

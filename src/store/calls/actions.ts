@@ -7,6 +7,7 @@ import { ChangeMediaStatus } from './features/change-user-media-status/change-me
 import { CloseAudioStatus } from './features/change-user-media-status/close-audio-status';
 import { CloseVideoStatus } from './features/change-user-media-status/close-video-status';
 import { DeclineCall } from './features/decline-call/decline-call';
+import { DeleteCall } from './features/delete-call/delete-call';
 import { KillDeviceUpdateWatcher } from './features/device-watcher/kill-device-update-watcher';
 import { SpawnDeviceUpdateWatcher } from './features/device-watcher/spawn-device-update-watcher';
 import { EndCall } from './features/end-call/end-call';
@@ -36,6 +37,7 @@ export const killDeviceUpdateWatcherAction = KillDeviceUpdateWatcher.action;
 export const openInterlocutorVideoStatusAction = OpenInterlocutorVideoStatus.action;
 export const openInterlocutorAudioStatusAction = OpenInterlocutorAudioStatus.action;
 export const resetSearchCallsAction = ResetSearchCalls.action;
+export const deleteCallAction = DeleteCall.action;
 
 // socket-events
 export const renegotiationAcceptedEventHandlerAction = RenegotiationAcceptedEventHandler.action;

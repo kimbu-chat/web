@@ -4,7 +4,7 @@
   color: var(--dt-dark-wt-white);
   cursor: pointer;
   display: flex;
-  padding: 8px 20px;
+  padding: 8px 16px;
 
   &--missed {
     color: var(--dt-kingBlue-wt-kingBlueLight);
@@ -15,29 +15,27 @@
     color: var(--chat-bg-dt-dark-wt-whiter);
   }
 
-  &__aside-data {
-    align-items: flex-end;
-    display: flex;
-    flex-direction: column;
-    margin-left: auto;
-  }
-
   &__type-icon {
     color: var(--dt-white-wt-dark);
-    margin-top: 9px;
 
     &--missed {
       color: var(--dt-white-wt-dark);
     }
 
     svg {
-      height: 18px;
-      width: 18px;
+      height: 12px;
+      width: 12px;
     }
   }
 
   &__interlocutor-avatar {
     margin-right: 16px;
+  }
+
+  &__info {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
   }
 
   &__name {
@@ -61,9 +59,14 @@
     font-size: 0.875rem;
     font-weight: 300;
     line-height: 17px;
+    margin-left: 8px;
   }
 
   &__date {
+    margin-left: auto;
+    display: flex;
+    align-self: flex-start;
+    padding-top: 3px;
     color: var(--dt-white-wt-dark);
     font-size: 0.75rem;
     font-weight: 300;
@@ -72,5 +75,34 @@
     text-align: end;
     text-transform: lowercase;
     white-space: break-spaces;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin-left: auto;
+
+    &-action {
+      width: 18px;
+      color: var(--dt-white-wt-dark);
+
+      &-call {
+        height: 18px;
+        margin-right: 20px;
+
+        &:hover {
+          color: #3f8ae0;
+        }
+      }
+
+      &-delete {
+        height: 20px;
+
+        &:hover {
+          color: #c74848;
+        }
+      }
+    }
   }
 }

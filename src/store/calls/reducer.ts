@@ -14,6 +14,7 @@ import { CloseVideoStatus } from './features/change-user-media-status/close-vide
 import { OpenAudioStatus } from './features/change-user-media-status/open-audio-status';
 import { OpenVideoStatus } from './features/change-user-media-status/open-video-status';
 import { DeclineCall } from './features/decline-call/decline-call';
+import { DeleteCallSuccess } from './features/delete-call/delete-call-success';
 import { EndCall } from './features/end-call/end-call';
 import { GetCallsSuccess } from './features/get-calls/get-calls-success';
 import { GetCalls } from './features/get-calls/get-calls';
@@ -80,6 +81,7 @@ const reducer = createReducer<ICallsState>(initialState, (builder) =>
     .addCase(OpenInterlocutorVideoStatus.action, OpenInterlocutorVideoStatus.reducer)
     .addCase(OpenInterlocutorAudioStatus.action, OpenInterlocutorAudioStatus.reducer)
     .addCase(ResetSearchCalls.action, ResetSearchCalls.reducer)
+    .addCase(DeleteCallSuccess.action, DeleteCallSuccess.reducer)
 
     // web-socket events
     .addCase(IncomingCallEventHandler.action, IncomingCallEventHandler.reducer)

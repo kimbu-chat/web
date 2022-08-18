@@ -5,11 +5,11 @@ import { call, put } from 'redux-saga/effects';
 
 import { MAIN_API } from '@common/paths';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
-import { HTTPStatusCode } from '../../../../common/http-status-code';
-import { DeleteCallSuccess } from './delete-call-success';
 import { replaceInUrl } from '@utils/replace-in-url';
 
-export { DeleteCallSuccess } from './delete-call-success';
+import { HTTPStatusCode } from '../../../../common/http-status-code';
+
+import { DeleteCallSuccess } from './delete-call-success';
 
 export interface IDeleteCallActionPayload {
   id: number;

@@ -61,11 +61,6 @@ export const MediaAttachment: React.FC<IMediaAttachmentProps> = ({ attachmentId,
             uploadedBytes={(currentAttachment as IAttachmentToSend).uploadedBytes}
             observeIntersection={observeIntersection}
           />
-          // <img
-          //   src={(currentAttachment as IPictureAttachment).url}
-          //   alt=""
-          //   className="media-attachment__img"
-          // />
         )}
 
         {currentAttachment?.type === AttachmentType.Video && (

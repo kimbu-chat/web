@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 import classnames from 'classnames';
 import { IAttachmentBase } from 'kimbu-models';
 
-import { Loader, LoaderSize } from '@components/loader';
+import { CircleProgressPreloader } from '@components/circle-progress-preloader/circle-progress-preloader';
 import { ReactComponent as DownloadSvg } from '@icons/download.svg';
-import { ReactComponent as ProgressSVG } from '@icons/ic-progress.svg';
 import { fileDownload } from '@utils/file-download';
 import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';
 import './file-attachment.scss';
@@ -15,29 +14,16 @@ const BLOCK_NAME = 'file-attachment';
 type FileAttachmentProps = IAttachmentBase & {
   fileName?: string;
   className?: string;
+  progress?: number;
   success?: boolean;
+  uploadedBytes?: number;
 };
 
-function FileAttachment<T extends FileAttachmentProps>({
-  fileName,
-  byteSize,
-  url,
-  className,
-  success,
-}: T) {
+function FileAttachment<T extends FileAttachmentProps>({ fileName, byteSize, uploadedBytes, url, className, success }: T) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloaded, setDownloaded] = useState(0);
 
   const abortDownloadingRef = useRef<XMLHttpRequest>();
-  const progressSvgRef = useRef<SVGSVGElement>(null);
-
-  useEffect(() => {
-    if (progressSvgRef.current) {
-      progressSvgRef.current.querySelectorAll('circle')[1].style.strokeDashoffset = String(
-        76 - (downloaded / byteSize) * 63,
-      );
-    }
-  }, [downloaded, progressSvgRef, byteSize]);
 
   const download = useCallback(() => {
     if (url) {
@@ -61,18 +47,19 @@ function FileAttachment<T extends FileAttachmentProps>({
     <div className={classnames(BLOCK_NAME, className)}>
       {isDownloading ? (
         <div onClick={abortDownloading} className={`${BLOCK_NAME}__cancel`}>
-          <ProgressSVG ref={progressSvgRef} className={`${BLOCK_NAME}__progress-svg`} />
+          <CircleProgressPreloader byteSize={byteSize} uploadedBytes={downloaded} withCross />
         </div>
       ) : (
         <div onClick={download} className={`${BLOCK_NAME}__download`}>
-          {success === false ? <Loader size={LoaderSize.SMALL} /> : <DownloadSvg />}
+          {success === false && uploadedBytes ? <CircleProgressPreloader byteSize={byteSize} uploadedBytes={uploadedBytes} /> : <DownloadSvg />}
         </div>
       )}
       <div className={`${BLOCK_NAME}__data`}>
         <h4 className={`${BLOCK_NAME}__file-name`}>{fileName}</h4>
         <div className={`${BLOCK_NAME}__file-size`}>
-          {isDownloading
-            ? `${getRawAttachmentSizeUnit(downloaded)}/${getRawAttachmentSizeUnit(byteSize)}`
+          {isDownloading && `${getRawAttachmentSizeUnit(downloaded)}/${getRawAttachmentSizeUnit(byteSize)}`}
+          {success === false
+            ? `${getRawAttachmentSizeUnit(uploadedBytes || byteSize)}/${getRawAttachmentSizeUnit(byteSize)}`
             : getRawAttachmentSizeUnit(byteSize)}
         </div>
       </div>

@@ -1,12 +1,13 @@
 .progress-preloader {
   &__progress {
     background-color: var(--msg-bg-dt-gray-lt-kingBlueLight);
+    opacity: 0.5;
     height: 100%;
     left: 0;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    transition: all var(--ANIMATION-DURATION);
+    transition: all 0.5s linear;
     z-index: 2;
 
     &--photo {

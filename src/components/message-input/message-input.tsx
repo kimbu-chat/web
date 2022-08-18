@@ -210,20 +210,30 @@ const CreateMessageInput = () => {
       : [];
 
     if (editingMessage?.id) {
-      submitEditMessage({
-        text: parseMessageInput(refferedText.current),
-        removedAttachments: referredRemovedAttachments.current,
-        newAttachments,
-        messageId: editingMessage.id,
-      });
+      if (
+        !messageInputRef.current?.textContent?.trim() &&
+        !newAttachments?.length &&
+        !editingMessageAttachments?.length
+      ) {
+        openDeleteMessageModal();
+      } else {
+        submitEditMessage({
+          text: parseMessageInput(refferedText.current),
+          removedAttachments: referredRemovedAttachments.current,
+          newAttachments,
+          messageId: editingMessage.id,
+        });
+      }
     }
   }, [
     updatedSelectedChat,
     selectedChat?.draftMessageId,
     editingMessage?.id,
     submitEditMessage,
+    openDeleteMessageModal,
     refferedText,
     referredRemovedAttachments,
+    editingMessageAttachments?.length,
   ]);
 
   const sendMessageToServer = useCallback(() => {
@@ -470,20 +480,6 @@ const CreateMessageInput = () => {
     },
     [onPasteFiles, onPasteText],
   );
-
-  useEffect(() => {
-    if (editingMessage) {
-      if (
-        (!editingMessage.text && !editingMessageAttachments?.length) ||
-        (!messageInputRef.current?.textContent &&
-          !text &&
-          !editingMessageAttachments?.length &&
-          editingMessage.text)
-      ) {
-        openDeleteMessageModal();
-      }
-    }
-  }, [editingMessage, editingMessageAttachments?.length, text, openDeleteMessageModal]);
 
   const onCloseDeleteMessageModal = useCallback(() => {
     hideDeleteMessageModal();

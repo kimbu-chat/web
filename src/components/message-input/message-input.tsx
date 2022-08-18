@@ -501,7 +501,7 @@ const CreateMessageInput = () => {
         onCloseDeleteMessageModal();
       }
     }
-  }, [editingMessage, selectedChat, onCloseDeleteMessageModal, isEditingMessageExist]);
+  }, [editingMessage, onCloseDeleteMessageModal, isEditingMessageExist]);
 
   return (
     <>

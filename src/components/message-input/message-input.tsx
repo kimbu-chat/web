@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useMemo, useCallback, useEffect, useRef, useState } from 'react';
 
 import { IAttachmentBase, MessageLinkType, SystemMessageType } from 'kimbu-models';
 import size from 'lodash/size';
@@ -10,9 +10,11 @@ import { useSelector } from 'react-redux';
 import { MESSAGE_INPUT_ID } from '@common/constants';
 import { INPUT_MAX_LENGTH } from '@components/message-input/constants';
 import { inputUtils } from '@components/message-input/utilities/input-utilities';
+import { DeleteMessageModal } from '@components/selected-messages-data/delete-message-modal/delete-message-modal';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import usePrevious from '@hooks/use-previous';
 import { useReferState } from '@hooks/use-referred-state';
+import { useToggledState } from '@hooks/use-toggled-state';
 import { ReactComponent as AddSvg } from '@icons/add-attachment.svg';
 import { ReactComponent as CloseSvg } from '@icons/close.svg';
 import { ReactComponent as SendSvg } from '@icons/send.svg';
@@ -25,6 +27,7 @@ import {
   removeAllAttachmentsAction,
   submitEditMessageAction,
   uploadAttachmentRequestAction,
+  resetEditMessageAction,
 } from '@store/chats/actions';
 import { ICreateMessageActionPayload } from '@store/chats/features/create-message/create-message';
 import { IAttachmentCreation, MessageState } from '@store/chats/models';
@@ -63,6 +66,7 @@ const CreateMessageInput = () => {
   const submitEditMessage = useActionWithDispatch(submitEditMessageAction);
   const createDraftMessage = useActionWithDispatch(createDraftMessageAction);
   const removeAllAttachmentsToSend = useActionWithDispatch(removeAllAttachmentsAction);
+  const resetEditMessage = useActionWithDispatch(resetEditMessageAction);
   const currentUserId = useSelector(myIdSelector);
 
   const selectedChat = useSelector(getSelectedChatSelector);
@@ -80,6 +84,9 @@ const CreateMessageInput = () => {
   const [isRecording, setIsRecording] = useState(false);
 
   const messageInputRef = useRef<HTMLDivElement>(null);
+
+  const [displayedDeleteMessageModal, openDeleteMessageModal, hideDeleteMessageModal] =
+    useToggledState(false);
 
   useEffect(() => {
     if (!selectedChat?.draftMessageId && selectedChat?.id) {
@@ -203,20 +210,30 @@ const CreateMessageInput = () => {
       : [];
 
     if (editingMessage?.id) {
-      submitEditMessage({
-        text: parseMessageInput(refferedText.current),
-        removedAttachments: referredRemovedAttachments.current,
-        newAttachments,
-        messageId: editingMessage.id,
-      });
+      if (
+        !messageInputRef.current?.textContent?.trim() &&
+        !newAttachments?.length &&
+        !editingMessageAttachments?.length
+      ) {
+        openDeleteMessageModal();
+      } else {
+        submitEditMessage({
+          text: parseMessageInput(refferedText.current),
+          removedAttachments: referredRemovedAttachments.current,
+          newAttachments,
+          messageId: editingMessage.id,
+        });
+      }
     }
   }, [
     updatedSelectedChat,
     selectedChat?.draftMessageId,
     editingMessage?.id,
     submitEditMessage,
+    openDeleteMessageModal,
     refferedText,
     referredRemovedAttachments,
+    editingMessageAttachments?.length,
   ]);
 
   const sendMessageToServer = useCallback(() => {
@@ -464,97 +481,127 @@ const CreateMessageInput = () => {
     [onPasteFiles, onPasteText],
   );
 
+  const onCloseDeleteMessageModal = useCallback(() => {
+    hideDeleteMessageModal();
+    resetEditMessage();
+    if (messageInputRef.current) {
+      messageInputRef.current.innerHTML = '';
+    }
+  }, [resetEditMessage, hideDeleteMessageModal]);
+
+  const isEditingMessageExist = useMemo(
+    () =>
+      editingMessage?.id ? selectedChat?.messages.messageIds.includes(editingMessage.id) : false,
+    [selectedChat, editingMessage],
+  );
+
+  useEffect(() => {
+    if (editingMessage) {
+      if (!isEditingMessageExist) {
+        onCloseDeleteMessageModal();
+      }
+    }
+  }, [editingMessage, onCloseDeleteMessageModal, isEditingMessageExist]);
+
   return (
-    <div className="message-input">
-      {selectedChat && (
-        <>
-          {replyingMessage && <RespondingMessage />}
-          {editingMessage && <EditingMessage />}
-          {((editingMessageAttachments && editingMessageAttachments?.length > 0) ||
-            (selectedChat?.draftMessageId &&
-              !!size(
-                selectedChat?.messages.messages[selectedChat?.draftMessageId].attachments,
-              ))) && (
-            <div className="message-input__attachments-box">
-              <div className="message-input__attachments-box__container">
-                {editingMessageAttachments?.map((attachment) => (
-                  <MessageInputAttachment
-                    attachment={attachment}
-                    isFromEdit
-                    removeSelectedAttachment={removeAttachment}
-                    key={attachment.id}
-                  />
-                ))}
-                {selectedChat?.draftMessageId &&
-                  selectedChat?.messages.messages[selectedChat?.draftMessageId].attachments?.map(
-                    (attachment) => (
-                      <MessageInputAttachment attachment={attachment} key={attachment.id} />
-                    ),
-                  )}
-              </div>
-              <button
-                onClick={removeAllAttachments}
-                type="button"
-                className="message-input__attachments-box__delete-all">
-                <CloseSvg />
-              </button>
-            </div>
-          )}
-          {false && <MessageError />}
-          <div className="message-input__send-message">
-            {isRecording ? (
-              <RecordingMessage
-                referredMessage={refferedReplyingMessage.current}
-                hide={handleRegisterAudioBtnClick}
-              />
-            ) : (
-              <>
-                <input type="file" multiple hidden onChange={uploadFile} ref={fileInputRef} />
-                <button type="button" onClick={openSelectFiles} className="message-input__add">
-                  <AddSvg />
+    <>
+      <div className="message-input">
+        {selectedChat && (
+          <>
+            {replyingMessage && <RespondingMessage />}
+            {editingMessage && <EditingMessage />}
+            {((editingMessageAttachments && editingMessageAttachments?.length > 0) ||
+              (selectedChat?.draftMessageId &&
+                !!size(
+                  selectedChat?.messages.messages[selectedChat?.draftMessageId].attachments,
+                ))) && (
+              <div className="message-input__attachments-box">
+                <div className="message-input__attachments-box__container">
+                  {editingMessageAttachments?.map((attachment) => (
+                    <MessageInputAttachment
+                      attachment={attachment}
+                      isFromEdit
+                      removeSelectedAttachment={removeAttachment}
+                      key={attachment.id}
+                    />
+                  ))}
+                  {selectedChat?.draftMessageId &&
+                    selectedChat?.messages.messages[selectedChat?.draftMessageId].attachments?.map(
+                      (attachment) => (
+                        <MessageInputAttachment attachment={attachment} key={attachment.id} />
+                      ),
+                    )}
+                </div>
+                <button
+                  onClick={removeAllAttachments}
+                  type="button"
+                  className="message-input__attachments-box__delete-all">
+                  <CloseSvg />
                 </button>
-                <div className="message-input__line" />
-                <div
-                  id={MESSAGE_INPUT_ID}
-                  contentEditable
-                  placeholder={t('messageInput.write')}
-                  ref={messageInputRef}
-                  onInput={onType}
-                  onPaste={onPaste}
-                  onKeyDown={onKeyDown}
-                  className="mousetrap message-input__input-message"
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                />
-              </>
+              </div>
             )}
-
-            <div className="message-input__right-btns">
-              {!isRecording && (
+            {false && <MessageError />}
+            <div className="message-input__send-message">
+              {isRecording ? (
+                <RecordingMessage
+                  referredMessage={refferedReplyingMessage.current}
+                  hide={handleRegisterAudioBtnClick}
+                />
+              ) : (
                 <>
-                  <MessageSmiles onSelectEmoji={insertTextAndUpdateCursor} />
-
-                  <Button
-                    type="button"
-                    onClick={handleRegisterAudioBtnClick}
-                    loading={requestMicrophoneLoading}
-                    className="message-input__voice-btn">
-                    <VoiceSvg />
-                  </Button>
-
-                  <button
-                    type="button"
-                    onClick={sendMessageToServer}
-                    className="message-input__send-btn">
-                    <SendSvg />
+                  <input type="file" multiple hidden onChange={uploadFile} ref={fileInputRef} />
+                  <button type="button" onClick={openSelectFiles} className="message-input__add">
+                    <AddSvg />
                   </button>
+                  <div className="message-input__line" />
+                  <div
+                    id={MESSAGE_INPUT_ID}
+                    contentEditable
+                    placeholder={t('messageInput.write')}
+                    ref={messageInputRef}
+                    onInput={onType}
+                    onPaste={onPaste}
+                    onKeyDown={onKeyDown}
+                    className="mousetrap message-input__input-message"
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                  />
                 </>
               )}
+
+              <div className="message-input__right-btns">
+                {!isRecording && (
+                  <>
+                    <MessageSmiles onSelectEmoji={insertTextAndUpdateCursor} />
+
+                    <Button
+                      type="button"
+                      onClick={handleRegisterAudioBtnClick}
+                      loading={requestMicrophoneLoading}
+                      className="message-input__voice-btn">
+                      <VoiceSvg />
+                    </Button>
+
+                    <button
+                      type="button"
+                      onClick={sendMessageToServer}
+                      className="message-input__send-btn">
+                      <SendSvg />
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
-          </div>
-        </>
+          </>
+        )}
+      </div>
+      {displayedDeleteMessageModal && editingMessage && isEditingMessageExist && (
+        <DeleteMessageModal
+          onClose={onCloseDeleteMessageModal}
+          selectedMessages={[editingMessage.id]}
+        />
       )}
-    </div>
+    </>
   );
 };
 

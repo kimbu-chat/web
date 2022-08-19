@@ -4,7 +4,9 @@ import classnames from 'classnames';
 import { IAttachmentBase } from 'kimbu-models';
 
 import { CircleProgressPreloader } from '@components/circle-progress-preloader/circle-progress-preloader';
+import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { ReactComponent as DownloadSvg } from '@icons/download.svg';
+import { removeAttachmentAction } from '@store/chats/actions';
 import { IAttachmentToSend } from '@store/chats/models';
 import { fileDownload } from '@utils/file-download';
 import { getRawAttachmentSizeUnit } from '@utils/get-file-size-unit';
@@ -12,19 +14,27 @@ import './file-attachment.scss';
 
 const BLOCK_NAME = 'file-attachment';
 
-type AttachmentToSendType = IAttachmentToSend & { fileName?: string; className?: string };
+const isRawAttachment = (props: FileAttachmentProps): props is RawAttachmentType => 'url' in props;
 
-type RawAttachmentType = IAttachmentBase & { className?: string; fileName?: string };
+/* ------------- Types ------------- */
+type CommonPropsType = { className?: string; fileName?: string; messageId?: number };
+
+type AttachmentToSendType = IAttachmentToSend & CommonPropsType;
+
+type RawAttachmentType = IAttachmentBase & CommonPropsType;
 
 type FileAttachmentProps = RawAttachmentType | AttachmentToSendType;
 
-const isRawAttachment = (props: FileAttachmentProps): props is RawAttachmentType => 'url' in props;
-
+/* ------------- Component ------------- */
 const FileAttachment: React.FC<FileAttachmentProps> = (props) => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloaded, setDownloaded] = useState(0);
 
-  const { byteSize, fileName, className } = props;
+  const abortDownloadingRef = useRef<XMLHttpRequest>();
+
+  const removeAttachment = useActionWithDispatch(removeAttachmentAction);
+
+  const { byteSize, fileName, className, id, messageId } = props;
 
   const { success, uploadedBytes } = useMemo(() => {
     if (!isRawAttachment(props)) {
@@ -40,7 +50,11 @@ const FileAttachment: React.FC<FileAttachmentProps> = (props) => {
     return { url: undefined };
   }, [props]);
 
-  const abortDownloadingRef = useRef<XMLHttpRequest>();
+  const cancelUploading = useCallback(() => {
+    if (messageId) {
+      removeAttachment({ attachmentId: id, messageId });
+    }
+  }, [id, messageId, removeAttachment]);
 
   const download = useCallback(() => {
     if (url) {
@@ -61,6 +75,8 @@ const FileAttachment: React.FC<FileAttachmentProps> = (props) => {
     setIsDownloading(false);
   }, [setIsDownloading, setDownloaded, abortDownloadingRef]);
 
+  const isUploading = useMemo(() => uploadedBytes !== undefined && success === false, [success, uploadedBytes]);
+
   return (
     <div className={classnames(BLOCK_NAME, className)}>
       {isDownloading ? (
@@ -68,12 +84,8 @@ const FileAttachment: React.FC<FileAttachmentProps> = (props) => {
           <CircleProgressPreloader byteSize={byteSize} uploadedBytes={downloaded} withCross />
         </div>
       ) : (
-        <div onClick={download} className={`${BLOCK_NAME}__download`}>
-          {uploadedBytes !== undefined && success === false ? (
-            <CircleProgressPreloader byteSize={byteSize} uploadedBytes={uploadedBytes} />
-          ) : (
-            <DownloadSvg />
-          )}
+        <div onClick={isUploading ? cancelUploading : download} className={`${BLOCK_NAME}__download`}>
+          {isUploading ? <CircleProgressPreloader byteSize={byteSize} uploadedBytes={uploadedBytes!} /> : <DownloadSvg />}
         </div>
       )}
       <div className={`${BLOCK_NAME}__data`}>

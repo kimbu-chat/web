@@ -17,6 +17,7 @@ interface IAttachmentsMapProps {
   isCurrentUserMessageCreator: boolean;
   observeIntersection: ObserveFn;
   className?: string;
+  messageId?: number;
 }
 
 const BLOCK_NAME = 'attachments-map';
@@ -26,6 +27,7 @@ export const AttachmentsMap: React.FC<IAttachmentsMapProps> = ({
   isCurrentUserMessageCreator,
   observeIntersection,
   className,
+  messageId,
 }) => {
   if (!structuredAttachments) {
     return null;
@@ -34,7 +36,7 @@ export const AttachmentsMap: React.FC<IAttachmentsMapProps> = ({
   return (
     <div className={classnames(BLOCK_NAME, className)}>
       {structuredAttachments.files.map((file) => (
-        <FileAttachment key={file.id} {...file} />
+        <FileAttachment key={file.id} messageId={messageId} {...file} />
       ))}
       {structuredAttachments.recordings.map((recording) => (
         <RecordingAttachment createdByInterlocutor={!isCurrentUserMessageCreator} key={recording.clientId || recording.id} {...recording} />

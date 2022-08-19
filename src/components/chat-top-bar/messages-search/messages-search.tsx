@@ -29,11 +29,14 @@ const MessagesSearch = () => {
   const closeSearchingState = useCallback(() => {
     if (isSearching) {
       setIsSearching(false);
-      getMessages({
-        initializedByScroll: false,
-      });
+
+      if (messagesSearchString) {
+        getMessages({
+          initializedByScroll: false,
+        });
+      }
     }
-  }, [isSearching, getMessages]);
+  }, [isSearching, getMessages, messagesSearchString]);
 
   const resetSearch = useCallback(() => {
     getMessages({

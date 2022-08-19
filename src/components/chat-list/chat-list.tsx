@@ -70,7 +70,6 @@ const ChatList = React.memo(() => {
         name: e.target.value,
         initializedByScroll: false,
         showOnlyHidden: false,
-        showAll: true,
       });
     },
     [setSearchString, getChatsRequest],
@@ -81,7 +80,6 @@ const ChatList = React.memo(() => {
       initializedByScroll: true,
       name: searchString,
       showOnlyHidden: false,
-      showAll: true,
     });
   }, [getChatsRequest, searchString]);
 

@@ -42,7 +42,7 @@ export const AttachmentsMap: React.FC<IAttachmentsMapProps> = ({
         <RecordingAttachment createdByInterlocutor={!isCurrentUserMessageCreator} key={recording.clientId || recording.id} {...recording} />
       ))}
       {structuredAttachments.audios.map((audio) => (
-        <MessageAudioAttachment key={audio.id} {...audio} />
+        <MessageAudioAttachment key={audio.id} messageId={messageId} {...audio} />
       ))}
       {structuredAttachments.media.length > 0 && <MediaGrid observeIntersection={observeIntersection} media={structuredAttachments.media} />}
     </div>

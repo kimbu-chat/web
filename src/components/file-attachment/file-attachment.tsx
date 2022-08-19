@@ -75,8 +75,6 @@ const FileAttachment: React.FC<FileAttachmentProps> = (props) => {
     setIsDownloading(false);
   }, [setIsDownloading, setDownloaded, abortDownloadingRef]);
 
-  const isUploading = useMemo(() => uploadedBytes !== undefined && success === false, [success, uploadedBytes]);
-
   return (
     <div className={classnames(BLOCK_NAME, className)}>
       {isDownloading ? (
@@ -84,8 +82,12 @@ const FileAttachment: React.FC<FileAttachmentProps> = (props) => {
           <CircleProgressPreloader byteSize={byteSize} uploadedBytes={downloaded} withCross />
         </div>
       ) : (
-        <div onClick={isUploading ? cancelUploading : download} className={`${BLOCK_NAME}__download`}>
-          {isUploading ? <CircleProgressPreloader byteSize={byteSize} uploadedBytes={uploadedBytes!} /> : <DownloadSvg />}
+        <div onClick={uploadedBytes !== undefined && success === false ? cancelUploading : download} className={`${BLOCK_NAME}__download`}>
+          {uploadedBytes !== undefined && success === false ? (
+            <CircleProgressPreloader byteSize={byteSize} uploadedBytes={uploadedBytes} />
+          ) : (
+            <DownloadSvg />
+          )}
         </div>
       )}
       <div className={`${BLOCK_NAME}__data`}>

@@ -13,7 +13,9 @@ import './file-attachment.scss';
 const BLOCK_NAME = 'file-attachment';
 
 type AttachmentToSendType = IAttachmentToSend & { fileName?: string; className?: string };
+
 type RawAttachmentType = IAttachmentBase & { className?: string; fileName?: string };
+
 type FileAttachmentProps = RawAttachmentType | AttachmentToSendType;
 
 const isRawAttachment = (props: FileAttachmentProps): props is RawAttachmentType => 'url' in props;

@@ -12,10 +12,12 @@ import size from 'lodash/size';
 import { IAttachmentToSend } from '@store/chats/models';
 import { INamedAttachment } from '@store/chats/models/named-attachment';
 
+export type AttachmentToSendType = IAttachmentToSend & { fileName: string };
+
 export type NormalizeAccumulator = {
-  files: (IRawAttachment | (IAttachmentToSend & { fileName: string }))[];
+  files: (IRawAttachment | AttachmentToSendType)[];
   media: (IVideoAttachment | IPictureAttachment)[];
-  audios: IAudioAttachment[];
+  audios: (IAudioAttachment | AttachmentToSendType)[];
   recordings: (IVoiceAttachment & { clientId?: number })[];
 };
 
@@ -35,7 +37,7 @@ export function normalizeAttachments(attachments: (IAttachmentBase | IAttachment
               fileName: (currentAttachment as IRawAttachment).fileName
                 ? (currentAttachment as IRawAttachment).fileName
                 : (currentAttachment as IAttachmentToSend).file.name,
-            } as IRawAttachment | (IAttachmentToSend & { fileName: string }));
+            } as IRawAttachment | AttachmentToSendType);
           }
 
           break;
@@ -53,7 +55,12 @@ export function normalizeAttachments(attachments: (IAttachmentBase | IAttachment
 
           break;
         case AttachmentType.Audio:
-          accum.audios.push(currentAttachment as IAudioAttachment);
+          accum.audios.push({
+            ...(currentAttachment as IAudioAttachment & IAttachmentToSend),
+            fileName: (currentAttachment as IAudioAttachment).fileName
+              ? (currentAttachment as IAudioAttachment).fileName
+              : (currentAttachment as IAttachmentToSend).file.name,
+          } as IAudioAttachment | AttachmentToSendType);
 
           break;
         case AttachmentType.Voice:

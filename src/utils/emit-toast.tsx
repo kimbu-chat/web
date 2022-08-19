@@ -15,7 +15,6 @@ export const emitToast = (content: ToastContent, options?: ToastOptions | undefi
         <>
           <SuccessSvg />
           <span>{content}</span>
-          <button type="button">ACTION</button>
         </>,
         options,
       );
@@ -26,7 +25,6 @@ export const emitToast = (content: ToastContent, options?: ToastOptions | undefi
         <>
           <InfoSvg />
           <span>{content}</span>
-          <button type="button">ACTION</button>
         </>,
         options,
       );
@@ -37,7 +35,6 @@ export const emitToast = (content: ToastContent, options?: ToastOptions | undefi
         <>
           <ErrorSvg />
           <span>{content}</span>
-          <button type="button">ACTION</button>
         </>,
         options,
       );
@@ -48,7 +45,6 @@ export const emitToast = (content: ToastContent, options?: ToastOptions | undefi
         <>
           <WarningSvg />
           <span>{content}</span>
-          <button type="button">ACTION</button>
         </>,
         options,
       );
@@ -59,7 +55,6 @@ export const emitToast = (content: ToastContent, options?: ToastOptions | undefi
         <>
           <GenericSvg />
           <span>{content}</span>
-          <button type="button">ACTION</button>
         </>,
         options,
       );

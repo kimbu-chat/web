@@ -19,7 +19,6 @@ import { GetChatsSuccess, IGetChatsSuccessActionPayload } from './get-chats-succ
 
 export interface IGetChatsActionPayload {
   showOnlyHidden: boolean;
-  showAll: boolean;
   initializedByScroll: boolean;
   name?: string;
 }
@@ -55,7 +54,7 @@ export class GetChats {
 
   static get saga() {
     return function* getChats(action: ReturnType<typeof GetChats.action>): SagaIterator {
-      const { name, showOnlyHidden, showAll, initializedByScroll } = action.payload;
+      const { name, showOnlyHidden, initializedByScroll } = action.payload;
 
       if (!name?.length && !initializedByScroll) {
         return;
@@ -73,7 +72,6 @@ export class GetChats {
         name,
         showOnlyHidden,
         page,
-        showAll,
       };
 
       const { data }: AxiosResponse<IChat[]> = GetChats.httpRequest.call(

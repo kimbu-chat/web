@@ -71,7 +71,6 @@ export const InitialForwardModal: React.FC<IForwardModalProps & IModalChildrenPr
       name: searchString,
       showOnlyHidden: false,
       initializedByScroll: true,
-      showAll: true,
     });
   }, [loadChats, searchString]);
 
@@ -82,7 +81,6 @@ export const InitialForwardModal: React.FC<IForwardModalProps & IModalChildrenPr
         name: e.target.value,
         initializedByScroll: false,
         showOnlyHidden: false,
-        showAll: true,
       });
     },
     [loadChats, setSearchString],

@@ -17,7 +17,7 @@ interface IMediaGridProps {
 const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection }) => {
   const mediaListRef = useRef<null | (INamedAttachment | IAttachmentToSend)[]>(null);
 
-  const isAttachmentsProgressEquals = useCallback((attachment: INamedAttachment | IAttachmentToSend, index: number) => {
+  const isAttachmentsProgressNotEquals = useCallback((attachment: INamedAttachment | IAttachmentToSend, index: number) => {
     const attachmentRef: INamedAttachment | IAttachmentToSend | null = mediaListRef.current && mediaListRef.current[index];
     let attachmentProgress;
     let attachmentRefProgress;
@@ -29,10 +29,10 @@ const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection }) =>
       attachmentRefProgress = attachmentRef.progress;
     }
 
-    return attachmentProgress === attachmentRefProgress;
+    return attachmentProgress !== attachmentRefProgress;
   }, []);
 
-  const isAttachmentsUrlEquals = useCallback((attachment: INamedAttachment | IAttachmentToSend, index: number) => {
+  const isAttachmentsUrlNotEquals = useCallback((attachment: INamedAttachment | IAttachmentToSend, index: number) => {
     const attachmentRef = mediaListRef.current && mediaListRef.current[index];
     let attachmentUrl;
     let attachmentRefUrl;
@@ -44,7 +44,7 @@ const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection }) =>
       attachmentRefUrl = attachmentRef.url;
     }
 
-    return attachmentUrl === attachmentRefUrl;
+    return attachmentUrl !== attachmentRefUrl;
   }, []);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection }) =>
       return;
     }
 
-    if (!media.some(isAttachmentsUrlEquals) || !media.some(isAttachmentsProgressEquals)) {
+    if (media.some(isAttachmentsUrlNotEquals) || media.some(isAttachmentsProgressNotEquals)) {
       mediaListRef.current = mediaListRef.current.map((attachment, i) => ({
         ...attachment,
         uploadedBytes: (media[i] as IAttachmentToSend).uploadedBytes,
@@ -67,7 +67,7 @@ const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection }) =>
         url: (media[i] as INamedAttachment).url,
       }));
     }
-  }, [isAttachmentsProgressEquals, isAttachmentsUrlEquals, media]);
+  }, [isAttachmentsProgressNotEquals, isAttachmentsUrlNotEquals, media]);
 
   const mediaList = useMemo(() => {
     if (!mediaListRef.current) {

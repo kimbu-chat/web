@@ -12,9 +12,10 @@ import './media-grid.scss';
 interface IMediaGridProps {
   media: (INamedAttachment | IAttachmentToSend)[];
   observeIntersection: ObserveFn;
+  messageId?: number;
 }
 
-const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection }) => {
+const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection, messageId }) => {
   const mediaListRef = useRef<null | (INamedAttachment | IAttachmentToSend)[]>(null);
 
   const isAttachmentsProgressNotEquals = useCallback((attachment: INamedAttachment | IAttachmentToSend, index: number) => {
@@ -48,7 +49,7 @@ const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection }) =>
   }, []);
 
   useEffect(() => {
-    if (!mediaListRef.current) {
+    if (mediaListRef.current?.length !== media.length) {
       mediaListRef.current = media;
       return;
     }
@@ -63,6 +64,7 @@ const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection }) =>
         ...attachment,
         uploadedBytes: (media[i] as IAttachmentToSend).uploadedBytes,
         byteSize: (media[i] as IAttachmentToSend).byteSize,
+        success: (media[i] as IAttachmentToSend).success,
         progress: (media[i] as IAttachmentToSend).progress,
         url: (media[i] as INamedAttachment).url,
       }));
@@ -80,7 +82,13 @@ const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection }) =>
   return (
     <div className={`media-grid ${media.length === 1 ? 'media-grid--1' : ''}`}>
       {mediaList.map((mediaElement) => (
-        <MediaAttachment observeIntersection={observeIntersection} key={mediaElement.id} attachmentId={mediaElement.id} attachmentsArr={mediaList} />
+        <MediaAttachment
+          messageId={messageId}
+          observeIntersection={observeIntersection}
+          key={mediaElement.id}
+          attachmentId={mediaElement.id}
+          attachmentsArr={mediaList}
+        />
       ))}
     </div>
   );

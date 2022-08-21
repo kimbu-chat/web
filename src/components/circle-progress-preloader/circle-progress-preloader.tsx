@@ -4,16 +4,28 @@ import { ReactComponent as ProgressSVG } from '@icons/ic-progress.svg';
 
 import './circle-progress-preloader.scss';
 
+export enum CirclePreloaderSize {
+  SMALL = 'SMALL',
+  BIG = 'BIG',
+}
+
 interface ICircleProgressPreloader {
   byteSize: number;
   uploadedBytes: number;
   withCross?: boolean;
+  size?: CirclePreloaderSize;
 }
 
 const BLOCK_NAME = 'circle-progress-preloader';
 
-export const CircleProgressPreloader: React.FC<ICircleProgressPreloader> = ({ byteSize, uploadedBytes, withCross = false }) => {
+export const CircleProgressPreloader: React.FC<ICircleProgressPreloader> = ({
+  byteSize,
+  uploadedBytes,
+  withCross = false,
+  size = CirclePreloaderSize.SMALL,
+}) => {
   const progressSvgRef = useRef<SVGSVGElement | null>(null);
+  const svgClassName = `${BLOCK_NAME}__progress-svg ${BLOCK_NAME}__progress-svg--${size}`;
 
   useEffect(() => {
     const element = progressSvgRef.current;
@@ -51,5 +63,5 @@ export const CircleProgressPreloader: React.FC<ICircleProgressPreloader> = ({ by
     }
   }, [byteSize, progressSvgRef, uploadedBytes]);
 
-  return <ProgressSVG ref={progressSvgRef} className={`${BLOCK_NAME}__progress-svg`} />;
+  return <ProgressSVG ref={progressSvgRef} className={svgClassName} />;
 };

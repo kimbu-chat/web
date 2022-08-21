@@ -3,6 +3,14 @@
   overflow: hidden;
   position: relative;
 
+  &__cancel-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 100;
+    transform: translate(-50%, -50%);
+  }
+
   &__svg {
     color: #fff;
     height: 24px;

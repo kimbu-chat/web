@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { AttachmentType, IVideoAttachment } from 'kimbu-models';
 
@@ -28,6 +28,7 @@ interface IMediaAttachmentProps {
 
 export const MediaAttachment: React.FC<IMediaAttachmentProps> = ({ messageId, attachmentId, attachmentsArr, observeIntersection }) => {
   const [bigMediaDisplayed, displayBigMedia, hideBigMedia] = useToggledState(false);
+  const [isHover, setIsHover] = useState(false);
 
   const removeAttachment = useActionWithDispatch(removeAttachmentAction);
 
@@ -58,18 +59,21 @@ export const MediaAttachment: React.FC<IMediaAttachmentProps> = ({ messageId, at
     }
   }, [currentAttachment, messageId, removeAttachment]);
 
+  const onMediaClickHandler = useMemo(() => (success === true || success === undefined ? displayBigMedia : undefined), [displayBigMedia, success]);
+
   useEffect(() => {
     if (previewUrl && fileUrl) URL.revokeObjectURL(previewUrl);
   }, [fileUrl, previewUrl]);
 
   return (
     <>
-      <div onClick={success === true || success === undefined ? displayBigMedia : undefined} className={BLOCK_NAME}>
+      <div onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} onClick={onMediaClickHandler} className={BLOCK_NAME}>
         {currentAttachment && uploadedBytes !== undefined && success === false && (
-          <div onClick={cancelUploading} className={`${BLOCK_NAME}__cancel-btn`}>
+          <div onClick={cancelUploading} className={`${BLOCK_NAME}__cancel-btn`} style={{ opacity: `${isHover ? 1 : 0}` }}>
             <CircleProgressPreloader byteSize={currentAttachment?.byteSize} uploadedBytes={uploadedBytes} withCross size={CirclePreloaderSize.BIG} />
           </div>
         )}
+
         {(currentAttachment?.type === AttachmentType.Picture || fileName?.endsWith('.gif')) && (
           <ProgressiveImage
             thumb={previewUrl}
@@ -77,10 +81,10 @@ export const MediaAttachment: React.FC<IMediaAttachmentProps> = ({ messageId, at
             alt={fileName || ''}
             width={280}
             height={210}
-            progress={fileProgress}
-            byteSize={currentAttachment?.byteSize}
-            fileName={(currentAttachment as INamedAttachment).fileName}
-            uploadedBytes={(currentAttachment as IAttachmentToSend).uploadedBytes}
+            progress={isHover ? 0 : fileProgress}
+            byteSize={isHover ? undefined : currentAttachment?.byteSize}
+            fileName={isHover ? undefined : (currentAttachment as INamedAttachment).fileName}
+            uploadedBytes={isHover ? undefined : (currentAttachment as IAttachmentToSend).uploadedBytes}
             observeIntersection={observeIntersection}
           />
         )}

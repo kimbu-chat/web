@@ -37,7 +37,7 @@ export const CircleProgressPreloader: React.FC<ICircleProgressPreloader> = ({
 
       if (cross) {
         cross.style.opacity = '0';
-        cross.style.transition = 'opacity 0.1s';
+        cross.style.transition = 'opacity 0.3s';
 
         handleMouseEnter = () => {
           cross.style.opacity = '1';

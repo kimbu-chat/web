@@ -26,7 +26,6 @@ export class AddUsersToGroupChatSuccess {
 
       if (chat?.groupChat) {
         chat.groupChat.membersCount += userIds.length;
-        chat.members.memberIds = [...new Set([...chat.members.memberIds, ...userIds])];
       }
 
       return draft;

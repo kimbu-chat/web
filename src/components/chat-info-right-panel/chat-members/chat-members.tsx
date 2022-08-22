@@ -1,18 +1,17 @@
 import React, { useRef, useState, useCallback, RefObject, useEffect } from 'react';
 
 import classnames from 'classnames';
+import { IUser } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { SearchBox } from '@components/search-box';
-// import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
 import { useInfinityDeferred } from '@hooks/use-infinity-deferred';
 import { ReactComponent as OpenArrowSvg } from '@icons/open-arrow.svg';
 import { getGroupChatUsersAction } from '@store/chats/actions';
 import { IGetGroupChatUsersActionPayload } from '@store/chats/features/get-group-chat-users/get-group-chat-users';
 import {
-  // getMembersListForSelectedGroupChatSelector,
   getSelectedGroupChatCreatorIdSelector,
   getSelectedGroupCountMembers,
 } from '@store/chats/selectors';
@@ -40,54 +39,56 @@ export const ChatMembers: React.FC<IChatMembersProps> = ({ rootRef }) => {
 
   const {
     executeRequest: getGroupChatMembers,
-    data: memberIds,
+    data: members,
     loading,
     hasMore,
-  } = useInfinityDeferred<IGetGroupChatUsersActionPayload, number>({
+  } = useInfinityDeferred<IGetGroupChatUsersActionPayload, IUser>({
     action: getGroupChatUsersAction,
     limit: CHAT_MEMBERS_LIMIT,
   });
 
   useEffect(() => {
     const updateMembers = async () => {
-      await getGroupChatMembers({
-        name: searchStr,
-        offset: memberIds.length,
-        initializedByScroll: false,
-      }, false);
+      await getGroupChatMembers(
+        {
+          name: searchStr,
+          offset: members.length,
+          initializedByScroll: false,
+        },
+        false,
+      );
     };
 
     if (membersDisplayed && prevMembersCount.current !== membersCount) {
       updateMembers();
       prevMembersCount.current = membersCount;
     }
-  }, [
-    membersDisplayed,
-    getGroupChatMembers,
-    membersCount,
-    searchStr,
-    memberIds.length,
-  ]);
+  }, [membersDisplayed, getGroupChatMembers, membersCount, searchStr, members.length]);
 
   const loadMore = useCallback(async () => {
-    
-    await getGroupChatMembers({
-      name: searchStr,
-      offset: memberIds.length,
-      initializedByScroll: true,
-    }, true);
-  }, [getGroupChatMembers, searchStr, memberIds.length]);
+    await getGroupChatMembers(
+      {
+        name: searchStr,
+        offset: members.length,
+        initializedByScroll: true,
+      },
+      true,
+    );
+  }, [getGroupChatMembers, searchStr, members.length]);
 
   const search = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchStr(e.target.value);
-      await getGroupChatMembers({
-        name: e.target.value,
-        offset: memberIds.length,
-        initializedByScroll: false,
-      }, false);
+      await getGroupChatMembers(
+        {
+          name: e.target.value,
+          offset: members.length,
+          initializedByScroll: false,
+        },
+        false,
+      );
     },
-    [getGroupChatMembers, memberIds.length],
+    [getGroupChatMembers, members.length],
   );
 
   const changeMembersDisplayedState = useCallback(
@@ -124,7 +125,7 @@ export const ChatMembers: React.FC<IChatMembersProps> = ({ rootRef }) => {
             hasMore={hasMore}
             isLoading={loading}
             threshold={0.3}>
-            {memberIds.map((memberId: number) => (
+            {members.map(({ id: memberId }) => (
               <Member key={memberId} memberId={memberId} ownerId={userCreatorId} />
             ))}
           </InfiniteScroll>

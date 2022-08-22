@@ -46,11 +46,6 @@ export class ChangeChatInfoOpened {
               loading: false,
               hasMore: true,
             },
-            members: {
-              memberIds: [],
-              loading: false,
-              hasMore: true,
-            },
             possibleMembers: {
               memberIds: [],
               loading: false,

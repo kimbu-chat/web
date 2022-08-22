@@ -85,23 +85,29 @@ const InitialGroupChatAddFriendModal: React.FC<
   }, [addUsersToGroupChat, selectedUserIds, animatedClose]);
 
   const loadMore = useCallback(async () => {
-    await getPossibleMembers({
-      name,
-      groupChatId: chat?.groupChat?.id as number,
-      offset: data.length,
-      initializedByScroll: true,
-    }, true);
+    await getPossibleMembers(
+      {
+        name,
+        groupChatId: chat?.groupChat?.id as number,
+        offset: data.length,
+        initializedByScroll: true,
+      },
+      true,
+    );
   }, [getPossibleMembers, name, chat?.groupChat?.id, data.length]);
 
   const queryPossibleMembers = useCallback(
     async (searchName: string) => {
       setName(searchName);
-      await getPossibleMembers({
-        offset: data.length,
-        name: searchName,
-        groupChatId: chat?.groupChat?.id as number,
-        initializedByScroll: false,
-      }, false);
+      await getPossibleMembers(
+        {
+          offset: data.length,
+          name: searchName,
+          groupChatId: chat?.groupChat?.id as number,
+          initializedByScroll: false,
+        },
+        false,
+      );
     },
     [chat?.groupChat?.id, getPossibleMembers, data.length],
   );

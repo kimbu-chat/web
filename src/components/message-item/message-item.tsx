@@ -95,7 +95,7 @@ const MessageItem = React.forwardRef<HTMLDivElement, IMessageItemProps>(
     const isCurrentUserMessageCreator = message?.userCreatorId === myId;
 
     const scrollToForward = useCallback(() => {
-      if (isLinkedMessage && onAddAnchors) {
+      if (isLinkedMessage && onAddAnchors && messageToProcess) {
         onAddAnchors([
           { id: messageToProcess.id, autoScroll: true },
           { id: message.id, autoScroll: false },

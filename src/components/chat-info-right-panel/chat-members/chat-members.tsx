@@ -1,4 +1,4 @@
-import React, { useState, useCallback, RefObject } from 'react';
+import React, { useRef, useState, useCallback, RefObject, useEffect } from 'react';
 
 import classnames from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -6,13 +6,17 @@ import { useSelector } from 'react-redux';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { SearchBox } from '@components/search-box';
-import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+// import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
+import { useInfinityDeferred } from '@hooks/use-infinity-deferred';
 import { ReactComponent as OpenArrowSvg } from '@icons/open-arrow.svg';
 import { getGroupChatUsersAction } from '@store/chats/actions';
+import { IGetGroupChatUsersActionPayload } from '@store/chats/features/get-group-chat-users/get-group-chat-users';
 import {
-  getMembersListForSelectedGroupChatSelector,
+  // getMembersListForSelectedGroupChatSelector,
   getSelectedGroupChatCreatorIdSelector,
+  getSelectedGroupCountMembers,
 } from '@store/chats/selectors';
+import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 
 import { Member } from './chat-member/chat-member';
 
@@ -25,31 +29,65 @@ interface IChatMembersProps {
 }
 
 export const ChatMembers: React.FC<IChatMembersProps> = ({ rootRef }) => {
+  const { t } = useTranslation();
   const [searchStr, setSearchStr] = useState<string>('');
   const [membersDisplayed, setMembersDisplayed] = useState(false);
-  const { t } = useTranslation();
 
-  const getGroupChatUsers = useActionWithDispatch(getGroupChatUsersAction);
-
-  const membersListForGroupChat = useSelector(getMembersListForSelectedGroupChatSelector);
   const userCreatorId = useSelector(getSelectedGroupChatCreatorIdSelector);
+  const membersCount = useSelector(getSelectedGroupCountMembers);
 
-  const loadMore = useCallback(() => {
-    getGroupChatUsers({
+  const prevMembersCount = useRef(membersCount);
+
+  const {
+    executeRequest: getGroupChatMembers,
+    data: memberIds,
+    loading,
+    hasMore,
+  } = useInfinityDeferred<IGetGroupChatUsersActionPayload, number>({
+    action: getGroupChatUsersAction,
+    limit: CHAT_MEMBERS_LIMIT,
+  });
+
+  useEffect(() => {
+    const updateMembers = async () => {
+      await getGroupChatMembers({
+        name: searchStr,
+        offset: memberIds.length,
+        initializedByScroll: false,
+      }, false);
+    };
+
+    if (membersDisplayed && prevMembersCount.current !== membersCount) {
+      updateMembers();
+      prevMembersCount.current = membersCount;
+    }
+  }, [
+    membersDisplayed,
+    getGroupChatMembers,
+    membersCount,
+    searchStr,
+    memberIds.length,
+  ]);
+
+  const loadMore = useCallback(async () => {
+    
+    await getGroupChatMembers({
       name: searchStr,
-      isFromSearch: searchStr.length > 0,
-    });
-  }, [getGroupChatUsers, searchStr]);
+      offset: memberIds.length,
+      initializedByScroll: true,
+    }, true);
+  }, [getGroupChatMembers, searchStr, memberIds.length]);
 
   const search = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchStr(e.target.value);
-      getGroupChatUsers({
+      await getGroupChatMembers({
         name: e.target.value,
-        isFromSearch: true,
-      });
+        offset: memberIds.length,
+        initializedByScroll: false,
+      }, false);
     },
-    [getGroupChatUsers],
+    [getGroupChatMembers, memberIds.length],
   );
 
   const changeMembersDisplayedState = useCallback(
@@ -83,10 +121,10 @@ export const ChatMembers: React.FC<IChatMembersProps> = ({ rootRef }) => {
             containerRef={rootRef}
             className={`${BLOCK_NAME}__members-list`}
             onReachBottom={loadMore}
-            hasMore={membersListForGroupChat?.hasMore}
-            isLoading={membersListForGroupChat?.loading}
+            hasMore={hasMore}
+            isLoading={loading}
             threshold={0.3}>
-            {membersListForGroupChat?.memberIds?.map((memberId: number) => (
+            {memberIds.map((memberId: number) => (
               <Member key={memberId} memberId={memberId} ownerId={userCreatorId} />
             ))}
           </InfiniteScroll>

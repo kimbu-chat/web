@@ -12,6 +12,7 @@ export interface IPossibleChatMembersActionPayload {
   groupChatId: number;
   offset: number;
   name?: string;
+  initializedByScroll: boolean;
 }
 
 export class GetPossibleMembers {
@@ -24,12 +25,12 @@ export class GetPossibleMembers {
       action: ReturnType<typeof GetPossibleMembers.action>,
     ): SagaIterator {
       try {
-        const { groupChatId, name, offset } = action.payload;
+        const { groupChatId, name, offset, initializedByScroll } = action.payload;
 
         const request: IGetAllowedUsersForGroupChatRequest = {
           name,
           groupChatId,
-          page: { limit: CHAT_MEMBERS_LIMIT, offset },
+          page: { limit: CHAT_MEMBERS_LIMIT, offset: initializedByScroll ? offset : 0 },
         };
 
         const { data } = GetPossibleMembers.httpRequest.call(

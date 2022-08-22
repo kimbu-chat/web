@@ -71,6 +71,9 @@ export const getSelectedChatMessagesSearchStringSelector = (state: RootState): s
 export const getSelectedGroupChatSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.groupChat;
 
+export const getSelectedGroupCountMembers = (state: RootState) =>
+  state.chats.chats[state?.chats?.selectedChatId || -1]?.groupChat?.membersCount;
+
 export const getSelectedInterlocutorSelector = (state: RootState) =>
   state.users.users[state.chats.chats[state?.chats?.selectedChatId || -1]?.interlocutorId || -1];
 

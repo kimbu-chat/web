@@ -89,7 +89,8 @@ const InitialGroupChatAddFriendModal: React.FC<
       name,
       groupChatId: chat?.groupChat?.id as number,
       offset: data.length,
-    });
+      initializedByScroll: true,
+    }, true);
   }, [getPossibleMembers, name, chat?.groupChat?.id, data.length]);
 
   const queryPossibleMembers = useCallback(
@@ -99,9 +100,10 @@ const InitialGroupChatAddFriendModal: React.FC<
         offset: data.length,
         name: searchName,
         groupChatId: chat?.groupChat?.id as number,
-      });
+        initializedByScroll: false,
+      }, false);
     },
-    [chat?.groupChat?.id, data.length, getPossibleMembers],
+    [chat?.groupChat?.id, getPossibleMembers, data.length],
   );
 
   const handleSearchInputChange = useCallback(

@@ -80,7 +80,7 @@ const MediaGrid: React.FC<IMediaGridProps> = ({ media, observeIntersection, mess
   }, [media]);
 
   return (
-    <div className={`media-grid ${media.length === 1 ? 'media-grid--1' : ''}`}>
+    <div className={`media-grid ${mediaList.length === 1 ? 'media-grid--1' : ''}`}>
       {mediaList.map((mediaElement) => (
         <MediaAttachment
           messageId={messageId}

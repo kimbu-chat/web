@@ -29,6 +29,7 @@ export const CircleProgressPreloader: React.FC<ICircleProgressPreloader> = ({
 
   useEffect(() => {
     const element = progressSvgRef.current;
+    const animationDuration = getComputedStyle(document.documentElement).getPropertyValue('--ANIMATION-DURATION');
     let handleMouseEnter: () => void;
     let handleMouseLeave: () => void;
 
@@ -37,7 +38,7 @@ export const CircleProgressPreloader: React.FC<ICircleProgressPreloader> = ({
 
       if (cross) {
         cross.style.opacity = '0';
-        cross.style.transition = 'opacity 0.3s';
+        cross.style.transition = `opacity ${animationDuration}`;
 
         handleMouseEnter = () => {
           cross.style.opacity = '1';

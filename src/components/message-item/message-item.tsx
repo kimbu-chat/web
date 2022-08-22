@@ -101,7 +101,7 @@ const MessageItem = React.forwardRef<HTMLDivElement, IMessageItemProps>(
           { id: message.id, autoScroll: false },
         ]);
       }
-    }, [onAddAnchors, isLinkedMessage, messageToProcess.id, message.id]);
+    }, [onAddAnchors, isLinkedMessage, messageToProcess, message.id]);
 
     const { t } = useTranslation();
 

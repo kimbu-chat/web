@@ -139,6 +139,7 @@
     "typing_two": "{{firstInterlocutorName}} и {{secondInterlocutorName}} печатают...",
     "typing_many": "{{firstInterlocutorName}}, {{secondInterlocutorName}} и ещё {{remainingCount}} печатают...",
     "empty": "В этом чате нет новых сообщений. Ваше может быть первым!",
+    "no-messages": "Ничего не найдено",
     "select_chat": "Пожалуйста выберите чат для начала переписки"
   },
   "mediaModal": {

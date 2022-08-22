@@ -115,6 +115,7 @@
     "typing_two": "{{firstInterlocutorName}} and  {{secondInterlocutorName}} are typing...",
     "typing_many": "{{firstInterlocutorName}}, {{secondInterlocutorName}} and {{remainingCount}} more are typing...",
     "empty": "There are no messages in this chat. Be the first!",
+    "no-messages": "Messages not found",
     "select_chat": "Please select a chat to start messaging"
   },
   "mediaModal": {

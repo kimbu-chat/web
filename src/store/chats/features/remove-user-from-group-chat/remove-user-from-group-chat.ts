@@ -9,8 +9,6 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 
 import { getSelectedGroupChatIdSelector } from '../../selectors';
 
-// import { RemoveUserFromGroupChatSuccess } from './remove-user-from-group-chat-success';
-
 export interface IRemoveUserFromGroupChatActionPayload {
   userId: number;
 }

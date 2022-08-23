@@ -36,11 +36,6 @@ export interface INormalizedChat {
   audios: IMediaFileList<IAudioAttachment>;
   files: IMediaFileList<IAttachmentBase>;
   recordings: IMediaFileList<IVoiceAttachment>;
-  members: {
-    memberIds: number[];
-    loading: boolean;
-    hasMore: boolean;
-  };
 
   messages: {
     messages: Record<number, INormalizedMessage>;

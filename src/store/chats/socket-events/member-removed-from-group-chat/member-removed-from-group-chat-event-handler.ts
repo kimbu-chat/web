@@ -41,11 +41,8 @@ export class MemberRemovedFromGroupChatEventHandler {
         draft.chatList.chatIds = draft.chatList.chatIds.filter((id) => id !== chatId);
 
         delete draft.chats[chatId];
-      } else {
-        chat.members.memberIds = chat.members.memberIds.filter((id) => id !== userId);
-        if (chat.groupChat) {
-          chat.groupChat.membersCount -= 1;
-        }
+      } else if (chat.groupChat) {
+        chat.groupChat.membersCount -= 1;
       }
 
       return draft;

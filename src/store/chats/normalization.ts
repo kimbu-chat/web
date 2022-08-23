@@ -53,7 +53,6 @@ export const chatNormalizationSchema = new schema.Entity<INormalizedChat>(
         videos: { data: [], loading: false, hasMore: true },
         files: { data: [], loading: false, hasMore: true },
         audios: { data: [], loading: false, hasMore: true },
-        members: { memberIds: [], loading: false, hasMore: true },
         possibleMembers: { memberIds: [], loading: false, hasMore: true },
         recordings: {
           hasMore: true,

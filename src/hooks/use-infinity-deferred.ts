@@ -20,11 +20,15 @@ export function useInfinityDeferred<TPayload, TResponse>({
   const request = useActionWithDeferred(action);
 
   const executeRequest = useCallback(
-    async (payload: TPayload) => {
+    async (payload: TPayload, shouldMerge: boolean) => {
       setLoading(true);
       const res = await request<TResponse[]>(payload);
       setHasMore(res.length >= limit);
-      setData((prevData) => [...prevData, ...res]);
+      setData((prev) => {
+        if (shouldMerge) return [...new Set([...prev, ...res])];
+
+        return [...res];
+      });
       setLoading(false);
     },
     [request, limit],

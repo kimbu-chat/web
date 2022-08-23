@@ -40,8 +40,6 @@ import { GetChatInfoSuccess } from './features/get-chat-info/get-chat-info-succe
 import { GetChatsFailure } from './features/get-chats/get-chats-failure';
 import { GetChatsSuccess } from './features/get-chats/get-chats-success';
 import { GetChats } from './features/get-chats/get-chats';
-import { GetGroupChatUsersSuccess } from './features/get-group-chat-users/get-group-chat-users-success';
-import { GetGroupChatUsers } from './features/get-group-chat-users/get-group-chat-users';
 import { GetMessagesFailure } from './features/get-messages/get-messages-failure';
 import { GetMessagesSuccess } from './features/get-messages/get-messages-success';
 import { GetMessages } from './features/get-messages/get-messages';
@@ -60,7 +58,6 @@ import { RemoveAllAttachments } from './features/remove-attachment/remove-all-at
 import { RemoveAttachment } from './features/remove-attachment/remove-attachment';
 import { RemoveChatSuccess } from './features/remove-chat/remove-chat-success';
 import { RemoveChat } from './features/remove-chat/remove-chat';
-import { RemoveUserFromGroupChatSuccess } from './features/remove-user-from-group-chat/remove-user-from-group-chat-success';
 import { ReplyToMessage } from './features/reply-to-message/reply-to-message';
 import { ResetReplyToMessage } from './features/reply-to-message/reset-reply-to-message';
 import { ResetSearchChats } from './features/reset-search-chats/reset-search-chats';
@@ -131,8 +128,6 @@ const reducer = createReducer<IChatsState>(initialState, (builder) =>
     .addCase(RemoveAttachment.action, RemoveAttachment.reducer)
     .addCase(GetChatInfoSuccess.action, GetChatInfoSuccess.reducer)
     .addCase(EditGroupChatSuccess.action, EditGroupChatSuccess.reducer)
-    .addCase(GetGroupChatUsers.action, GetGroupChatUsers.reducer)
-    .addCase(GetGroupChatUsersSuccess.action, GetGroupChatUsersSuccess.reducer)
     .addCase(GetVoiceAttachments.action, GetVoiceAttachments.reducer)
     .addCase(GetVideoAttachments.action, GetVideoAttachments.reducer)
     .addCase(GetVideoAttachmentsSuccess.action, GetVideoAttachmentsSuccess.reducer)
@@ -158,7 +153,6 @@ const reducer = createReducer<IChatsState>(initialState, (builder) =>
     .addCase(ChangeChatInfoOpened.action, ChangeChatInfoOpened.reducer)
     .addCase(RemoveAllAttachments.action, RemoveAllAttachments.reducer)
     .addCase(ForwardMessages.action, ForwardMessages.reducer)
-    .addCase(RemoveUserFromGroupChatSuccess.action, RemoveUserFromGroupChatSuccess.reducer)
     .addCase(RemoveChatSuccess.action, RemoveChatSuccess.reducer)
 
     .addCase(ResetSearchChats.action, ResetSearchChats.reducer)

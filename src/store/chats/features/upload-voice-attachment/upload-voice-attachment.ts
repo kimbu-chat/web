@@ -1,12 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import {
-  AttachmentType,
-  IAttachmentBase,
-  ICreateMessageRequest,
-  IVoiceAttachment,
-  MessageLinkType,
-  SystemMessageType,
-} from 'kimbu-models';
+import { AttachmentType, IAttachmentBase, ICreateMessageRequest, IVoiceAttachment, MessageLinkType, SystemMessageType } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, take } from 'redux-saga/effects';
 
@@ -23,7 +16,7 @@ import { UploadVoiceAttachmentSuccess } from './upload-voice-attachment-success'
 
 interface IUploadVoiceReferred extends IUploadVoiceAttachmentActionPayload {
   linkedMessage?: INormalizedMessage;
-  linkedMessageType: MessageLinkType;
+  linkedMessageType?: MessageLinkType;
 }
 
 export interface IUploadVoiceAttachmentActionPayload {
@@ -100,9 +93,7 @@ export class UploadVoiceAttachment {
   }
 
   static get saga() {
-    return function* uploadVoiceAttachmentSaga(
-      action: ReturnType<typeof UploadVoiceAttachment.action>,
-    ): SagaIterator {
+    return function* uploadVoiceAttachmentSaga(action: ReturnType<typeof UploadVoiceAttachment.action>): SagaIterator {
       const chatId = yield select(getSelectedChatIdSelector);
       const { file, waveFormJson, id, linkedMessageType, linkedMessage } = action.payload;
 
@@ -117,8 +108,7 @@ export class UploadVoiceAttachment {
         }),
       );
 
-      const { payload: uploadResponse }: ReturnType<typeof UploadAttachmentSuccess.action> =
-        yield take(UploadAttachmentSuccess.action);
+      const { payload: uploadResponse }: ReturnType<typeof UploadAttachmentSuccess.action> = yield take(UploadAttachmentSuccess.action);
 
       const messageCreationReq: ICreateMessageRequest = {
         chatId,
@@ -133,9 +123,7 @@ export class UploadVoiceAttachment {
         };
       }
 
-      const { data } = CreateMessage.httpRequest.call(
-        yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)),
-      );
+      const { data } = CreateMessage.httpRequest.call(yield call(() => CreateMessage.httpRequest.generator(messageCreationReq)));
 
       yield put(
         UploadVoiceAttachmentSuccess.action({

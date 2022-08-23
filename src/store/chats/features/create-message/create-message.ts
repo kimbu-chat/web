@@ -7,17 +7,8 @@ import { call, put, select, take } from 'redux-saga/effects';
 import { MAIN_API } from '@common/paths';
 import { DiscardDraftMessage } from '@store/chats/features/create-draft-message/discard-draft-message';
 import { MessageAttachmentsUploaded } from '@store/chats/features/upload-attachment/message-attachments-uploaded';
-import {
-  IAttachmentToSend,
-  INormalizedChat,
-  INormalizedMessage,
-  MessageState,
-} from '@store/chats/models';
-import {
-  getChatByIdSelector,
-  getMessageSelector,
-  getSelectedChatIdSelector,
-} from '@store/chats/selectors';
+import { IAttachmentToSend, INormalizedChat, INormalizedMessage, MessageState } from '@store/chats/models';
+import { getChatByIdSelector, getMessageSelector, getSelectedChatIdSelector } from '@store/chats/selectors';
 import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { addMessageSendingRequest } from '@utils/cancel-send-message-request';
 
@@ -88,21 +79,24 @@ export class CreateMessage {
 
         const attachmentsToSend = chat.messages.messages[draftMessageId].attachments;
 
-        const hasNotUploadedAttachments = attachmentsToSend.some(
-          (attachment: IAttachmentToSend) => attachment.success === false,
-        );
+        const hasNotUploadedAttachments = attachmentsToSend.some((attachment: IAttachmentToSend) => attachment.success === false);
 
         if (hasNotUploadedAttachments) {
-          yield take(MessageAttachmentsUploaded.action);
+          while (true) {
+            const {
+              payload: { messageId },
+            }: ReturnType<typeof MessageAttachmentsUploaded.action> = yield take(MessageAttachmentsUploaded.action);
+            if (messageId === draftMessageId) {
+              break;
+            }
+          }
         }
 
         const reselectedChat = yield select(getChatByIdSelector(selectedChatId));
 
         const newAttachments = reselectedChat.messages.messages[draftMessageId].attachments;
 
-        messageCreationReq.attachmentIds = newAttachments.map(
-          (attachment: IAttachmentToSend) => attachment.id,
-        );
+        messageCreationReq.attachmentIds = newAttachments.map((attachment: IAttachmentToSend) => attachment.id);
         uploadedAttachments = newAttachments;
       }
 
@@ -115,9 +109,8 @@ export class CreateMessage {
 
       const response = CreateMessage.httpRequest.call(
         yield call(() =>
-          CreateMessage.httpRequest.generator(
-            messageCreationReq,
-            (cancelToken: CancelTokenSource) => addMessageSendingRequest(message.id, cancelToken),
+          CreateMessage.httpRequest.generator(messageCreationReq, (cancelToken: CancelTokenSource) =>
+            addMessageSendingRequest(message.id, cancelToken),
           ),
         ),
       );
@@ -140,9 +133,6 @@ export class CreateMessage {
   }
 
   static get httpRequest() {
-    return httpRequestFactory<AxiosResponse<ICreateMessageResponse>, ICreateMessageRequest>(
-      MAIN_API.MESSAGES,
-      HttpRequestMethod.Post,
-    );
+    return httpRequestFactory<AxiosResponse<ICreateMessageResponse>, ICreateMessageRequest>(MAIN_API.MESSAGES, HttpRequestMethod.Post);
   }
 }

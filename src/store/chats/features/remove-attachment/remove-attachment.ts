@@ -1,12 +1,13 @@
 import { createAction } from '@reduxjs/toolkit';
 import { SagaIterator } from 'redux-saga';
-import { apply } from 'redux-saga/effects';
+import { apply, put, select } from 'redux-saga/effects';
 
 import { INormalizedChat } from '@store/chats/models';
 
 import { IChatsState } from '../../chats-state';
-import { getChatByIdDraftSelector } from '../../selectors';
+import { getChatByIdDraftSelector, getChatByIdSelector, getMessageSelector, getSelectedChatIdSelector } from '../../selectors';
 import { removeUploadingAttachment } from '../../upload-qeue';
+import { DeleteMessageSuccess } from '../delete-message/delete-message-success';
 
 export interface IRemoveAttachmentActionPayload {
   attachmentId: number;
@@ -48,7 +49,16 @@ export class RemoveAttachment {
 
   static get saga() {
     return function* removeAttachment(action: ReturnType<typeof RemoveAttachment.action>): SagaIterator {
-      const { attachmentId } = action.payload;
+      const { attachmentId, messageId } = action.payload;
+
+      const selectedChatId: number = yield select(getSelectedChatIdSelector);
+      const chat = yield select(getChatByIdSelector(selectedChatId));
+      const message = yield select(getMessageSelector(selectedChatId, messageId as number));
+
+      if (!message.text && !message.attachments.length) {
+        yield put(DeleteMessageSuccess.action({ messageIds: [message.id], chatId: chat.id }));
+      }
+
       yield apply(removeUploadingAttachment, removeUploadingAttachment, [attachmentId]);
     };
   }

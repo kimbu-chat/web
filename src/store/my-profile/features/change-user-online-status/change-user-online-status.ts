@@ -47,7 +47,7 @@ export class ChangeUserOnlineStatus {
 
       const unreadMessageId = getUnreadMessageId();
 
-      if (unreadMessageId) {
+      if (unreadMessageId && window.location.pathname.indexOf(`im/${selectedChatId}`) > -1) {
         const httpRequestPayload: IMarkChatAsReadRequest = {
           chatId: selectedChatId,
           lastReadMessageId: unreadMessageId,

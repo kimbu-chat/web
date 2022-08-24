@@ -45,7 +45,7 @@ const FileAttachment: React.FC<FileAttachmentProps> = (props) => {
 
   const { url } = useMemo(() => {
     if (isRawAttachment(props)) {
-      return { ...(props as RawAttachmentType) };
+      return { ...props };
     }
     return { url: undefined };
   }, [props]);

@@ -35,14 +35,14 @@ export const MessageAudioAttachment: React.FC<MessageAudioAttachmentProps> = (pr
 
   const { duration } = useMemo(() => {
     if (isAudioAttachment(props)) {
-      return { ...(props as IAudioAttachment) };
+      return { ...props };
     }
     return { duration: undefined };
   }, [props]);
 
   const { success, uploadedBytes } = useMemo(() => {
     if (!isAudioAttachment(props)) {
-      return { ...(props as AttachmentToSendType) };
+      return { ...props };
     }
     return { success: undefined, uploadedBytes: undefined };
   }, [props]);

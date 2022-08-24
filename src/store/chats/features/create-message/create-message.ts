@@ -83,9 +83,7 @@ export class CreateMessage {
 
         if (hasNotUploadedAttachments) {
           while (true) {
-            const {
-              payload: { messageId },
-            }: ReturnType<typeof MessageAttachmentsUploaded.action> = yield take(MessageAttachmentsUploaded.action);
+            const { payload: messageId } = yield take(MessageAttachmentsUploaded.action);
             if (messageId === draftMessageId) {
               break;
             }

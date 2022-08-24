@@ -25,7 +25,7 @@ export function normalizeAttachments(attachments: (IAttachmentBase | IAttachment
   if (!size(attachments)) {
     return null;
   }
-  return (attachments as (IAttachmentBase | IAttachmentToSend)[]).reduce<NormalizeAccumulator>(
+  return attachments.reduce<NormalizeAccumulator>(
     (accum, currentAttachment) => {
       switch (currentAttachment.type) {
         case AttachmentType.Raw:
@@ -37,7 +37,7 @@ export function normalizeAttachments(attachments: (IAttachmentBase | IAttachment
               fileName: (currentAttachment as IRawAttachment).fileName
                 ? (currentAttachment as IRawAttachment).fileName
                 : (currentAttachment as IAttachmentToSend).file.name,
-            } as IRawAttachment | AttachmentToSendType);
+            });
           }
 
           break;
@@ -60,7 +60,7 @@ export function normalizeAttachments(attachments: (IAttachmentBase | IAttachment
             fileName: (currentAttachment as IAudioAttachment).fileName
               ? (currentAttachment as IAudioAttachment).fileName
               : (currentAttachment as IAttachmentToSend).file.name,
-          } as IAudioAttachment | AttachmentToSendType);
+          });
 
           break;
         case AttachmentType.Voice:

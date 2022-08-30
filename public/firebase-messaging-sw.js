@@ -14,12 +14,12 @@ firebase.initializeApp(config);
 const messaging = firebase.messaging();
 
 firebase.messaging().onBackgroundMessage((payload) => {
-  const { data, name } = { ...payload.data };
+  const { data } = { ...payload.data };
   const info = fromJson(data);
 
   if (!info || info.mute) return;
 
-  const notificationData = getNotificationData(info, name);
+  const notificationData = getNotificationData(info);
 
   showNotification(notificationData);
 });
@@ -49,8 +49,8 @@ function fromJson(data) {
   return JSON.parse(data);
 }
 
-function getNotificationData(data, actionName) {
-  const title = getTitle(actionName);
+function getNotificationData(data) {
+  const title = `${data.userCreator.firstName} ${data.userCreator.lastName}`;
 
   const options = {
     body: getBody(data),
@@ -60,27 +60,13 @@ function getNotificationData(data, actionName) {
   return { title, options };
 }
 
-function getTitle(actionName) {
-  let title;
-
-  switch (actionName) {
-    case 'MessageCreated':
-      title = 'New Message';
-      break;
-    default:
-      break;
-  }
-
-  return title;
-}
-
 function getBody(data) {
   let text;
 
   if (data.attachments.length > 0 && !data.text) {
     const firstAttachType = data.attachments[0].type;
 
-    switch (firstAttach.type) {
+    switch (firstAttachType.type) {
       case 'Picture':
       case 'Raw':
         text = 'Picture';
@@ -101,5 +87,5 @@ function getBody(data) {
 function showNotification(notificationInfo) {
   const { title, options } = notificationInfo;
 
-  return self.registration.showNotification(title, options);
+  self.registration.showNotification(title, options);
 }

@@ -81,7 +81,8 @@ function getBody(data) {
     const firstAttachType = data.attachments[0].type;
 
     switch (firstAttach.type) {
-      case 'Picture' || 'Raw':
+      case 'Picture':
+      case 'Raw':
         text = 'Picture';
         break;
       default:

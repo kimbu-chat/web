@@ -22,6 +22,8 @@ firebase.messaging().onBackgroundMessage((payload) => {
   const notificationData = getNotificationData(info);
 
   showNotification(notificationData);
+
+  closeNotifications({ chatId: info.chatId, messageId: info.id });
 });
 
 self.addEventListener('notificationclick', (event) => {
@@ -55,6 +57,10 @@ function getNotificationData(data) {
   const options = {
     body: getBody(data),
     icon: './kimbu-logo.png',
+    data: {
+      chatId: data.chatId,
+      messageId: data.id,
+    },
   };
 
   return { title, options };
@@ -88,4 +94,14 @@ function showNotification(notificationInfo) {
   const { title, options } = notificationInfo;
 
   self.registration.showNotification(title, options);
+}
+
+async function closeNotifications({ chatId, messageId }) {
+  const notifications = await self.registration.getNotifications();
+
+  notifications.forEach((notification) => {
+    if (notification.data.chatId === chatId && notification.data.messageId < messageId) {
+      notification.close();
+    }
+  });
 }

@@ -5,7 +5,7 @@ import { ApplicationErrorCode } from 'kimbu-models';
 import parsePhoneNumberFromString from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { CountryPhoneInput } from '@auth-components/country-phone-input';
 import { CubeLoader } from '@components/cube-loader';
@@ -47,7 +47,7 @@ const PhoneConfirmationPage: React.FC = () => {
     loadPrivacyPolicy();
   }, []);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const isLoading = useSelector(authLoadingSelector);
 
@@ -71,7 +71,7 @@ const PhoneConfirmationPage: React.FC = () => {
           phoneNumber: phoneNumber.number as string,
         })
           .then(() => {
-            history.push(CODE_CONFIRMATION_PATH);
+            navigate(CODE_CONFIRMATION_PATH);
           })
           .catch((err: ApplicationErrorCode) => {
             setPhone('');
@@ -83,7 +83,7 @@ const PhoneConfirmationPage: React.FC = () => {
           });
       }
     },
-    [history, phone, sendSmsCode, t],
+    [navigate, phone, sendSmsCode, t],
   );
 
   const handleLoginFromGoogle = useCallback(
@@ -91,17 +91,17 @@ const PhoneConfirmationPage: React.FC = () => {
       if (!credential) return;
       loginFromGoogleAccount({ idToken: credential })
         .then(() => {
-          history.push(INSTANT_MESSAGING_PATH);
+          navigate(INSTANT_MESSAGING_PATH);
         })
         .catch((result: LoginFromGoogleAccountResult) => {
           if (result === LoginFromGoogleAccountResult.UserNotRegistered) {
-            history.push(SIGN_UP_PATH);
+            navigate(SIGN_UP_PATH);
           } else {
             emitToast(t(googleErrors.get(result) as string), { type: 'error' });
           }
         });
     },
-    [history, loginFromGoogleAccount, t],
+    [navigate, loginFromGoogleAccount, t],
   );
 
   const handleGoogleAuthError = useCallback(() => {

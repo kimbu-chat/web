@@ -1,6 +1,7 @@
 import React, { useCallback, useLayoutEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
+import { Outlet } from 'react-router';
 
 import { TopAudioPlayer } from '@components/audio-player/audio-player';
 import { BlockedMessageInput } from '@components/blocked-message-input';
@@ -8,7 +9,6 @@ import { ChatList } from '@components/chat-list';
 import { ChatTopBar } from '@components/chat-top-bar';
 import { DragIndicator } from '@components/drag-indicator/drag-indicator';
 import { CreateMessageInput } from '@components/message-input';
-import { MessageList } from '@components/message-list';
 import { NotContact } from '@components/not-contact';
 import { AudioContext, CurrentAudio } from '@contexts/audioContext';
 import { useDragDrop } from '@hooks/use-drag-drop';
@@ -85,7 +85,6 @@ const ChatPage: React.FC = () => {
         <ChatList />
         <div className={BLOCK_NAME}>
           {isDragging && <DragIndicator />}
-
           {currentAudio && (
             <TopAudioPlayer
               {...currentAudio}
@@ -95,11 +94,8 @@ const ChatPage: React.FC = () => {
               closeAudio={closeAudio}
             />
           )}
-          <MessageList />
-          {isCurrentChatBlackListed ||
-          amIBlackListedByInterlocutor ||
-          isCurrentChatUserDeactivated ||
-          isCurrentChatUserDeleted ? (
+          <Outlet /> {/* MessageList */}
+          {isCurrentChatBlackListed || amIBlackListedByInterlocutor || isCurrentChatUserDeactivated || isCurrentChatUserDeleted ? (
             <BlockedMessageInput
               isCurrentChatBlackListed={isCurrentChatBlackListed}
               amIBlackListedByInterlocutor={amIBlackListedByInterlocutor}
@@ -109,10 +105,7 @@ const ChatPage: React.FC = () => {
           ) : (
             <CreateMessageInput />
           )}
-          {!isDismissed &&
-            !isFriend &&
-            !isCurrentChatBlackListed &&
-            !amIBlackListedByInterlocutor && <NotContact />}
+          {!isDismissed && !isFriend && !isCurrentChatBlackListed && !amIBlackListedByInterlocutor && <NotContact />}
         </div>
         <ChatTopBar />
       </AudioContext.Provider>

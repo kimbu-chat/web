@@ -11,12 +11,7 @@ import { ReactComponent as ChatsSvg } from '@icons/chats.svg';
 import { ReactComponent as ContactSvg } from '@icons/contacts.svg';
 import { ReactComponent as LogoutSvg } from '@icons/logout.svg';
 import { ReactComponent as SettingsSvg } from '@icons/settings.svg';
-import {
-  CALLS_PATH,
-  CONTACTS_PATH,
-  INSTANT_MESSAGING_PATH,
-  SETTINGS_PATH,
-} from '@routing/routing.constants';
+import { CALLS_PATH, CONTACTS_PATH, INSTANT_MESSAGING_PATH, SETTINGS_PATH } from '@routing/routing.constants';
 import { getSelectedChatIdSelector } from '@store/chats/selectors';
 import { myProfileSelector } from '@store/my-profile/selectors';
 
@@ -39,20 +34,23 @@ export const RoutingChats = () => {
 
       <div className={`${BLOCK_NAME}__middle-group`}>
         <NavLink
-          className={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--grouped`)}
-          activeClassName={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--active`)}
+          className={({ isActive }) =>
+            classnames(`${BLOCK_NAME}__link`, { [`${BLOCK_NAME}__link--active`]: isActive }, { [`${BLOCK_NAME}__link--grouped`]: !isActive })
+          }
           to={CONTACTS_PATH}>
           <ContactSvg />
         </NavLink>
         <NavLink
-          className={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--grouped`)}
-          activeClassName={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--active`)}
+          className={({ isActive }) =>
+            classnames(`${BLOCK_NAME}__link`, { [`${BLOCK_NAME}__link--active`]: isActive }, { [`${BLOCK_NAME}__link--grouped`]: !isActive })
+          }
           to={`${INSTANT_MESSAGING_PATH}${selectedChatId ? `/${selectedChatId}` : ''}`}>
           <ChatsSvg />
         </NavLink>
         <NavLink
-          className={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--grouped`)}
-          activeClassName={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--active`)}
+          className={({ isActive }) =>
+            classnames(`${BLOCK_NAME}__link`, { [`${BLOCK_NAME}__link--active`]: isActive }, { [`${BLOCK_NAME}__link--grouped`]: !isActive })
+          }
           to={CALLS_PATH}>
           <CallSvg />
         </NavLink>
@@ -61,15 +59,13 @@ export const RoutingChats = () => {
       <NavLink
         to={SETTINGS_PATH}
         type="button"
-        className={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--settings`)}
-        activeClassName={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--active`)}>
+        className={({ isActive }) =>
+          classnames(`${BLOCK_NAME}__link`, { [`${BLOCK_NAME}__link--active`]: isActive }, { [`${BLOCK_NAME}__link--settings`]: !isActive })
+        }>
         <SettingsSvg />
       </NavLink>
 
-      <button
-        onClick={displayLogout}
-        type="button"
-        className={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--logout`)}>
+      <button onClick={displayLogout} type="button" className={classnames(`${BLOCK_NAME}__link`, `${BLOCK_NAME}__link--logout`)}>
         <LogoutSvg />
       </button>
 

@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import { CheckBox } from '@components/check-box';
 import { IModalChildrenProps, Modal } from '@components/modal';
@@ -24,7 +24,7 @@ const BLOCK_NAME = 'remove-chat-modal';
 const InitialRemoveChatModal: React.FC<IModalChildrenProps> = ({ animatedClose }) => {
   const { t } = useTranslation();
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const chatId = useSelector(getInfoChatIdSelector);
 
@@ -41,10 +41,10 @@ const InitialRemoveChatModal: React.FC<IModalChildrenProps> = ({ animatedClose }
       setLoading(true);
       removeThisChat({ forEveryone: deleteForInterlocutor, chatId }).then(() => {
         animatedClose();
-        history.push(INSTANT_MESSAGING_PATH);
+        navigate(INSTANT_MESSAGING_PATH);
       });
     }
-  }, [chatId, removeThisChat, deleteForInterlocutor, animatedClose, history]);
+  }, [chatId, removeThisChat, deleteForInterlocutor, animatedClose, navigate]);
 
   return (
     <>

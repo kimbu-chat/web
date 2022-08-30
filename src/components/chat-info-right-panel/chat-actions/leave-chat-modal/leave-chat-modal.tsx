@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { IModalChildrenProps, Modal } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -19,7 +19,7 @@ const BLOCK_NAME = 'leave-chat-modal';
 
 const InitialLeaveChatModal: React.FC<IModalChildrenProps> = ({ animatedClose }) => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
 
@@ -29,9 +29,9 @@ const InitialLeaveChatModal: React.FC<IModalChildrenProps> = ({ animatedClose })
     setLoading(true);
     leaveGroupChat().then(() => {
       animatedClose();
-      history.push(INSTANT_MESSAGING_PATH);
+      navigate(INSTANT_MESSAGING_PATH);
     });
-  }, [leaveGroupChat, animatedClose, history]);
+  }, [leaveGroupChat, animatedClose, navigate]);
 
   return (
     <>

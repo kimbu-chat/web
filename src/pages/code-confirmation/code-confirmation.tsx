@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { parsePhoneNumber } from 'libphonenumber-js';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import AuthWrapper from '@auth-components/auth-wrapper/auth-wrapper';
 import { CodeInput } from '@auth-components/code-input';
@@ -29,7 +29,7 @@ const DEFAULT_TIMEOUT = [1, 0];
 
 const CodeConfirmation: React.FC = () => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [[mins, secs], setTime] = useState(DEFAULT_TIMEOUT);
   const [done, setDone] = useState(false);
   const [resending, setResending] = useState(false);
@@ -83,13 +83,13 @@ const CodeConfirmation: React.FC = () => {
     (code: string) => {
       checkConfirmationCode({ code, phoneNumber }).then((userRegistered) => {
         if (userRegistered) {
-          history.push(INSTANT_MESSAGING_PATH);
+          navigate(INSTANT_MESSAGING_PATH);
         } else {
-          history.push(SIGN_UP_PATH);
+          navigate(SIGN_UP_PATH);
         }
       });
     },
-    [checkConfirmationCode, history, phoneNumber],
+    [checkConfirmationCode, navigate, phoneNumber],
   );
 
   return (

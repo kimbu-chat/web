@@ -1,14 +1,11 @@
-import partialRight from 'lodash/partialRight';
+import React from 'react';
 
+import partialRight from 'lodash/partialRight';
+import { Route } from 'react-router';
+
+import { MessageList } from '@components/message-list';
 import { LazyPreload, preloadRouteComponent } from '@routing/preloading.utils';
-import {
-  CALLS_PATH,
-  CONTACTS_PATH,
-  INSTANT_MESSAGING_CHAT_PATH,
-  REGISTERED_USER,
-  SETTINGS_PATH,
-  LOGOUT_PATH,
-} from '@routing/routing.constants';
+import { CALLS_PATH, CONTACTS_PATH, REGISTERED_USER, SETTINGS_PATH, LOGOUT_PATH, INSTANT_MESSAGING_PATH } from '@routing/routing.constants';
 import { MainRoutesEnum, MainRoutesObject } from '@routing/routing.types';
 import withPageGuard from '@routing/with-page-guard';
 import { store, StoreKeys } from '@store';
@@ -30,39 +27,42 @@ const SettingsRouter = LazyPreload(() => import('@routing/settings-router'));
 
 const MainRoutes: MainRoutesObject = {
   [MainRoutesEnum.INSTANT_MESSAGING_CHAT]: {
-    path: INSTANT_MESSAGING_CHAT_PATH,
+    path: INSTANT_MESSAGING_PATH,
     pageName: 'Chat',
     props: {
-      component: withPageGuard([REGISTERED_USER])(ChatPage),
-      exact: true,
+      element: withPageGuard([REGISTERED_USER])(ChatPage),
+      children: [
+        React.createElement(Route, { index: true, element: React.createElement(MessageList) }),
+        React.createElement(Route, { path: ':id', element: React.createElement(MessageList) }),
+      ],
     },
   },
   [MainRoutesEnum.CALLS]: {
     path: CALLS_PATH,
     pageName: 'Calls',
     props: {
-      component: withPageGuard([REGISTERED_USER])(CallsPage),
+      element: withPageGuard([REGISTERED_USER])(CallsPage),
     },
   },
   [MainRoutesEnum.CONTACTS]: {
     path: CONTACTS_PATH,
     pageName: 'Contacts',
     props: {
-      component: ContactsPage,
+      element: ContactsPage,
     },
   },
   [MainRoutesEnum.SETTINGS]: {
-    path: SETTINGS_PATH,
+    path: `${SETTINGS_PATH}/*`,
     pageName: 'Settings',
     props: {
-      component: withPageGuard([REGISTERED_USER])(SettingsRouter),
+      element: withPageGuard([REGISTERED_USER])(SettingsRouter),
     },
   },
   [MainRoutesEnum.LOGOUT]: {
     path: LOGOUT_PATH,
     pageName: 'Logout',
     props: {
-      component: withPageGuard([REGISTERED_USER])(LogoutPage),
+      element: withPageGuard([REGISTERED_USER])(LogoutPage),
     },
   },
 };

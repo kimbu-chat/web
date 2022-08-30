@@ -7,7 +7,7 @@ import { matchPath } from 'react-router-dom';
 import type { ImportStatement, PreloadableComponent, RouteObject } from './routing.types';
 
 const preloaded: string[] = [];
-const preloadedFromPathes: string[] = [];
+const preloadedFromPaths: string[] = [];
 
 /**
  *
@@ -27,14 +27,9 @@ export const LazyPreload = (importStatement: ImportStatement): PreloadableCompon
  * @returns matching route or undefined
  */
 export const findComponentForRoute = (path: string, routes: RouteObject[]): any => {
-  const matchingRoute = routes.find((route) =>
-    matchPath(path, {
-      path: route.path,
-      exact: route.props.exact,
-    }),
-  );
+  const matchingRoute = routes.find((route) => matchPath(path, route.path));
 
-  return matchingRoute ? matchingRoute.props.component : undefined;
+  return matchingRoute ? matchingRoute.props.element : undefined;
 };
 
 /**
@@ -61,15 +56,15 @@ export const preloadRouteComponent = (path: string, routes: RouteObject[]): void
  * @returns void
  */
 export const preloadAllSkipActual = (path: string, routes: RouteObject[]): void => {
-  if (preloadedFromPathes.indexOf(path) !== -1) {
+  if (preloadedFromPaths.indexOf(path) !== -1) {
     return;
   }
-  preloadedFromPathes.push(path);
+  preloadedFromPaths.push(path);
   forEach(routes, (route) => {
     if (preloaded.indexOf(route.path) !== -1) {
       return;
     }
-    invoke(route.props.component, 'preload');
+    invoke(route.props.element, 'preload');
     preloaded.push(route.path);
   });
 };

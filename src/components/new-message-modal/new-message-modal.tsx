@@ -3,7 +3,7 @@ import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react'
 import { IUser } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { Modal, IModalChildrenProps } from '@components/modal';
@@ -32,10 +32,7 @@ interface INewMessageModalProps {
 
 const BLOCK_NAME = 'new-message-modal';
 
-const InitialNewMessageModal: React.FC<IInitialNewMessageModalProps & IModalChildrenProps> = ({
-  animatedClose,
-  displayCreateGroupChat,
-}) => {
+const InitialNewMessageModal: React.FC<IInitialNewMessageModalProps & IModalChildrenProps> = ({ animatedClose, displayCreateGroupChat }) => {
   const { t } = useTranslation();
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -58,15 +55,15 @@ const InitialNewMessageModal: React.FC<IInitialNewMessageModalProps & IModalChil
     [resetSearchFriends],
   );
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const createEmptyChat = useCallback(
     (user: INormalizedChat | IUser) => {
       const chatId = ChatId.from((user as IUser).id).id;
-      history.push(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chatId]));
+      navigate(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chatId]));
       animatedClose();
     },
-    [history, animatedClose],
+    [navigate, animatedClose],
   );
 
   const loadMore = useCallback(() => {
@@ -89,15 +86,10 @@ const InitialNewMessageModal: React.FC<IInitialNewMessageModalProps & IModalChil
     animatedClose();
   }, [displayCreateGroupChat, animatedClose]);
 
-  const handleSearchInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => queryFriends(e.target.value),
-    [queryFriends],
-  );
+  const handleSearchInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => queryFriends(e.target.value), [queryFriends]);
 
   const renderSelectEntity = useCallback(
-    (friendId: number) => (
-      <SelectEntity key={friendId} userId={friendId} onClick={createEmptyChat} />
-    ),
+    (friendId: number) => <SelectEntity key={friendId} userId={friendId} onClick={createEmptyChat} />,
     [createEmptyChat],
   );
 
@@ -117,10 +109,7 @@ const InitialNewMessageModal: React.FC<IInitialNewMessageModalProps & IModalChil
         </>
       </Modal.Header>
       <div className={BLOCK_NAME}>
-        <SearchBox
-          containerClassName={`${BLOCK_NAME}__search`}
-          onChange={handleSearchInputChange}
-        />
+        <SearchBox containerClassName={`${BLOCK_NAME}__search`} onChange={handleSearchInputChange} />
 
         <div onClick={createGroupChat} className={`${BLOCK_NAME}__new-group`}>
           <div className={`${BLOCK_NAME}__new-group__img`}>
@@ -143,15 +132,8 @@ const InitialNewMessageModal: React.FC<IInitialNewMessageModalProps & IModalChil
   );
 };
 
-const NewMessageModal: React.FC<INewMessageModalProps & IInitialNewMessageModalProps> = ({
-  onClose,
-  ...props
-}) => (
-  <Modal closeModal={onClose}>
-    {(animatedClose: () => void) => (
-      <InitialNewMessageModal {...props} animatedClose={animatedClose} />
-    )}
-  </Modal>
+const NewMessageModal: React.FC<INewMessageModalProps & IInitialNewMessageModalProps> = ({ onClose, ...props }) => (
+  <Modal closeModal={onClose}>{(animatedClose: () => void) => <InitialNewMessageModal {...props} animatedClose={animatedClose} />}</Modal>
 );
 
 NewMessageModal.displayName = 'NewMessageModal';

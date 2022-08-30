@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { IChat, IAvatar } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Modal, IModalChildrenProps } from '@components/modal';
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
@@ -48,7 +48,7 @@ const InitialCreateGroupChatModal: React.FC<
 
   const currentUserId = useSelector(myIdSelector);
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const submitGroupChatCreation = useActionWithDeferred(createGroupChatAction);
   const resetSearchFriends = useActionWithDispatch(resetSearchFriendsAction);
 
@@ -96,7 +96,7 @@ const InitialCreateGroupChatModal: React.FC<
 
       submitGroupChatCreation<IChat>(groupChatToCreate).then((payload) => {
         animatedClose();
-        history.push(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', payload?.id as number]));
+        navigate(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', payload?.id as number]));
       });
     }
   }, [
@@ -104,7 +104,7 @@ const InitialCreateGroupChatModal: React.FC<
     avatarUploadResponse,
     currentUserId,
     description,
-    history,
+    navigate,
     name,
     selectedUserIds,
     submitGroupChatCreation,

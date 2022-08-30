@@ -3,7 +3,7 @@ import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react'
 import { IUser } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { Modal, IModalChildrenProps } from '@components/modal';
@@ -49,15 +49,15 @@ const InitialNewChatModal: React.FC<IModalChildrenProps> = ({ animatedClose }) =
     [resetSearchFriends],
   );
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const createEmptyChat = useCallback(
     (user: INormalizedChat | IUser) => {
       const chatId = ChatId.from((user as IUser).id).id;
-      history.push(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chatId]));
+      navigate(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chatId]));
       animatedClose();
     },
-    [history, animatedClose],
+    [navigate, animatedClose],
   );
 
   const loadMore = useCallback(() => {

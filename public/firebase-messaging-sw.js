@@ -34,6 +34,7 @@ self.addEventListener('notificationclick', (event) => {
   const notifyClients = async () => {
     const clientsList = await clients.matchAll({
       includeUncontrolled: true,
+      type: 'window',
     });
 
     if (clientsList.length > 0) {

@@ -13,7 +13,7 @@ firebase.initializeApp(config);
 
 const messaging = firebase.messaging();
 
-firebase.messaging().onBackgroundMessage((payload) => {
+messaging.onBackgroundMessage((payload) => {
   const { data } = { ...payload.data };
   const info = fromJson(data);
 

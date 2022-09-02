@@ -5,6 +5,7 @@
   height: calc(100vh - 64px);
   overflow-y: auto;
   scroll-behavior: smooth;
+  position: relative;
 
   &__panel-visible {
     overflow: hidden; 

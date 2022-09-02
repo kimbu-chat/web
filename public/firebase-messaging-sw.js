@@ -13,15 +13,17 @@ firebase.initializeApp(config);
 
 const messaging = firebase.messaging();
 
-firebase.messaging().onBackgroundMessage((payload) => {
-  const { data, name } = { ...payload.data };
+messaging.onBackgroundMessage((payload) => {
+  const { data } = { ...payload.data };
   const info = fromJson(data);
 
   if (!info || info.mute) return;
 
-  const notificationData = getNotificationData(info, name);
+  const notificationData = getNotificationData(info);
 
   showNotification(notificationData);
+
+  closeNotifications({ chatId: info.chatId, messageId: info.id });
 });
 
 self.addEventListener('notificationclick', (event) => {
@@ -32,6 +34,7 @@ self.addEventListener('notificationclick', (event) => {
   const notifyClients = async () => {
     const clientsList = await clients.matchAll({
       includeUncontrolled: true,
+      type: 'window',
     });
 
     if (clientsList.length > 0) {
@@ -49,29 +52,19 @@ function fromJson(data) {
   return JSON.parse(data);
 }
 
-function getNotificationData(data, actionName) {
-  const title = getTitle(actionName);
+function getNotificationData(data) {
+  const title = `${data.userCreator.firstName} ${data.userCreator.lastName}`;
 
   const options = {
     body: getBody(data),
     icon: './kimbu-logo.png',
+    data: {
+      chatId: data.chatId,
+      messageId: data.id,
+    },
   };
 
   return { title, options };
-}
-
-function getTitle(actionName) {
-  let title;
-
-  switch (actionName) {
-    case 'MessageCreated':
-      title = 'New Message';
-      break;
-    default:
-      break;
-  }
-
-  return title;
 }
 
 function getBody(data) {
@@ -80,7 +73,7 @@ function getBody(data) {
   if (data.attachments.length > 0 && !data.text) {
     const firstAttachType = data.attachments[0].type;
 
-    switch (firstAttach.type) {
+    switch (firstAttachType.type) {
       case 'Picture':
       case 'Raw':
         text = 'Picture';
@@ -101,5 +94,15 @@ function getBody(data) {
 function showNotification(notificationInfo) {
   const { title, options } = notificationInfo;
 
-  return self.registration.showNotification(title, options);
+  self.registration.showNotification(title, options);
+}
+
+async function closeNotifications({ chatId, messageId }) {
+  const notifications = await self.registration.getNotifications();
+
+  notifications.forEach((notification) => {
+    if (notification.data.chatId === chatId && notification.data.messageId < messageId) {
+      notification.close();
+    }
+  });
 }

@@ -53,26 +53,13 @@ const BLOCK_NAME = 'message';
 const linkedMessageTypes = [MessageLinkType.Forward, MessageLinkType.Reply];
 
 const MessageItem = React.forwardRef<HTMLDivElement, IMessageItemProps>(
-  (
-    {
-      messageId,
-      selectedChatId,
-      needToShowCreator,
-      isSelected,
-      observeIntersection,
-      animated,
-      onAddAnchors,
-    },
-    ref,
-  ) => {
+  ({ messageId, selectedChatId, needToShowCreator, isSelected, observeIntersection, animated, onAddAnchors }, ref) => {
     const [isMenuVisible, setMenuVisible] = useState(false);
     const isSelectState = useSelector(getIsSelectMessagesStateSelector);
     const myId = useSelector(myIdSelector);
     const message = useSelector(getMessageSelector(selectedChatId, messageId));
     const userCreator = useSelector(getUserSelector(message?.userCreatorId));
-    const linkedMessageUserCreator = useSelector(
-      getUserSelector(message?.linkedMessage?.userCreatorId),
-    );
+    const linkedMessageUserCreator = useSelector(getUserSelector(message?.linkedMessage?.userCreatorId));
     const isMessageQueued = message.state === MessageState.QUEUED;
 
     const [justCreated, setJustCreated] = useState(false);
@@ -88,9 +75,7 @@ const MessageItem = React.forwardRef<HTMLDivElement, IMessageItemProps>(
 
     const isLinkedMessage = linkedMessageTypes.some((type) => type === message?.linkedMessageType);
 
-    const messageToProcess = isLinkedMessage
-      ? (message?.linkedMessage as INormalizedLinkedMessage)
-      : message;
+    const messageToProcess = isLinkedMessage ? (message?.linkedMessage as INormalizedLinkedMessage) : message;
 
     const isCurrentUserMessageCreator = message?.userCreatorId === myId;
 
@@ -231,25 +216,19 @@ const MessageItem = React.forwardRef<HTMLDivElement, IMessageItemProps>(
                   structuredAttachments={rootAttachments}
                   isCurrentUserMessageCreator={isCurrentUserMessageCreator}
                   observeIntersection={observeIntersection}
+                  messageId={messageId}
                 />
               )}
 
               {(isLinkedMessage || message?.text) && (
                 <div className={`${BLOCK_NAME}__content`} onClick={scrollToForward}>
-                  {isLinkedMessage &&
-                    linkedMessageByType[message.linkedMessageType as MessageLinkType]()}
-                  {message?.text && (
-                    <span className={`${BLOCK_NAME}__content__text`}>
-                      {renderText(message?.text)}
-                    </span>
-                  )}
+                  {isLinkedMessage && linkedMessageByType[message.linkedMessageType as MessageLinkType]()}
+                  {message?.text && <span className={`${BLOCK_NAME}__content__text`}>{renderText(message?.text)}</span>}
                 </div>
               )}
             </div>
             <div className={`${BLOCK_NAME}__state`}>{messageStatus}</div>
-            <div className={`${BLOCK_NAME}__time`}>
-              {getShortTimeAmPm(message?.creationDateTime)}
-            </div>
+            <div className={`${BLOCK_NAME}__time`}>{getShortTimeAmPm(message?.creationDateTime)}</div>
             <MessageItemActions
               visible={isMenuVisible}
               messageId={messageId}

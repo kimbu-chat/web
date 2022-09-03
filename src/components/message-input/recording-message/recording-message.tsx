@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 
-import { MessageLinkType } from 'kimbu-models';
 import useInterval from 'use-interval';
 import { Peaks } from 'wavesurfer.js/types/backend';
 
@@ -89,7 +88,6 @@ export const RecordingMessage: React.FC<IRecordingMessageProps> = ({ hide, refer
             duration: referedRecordedSeconds.current,
             // url: recordingUrl,
             linkedMessage: referredMessage,
-            linkedMessageType: MessageLinkType.Reply,
           });
 
           hide();

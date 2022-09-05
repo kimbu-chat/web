@@ -40,7 +40,6 @@ interface IMessageItemProps {
   animated?: boolean;
   observeIntersection: ObserveFn;
   onAddAnchors?: (anchors: ScrollAnchorType[]) => void;
-  ref: HTMLDivElement;
 }
 
 export type ScrollAnchorType = {

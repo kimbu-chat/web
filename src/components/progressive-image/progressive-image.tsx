@@ -22,7 +22,6 @@ interface ImageContainerProps extends EffectImageProps {
   byteSize?: number;
   uploadedBytes?: number;
   onClick?: () => void;
-  onIsVisible?: () => void;
   observeIntersection: ObserveFn;
 }
 

@@ -47,7 +47,7 @@
 
 ## Maintainers
 
-This project is maintained by [Artyom Avanesov](https://github.com/remotenode), [Maksim Varvashevich](https://github.com/maksim-v), [Yury Muski](https://github.com/yurymuski), [Artsyom Ostrovskiy](https://github.com/d1mon1k) and [Yan Yasinski](https://github.com/yanVojaks).
+This project is maintained by [Artyom Avanesov](https://github.com/remotenode), [Maksim Varvashevich](https://github.com/maksim-v), [Yury Muski](https://github.com/yurymuski), [Artsiom Ostrovskiy](https://github.com/d1mon1k) and [Yan Yasinski](https://github.com/yanVojak).
 
 ## Tests
 

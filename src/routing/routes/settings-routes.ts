@@ -1,4 +1,7 @@
+import React from 'react';
+
 import partialRight from 'lodash/partialRight';
+import { Route } from 'react-router';
 
 import { LazyPreload, preloadRouteComponent } from '@routing/preloading.utils';
 import {
@@ -28,12 +31,14 @@ const deleteLineFromPath = (path: string, line: string) => {
   return preparedPath.join('');
 };
 
+/* ------------- Routes ------------- */
 const SettingsRoutes: SettingsRoutesObject = {
   [SettingsRoutesEnum.PROFILE_SETTINGS]: {
     path: deleteLineFromPath(PROFILE_SETTINGS_PATH, '/settings/'),
     pageName: 'Profile settings',
     props: {
       element: withPageGuard([REGISTERED_USER])(ProfileSettings),
+      children: React.createElement(Route, { path: '*', element: React.createElement(ProfileSettings) }),
     },
   },
   [SettingsRoutesEnum.APPEARANCE_SETTINGS]: {
@@ -41,6 +46,7 @@ const SettingsRoutes: SettingsRoutesObject = {
     pageName: 'Appearance settings',
     props: {
       element: withPageGuard([REGISTERED_USER])(AppearanceSettings),
+      children: React.createElement(Route, { path: '*', element: React.createElement(AppearanceSettings) }),
     },
   },
   [SettingsRoutesEnum.AUDIO_VIDEO_SETTINGS]: {
@@ -48,6 +54,7 @@ const SettingsRoutes: SettingsRoutesObject = {
     pageName: 'Audio video settings',
     props: {
       element: withPageGuard([REGISTERED_USER])(AudioVideoSettings),
+      children: React.createElement(Route, { path: '*', element: React.createElement(AudioVideoSettings) }),
     },
   },
   [SettingsRoutesEnum.LANGUAGE_SETTINGS]: {
@@ -55,6 +62,7 @@ const SettingsRoutes: SettingsRoutesObject = {
     pageName: 'Language settings',
     props: {
       element: withPageGuard([REGISTERED_USER])(LanguageSettings),
+      children: React.createElement(Route, { path: '*', element: React.createElement(LanguageSettings) }),
     },
   },
   [SettingsRoutesEnum.NOTIFICATIONS_SETTINGS]: {
@@ -62,6 +70,7 @@ const SettingsRoutes: SettingsRoutesObject = {
     pageName: 'Notifications settings',
     props: {
       element: withPageGuard([REGISTERED_USER])(NotificationsSettings),
+      children: React.createElement(Route, { path: '*', element: React.createElement(NotificationsSettings) }),
     },
   },
   [SettingsRoutesEnum.PRIVACY_SECURITY_SETTINGS]: {
@@ -69,6 +78,7 @@ const SettingsRoutes: SettingsRoutesObject = {
     pageName: 'Privacy and security settings',
     props: {
       element: withPageGuard([REGISTERED_USER])(PrivacySecuritySettings),
+      children: React.createElement(Route, { path: '*', element: React.createElement(PrivacySecuritySettings) }),
     },
   },
   [SettingsRoutesEnum.TYPING_SETTINGS]: {
@@ -76,6 +86,7 @@ const SettingsRoutes: SettingsRoutesObject = {
     pageName: 'Typing settings',
     props: {
       element: withPageGuard([REGISTERED_USER])(KeyBindings),
+      children: React.createElement(Route, { path: '*', element: React.createElement(KeyBindings) }),
     },
   },
 };

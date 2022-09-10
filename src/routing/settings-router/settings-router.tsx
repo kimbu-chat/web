@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Routes, Navigate, Route } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { AppVersion } from '@components/app-version';
 import { SettingsNavigation } from '@pages/settings/settings-navigation';

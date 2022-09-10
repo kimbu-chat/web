@@ -94,7 +94,7 @@ const ChatPage: React.FC = () => {
               closeAudio={closeAudio}
             />
           )}
-          <Outlet /> {/* MessageList */}
+          <Outlet /> {/* MessageList, Welcome */}
           {isCurrentChatBlackListed || amIBlackListedByInterlocutor || isCurrentChatUserDeactivated || isCurrentChatUserDeleted ? (
             <BlockedMessageInput
               isCurrentChatBlackListed={isCurrentChatBlackListed}

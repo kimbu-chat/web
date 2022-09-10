@@ -17,6 +17,9 @@ import {
 import { SettingsRoutesEnum, SettingsRoutesObject } from '@routing/routing.types';
 import withPageGuard from '@routing/with-page-guard';
 
+import { deleteLineFromPath } from './utils';
+
+/* ------------- LazyLoading ------------- */
 const ProfileSettings = LazyPreload(() => import('@pages/settings/edit-profile'));
 const NotificationsSettings = LazyPreload(() => import('@pages/settings/notifications-settings'));
 const LanguageSettings = LazyPreload(() => import('@pages/settings/language-settings'));
@@ -24,12 +27,6 @@ const KeyBindings = LazyPreload(() => import('@pages/settings/key-bindings'));
 const AppearanceSettings = LazyPreload(() => import('@pages/settings/appearance'));
 const PrivacySecuritySettings = LazyPreload(() => import('@pages/settings/privacy-security'));
 const AudioVideoSettings = LazyPreload(() => import('@pages/settings/audio-video'));
-
-const deleteLineFromPath = (path: string, line: string) => {
-  const preparedPath = path.split('');
-  preparedPath.splice(path.indexOf(line), line.length);
-  return preparedPath.join('');
-};
 
 /* ------------- Routes ------------- */
 const SettingsRoutes: SettingsRoutesObject = {

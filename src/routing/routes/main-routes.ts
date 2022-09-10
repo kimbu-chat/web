@@ -36,9 +36,9 @@ const MainRoutes: MainRoutesObject = {
     props: {
       element: withPageGuard([REGISTERED_USER])(ChatPage),
       children: [
-        React.createElement(Route, { key: 1, index: true, element: React.createElement(Welcome) }),
-        React.createElement(Route, { key: 2, path: ':id', element: React.createElement(MessageList) }),
-        React.createElement(Route, { key: 3, path: '*', element: React.createElement(Welcome) }),
+        React.createElement(Route, { key: '1', index: true, element: React.createElement(Welcome) }),
+        React.createElement(Route, { key: '2', path: ':id', element: React.createElement(MessageList) }),
+        React.createElement(Route, { key: '3', path: '*', element: React.createElement(Welcome) }),
       ],
     },
   },

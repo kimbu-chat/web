@@ -29,7 +29,6 @@ const handleStyle: React.CSSProperties = {
   bottom: '-6px',
   boxSizing: 'border-box',
   height: '20px',
-  left: '50%',
   position: 'absolute',
   transform: 'translateX(-50%)',
   width: '20px',
@@ -60,11 +59,7 @@ interface ICrop {
 
 const BLOCK_NAME = 'photo-editor';
 
-const InitialPhotoEditor: React.FC<IInitialPhotoEditorProps & IModalChildrenProps> = ({
-  imageUrl,
-  onSubmit,
-  animatedClose,
-}) => {
+const InitialPhotoEditor: React.FC<IInitialPhotoEditorProps & IModalChildrenProps> = ({ imageUrl, onSubmit, animatedClose }) => {
   const { t } = useTranslation();
 
   const cancelAvatarUploading = useActionWithDispatch(cancelAvatarUploadingRequestAction);
@@ -164,12 +159,7 @@ const InitialPhotoEditor: React.FC<IInitialPhotoEditorProps & IModalChildrenProp
           />
         </div>
         <div className={`${BLOCK_NAME}__slider-section`}>
-          <PeisageSvg
-            className={classNames(
-              `${BLOCK_NAME}__slider-peisage`,
-              `${BLOCK_NAME}__slider-peisage--little`,
-            )}
-          />
+          <PeisageSvg className={classNames(`${BLOCK_NAME}__slider-peisage`, `${BLOCK_NAME}__slider-peisage--little`)} />
           <div className={`${BLOCK_NAME}__slider-container`}>
             <Slider
               handleStyle={handleStyle}
@@ -178,15 +168,12 @@ const InitialPhotoEditor: React.FC<IInitialPhotoEditorProps & IModalChildrenProp
               min={1}
               max={3}
               step={0.1}
-              onChange={setZoom}
+              onChange={(value) => {
+                if (typeof value === 'number') setZoom(value);
+              }}
             />
           </div>
-          <PeisageSvg
-            className={classNames(
-              `${BLOCK_NAME}__slider-peisage`,
-              `${BLOCK_NAME}__slider-peisage--big`,
-            )}
-          />
+          <PeisageSvg className={classNames(`${BLOCK_NAME}__slider-peisage`, `${BLOCK_NAME}__slider-peisage--big`)} />
         </div>
         <div className={`${BLOCK_NAME}__btn-group`}>
           <button onClick={rotateLeft} type="button" className={`${BLOCK_NAME}__modify-btn`}>
@@ -204,10 +191,7 @@ const InitialPhotoEditor: React.FC<IInitialPhotoEditorProps & IModalChildrenProp
         </div>
 
         <div className={`${BLOCK_NAME}__btn-block`}>
-          <Button
-            type="button"
-            className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)}
-            onClick={animatedClose}>
+          <Button type="button" className={classNames(`${BLOCK_NAME}__btn`, `${BLOCK_NAME}__btn--cancel`)} onClick={animatedClose}>
             {t('changePhoto.reject')}
           </Button>
           <Button
@@ -223,13 +207,8 @@ const InitialPhotoEditor: React.FC<IInitialPhotoEditorProps & IModalChildrenProp
   );
 };
 
-const PhotoEditor: React.FC<IPhotoEditorProps & IInitialPhotoEditorProps> = ({
-  hideChangePhoto,
-  ...props
-}) => (
-  <Modal closeModal={hideChangePhoto}>
-    {(animatedClose: () => void) => <InitialPhotoEditor {...props} animatedClose={animatedClose} />}
-  </Modal>
+const PhotoEditor: React.FC<IPhotoEditorProps & IInitialPhotoEditorProps> = ({ hideChangePhoto, ...props }) => (
+  <Modal closeModal={hideChangePhoto}>{(animatedClose: () => void) => <InitialPhotoEditor {...props} animatedClose={animatedClose} />}</Modal>
 );
 
 export default PhotoEditor;

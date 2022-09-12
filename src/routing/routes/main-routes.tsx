@@ -36,9 +36,9 @@ const MainRoutes: MainRoutesObject = {
     props: {
       element: withPageGuard([REGISTERED_USER])(ChatPage),
       children: [
-        React.createElement(Route, { key: '1', index: true, element: React.createElement(Welcome) }),
-        React.createElement(Route, { key: '2', path: ':id', element: React.createElement(MessageList) }),
-        React.createElement(Route, { key: '3', path: '*', element: React.createElement(Welcome) }),
+        <Route key="1" index element={<Welcome />} />,
+        <Route key="2" path=":id" element={<MessageList />} />,
+        <Route key="3" path="*" element={<Welcome />} />,
       ],
     },
   },
@@ -47,7 +47,7 @@ const MainRoutes: MainRoutesObject = {
     pageName: 'Calls',
     props: {
       element: withPageGuard([REGISTERED_USER])(CallsPage),
-      children: React.createElement(Route, { path: '*', element: React.createElement(CallsPage) }),
+      children: <Route path="*" element={<CallsPage />} />,
     },
   },
   [MainRoutesEnum.CONTACTS]: {
@@ -55,7 +55,7 @@ const MainRoutes: MainRoutesObject = {
     pageName: 'Contacts',
     props: {
       element: ContactsPage,
-      children: React.createElement(Route, { path: '*', element: React.createElement(ContactsPage) }),
+      children: <Route path="*" element={<ContactsPage />} />,
     },
   },
   [MainRoutesEnum.SETTINGS]: {

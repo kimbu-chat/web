@@ -35,7 +35,7 @@ const SettingsRoutes: SettingsRoutesObject = {
     pageName: 'Profile settings',
     props: {
       element: withPageGuard([REGISTERED_USER])(ProfileSettings),
-      children: React.createElement(Route, { path: '*', element: React.createElement(ProfileSettings) }),
+      children: <Route path="*" element={<ProfileSettings />} />,
     },
   },
   [SettingsRoutesEnum.APPEARANCE_SETTINGS]: {
@@ -43,7 +43,7 @@ const SettingsRoutes: SettingsRoutesObject = {
     pageName: 'Appearance settings',
     props: {
       element: withPageGuard([REGISTERED_USER])(AppearanceSettings),
-      children: React.createElement(Route, { path: '*', element: React.createElement(AppearanceSettings) }),
+      children: <Route path="*" element={<AppearanceSettings />} />,
     },
   },
   [SettingsRoutesEnum.AUDIO_VIDEO_SETTINGS]: {
@@ -51,7 +51,7 @@ const SettingsRoutes: SettingsRoutesObject = {
     pageName: 'Audio video settings',
     props: {
       element: withPageGuard([REGISTERED_USER])(AudioVideoSettings),
-      children: React.createElement(Route, { path: '*', element: React.createElement(AudioVideoSettings) }),
+      children: <Route path="*" element={<AudioVideoSettings />} />,
     },
   },
   [SettingsRoutesEnum.LANGUAGE_SETTINGS]: {
@@ -59,7 +59,7 @@ const SettingsRoutes: SettingsRoutesObject = {
     pageName: 'Language settings',
     props: {
       element: withPageGuard([REGISTERED_USER])(LanguageSettings),
-      children: React.createElement(Route, { path: '*', element: React.createElement(LanguageSettings) }),
+      children: <Route path="*" element={<LanguageSettings />} />,
     },
   },
   [SettingsRoutesEnum.NOTIFICATIONS_SETTINGS]: {
@@ -67,7 +67,7 @@ const SettingsRoutes: SettingsRoutesObject = {
     pageName: 'Notifications settings',
     props: {
       element: withPageGuard([REGISTERED_USER])(NotificationsSettings),
-      children: React.createElement(Route, { path: '*', element: React.createElement(NotificationsSettings) }),
+      children: <Route path="*" element={<NotificationsSettings />} />,
     },
   },
   [SettingsRoutesEnum.PRIVACY_SECURITY_SETTINGS]: {
@@ -75,7 +75,7 @@ const SettingsRoutes: SettingsRoutesObject = {
     pageName: 'Privacy and security settings',
     props: {
       element: withPageGuard([REGISTERED_USER])(PrivacySecuritySettings),
-      children: React.createElement(Route, { path: '*', element: React.createElement(PrivacySecuritySettings) }),
+      children: <Route path="*" element={<PrivacySecuritySettings />} />,
     },
   },
   [SettingsRoutesEnum.TYPING_SETTINGS]: {
@@ -83,7 +83,7 @@ const SettingsRoutes: SettingsRoutesObject = {
     pageName: 'Typing settings',
     props: {
       element: withPageGuard([REGISTERED_USER])(KeyBindings),
-      children: React.createElement(Route, { path: '*', element: React.createElement(KeyBindings) }),
+      children: <Route path="*" element={<KeyBindings />} />,
     },
   },
 };

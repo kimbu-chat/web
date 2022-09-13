@@ -70,7 +70,6 @@ const ChatList = React.memo(() => {
         name: e.target.value,
         initializedByScroll: false,
         showOnlyHidden: false,
-        showAll: true,
       });
     },
     [setSearchString, getChatsRequest],
@@ -81,7 +80,6 @@ const ChatList = React.memo(() => {
       initializedByScroll: true,
       name: searchString,
       showOnlyHidden: false,
-      showAll: true,
     });
   }, [getChatsRequest, searchString]);
 
@@ -113,28 +111,28 @@ const ChatList = React.memo(() => {
             className={`${BLOCK_NAME}__search-top__create-chat-btn`}>
             <CreateChatSvg />
           </button>
-        </div>
-        <div
-          className={classNames(BLOCK_NAME, {
-            [`${BLOCK_NAME}__panel-visible`]: chatControlPanelIsOpen,
-          })}
-          ref={containerRef}>
           {chatControlPanelIsOpen && (
             <ChatControlPanel
+              height={containerRef.current?.scrollHeight}
               onClose={changeChatControlPanelIsOpen}
               onCreateGroupChat={displayGroupChat}
               onCreateAddFriend={displayAddFriend}
               onCreateNewChat={displayNewMessage}
             />
           )}
+        </div>
+        <div
+          className={classNames(BLOCK_NAME, {
+            [`${BLOCK_NAME}__panel-visible`]: chatControlPanelIsOpen,
+          })}
+          ref={containerRef}>
           {searchChatsList.loading || (chatsList.loading && !chatsList.chatIds.length) ? (
             <CenteredLoader size={LoaderSize.LARGE} />
           ) : (
             <InfiniteScroll
               containerRef={containerRef}
               onReachBottom={loadMore}
-              hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}
-              isLoading={searchString.length ? searchChatsList.loading : chatsList.loading}>
+              hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}>
               {renderedChats}
             </InfiniteScroll>
           )}
@@ -145,9 +143,9 @@ const ChatList = React.memo(() => {
         <CreateGroupChatModal animationMode={AnimationMode.ENABLED} onClose={hideGroupChat} />
       )}
 
-      {createNewMessageDisplayed && <AddFriendModal onClose={hideNewMessage} />}
+      {createAddFriendDisplayed && <AddFriendModal onClose={hideAddFriend} />}
 
-      {createAddFriendDisplayed && <NewChatModal onClose={hideAddFriend} />}
+      {createNewMessageDisplayed && <NewChatModal onClose={hideNewMessage} />}
     </>
   );
 });

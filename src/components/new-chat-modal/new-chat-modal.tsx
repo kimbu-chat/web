@@ -3,7 +3,7 @@ import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react'
 import { IUser } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { Modal, IModalChildrenProps } from '@components/modal';
@@ -26,9 +26,7 @@ interface INewChatModalProps {
 
 const BLOCK_NAME = 'new-chat-modal';
 
-const InitialNewChatModal: React.FC<INewChatModalProps & IModalChildrenProps> = ({
-  animatedClose,
-}) => {
+const InitialNewChatModal: React.FC<IModalChildrenProps> = ({ animatedClose }) => {
   const { t } = useTranslation();
 
   const [name, setName] = useState('');
@@ -38,12 +36,8 @@ const InitialNewChatModal: React.FC<INewChatModalProps & IModalChildrenProps> = 
   const friendsList = useSelector(getMyFriendsListSelector);
   const searchFriendsList = useSelector(getMySearchFriendsListSelector);
 
-  const { hasMore: hasMoreFriends, friendIds, loading: friendsLoading } = friendsList;
-  const {
-    hasMore: hasMoreSearchFriends,
-    friendIds: searchFriendIds,
-    loading: searchFriendsLoading,
-  } = searchFriendsList;
+  const { hasMore: hasMoreFriends, friendIds } = friendsList;
+  const { hasMore: hasMoreSearchFriends, friendIds: searchFriendIds } = searchFriendsList;
 
   const loadFriends = useActionWithDispatch(getFriendsAction);
   const resetSearchFriends = useActionWithDispatch(resetSearchFriendsAction);
@@ -55,15 +49,15 @@ const InitialNewChatModal: React.FC<INewChatModalProps & IModalChildrenProps> = 
     [resetSearchFriends],
   );
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const createEmptyChat = useCallback(
     (user: INormalizedChat | IUser) => {
       const chatId = ChatId.from((user as IUser).id).id;
-      history.push(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chatId]));
+      navigate(replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chatId]));
       animatedClose();
     },
-    [history, animatedClose],
+    [navigate, animatedClose],
   );
 
   const loadMore = useCallback(() => {
@@ -117,8 +111,7 @@ const InitialNewChatModal: React.FC<INewChatModalProps & IModalChildrenProps> = 
           containerRef={containerRef}
           className={`${BLOCK_NAME}__friends-block`}
           onReachBottom={loadMore}
-          hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
-          isLoading={name.length ? searchFriendsLoading : friendsLoading}>
+          hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}>
           {selectEntities}
         </InfiniteScroll>
       </div>
@@ -129,7 +122,7 @@ const InitialNewChatModal: React.FC<INewChatModalProps & IModalChildrenProps> = 
 const NewChatModal: React.FC<INewChatModalProps> = ({ onClose, ...props }) => (
   <Modal closeModal={onClose}>
     {(animatedClose: () => void) => (
-      <InitialNewChatModal {...props} onClose={onClose} animatedClose={animatedClose} />
+      <InitialNewChatModal {...props} animatedClose={animatedClose} />
     )}
   </Modal>
 );

@@ -2,8 +2,8 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { AddFriendSuccess } from './features/add-friend/add-friend-success';
 import { DeleteFriendSuccess } from './features/delete-friend/delete-friend-success';
-import { GetFriendsSuccess } from './features/get-friends/get-friends-success';
 import { GetFriends } from './features/get-friends/get-friends';
+import { GetFriendsSuccess } from './features/get-friends/get-friends-success';
 import { ResetSearchFriends } from './features/reset-search-friends/reset-search-friends';
 import { IFriendsState } from './friends-state';
 import { UserContactAddedSuccessEventHandler } from './socket-events/user-contact-added/user-contact-added-success-event-handler';

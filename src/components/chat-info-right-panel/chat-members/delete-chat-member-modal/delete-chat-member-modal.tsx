@@ -10,17 +10,19 @@ import { removeUserFromGroupChatAction } from '@store/chats/actions';
 
 import './delete-chat-member-modal.scss';
 
-interface IDeleteChatMemberModalProps {
+interface IInitialDeleteChatMemberModalProps {
   user: IUser;
+}
+
+interface IDeleteChatMemberModalProps {
   hide: () => void;
 }
 
 const BLOCK_NAME = 'delete-chat-member-modal';
 
-const InitialDeleteChatMemberModal: React.FC<IDeleteChatMemberModalProps & IModalChildrenProps> = ({
-  animatedClose,
-  user,
-}) => {
+const InitialDeleteChatMemberModal: React.FC<
+  IInitialDeleteChatMemberModalProps & IModalChildrenProps
+> = ({ animatedClose, user }) => {
   const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
@@ -38,7 +40,7 @@ const InitialDeleteChatMemberModal: React.FC<IDeleteChatMemberModalProps & IModa
     <>
       <Modal.Header>{t('deleteChatMemberModal.title')}</Modal.Header>
       <div className={BLOCK_NAME}>
-        <div className={`${BLOCK_NAME}__сontent`}>
+        <div className={`${BLOCK_NAME}__content`}>
           {t('deleteChatMemberModal.delete-confirmation')}
         </div>
         <div className={`${BLOCK_NAME}__btn-block`}>
@@ -58,10 +60,12 @@ const InitialDeleteChatMemberModal: React.FC<IDeleteChatMemberModalProps & IModa
   );
 };
 
-const DeleteChatMemberModal: React.FC<IDeleteChatMemberModalProps> = ({ hide, ...props }) => (
+const DeleteChatMemberModal: React.FC<
+  IDeleteChatMemberModalProps & IInitialDeleteChatMemberModalProps
+> = ({ hide, ...props }) => (
   <Modal closeModal={hide}>
     {(animatedClose: () => void) => (
-      <InitialDeleteChatMemberModal {...props} hide={hide} animatedClose={animatedClose} />
+      <InitialDeleteChatMemberModal {...props} animatedClose={animatedClose} />
     )}
   </Modal>
 );

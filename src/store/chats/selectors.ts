@@ -71,6 +71,9 @@ export const getSelectedChatMessagesSearchStringSelector = (state: RootState): s
 export const getSelectedGroupChatSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.groupChat;
 
+export const getSelectedGroupCountMembers = (state: RootState) =>
+  state.chats.chats[state?.chats?.selectedChatId || -1]?.groupChat?.membersCount;
+
 export const getSelectedInterlocutorSelector = (state: RootState) =>
   state.users.users[state.chats.chats[state?.chats?.selectedChatId || -1]?.interlocutorId || -1];
 
@@ -195,12 +198,6 @@ export const getSelectedChatAudioAttachmentsSelector =
 
 export const getSearchChatsListSelector = (state: RootState) => state.chats.searchChatList;
 export const getChatsListSelector = (state: RootState) => state.chats.chatList;
-
-export const getMembersListForSelectedGroupChatSelector = (state: RootState) =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.members;
-
-export const getMembersCountForSelectedGroupChatSelector = (state: RootState) =>
-  state.chats.chats[state?.chats?.selectedChatId || -1]?.members.memberIds.length || 0;
 
 export const getPossibleMembersCountForSelectedGroupChatSelector = (state: RootState) =>
   state.chats.chats[state?.chats?.selectedChatId || -1]?.possibleMembers.memberIds.length || 0;

@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import AuthWrapper from '@auth-components/auth-wrapper';
 import { Input } from '@components/input';
@@ -25,7 +25,7 @@ const BLOCK_NAME = 'sign-up-page';
 
 const SignUpPage: React.FC = () => {
   const { t } = useTranslation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const phoneNumber = useSelector(authPhoneNumberSelector);
   const loginSource = useSelector(loginSourceSelector);
   const [firstName, setFirstName] = useState<string>('');
@@ -63,14 +63,14 @@ const SignUpPage: React.FC = () => {
             lastName,
             nickname,
           }).then(() => {
-            history.push(INSTANT_MESSAGING_PATH);
+            navigate(INSTANT_MESSAGING_PATH);
           });
         } else {
           setError(t('register.already_in_use'));
         }
       });
     },
-    [checkNicknameAvailability, firstName, history, lastName, nickname, register, t],
+    [checkNicknameAvailability, firstName, navigate, lastName, nickname, register, t],
   );
 
   const onNicknameChange = useCallback((val: string) => {

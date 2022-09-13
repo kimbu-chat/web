@@ -1,0 +1,61 @@
+.progress-preloader {
+  &__progress {
+    background-color: var(--msg-bg-dt-gray-lt-kingBlueLight);
+    opacity: 0.5;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.5s linear;
+    z-index: 2;
+
+    &--photo {
+      background-color: var(--upload-photo-progress);
+    }
+  }
+
+  &__data {
+    z-index: 5;
+  }
+
+  &__title {
+    color: #fff;
+    font-weight: 300;
+    line-height: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &--SMALL {
+      max-width: 70px;
+      font-size: 0.75rem;
+    }
+
+    &--LARGE {
+      max-width: 140px;
+      font-size: 1rem;
+      line-height: 18px;
+    }
+  }
+
+  &__size {
+    color: #fff;
+    font-weight: 300;
+    margin-top: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &--SMALL {
+      max-width: 70px;
+      font-size: 0.75rem;
+    }
+
+    &--LARGE {
+      max-width: 140px;
+      font-size: 1rem;
+      line-height: 18px;
+    }
+  }
+}

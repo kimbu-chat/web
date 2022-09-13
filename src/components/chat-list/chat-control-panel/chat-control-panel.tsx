@@ -11,6 +11,7 @@ import { stopPropagation } from '@utils/stop-propagation';
 import './chat-control-panel.scss';
 
 interface IChatControlPanelProps {
+  height?: number;
   onClose: () => void;
   onCreateGroupChat: () => void;
   onCreateAddFriend: () => void;
@@ -20,7 +21,7 @@ interface IChatControlPanelProps {
 const BLOCK_NAME = 'chat-control-panel';
 
 const ChatControlPanel: React.FC<IChatControlPanelProps> = React.memo(
-  ({ onClose, onCreateGroupChat, onCreateAddFriend, onCreateNewChat }) => {
+  ({ height, onClose, onCreateGroupChat, onCreateAddFriend, onCreateNewChat }) => {
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -51,7 +52,7 @@ const ChatControlPanel: React.FC<IChatControlPanelProps> = React.memo(
     }, [onCreateAddFriend, onClose]);
 
     return (
-      <div className={BLOCK_NAME} onClick={onClose}>
+      <div className={BLOCK_NAME} onClick={onClose} style={{ height }}>
         <div className={`${BLOCK_NAME}__items`} onClick={stopPropagation}>
           <button
             type="button"

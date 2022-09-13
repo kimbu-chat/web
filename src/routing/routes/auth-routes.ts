@@ -3,13 +3,7 @@ import partialRight from 'lodash/partialRight';
 import { LazyPreload, preloadRouteComponent } from '@routing/preloading.utils';
 import { StoreKeys, store } from '@store/index';
 
-import {
-  ANONYMOUS_USER,
-  LOGIN_PAGE_PATH,
-  SIGN_UP_PATH,
-  CODE_CONFIRMATION_PATH,
-  PROSPECT_USER,
-} from '../routing.constants';
+import { ANONYMOUS_USER, LOGIN_PAGE_PATH, SIGN_UP_PATH, CODE_CONFIRMATION_PATH, PROSPECT_USER } from '../routing.constants';
 import { RoutesEnum } from '../routing.types';
 import withPageGuard from '../with-page-guard';
 
@@ -35,21 +29,21 @@ const Routes: RoutesObject = {
     path: LOGIN_PAGE_PATH,
     pageName: 'Login',
     props: {
-      component: withPageGuard([PROSPECT_USER, ANONYMOUS_USER])(Login),
+      element: withPageGuard([PROSPECT_USER, ANONYMOUS_USER])(Login),
     },
   },
   [RoutesEnum.CODE_CONFIRMATION]: {
     path: CODE_CONFIRMATION_PATH,
     pageName: 'Code confirmation',
     props: {
-      component: withPageGuard([PROSPECT_USER])(CodeConfirmationPage),
+      element: withPageGuard([PROSPECT_USER])(CodeConfirmationPage),
     },
   },
   [RoutesEnum.SIGN_UP]: {
     path: SIGN_UP_PATH,
     pageName: 'Sign Up',
     props: {
-      component: withPageGuard([PROSPECT_USER])(SignUpPage),
+      element: withPageGuard([PROSPECT_USER])(SignUpPage),
     },
   },
 };

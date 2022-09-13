@@ -16,6 +16,7 @@
     background: var(--dt-dark-wt-white);
     display: flex;
     justify-content: flex-start;
+    position: relative;
 
     &__search-container {
       height: 32px;

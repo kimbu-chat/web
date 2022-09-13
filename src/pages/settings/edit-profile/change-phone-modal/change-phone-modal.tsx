@@ -24,9 +24,7 @@ interface IChangePhoneModalProps {
 
 const BLOCK_NAME = 'change-phone-modal';
 
-const InitialChangePhoneModal: React.FC<IChangePhoneModalProps & IModalChildrenProps> = ({
-  animatedClose,
-}) => {
+const InitialChangePhoneModal: React.FC<IModalChildrenProps> = ({ animatedClose }) => {
   const { t } = useTranslation();
 
   const sendSms = useActionWithDeferred(sendSmsChangePhone);
@@ -36,20 +34,20 @@ const InitialChangePhoneModal: React.FC<IChangePhoneModalProps & IModalChildrenP
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [submited, setSubmited] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const [remainedTime, setRemainedTime] = useState(60);
 
   useInterval(() => {
-    if (submited && remainedTime > 0) {
+    if (submitted && remainedTime > 0) {
       setRemainedTime((old) => old - 1);
     }
   }, 1000);
 
   const prevStep = useCallback(() => {
-    setSubmited(false);
-  }, [setSubmited]);
+    setSubmitted(false);
+  }, [setSubmitted]);
 
   const sendCodeConfirmation = useCallback(() => {
     setLoading(true);
@@ -63,7 +61,7 @@ const InitialChangePhoneModal: React.FC<IChangePhoneModalProps & IModalChildrenP
           sendSms({ phone: phoneNumber.number as string })
             .then(() => {
               setLoading(false);
-              setSubmited(true);
+              setSubmitted(true);
               setRemainedTime(60);
               setError(null);
             })
@@ -83,7 +81,7 @@ const InitialChangePhoneModal: React.FC<IChangePhoneModalProps & IModalChildrenP
       sendSms({ phone: phoneNumber.number as string })
         .then(() => {
           setResendLoading(false);
-          setSubmited(true);
+          setSubmitted(true);
           setRemainedTime(60);
           setError(null);
         })
@@ -117,7 +115,7 @@ const InitialChangePhoneModal: React.FC<IChangePhoneModalProps & IModalChildrenP
   return (
     <>
       <Modal.Header>
-        {submited ? (
+        {submitted ? (
           <>
             <ChatSvg className={`${BLOCK_NAME}__icon`} />
             <span> {t('changePhoneModal.code-sent')} </span>
@@ -132,13 +130,13 @@ const InitialChangePhoneModal: React.FC<IChangePhoneModalProps & IModalChildrenP
       <div className={BLOCK_NAME}>
         <PhoneInputGroup
           submitFunction={sendCodeConfirmation}
-          hideCountrySelect={submited}
-          disablePhoneInput={submited}
+          hideCountrySelect={submitted}
+          disablePhoneInput={submitted}
           phone={phone}
           setPhone={setPhone}
-          errorText={submited ? null : error && t(error)}
+          errorText={submitted ? null : error && t(error)}
           phoneInputIcon={
-            submited ? (
+            submitted ? (
               <button type="button" className={`${BLOCK_NAME}__back-icon`}>
                 <CrayonSvg onClick={prevStep} />
               </button>
@@ -146,7 +144,7 @@ const InitialChangePhoneModal: React.FC<IChangePhoneModalProps & IModalChildrenP
           }
         />
 
-        {submited && (
+        {submitted && (
           <>
             <LabeledInput
               autoFocus
@@ -177,7 +175,7 @@ const InitialChangePhoneModal: React.FC<IChangePhoneModalProps & IModalChildrenP
         )}
 
         <div className={`${BLOCK_NAME}__btn-block`}>
-          {submited ? (
+          {submitted ? (
             <Button
               disabled={!/^[0-9]{4}$/.test(code)}
               loading={loading}
@@ -213,7 +211,7 @@ const InitialChangePhoneModal: React.FC<IChangePhoneModalProps & IModalChildrenP
 const ChangePhoneModal: React.FC<IChangePhoneModalProps> = ({ onClose, ...props }) => (
   <Modal closeModal={onClose}>
     {(animatedClose: () => void) => (
-      <InitialChangePhoneModal {...props} onClose={onClose} animatedClose={animatedClose} />
+      <InitialChangePhoneModal {...props} animatedClose={animatedClose} />
     )}
   </Modal>
 );

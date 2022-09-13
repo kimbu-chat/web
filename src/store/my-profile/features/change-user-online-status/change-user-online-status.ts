@@ -13,6 +13,8 @@ import { httpRequestFactory, HttpRequestMethod } from '@store/common/http';
 import { IMyProfileState } from '@store/my-profile/my-profile-state';
 import { resetUnreadNotifications } from '@utils/set-favicon';
 
+import { INSTANT_MESSAGING_PATH } from '../../../../routing/routing.constants';
+
 export class ChangeUserOnlineStatus {
   static get action() {
     return createAction<boolean>('CHANGE_ONLINE_STATUS');
@@ -47,7 +49,10 @@ export class ChangeUserOnlineStatus {
 
       const unreadMessageId = getUnreadMessageId();
 
-      if (unreadMessageId) {
+      if (
+        unreadMessageId &&
+        window.location.pathname.indexOf(`${INSTANT_MESSAGING_PATH}/${selectedChatId}`) > -1
+      ) {
         const httpRequestPayload: IMarkChatAsReadRequest = {
           chatId: selectedChatId,
           lastReadMessageId: unreadMessageId,

@@ -1,1 +1,1 @@
-export { MessageItem } from './message-item';
+export { MemorizedMessageItem } from './message-item';

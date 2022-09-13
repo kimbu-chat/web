@@ -4,7 +4,7 @@ import React from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
 import { useActionWithDispatch } from '@hooks/use-action-with-dispatch';
@@ -20,7 +20,7 @@ if (process.env.NODE_ENV !== 'production') {
     trackExtraHooks: [
       [useSelector, 'useSelector'],
       [useDispatch, 'useDispatch'],
-      [useHistory, 'useHistory'],
+      [useNavigate, 'useNavigate'],
       [useLocation, 'useLocation'],
       [useTranslation, 'useTranslation'],
       [useActionWithDeferred, 'useActionWithDeferred'],

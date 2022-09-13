@@ -24,12 +24,8 @@ const UserSelect: React.FC<IUserSelectProps> = ({ changeSelectedState, isSelecte
   const friendsList = useSelector(getMyFriendsListSelector);
   const searchFriendsList = useSelector(getMySearchFriendsListSelector);
 
-  const { hasMore: hasMoreFriends, friendIds, loading: friendsLoading } = friendsList;
-  const {
-    hasMore: hasMoreSearchFriends,
-    friendIds: searchFriendIds,
-    loading: searchFriendsLoading,
-  } = searchFriendsList;
+  const { hasMore: hasMoreFriends, friendIds } = friendsList;
+  const { hasMore: hasMoreSearchFriends, friendIds: searchFriendIds } = searchFriendsList;
 
   const queryFriends = useCallback(
     (searchName: string) => {
@@ -80,8 +76,7 @@ const UserSelect: React.FC<IUserSelectProps> = ({ changeSelectedState, isSelecte
         containerRef={containerRef}
         className="create-group-chat__friends-block"
         onReachBottom={loadMore}
-        hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}
-        isLoading={name.length ? searchFriendsLoading : friendsLoading}>
+        hasMore={name.length ? hasMoreSearchFriends : hasMoreFriends}>
         {selectEntities}
       </InfiniteScroll>
     </div>

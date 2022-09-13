@@ -12,12 +12,7 @@ import { Avatar } from '@components/avatar';
 import { MessageStatus } from '@components/message-status';
 import { INSTANT_MESSAGING_CHAT_PATH } from '@routing/routing.constants';
 import Ripple from '@shared-components/ripple';
-import {
-  getTypingStringSelector,
-  getChatSelector,
-  getChatLastMessageUser,
-  getChatLastMessageSelector,
-} from '@store/chats/selectors';
+import { getTypingStringSelector, getChatSelector, getChatLastMessageUser, getChatLastMessageSelector } from '@store/chats/selectors';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
 import { checkIfDatesAreDifferentDate, getDayMonthYear, getShortTimeAmPm } from '@utils/date-utils';
@@ -54,10 +49,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   const messageText = useMemo((): string => {
     let messageToProcess;
 
-    if (
-      chatLastMessage?.linkedMessageType === MessageLinkType.Forward &&
-      chatLastMessage?.linkedMessage !== null
-    ) {
+    if (chatLastMessage?.linkedMessageType === MessageLinkType.Forward && chatLastMessage?.linkedMessage !== null) {
       messageToProcess = chatLastMessage?.linkedMessage;
     } else {
       messageToProcess = chatLastMessage;
@@ -67,20 +59,12 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
       return t('chatFromList.media');
     }
 
-    if (
-      chatLastMessage?.linkedMessageType &&
-      !chatLastMessage?.linkedMessage &&
-      !chatLastMessage?.text &&
-      !size(chatLastMessage?.attachments)
-    ) {
+    if (chatLastMessage?.linkedMessageType && !chatLastMessage?.linkedMessage && !chatLastMessage?.text && !size(chatLastMessage?.attachments)) {
       return t('linkedMessage.message-deleted');
     }
 
     if (messageToProcess) {
-      if (
-        messageToProcess.systemMessageType &&
-        messageToProcess.systemMessageType !== SystemMessageType.None
-      ) {
+      if (messageToProcess.systemMessageType && messageToProcess.systemMessageType !== SystemMessageType.None) {
         return truncate(
           constructSystemMessageText(
             // TODO: replace this logic
@@ -97,24 +81,14 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
         if (isLastMessageCreatorCurrentUser) {
           return truncate(`${t('chatFromList.you')}: ${messageToProcess.text}`, truncateOptions);
         }
-        return truncate(
-          `${lastMessageUserCreator?.firstName}: ${messageToProcess.text}`,
-          truncateOptions,
-        );
+        return truncate(`${lastMessageUserCreator?.firstName}: ${messageToProcess.text}`, truncateOptions);
       }
 
       return truncate(messageToProcess.text, truncateOptions);
     }
 
     return '';
-  }, [
-    chatLastMessage,
-    t,
-    chat.groupChat,
-    currentUserId,
-    lastMessageUserCreator,
-    isLastMessageCreatorCurrentUser,
-  ]);
+  }, [chatLastMessage, t, chat.groupChat, currentUserId, lastMessageUserCreator, isLastMessageCreatorCurrentUser]);
 
   const messageDateTime = useMemo(() => {
     if (!chatLastMessage?.creationDateTime) return '';
@@ -127,11 +101,7 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   }, [chatLastMessage?.creationDateTime]);
 
   const messageStatus = useMemo(() => {
-    if (
-      !chatLastMessage?.state ||
-      chatLastMessage?.systemMessageType !== SystemMessageType.None ||
-      !isLastMessageCreatorCurrentUser
-    ) {
+    if (!chatLastMessage?.state || chatLastMessage?.systemMessageType !== SystemMessageType.None || !isLastMessageCreatorCurrentUser) {
       return <></>;
     }
 
@@ -141,23 +111,16 @@ const ChatItem: React.FC<IChatItemProps> = React.memo(({ chatId }) => {
   return (
     <NavLink
       to={replaceInUrl(INSTANT_MESSAGING_CHAT_PATH, ['id?', chat?.id])}
-      className={BLOCK_NAME}
-      activeClassName={classnames(BLOCK_NAME, `${BLOCK_NAME}--active`)}>
-      {interlocutor && (
-        <Avatar className={`${BLOCK_NAME}__avatar`} size={48} user={interlocutor} statusBadge />
-      )}
-      {chat?.groupChat && (
-        <Avatar className={`${BLOCK_NAME}__avatar`} size={48} groupChat={chat?.groupChat} />
-      )}
+      className={({ isActive }) => classnames(BLOCK_NAME, { [`${BLOCK_NAME}--active`]: isActive })}>
+      {interlocutor && <Avatar className={`${BLOCK_NAME}__avatar`} size={48} user={interlocutor} statusBadge />}
+      {chat?.groupChat && <Avatar className={`${BLOCK_NAME}__avatar`} size={48} groupChat={chat?.groupChat} />}
       <div className={`${BLOCK_NAME}__contents`}>
         <div className={`${BLOCK_NAME}__heading`}>
           <div className={`${BLOCK_NAME}__name`}>{getChatInterlocutor(interlocutor, chat, t)}</div>
           <div className={`${BLOCK_NAME}__status`}>{messageStatus}</div>
           <div className={`${BLOCK_NAME}__time`}>{messageDateTime}</div>
         </div>
-        <div className={`${BLOCK_NAME}__last-message`}>
-          {typingString || renderText(messageText)}
-        </div>
+        <div className={`${BLOCK_NAME}__last-message`}>{typingString || renderText(messageText)}</div>
         {Boolean(chat?.unreadMessagesCount) && (
           <div
             className={classnames(`${BLOCK_NAME}__count`, {

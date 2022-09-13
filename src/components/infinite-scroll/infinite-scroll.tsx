@@ -10,10 +10,8 @@ import './infinite-scroll.scss';
 
 type InfiniteScrollProps = {
   children: React.ReactNode;
-  loadingIndicator?: () => JSX.Element;
   className?: string;
   hasMore?: boolean;
-  isLoading?: boolean;
   onReachTop?: () => void;
   onReachBottom?: () => void;
   threshold?: number | Array<number>;

@@ -1,0 +1,20 @@
+.circle-progress-preloader {
+  &__progress-svg {
+    transform: rotate(-90deg);
+    transition: all var(--ANIMATION-DURATION);
+
+    circle {
+      transition: all var(--ANIMATION-DURATION);
+    }
+
+    &--SMALL {
+      height: 24px;
+      width: 24px;
+    }
+
+    &--BIG {
+      height: 42px;
+      width: 42px;
+    }
+  }
+}

@@ -35,9 +35,8 @@ export class UploadAttachmentSuccess {
 
         const attachmentsToSend = chat.messages.messages[draftId].attachments;
 
-        const currentAttachment = attachmentsToSend.find(
-          (attachmentToSend) => attachmentToSend.id === attachmentId,
-        ) as IAttachmentToSend & IAttachmentBase;
+        const currentAttachment = attachmentsToSend.find((attachmentToSend) => attachmentToSend.id === attachmentId) as IAttachmentToSend &
+          IAttachmentBase;
 
         if (currentAttachment) {
           currentAttachment.progress = 100;
@@ -52,17 +51,16 @@ export class UploadAttachmentSuccess {
   }
 
   static get saga() {
-    return function* uploadAttachmentSuccessSaga({
-      payload,
-    }: ReturnType<typeof UploadAttachmentSuccess.action>): SagaIterator {
+    return function* uploadAttachmentSuccessSaga({ payload }: ReturnType<typeof UploadAttachmentSuccess.action>): SagaIterator {
       const { chatId, draftId } = payload;
       const chat = yield select(getChatByIdSelector(chatId));
 
       if (chat) {
-        const attachmentsToSend = chat.messages.messages[draftId].attachments;
+        const draftMessage = chat.messages.messages[draftId];
+        const attachmentsToSend = draftMessage.attachments;
 
         if (!attachmentsToSend.some((attch: IAttachmentToSend) => attch.success === false)) {
-          yield put(MessageAttachmentsUploaded.action());
+          yield put(MessageAttachmentsUploaded.action(draftMessage.id));
         }
       }
     };

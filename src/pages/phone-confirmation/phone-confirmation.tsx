@@ -1,23 +1,27 @@
-import React, {Suspense, useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import React, { Suspense, useCallback, useEffect, useLayoutEffect, useState } from 'react';
 
-import {GoogleLogin} from '@react-oauth/google';
-import {ApplicationErrorCode} from "kimbu-models";
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import { ApplicationErrorCode } from 'kimbu-models';
 import parsePhoneNumberFromString from 'libphonenumber-js';
-import {useTranslation} from 'react-i18next';
-import {useSelector} from 'react-redux';
-import {useHistory} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import {CountryPhoneInput} from '@auth-components/country-phone-input';
-import {CubeLoader} from '@components/cube-loader';
-import {useActionWithDeferred} from '@hooks/use-action-with-deferred';
-import {useToggledState} from '@hooks/use-toggled-state';
-import {preloadAuthRoute} from '@routing/routes/auth-routes';
-import {CODE_CONFIRMATION_PATH, INSTANT_MESSAGING_PATH, SIGN_UP_PATH,} from '@routing/routing.constants';
-import {Button} from '@shared-components/button';
-import {loginFromGoogleAccountAction, sendSmsCodeAction} from '@store/login/actions';
-import {LoginFromGoogleAccountResult} from '@store/login/features/login-from-google-account/login-from-google-account';
-import {authLoadingSelector, googleAuthLoadingSelector} from '@store/login/selectors';
-import {emitToast} from '@utils/emit-toast';
+import { CountryPhoneInput } from '@auth-components/country-phone-input';
+import { CubeLoader } from '@components/cube-loader';
+import { useActionWithDeferred } from '@hooks/use-action-with-deferred';
+import { useToggledState } from '@hooks/use-toggled-state';
+import { preloadAuthRoute } from '@routing/routes/auth-routes';
+import {
+  CODE_CONFIRMATION_PATH,
+  INSTANT_MESSAGING_PATH,
+  SIGN_UP_PATH,
+} from '@routing/routing.constants';
+import { Button } from '@shared-components/button';
+import { loginFromGoogleAccountAction, sendSmsCodeAction } from '@store/login/actions';
+import { LoginFromGoogleAccountResult } from '@store/login/features/login-from-google-account/login-from-google-account';
+import { authLoadingSelector, googleAuthLoadingSelector } from '@store/login/selectors';
+import { emitToast } from '@utils/emit-toast';
 
 import AuthWrapper from '../../auth-components/auth-wrapper';
 
@@ -43,7 +47,7 @@ const PhoneConfirmationPage: React.FC = () => {
     loadPrivacyPolicy();
   }, []);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const isLoading = useSelector(authLoadingSelector);
 
@@ -65,36 +69,39 @@ const PhoneConfirmationPage: React.FC = () => {
       if (phoneNumber?.isValid()) {
         sendSmsCode({
           phoneNumber: phoneNumber.number as string,
-        }).then(() => {
-          history.push(CODE_CONFIRMATION_PATH);
-        }).catch((err: ApplicationErrorCode) => {
-          setPhone('')
-          if(err === ApplicationErrorCode.LoginByPhoneNumberDisabled){
-            emitToast(t('loginPage.log_in_by_phone_number_disabled'), { type: 'error' });
-          } else {
-            emitToast(t('something_went_wrong'), { type: 'error' });
-          }
-        });
+        })
+          .then(() => {
+            navigate(CODE_CONFIRMATION_PATH);
+          })
+          .catch((err: ApplicationErrorCode) => {
+            setPhone('');
+            if (err === ApplicationErrorCode.LoginByPhoneNumberDisabled) {
+              emitToast(t('loginPage.log_in_by_phone_number_disabled'), { type: 'error' });
+            } else {
+              emitToast(t('something_went_wrong'), { type: 'error' });
+            }
+          });
       }
     },
-    [history, phone, sendSmsCode, t],
+    [navigate, phone, sendSmsCode, t],
   );
 
   const handleLoginFromGoogle = useCallback(
-    ({ credential }) => {
+    ({ credential }: CredentialResponse) => {
+      if (!credential) return;
       loginFromGoogleAccount({ idToken: credential })
         .then(() => {
-          history.push(INSTANT_MESSAGING_PATH);
+          navigate(INSTANT_MESSAGING_PATH);
         })
         .catch((result: LoginFromGoogleAccountResult) => {
           if (result === LoginFromGoogleAccountResult.UserNotRegistered) {
-            history.push(SIGN_UP_PATH);
+            navigate(SIGN_UP_PATH);
           } else {
             emitToast(t(googleErrors.get(result) as string), { type: 'error' });
           }
         });
     },
-    [history, loginFromGoogleAccount, t],
+    [navigate, loginFromGoogleAccount, t],
   );
 
   const handleGoogleAuthError = useCallback(() => {

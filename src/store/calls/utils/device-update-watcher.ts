@@ -24,7 +24,7 @@ function createDeviceUpdateChannel() {
     return () => {
       navigator.mediaDevices.removeEventListener('devicechange', onDeviceChange);
     };
-  }, buffers.expanding(10));
+  }, buffers.expanding<Event>(10));
 }
 
 // this watcher helps us to determine what king of devices were connected to pc

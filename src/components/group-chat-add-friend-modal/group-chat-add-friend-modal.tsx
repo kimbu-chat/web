@@ -30,9 +30,7 @@ const BLOCK_NAME = 'group-chat-add-friend-modal';
 
 const DEBOUNCE_TO_SEARCH = 1000;
 
-const InitialGroupChatAddFriendModal: React.FC<
-  IGroupChatAddFriendModalProps & IModalChildrenProps
-> = ({ animatedClose }) => {
+const InitialGroupChatAddFriendModal: React.FC<IModalChildrenProps> = ({ animatedClose }) => {
   const { t } = useTranslation();
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -52,7 +50,6 @@ const InitialGroupChatAddFriendModal: React.FC<
     executeRequest: getPossibleMembers,
     hasMore,
     data,
-    loading,
   } = useInfinityDeferred<IPossibleChatMembersActionPayload, IUser>({
     action: getPossibleChatMembersAction,
     limit: CHAT_MEMBERS_LIMIT,
@@ -85,23 +82,31 @@ const InitialGroupChatAddFriendModal: React.FC<
   }, [addUsersToGroupChat, selectedUserIds, animatedClose]);
 
   const loadMore = useCallback(async () => {
-    await getPossibleMembers({
-      name,
-      groupChatId: chat?.groupChat?.id as number,
-      offset: data.length,
-    });
+    await getPossibleMembers(
+      {
+        name,
+        groupChatId: chat?.groupChat?.id as number,
+        offset: data.length,
+        initializedByScroll: true,
+      },
+      true,
+    );
   }, [getPossibleMembers, name, chat?.groupChat?.id, data.length]);
 
   const queryPossibleMembers = useCallback(
     async (searchName: string) => {
       setName(searchName);
-      await getPossibleMembers({
-        offset: data.length,
-        name: searchName,
-        groupChatId: chat?.groupChat?.id as number,
-      });
+      await getPossibleMembers(
+        {
+          offset: data.length,
+          name: searchName,
+          groupChatId: chat?.groupChat?.id as number,
+          initializedByScroll: false,
+        },
+        false,
+      );
     },
-    [chat?.groupChat?.id, data.length, getPossibleMembers],
+    [chat?.groupChat?.id, getPossibleMembers, data.length],
   );
 
   const handleSearchInputChange = useCallback(
@@ -111,7 +116,7 @@ const InitialGroupChatAddFriendModal: React.FC<
   );
 
   const renderSelectEntity = useCallback(
-    ({ id }) => (
+    ({ id }: IUser) => (
       <SelectEntity
         key={id}
         userId={id}
@@ -141,8 +146,7 @@ const InitialGroupChatAddFriendModal: React.FC<
           containerRef={containerRef}
           className={`${BLOCK_NAME}__friends-block`}
           onReachBottom={loadMore}
-          hasMore={hasMore}
-          isLoading={loading}>
+          hasMore={hasMore}>
           {selectEntities}
         </InfiniteScroll>
 
@@ -170,7 +174,7 @@ const InitialGroupChatAddFriendModal: React.FC<
 const GroupChatAddFriendModal: React.FC<IGroupChatAddFriendModalProps> = memo(({ onClose }) => (
   <Modal closeModal={onClose}>
     {(animatedClose: () => void) => (
-      <InitialGroupChatAddFriendModal onClose={onClose} animatedClose={animatedClose} />
+      <InitialGroupChatAddFriendModal animatedClose={animatedClose} />
     )}
   </Modal>
 ));

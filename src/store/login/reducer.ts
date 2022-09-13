@@ -2,16 +2,16 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { AuthService } from '@services/auth-service';
 
+import { ConfirmPhone } from './features/confirm-phone/confirm-phone';
 import { ConfirmPhoneFailure } from './features/confirm-phone/confirm-phone-failure';
 import { ConfirmPhoneSuccess } from './features/confirm-phone/confirm-phone-success';
-import { ConfirmPhone } from './features/confirm-phone/confirm-phone';
-import { LoginFromGoogleAccountSuccess } from './features/login-from-google-account/login-from-google-account-success';
 import { LoginFromGoogleAccount } from './features/login-from-google-account/login-from-google-account';
+import { LoginFromGoogleAccountSuccess } from './features/login-from-google-account/login-from-google-account-success';
 import { LoginSuccess } from './features/login/login-success';
 import { Register } from './features/register/register';
-import {SendSmsCodeFailure} from "./features/send-sms-code/send-sms-code-failure";
-import { SendSmsCodeSuccess } from './features/send-sms-code/send-sms-code-success';
 import { SendSmsCode } from './features/send-sms-code/send-sms-code';
+import { SendSmsCodeFailure } from './features/send-sms-code/send-sms-code-failure';
+import { SendSmsCodeSuccess } from './features/send-sms-code/send-sms-code-success';
 
 import type { ILoginState } from './login-state';
 

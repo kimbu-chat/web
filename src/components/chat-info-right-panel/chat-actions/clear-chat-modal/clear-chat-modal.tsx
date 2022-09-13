@@ -19,9 +19,7 @@ interface IClearChatModalProps {
 
 const BLOCK_NAME = 'clear-chat-modal';
 
-export const InitialClearChatModal: React.FC<IClearChatModalProps & IModalChildrenProps> = ({
-  animatedClose,
-}) => {
+export const InitialClearChatModal: React.FC<IModalChildrenProps> = ({ animatedClose }) => {
   const { t } = useTranslation();
 
   const chatId = useSelector(getInfoChatIdSelector);
@@ -80,7 +78,7 @@ export const InitialClearChatModal: React.FC<IClearChatModalProps & IModalChildr
 const ClearChatModal: React.FC<IClearChatModalProps> = ({ hide, ...props }) => (
   <Modal closeModal={hide}>
     {(animatedClose: () => void) => (
-      <InitialClearChatModal {...props} hide={hide} animatedClose={animatedClose} />
+      <InitialClearChatModal {...props} animatedClose={animatedClose} />
     )}
   </Modal>
 );

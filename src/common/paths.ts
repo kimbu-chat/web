@@ -20,6 +20,7 @@ export const MAIN_API = {
   REMOVE_CHAT: `${REACT_APP_MAIN_API}/api/dialogs/:userId?forEveryone=:forEveryone`,
   ACCEPT_RENEGOTIATION: `${REACT_APP_MAIN_API}/api/calls/accept-renegotiation`,
   SEND_RENEGOTIATION: `${REACT_APP_MAIN_API}/api/calls/send-renegotiation`,
+  DELETE_CALL: `${REACT_APP_MAIN_API}/api/calls/:callId`,
   ADD_TO_GROUP_CHAT: `${REACT_APP_MAIN_API}/api/group-chats/users`,
   CHANGE_CHAT_MUTED_STATUS: `${REACT_APP_MAIN_API}/api/chats/change-muted-status`,
   GET_USER: `${REACT_APP_MAIN_API}/api/users/:userId`,

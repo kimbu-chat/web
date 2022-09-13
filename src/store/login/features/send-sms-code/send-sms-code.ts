@@ -1,5 +1,5 @@
-import { AxiosResponse} from 'axios';
-import { ISendSmsCodeRequest} from 'kimbu-models';
+import { AxiosError, AxiosResponse } from 'axios';
+import { ISendSmsCodeRequest } from 'kimbu-models';
 import { SagaIterator } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
 
@@ -7,7 +7,7 @@ import { MAIN_API } from '@common/paths';
 import { createDeferredAction } from '@store/common/actions';
 import { authRequestFactory } from '@store/common/http/auth-request-factory';
 import { HttpRequestMethod } from '@store/common/http/http-request-method';
-import {mapAxiosErrorToApplicationError} from "@utils/error-utils";
+import { mapAxiosErrorToApplicationError } from '@utils/error-utils';
 
 import { ISendSmsCodeActionPayload } from './action-payloads/send-sms-code-action-payload';
 import { SendSmsCodeFailure } from './send-sms-code-failure';
@@ -30,10 +30,7 @@ export class SendSmsCode {
   }
 
   static get saga() {
-    return function* sendSmsPhoneConfirmationCodeSaga(
-      action: ReturnType<typeof SendSmsCode.action>,
-    ): SagaIterator {
-
+    return function* sendSmsPhoneConfirmationCodeSaga(action: ReturnType<typeof SendSmsCode.action>): SagaIterator {
       try {
         SendSmsCode.httpRequest.call(
           yield call(() =>
@@ -46,19 +43,17 @@ export class SendSmsCode {
         yield put(SendSmsCodeSuccess.action());
 
         yield call(() => action.meta?.deferred?.resolve());
-      }
-      catch (e){
+      } catch (e) {
         yield put(SendSmsCodeFailure.action());
-        const applicationError = mapAxiosErrorToApplicationError(e)
-        yield call(() => action.meta?.deferred?.reject(applicationError));
+        if (e instanceof AxiosError) {
+          const applicationError = mapAxiosErrorToApplicationError(e);
+          yield call(() => action.meta?.deferred?.reject(applicationError));
+        }
       }
     };
   }
 
   static get httpRequest() {
-    return authRequestFactory<AxiosResponse<string>, ISendSmsCodeRequest>(
-      MAIN_API.SEND_SMS_CODE,
-      HttpRequestMethod.Post,
-    );
+    return authRequestFactory<AxiosResponse<string>, ISendSmsCodeRequest>(MAIN_API.SEND_SMS_CODE, HttpRequestMethod.Post);
   }
 }

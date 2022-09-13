@@ -39,20 +39,6 @@
     }
   }
 
-  &__progress-svg {
-    height: 24px;
-    left: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(-90deg);
-    transition: all var(--ANIMATION-DURATION);
-    width: 24px;
-
-    circle {
-      transition: all var(--ANIMATION-DURATION);
-    }
-  }
-
   &__file-name {
     color: #3f8ae0;
     cursor: pointer;

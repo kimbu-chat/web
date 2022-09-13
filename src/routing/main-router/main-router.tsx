@@ -1,7 +1,7 @@
 import React, { useEffect, lazy, useLayoutEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import { RoutingChats } from '@components/routing-chats';
 import { mapRoutes } from '@routing/map-routing';
@@ -41,13 +41,11 @@ const MainRouter: React.FC = () => {
       {/* TODO: FIX THIS LATER!!! */}
       {/* {!internetState && <InternetError />} */}
       <RoutingChats />
-      <Switch>
+      <Routes>
         {mapRoutes(routes)}
-        <Route path={HOME_PAGE_PATH}>
-          <Redirect to={INSTANT_MESSAGING_PATH} />
-        </Route>
-        <Route component={NotFound} />
-      </Switch>
+        <Route path={HOME_PAGE_PATH} element={<Navigate to={INSTANT_MESSAGING_PATH} />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </div>
   );
 };

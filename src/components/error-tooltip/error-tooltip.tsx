@@ -6,7 +6,11 @@ import './error-tooltip.scss';
 
 const BLOCK_NAME = 'error-tooltip';
 
-export const ErrorTooltip: React.FC = ({ children }) => (
+interface IErrorTooltipProps {
+  children: React.ReactNode;
+}
+
+export const ErrorTooltip: React.FC<IErrorTooltipProps> = ({ children }) => (
   <div className={BLOCK_NAME}>
     <span className={`${BLOCK_NAME}__content`}>
       <BulbSvg className={`${BLOCK_NAME}__content__icon`} />

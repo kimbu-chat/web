@@ -3,6 +3,19 @@
   overflow: hidden;
   position: relative;
 
+  &__cancel-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 100;
+    transition: all var(--ANIMATION-DURATION);
+    transform: translate(-50%, -50%);
+
+    svg {
+      color: #fff;
+    }
+  }
+
   &__svg {
     color: #fff;
     height: 24px;

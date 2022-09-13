@@ -1,4 +1,6 @@
 .chat {
+  position: relative;
+
   &__messages-group {
     display: flex;
     flex-direction: column-reverse;
@@ -48,6 +50,7 @@
     height: 100%;
     max-height: calc(100vh - 128px);
     overflow: auto;
+    scroll-behavior: smooth;
   }
 
   &__separator {
@@ -69,5 +72,15 @@
     font-weight: 300;
     line-height: 14px;
     padding: 4px 16px;
+  }
+
+  &__scroll-to-bottom {
+    position: absolute;
+    right: 22px;
+    bottom: 18px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    color: var(--dt-white-wt-dark);
   }
 }

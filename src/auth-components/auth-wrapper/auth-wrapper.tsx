@@ -16,7 +16,11 @@ import './auth-wrapper.scss';
 
 const BLOCK_NAME = 'auth-wrapper';
 
-const AuthWrapper: React.FC = ({ children }) => {
+interface IAuthWrapper {
+  children: React.ReactNode;
+}
+
+const AuthWrapper: React.FC<IAuthWrapper> = ({ children }) => {
   const { t } = useTranslation();
 
   return (

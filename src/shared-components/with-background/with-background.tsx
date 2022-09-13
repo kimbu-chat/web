@@ -15,6 +15,7 @@ interface IBackgroundBlurProps {
   onClick?: () => void;
   hiding?: boolean;
   animationMode?: AnimationMode;
+  children: React.ReactNode;
 }
 
 const BLOCK_NAME = 'background-blur';

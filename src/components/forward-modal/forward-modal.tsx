@@ -22,12 +22,15 @@ import './forward-modal.scss';
 
 const BLOCK_NAME = 'forward-modal';
 
-interface IForwardModalProps {
-  onClose: () => void;
+interface IInitialForwardModalProps {
   messageIdsToForward: number[];
 }
 
-export const InitialForwardModal: React.FC<IForwardModalProps & IModalChildrenProps> = ({
+interface IForwardModalProps {
+  onClose: () => void;
+}
+
+export const InitialForwardModal: React.FC<IInitialForwardModalProps & IModalChildrenProps> = ({
   animatedClose,
   messageIdsToForward,
 }) => {
@@ -135,8 +138,7 @@ export const InitialForwardModal: React.FC<IForwardModalProps & IModalChildrenPr
           containerRef={containerRef}
           className={`${BLOCK_NAME}__chats-block`}
           onReachBottom={loadMore}
-          hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}
-          isLoading={searchString.length ? searchChatsList.loading : chatsList.loading}>
+          hasMore={searchString.length ? searchChatsList.hasMore : chatsList.hasMore}>
           {selectEntities}
         </InfiniteScroll>
         <div className={`${BLOCK_NAME}__btn-block`}>
@@ -157,10 +159,13 @@ export const InitialForwardModal: React.FC<IForwardModalProps & IModalChildrenPr
   );
 };
 
-const ForwardModal: React.FC<IForwardModalProps> = ({ onClose, ...props }) => (
+const ForwardModal: React.FC<IForwardModalProps & IInitialForwardModalProps> = ({
+  onClose,
+  ...props
+}) => (
   <Modal closeModal={onClose}>
     {(animatedClose: () => void) => (
-      <InitialForwardModal {...props} onClose={onClose} animatedClose={animatedClose} />
+      <InitialForwardModal {...props} animatedClose={animatedClose} />
     )}
   </Modal>
 );

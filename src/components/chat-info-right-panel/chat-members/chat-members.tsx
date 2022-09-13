@@ -11,10 +11,7 @@ import { useInfinityDeferred } from '@hooks/use-infinity-deferred';
 import { ReactComponent as OpenArrowSvg } from '@icons/open-arrow.svg';
 import { getGroupChatUsersAction } from '@store/chats/actions';
 import { IGetGroupChatUsersActionPayload } from '@store/chats/features/get-group-chat-users/get-group-chat-users';
-import {
-  getSelectedGroupChatCreatorIdSelector,
-  getSelectedGroupCountMembers,
-} from '@store/chats/selectors';
+import { getSelectedGroupChatCreatorIdSelector, getSelectedGroupCountMembers } from '@store/chats/selectors';
 import { CHAT_MEMBERS_LIMIT } from '@utils/pagination-limits';
 
 import { Member } from './chat-member/chat-member';
@@ -40,7 +37,6 @@ export const ChatMembers: React.FC<IChatMembersProps> = ({ rootRef }) => {
   const {
     executeRequest: getGroupChatMembers,
     data: members,
-    loading,
     hasMore,
   } = useInfinityDeferred<IGetGroupChatUsersActionPayload, IUser>({
     action: getGroupChatUsersAction,
@@ -91,17 +87,11 @@ export const ChatMembers: React.FC<IChatMembersProps> = ({ rootRef }) => {
     [getGroupChatMembers, members.length],
   );
 
-  const changeMembersDisplayedState = useCallback(
-    () => setMembersDisplayed((oldState) => !oldState),
-    [setMembersDisplayed],
-  );
+  const changeMembersDisplayedState = useCallback(() => setMembersDisplayed((oldState) => !oldState), [setMembersDisplayed]);
 
   return (
     <div className={BLOCK_NAME}>
-      <button
-        onClick={changeMembersDisplayedState}
-        type="button"
-        className={`${BLOCK_NAME}__heading-block`}>
+      <button onClick={changeMembersDisplayedState} type="button" className={`${BLOCK_NAME}__heading-block`}>
         <h3 className={`${BLOCK_NAME}__heading`}>{t('chatMembers.title')}</h3>
         <div
           className={classnames(`${BLOCK_NAME}__open-arrow`, {
@@ -123,7 +113,6 @@ export const ChatMembers: React.FC<IChatMembersProps> = ({ rootRef }) => {
             className={`${BLOCK_NAME}__members-list`}
             onReachBottom={loadMore}
             hasMore={hasMore}
-            isLoading={loading}
             threshold={0.3}>
             {members.map(({ id: memberId }) => (
               <Member key={memberId} memberId={memberId} ownerId={userCreatorId} />

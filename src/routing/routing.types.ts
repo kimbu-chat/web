@@ -1,15 +1,21 @@
 import type { LazyExoticComponent, ComponentType } from 'react';
 
-import { RouteProps } from 'react-router-dom';
-
 import { ANONYMOUS_USER, PROSPECT_USER, REGISTERED_USER } from './routing.constants';
 
 export type UserStatus = typeof ANONYMOUS_USER | typeof PROSPECT_USER | typeof REGISTERED_USER;
 
+export type RoutePropsType = {
+  caseSensitive?: boolean;
+  children?: React.ReactNode;
+  element: React.FC;
+  index?: boolean;
+  path?: string;
+};
+
 export type RouteObject = {
   path: string;
   pageName: string;
-  props: RouteProps;
+  props: RoutePropsType;
 };
 
 export enum RoutesEnum {

@@ -46,7 +46,7 @@ export const MediaModal: React.FC<IImageModalProps> = ({
   );
 
   const goNext = useCallback(
-    (e) => {
+    (e: React.MouseEvent | Mousetrap.ExtendedKeyboardEvent) => {
       e.stopPropagation();
       setCurrentAttachmentIndex((prev) => (prev < attachmentsArr.length - 1 ? prev + 1 : prev));
     },
@@ -54,7 +54,7 @@ export const MediaModal: React.FC<IImageModalProps> = ({
   );
 
   const goPrev = useCallback(
-    (e) => {
+    (e: React.MouseEvent | Mousetrap.ExtendedKeyboardEvent) => {
       e.stopPropagation();
       setCurrentAttachmentIndex((prev) => (prev > 0 ? prev - 1 : prev));
     },

@@ -8,8 +8,8 @@ export const mapRoutes = (routes: RouteObject[]) =>
   routes.map((route) => {
     const {
       path,
-      props: { component: PageComponent, ...props },
+      props: { element: PageComponent, ...props },
     } = route;
 
-    return <Route key={path} path={path} component={PageComponent} {...props} />;
+    return <Route key={path} path={path} element={<PageComponent />} {...props} />;
   });

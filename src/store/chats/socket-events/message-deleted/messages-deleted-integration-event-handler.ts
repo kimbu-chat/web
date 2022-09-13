@@ -18,8 +18,8 @@ import {
   getSelectedChatMessagesSearchStringSelector,
 } from '../../selectors';
 
-import { MessagesDeletedIntegrationEventHandlerSuccess } from './messages-deleted-integration-event-handler-success';
 import { IMessagesDeletedIntegrationEvent } from './messages-deleted-integration-event';
+import { MessagesDeletedIntegrationEventHandlerSuccess } from './messages-deleted-integration-event-handler-success';
 
 export class MessagesDeletedIntegrationEventHandler {
   static get action() {

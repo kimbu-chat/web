@@ -1,5 +1,6 @@
 import React from 'react';
 
+import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
 
@@ -31,56 +32,49 @@ const SettingsNavigation = () => {
     <>
       <NavLink
         to={PROFILE_SETTINGS_PATH}
-        className={`${BLOCK_NAME}__element`}
-        activeClassName={`${BLOCK_NAME}__element--active`}>
+        className={({ isActive }) => classNames(`${BLOCK_NAME}__element`, { [`${BLOCK_NAME}__element--active`]: isActive })}>
         <UserSvg className={`${BLOCK_NAME}__icon`} />
         <span className={`${BLOCK_NAME}__text`}>{t('settings.edit_profile')}</span>
       </NavLink>
 
       <NavLink
         to={NOTIFICATIONS_SETTINGS_PATH}
-        className={`${BLOCK_NAME}__element`}
-        activeClassName={`${BLOCK_NAME}__element--active`}>
+        className={({ isActive }) => classNames(`${BLOCK_NAME}__element`, { [`${BLOCK_NAME}__element--active`]: isActive })}>
         <MuteSvg className={`${BLOCK_NAME}__icon`} />
         <span className={`${BLOCK_NAME}__text`}>{t('settings.notifications')} </span>
       </NavLink>
 
       <NavLink
         to={TYPING_SETTINGS_PATH}
-        className={`${BLOCK_NAME}__element`}
-        activeClassName={`${BLOCK_NAME}__element--active`}>
+        className={({ isActive }) => classNames(`${BLOCK_NAME}__element`, { [`${BLOCK_NAME}__element--active`]: isActive })}>
         <TypeSvg className={`${BLOCK_NAME}__icon`} />
         <span className={`${BLOCK_NAME}__text`}>{t('settings.text_typing')} </span>
       </NavLink>
 
       <NavLink
         to={LANGUAGE_SETTINGS_PATH}
-        className={`${BLOCK_NAME}__element`}
-        activeClassName={`${BLOCK_NAME}__element--active`}>
+        className={({ isActive }) => classNames(`${BLOCK_NAME}__element`, { [`${BLOCK_NAME}__element--active`]: isActive })}>
         <LanguageSvg className={`${BLOCK_NAME}__icon`} />
         <span className={`${BLOCK_NAME}__text`}>{t('settings.language')} </span>
       </NavLink>
 
       <NavLink
         to={APPEARANCE_SETTINGS_PATH}
-        className={`${BLOCK_NAME}__element`}
-        activeClassName={`${BLOCK_NAME}__element--active`}>
+        className={({ isActive }) => classNames(`${BLOCK_NAME}__element`, { [`${BLOCK_NAME}__element--active`]: isActive })}>
         <AppearanceSvg className={`${BLOCK_NAME}__icon`} />
         <span className={`${BLOCK_NAME}__text`}>{t('settings.appearance')} </span>
       </NavLink>
 
       <NavLink
         to={AUDIO_VIDEO_SETTINGS_PATH}
-        className={`${BLOCK_NAME}__element`}
-        activeClassName={`${BLOCK_NAME}__element--active`}>
+        className={({ isActive }) => classNames(`${BLOCK_NAME}__element`, { [`${BLOCK_NAME}__element--active`]: isActive })}>
         <PlaySvg className={`${BLOCK_NAME}__icon`} />
         <span className={`${BLOCK_NAME}__text`}>{t('settings.audio-video')} </span>
       </NavLink>
 
       <NavLink
         to={PRIVACY_SECURITY_SETTINGS_PATH}
-        className={`${BLOCK_NAME}__element`}
-        activeClassName={`${BLOCK_NAME}__element--active`}>
+        className={({ isActive }) => classNames(`${BLOCK_NAME}__element`, { [`${BLOCK_NAME}__element--active`]: isActive })}>
         <PrivacySvg className={`${BLOCK_NAME}__icon`} />
         <span className={`${BLOCK_NAME}__text`}>{t('settings.privacy-security')} </span>
       </NavLink>

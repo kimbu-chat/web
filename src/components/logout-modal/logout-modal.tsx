@@ -16,9 +16,7 @@ interface ILogoutModalProps {
 
 const BLOCK_NAME = 'logout-modal';
 
-const InitialLogoutModal: React.FC<ILogoutModalProps & IModalChildrenProps> = ({
-  animatedClose,
-}) => {
+const InitialLogoutModal: React.FC<IModalChildrenProps> = ({ animatedClose }) => {
   const { t } = useTranslation();
 
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -62,9 +60,7 @@ const InitialLogoutModal: React.FC<ILogoutModalProps & IModalChildrenProps> = ({
 
 const LogoutModal: React.FC<ILogoutModalProps> = ({ onClose, ...props }) => (
   <Modal closeModal={onClose}>
-    {(animatedClose: () => void) => (
-      <InitialLogoutModal {...props} onClose={onClose} animatedClose={animatedClose} />
-    )}
+    {(animatedClose: () => void) => <InitialLogoutModal {...props} animatedClose={animatedClose} />}
   </Modal>
 );
 

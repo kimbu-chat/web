@@ -14,13 +14,13 @@ export const inputUtils = {
     [KEY_NAME.LEFT_ARROW]: true,
     [KEY_NAME.RIGHT_ARROW]: true,
   },
-  isSpecial(e: KeyboardEvent) {
+  isSpecial(e: React.KeyboardEvent<HTMLDivElement>) {
     return typeof this.special[e.key] !== 'undefined';
   },
-  isNavigational(e: KeyboardEvent) {
+  isNavigational(e: React.KeyboardEvent<HTMLDivElement>) {
     return typeof this.navigational[e.key] !== 'undefined';
   },
-  isShortCut(e: KeyboardEvent) {
+  isShortCut(e: React.KeyboardEvent<HTMLDivElement>) {
     return e.ctrlKey && e.key === 'a';
   },
 };

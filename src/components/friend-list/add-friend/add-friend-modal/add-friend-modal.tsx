@@ -27,9 +27,7 @@ interface IAddFriendModalProps {
 
 const BLOCK_NAME = 'add-friends-modal';
 
-const InitialAddFriendModal: React.FC<IAddFriendModalProps & IModalChildrenProps> = ({
-  animatedClose,
-}) => {
+const InitialAddFriendModal: React.FC<IModalChildrenProps> = ({ animatedClose }) => {
   const { t } = useTranslation();
   const getUserByPhone = useActionWithDeferred(getUserByPhoneAction);
   const addFriend = useActionWithDeferred(addFriendAction);
@@ -154,7 +152,7 @@ const InitialAddFriendModal: React.FC<IAddFriendModalProps & IModalChildrenProps
 const AddFriendModal: React.FC<IAddFriendModalProps> = ({ onClose, ...props }) => (
   <Modal closeModal={onClose}>
     {(animatedClose: () => void) => (
-      <InitialAddFriendModal {...props} onClose={onClose} animatedClose={animatedClose} />
+      <InitialAddFriendModal {...props} animatedClose={animatedClose} />
     )}
   </Modal>
 );

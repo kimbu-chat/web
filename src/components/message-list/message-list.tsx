@@ -5,11 +5,7 @@ import { SystemMessageType } from 'kimbu-models';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import {
-  INTERSECTION_THROTTLE_FOR_MEDIA,
-  INTERSECTION_THRESHOLD_FOR_MEDIA,
-  DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR,
-} from '@common/constants';
+import { INTERSECTION_THROTTLE_FOR_MEDIA, INTERSECTION_THRESHOLD_FOR_MEDIA, DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR } from '@common/constants';
 import { InfiniteScroll } from '@components/infinite-scroll';
 import { CenteredLoader, LoaderSize } from '@components/loader';
 import { MemorizedMessageItem } from '@components/message-item';
@@ -31,7 +27,7 @@ import {
 } from '@store/chats/selectors';
 import { checkIfDatesAreDifferentDate } from '@utils/date-utils';
 
-import { Welcome } from '../welcome/welcome';
+import Welcome from '../welcome/welcome';
 
 import type { ScrollAnchorType } from '@components/message-item/message-item';
 
@@ -90,45 +86,34 @@ const MessageList = () => {
     });
   }, [getMessages, messagesSearchString]);
 
-  const formatDateForSeparator = useCallback(
-    (date) => dayjs.utc(date).local().format(DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR).toString(),
-    [],
-  );
+  const formatDateForSeparator = useCallback((date: string) => dayjs.utc(date).local().format(DAY_NAME_MONTH_NAME_DAY_NUMBER_YEAR).toString(), []);
 
   const separatedMessagesPacks = useMemo<ISeparatedMessagesPack[]>(
     () =>
-      messagesIds?.reduce(
-        (accumulator: ISeparatedMessagesPack[], currentMessageId: number, index: number) => {
-          if (!accumulator.length) {
-            return [
-              ...accumulator,
-              {
-                date: formatDateForSeparator(messages[currentMessageId]?.creationDateTime),
-                messages: [currentMessageId],
-              },
-            ];
-          }
-          if (
-            checkIfDatesAreDifferentDate(
-              messages[messagesIds[index - 1]]?.creationDateTime,
-              messages[currentMessageId]?.creationDateTime,
-            )
-          ) {
-            return [
-              ...accumulator,
-              {
-                date: formatDateForSeparator(messages[currentMessageId]?.creationDateTime),
-                messages: [currentMessageId],
-              },
-            ];
-          }
+      messagesIds?.reduce((accumulator: ISeparatedMessagesPack[], currentMessageId: number, index: number) => {
+        if (!accumulator.length) {
+          return [
+            ...accumulator,
+            {
+              date: formatDateForSeparator(messages[currentMessageId]?.creationDateTime),
+              messages: [currentMessageId],
+            },
+          ];
+        }
+        if (checkIfDatesAreDifferentDate(messages[messagesIds[index - 1]]?.creationDateTime, messages[currentMessageId]?.creationDateTime)) {
+          return [
+            ...accumulator,
+            {
+              date: formatDateForSeparator(messages[currentMessageId]?.creationDateTime),
+              messages: [currentMessageId],
+            },
+          ];
+        }
 
-          accumulator[accumulator.length - 1]?.messages.push(currentMessageId);
+        accumulator[accumulator.length - 1]?.messages.push(currentMessageId);
 
-          return accumulator;
-        },
-        [],
-      ),
+        return accumulator;
+      }, []),
     [messages, messagesIds, formatDateForSeparator],
   );
 
@@ -139,12 +124,7 @@ const MessageList = () => {
 
     if (rootRef.current) {
       if (refToScroll.current && currentScrollAnchor.autoScroll) {
-        rootRef.current.scrollTo(
-          0,
-          refToScroll.current.offsetTop -
-            rootRef.current.offsetHeight / 2 +
-            refToScroll.current.offsetHeight / 2,
-        );
+        rootRef.current.scrollTo(0, refToScroll.current.offsetTop - rootRef.current.offsetHeight / 2 + refToScroll.current.offsetHeight / 2);
       } else if (!refToScroll.current && !currentScrollAnchor) {
         rootRef.current.scrollTo(0, rootRef.current.offsetHeight);
       }
@@ -195,14 +175,11 @@ const MessageList = () => {
   return (
     <div className={`${BLOCK_NAME}__messages-list`}>
       <div className={`${BLOCK_NAME}__messages-container`} ref={rootRef} onScroll={onScrollChange}>
-        {!areMessagesLoading &&
-          areMessagesLoading !== undefined &&
-          !hasMoreMessages &&
-          !messagesIds?.length && (
-            <div className={`${BLOCK_NAME}__messages-list__empty`}>
-              <p>{t(messagesSearchString ? 'chat.no-messages' : 'chat.empty')}</p>
-            </div>
-          )}
+        {!areMessagesLoading && areMessagesLoading !== undefined && !hasMoreMessages && !messagesIds?.length && (
+          <div className={`${BLOCK_NAME}__messages-list__empty`}>
+            <p>{t(messagesSearchString ? 'chat.no-messages' : 'chat.empty')}</p>
+          </div>
+        )}
 
         {selectedMessageIds.length > 0 && <SelectedMessagesData />}
         {!areMessagesLoading || messagesIds?.length
@@ -211,29 +188,27 @@ const MessageList = () => {
                 containerRef={rootRef}
                 onReachBottom={loadMore}
                 hasMore={hasMoreMessages}
-                className={`${BLOCK_NAME}__messages-list__scroll`}
-                isLoading={areMessagesLoading}>
+                className={`${BLOCK_NAME}__messages-list__scroll`}>
                 {separatedMessagesPacks.map((pack) => (
                   <div key={pack.date} className={`${BLOCK_NAME}__messages-group`}>
-                    {pack.messages.map((messageId, index) => (
-                      <MemorizedMessageItem
-                        ref={anchorsToScroll[0]?.id === messageId ? refToScroll : null}
-                        onAddAnchors={addAnchors}
-                        observeIntersection={observeIntersectionForMedia}
-                        animated={animationEnabled.current}
-                        selectedChatId={selectedChatId}
-                        isSelected={selectedMessageIds.includes(messageId)}
-                        messageId={messageId}
-                        key={messages[messageId]?.clientId || messages[messageId].id}
-                        needToShowCreator={
-                          messages &&
-                          (messages[messageId]?.userCreatorId !==
-                            messages[pack.messages[index + 1]]?.userCreatorId ||
-                            messages[pack.messages[index + 1]]?.systemMessageType !==
-                              SystemMessageType.None)
-                        }
-                      />
-                    ))}
+                    {selectedChatId &&
+                      pack.messages.map((messageId, index) => (
+                        <MemorizedMessageItem
+                          ref={anchorsToScroll[0]?.id === messageId ? refToScroll : null}
+                          onAddAnchors={addAnchors}
+                          observeIntersection={observeIntersectionForMedia}
+                          animated={animationEnabled.current}
+                          selectedChatId={selectedChatId}
+                          isSelected={selectedMessageIds.includes(messageId)}
+                          messageId={messageId}
+                          key={messages[messageId]?.clientId || messages[messageId].id}
+                          needToShowCreator={
+                            messages &&
+                            (messages[messageId]?.userCreatorId !== messages[pack.messages[index + 1]]?.userCreatorId ||
+                              messages[pack.messages[index + 1]]?.systemMessageType !== SystemMessageType.None)
+                          }
+                        />
+                      ))}
                     {pack.messages.length > 0 && (
                       <div className={`${BLOCK_NAME}__separator`}>
                         <span className={`${BLOCK_NAME}__separator-date`}>{pack.date}</span>
@@ -251,9 +226,7 @@ const MessageList = () => {
             )}
       </div>
 
-      {isVisibleScrollBtn && (
-        <ScrollBottom onClick={removeLastAnchor} className={`${BLOCK_NAME}__scroll-to-bottom`} />
-      )}
+      {isVisibleScrollBtn && <ScrollBottom onClick={removeLastAnchor} className={`${BLOCK_NAME}__scroll-to-bottom`} />}
     </div>
   );
 };

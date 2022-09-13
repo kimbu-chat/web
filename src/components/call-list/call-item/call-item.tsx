@@ -18,12 +18,7 @@ import { deleteCallAction, outgoingCallAction } from '@store/calls/actions';
 import { getCallSelector } from '@store/calls/selectors';
 import { myIdSelector } from '@store/my-profile/selectors';
 import { getUserSelector } from '@store/users/selectors';
-import {
-  checkIfDatesAreDifferentDate,
-  getHourMinuteSecond,
-  getShortTimeAmPm,
-  getDayMonthYear,
-} from '@utils/date-utils';
+import { checkIfDatesAreDifferentDate, getHourMinuteSecond, getShortTimeAmPm, getDayMonthYear } from '@utils/date-utils';
 import { stopPropagation } from '@utils/stop-propagation';
 import { getUserName } from '@utils/user-utils';
 
@@ -63,7 +58,7 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
   }, [call?.userInterlocutorId, callInterlocutor]);
 
   const deleteThisCall = useCallback(
-    (e) => {
+    (e: React.MouseEvent) => {
       stopPropagation(e);
       deleteCall({ id: call.id });
     },
@@ -86,13 +81,9 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
             className={classnames(`${BLOCK_NAME}__type-icon`, {
               [`${BLOCK_NAME}__type-icon--missed`]: missedByMe,
             })}>
-            {call?.status === CallStatus.Ended &&
-              (isOutgoing ? <OutgoingCallSvg /> : <IncomingCallSvg />)}
-            {(call?.status === CallStatus.Declined || call?.status === CallStatus.Cancelled) && (
-              <DeclinedCallSvg />
-            )}
-            {(call?.status === CallStatus.NotAnswered ||
-              call?.status === CallStatus.Interrupted) && <MissedCallSvg />}
+            {call?.status === CallStatus.Ended && (isOutgoing ? <OutgoingCallSvg /> : <IncomingCallSvg />)}
+            {(call?.status === CallStatus.Declined || call?.status === CallStatus.Cancelled) && <DeclinedCallSvg />}
+            {(call?.status === CallStatus.NotAnswered || call?.status === CallStatus.Interrupted) && <MissedCallSvg />}
           </div>
           <div className={`${BLOCK_NAME}__type`}>
             {call?.status === CallStatus.Cancelled && t('callFromList.canceled')}
@@ -103,39 +94,20 @@ const CallItem: React.FC<ICallItemProps> = ({ callId }) => {
               call?.endDateTime &&
               (isOutgoing
                 ? t('callFromList.outgoing', {
-                    duration: getHourMinuteSecond(
-                      new Date(call?.endDateTime).getTime() -
-                        new Date(call?.startDateTime).getTime(),
-                    ),
+                    duration: getHourMinuteSecond(new Date(call?.endDateTime).getTime() - new Date(call?.startDateTime).getTime()),
                   })
                 : t('callFromList.incoming', {
-                    duration: getHourMinuteSecond(
-                      new Date(call?.endDateTime).getTime() -
-                        new Date(call?.startDateTime).getTime(),
-                    ),
+                    duration: getHourMinuteSecond(new Date(call?.endDateTime).getTime() - new Date(call?.startDateTime).getTime()),
                   }))}
 
-            {call?.status === CallStatus.NotAnswered &&
-              (isOutgoing ? t('callFromList.missed') : t('callFromList.notAnswered'))}
+            {call?.status === CallStatus.NotAnswered && (isOutgoing ? t('callFromList.missed') : t('callFromList.notAnswered'))}
           </div>
         </div>
       </div>
       {isVisibleActions ? (
         <div className={`${BLOCK_NAME}__actions`}>
-          <CallSvg
-            className={classnames(
-              `${BLOCK_NAME}__actions-action`,
-              `${BLOCK_NAME}__actions-action-call`,
-            )}
-            onClick={makeCall}
-          />
-          <DeleteSVG
-            className={classnames(
-              `${BLOCK_NAME}__actions-action`,
-              `${BLOCK_NAME}__actions-action-delete`,
-            )}
-            onClick={deleteThisCall}
-          />
+          <CallSvg className={classnames(`${BLOCK_NAME}__actions-action`, `${BLOCK_NAME}__actions-action-call`)} onClick={makeCall} />
+          <DeleteSVG className={classnames(`${BLOCK_NAME}__actions-action`, `${BLOCK_NAME}__actions-action-delete`)} onClick={deleteThisCall} />
         </div>
       ) : (
         <div className={`${BLOCK_NAME}__date`}>

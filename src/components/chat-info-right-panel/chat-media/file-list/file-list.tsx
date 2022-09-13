@@ -41,7 +41,6 @@ export const FileList: React.FC<IFileListProps> = ({ rootRef }) => {
         containerRef={rootRef}
         onReachBottom={loadMore}
         hasMore={filesForSelectedChat?.hasMore}
-        isLoading={filesForSelectedChat?.loading}
         threshold={0.3}>
         {filesWithSeparators &&
           separateGroupable({
